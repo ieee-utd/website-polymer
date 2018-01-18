@@ -20,14 +20,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../lib/iron-pages/iron-pages.html">
 <link rel="import" href="../lib/iron-selector/iron-selector.html">
 <link rel="import" href="../lib/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="my-icons.html">
+<link rel="import" href="../lib/paper-tabs/paper-tabs.html">
+<link rel="import" href="shared-icons.html">
 
-<link rel="lazy-import" href="my-view1.html">
-<link rel="lazy-import" href="my-view2.html">
-<link rel="lazy-import" href="my-view3.html">
-<link rel="lazy-import" href="my-view404.html">
+<link rel="lazy-import" href="page-committees.html">
+<link rel="lazy-import" href="page-home.html">
+<link rel="lazy-import" href="page-officers.html">
+<link rel="lazy-import" href="page-tutoring.html">
+<link rel="lazy-import" href="page-notfound.html">
 
-<dom-module id="my-app">
+<dom-module id="site-main">
   <template>
     <style>
       :host {
@@ -40,7 +42,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app-drawer-layout:not([narrow]) [drawer-toggle] {
         display: none;
       }
-
+      
       app-header {
         color: #fff;
         background-color: var(--app-primary-color);
@@ -48,6 +50,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       app-header paper-icon-button {
         --paper-icon-button-ink-color: white;
+      }
+
+      .top-toolbar {
+        margin-top: -8px; /* There's probably a better way */
+      }
+
+      .spacer-toolbar {
+        height: 50vh;
+        min-height: 400px;
       }
 
       .drawer-list {
@@ -66,6 +77,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: black;
         font-weight: bold;
       }
+      
+      paper-tabs[no-bar] paper-tab.iron-selected {
+        background-color: var(--paper-blue-900);
+        color: #fff;
+      }
+
+      paper-tab[link] a {
+        /* These mixins (from iron-flex-layout) center the link text. */
+        @apply --layout-horizontal;
+        @apply --layout-center-center;
+        color: #fff;
+        text-decoration: none;
+        padding: 0 1em 0 1em;
+      }
+
+      iron-pages {
+        max-width: 1000px;
+      }
     </style>
 
     <app-location
@@ -83,41 +112,57 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-drawer-layout fullbleed narrow="{{narrow}}">
       <!-- Drawer content -->
       <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
-        <app-toolbar>Menu</app-toolbar>
+        <app-toolbar>Website</app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="view1" href="[[rootPath]]view1">View One</a>
-          <a name="view2" href="[[rootPath]]view2">View Two</a>
-          <a name="view3" href="[[rootPath]]view3">View Three</a>
+          <a name="home" href="[[rootPath]]home">Home</a>
+          <a name="committees" href="[[rootPath]]committees">Committees</a>
+          <a name="officers" href="[[rootPath]]officers">Officers</a>
+          <a name="tutoring" href="[[rootPath]]tutoring">Tutoring</a>
         </iron-selector>
       </app-drawer>
 
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
-
         <app-header slot="header" condenses reveals effects="waterfall">
-          <app-toolbar>
-            <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>
-            <div main-title>My App</div>
+          <app-toolbar class="top-toolbar">
+            <paper-icon-button icon="shared-icons:menu" drawer-toggle></paper-icon-button>
+            <div main-title></div>
+            <paper-tabs selected="[[page]]" attr-for-selected="name" scrollable no-bar fit-container style="width: 520px;">
+              <paper-tab name="home" link>
+                <a href="[[rootPath]]home" tabindex="-1">HOME</a>
+              </paper-tab>
+              <paper-tab name="committees" link>
+                <a href="[[rootPath]]committees" tabindex="-1">COMMITTEES</a>
+              </paper-tab>
+              <paper-tab name="officers" link>
+                <a href="[[rootPath]]officers" tabindex="-1">OFFICERS</a>
+              </paper-tab>
+              <paper-tab name="tutoring" link>
+                <a href="[[rootPath]]tutoring" tabindex="-1">TUTORING</a>
+              </paper-tab>
+            </paper-tabs>
           </app-toolbar>
+          <app-toolbar class="spacer-toolbar"></app-toolbar>
         </app-header>
 
         <iron-pages
             selected="[[page]]"
             attr-for-selected="name"
-            fallback-selection="view404"
+            fallback-selection="notfound"
             role="main">
-          <my-view1 name="view1"></my-view1>
-          <my-view2 name="view2"></my-view2>
-          <my-view3 name="view3"></my-view3>
-          <my-view404 name="view404"></my-view404>
+          <page-home name="home"></page-home>
+          <page-committees name="committees"></page-committees>
+          <page-officers name="officers"></page-officers>
+          <page-tutoring name="tutoring"></page-tutoring>
+          <page-notfound name="notfound"></page-notfound>
         </iron-pages>
       </app-header-layout>
     </app-drawer-layout>
   </template>
 
   <script>
-    class MyApp extends Polymer.Element {
-      static get is() { return 'my-app'; }
+    class MainSite extends Polymer.Element {
+      static get is() { return 'site-main'; }
 
       static get properties() {
         return {
@@ -141,9 +186,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       _routePageChanged(page) {
-        // If no page was found in the route data, page will be an empty string.
-        // Default to 'view1' in that case.
-        this.page = page || 'view1';
+        this.page = page || 'home';
 
         // Close a non-persistent drawer when the page & route are changed.
         if (!this.$.drawer.persistent) {
@@ -153,7 +196,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _pageChanged(page) {
         // Load page import on demand. Show 404 page if fails
-        var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
+        var resolvedPageUrl = this.resolveUrl('page-' + page + '.html');
         Polymer.importHref(
             resolvedPageUrl,
             null,
@@ -162,10 +205,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       _showPage404() {
-        this.page = 'view404';
+        this.page = 'notfound';
       }
     }
 
-    window.customElements.define(MyApp.is, MyApp);
+    window.customElements.define(MainSite.is, MainSite);
   </script>
 </dom-module>
