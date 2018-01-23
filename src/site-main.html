@@ -21,7 +21,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../lib/iron-selector/iron-selector.html">
 <link rel="import" href="../lib/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../lib/paper-tabs/paper-tabs.html">
+<link rel="import" href="../lib/paper-button/paper-button.html">
+<link rel="import" href="../lib/iron-icon/iron-icon.html">
 <link rel="import" href="shared-icons.html">
+
+<script src="../lib/gsap/src/uncompressed/TweenMax.js"></script>
+<script src="../lib/scrollmagic/scrollmagic/uncompressed/ScrollMagic.js"></script>
+<script src="../lib/scrollmagic/scrollmagic/uncompressed/plugins/animation.gsap.js"></script>
+<script src="../lib/scrollmagic/scrollmagic/uncompressed/plugins/debug.addIndicators.js"></script>
 
 <link rel="lazy-import" href="page-committees.html">
 <link rel="lazy-import" href="page-home.html">
@@ -33,9 +40,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template>
     <style>
       :host {
-        --app-primary-color: #4285f4;
-        --app-secondary-color: black;
-
         display: block;
       }
 
@@ -44,56 +48,91 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       
       app-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 45vw;
         color: #fff;
-        background-color: var(--app-primary-color);
+        background-color: #252525;
+        /* https://bugs.chromium.org/p/chromium/issues/detail?id=637072 */
+        --app-header-background-front-layer: {
+          /* background-image: url(https://app-layout-assets.appspot.com/assets/bg1.jpg); */
+          background-position: left center;
+        };
       }
-
-      app-header paper-icon-button {
+      paper-icon-button {
         --paper-icon-button-ink-color: white;
       }
-
-      .top-toolbar {
-        margin-top: -8px; /* There's probably a better way */
+      app-toolbar.title {
+        width: 100%;
+        height: 100px;
+        padding: 16px 0 0 0;
+        text-align: center;
+        justify-content: center;
       }
-
-      .spacer-toolbar {
-        height: 50vh;
-        min-height: 400px;
+      #blurb {
+        font-style: italic;
+        padding: 0 3em 0 3em;
       }
-
-      .drawer-list {
-        margin: 0 20px;
+      app-toolbar.banner-main {
+        width: 100%;
+        height: 220px;
+        padding: 0;
+        justify-content: center;
+        text-align: center;
       }
-
-      .drawer-list a {
-        display: block;
-        padding: 0 16px;
-        text-decoration: none;
-        color: var(--app-secondary-color);
-        line-height: 40px;
+      iron-pages {
+        padding-top: 45vw;
       }
-
-      .drawer-list a.iron-selected {
-        color: black;
-        font-weight: bold;
+      [condensed-title] {
+        font-weight: lighter;
+        margin-left: 30px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      [condensed-title] i {
+        font-weight: 100;
+        font-style: normal;
       }
       
-      paper-tabs[no-bar] paper-tab.iron-selected {
-        background-color: var(--paper-blue-900);
-        color: #fff;
+      paper-tabs {
+        margin-right: 1em;
       }
-
-      paper-tab[link] a {
+      paper-tabs[no-bar] paper-tab.iron-selected {
+        background-color: #fff;
+      }
+      paper-tab a {
         /* These mixins (from iron-flex-layout) center the link text. */
         @apply --layout-horizontal;
         @apply --layout-center-center;
         color: #fff;
-        text-decoration: none;
         padding: 0 1em 0 1em;
+        text-decoration: none;
+      }
+      paper-tab.iron-selected > a {
+        color: rgb(124, 97, 97);
       }
 
-      iron-pages {
-        max-width: 1000px;
+      paper-button.indigo {
+        background-color: var(--paper-indigo-500);
+        color: white;
+        font-size: 11pt;
+        font-weight: 400;
+        width: 150px;
+        padding: 0.7em;
+        margin: 0 0.5em 0 0.5em;
+        --paper-button-raised-keyboard-focus: {
+          background-color: var(--paper-pink-a200) !important;
+          color: white !important;
+        };
+      }
+      paper-button.indigo:hover {
+        background-color: var(--paper-indigo-400);
+      }
+
+      @media only screen and (max-width: 774px)  {
+        
       }
     </style>
 
@@ -111,7 +150,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <app-drawer-layout fullbleed narrow="{{narrow}}">
       <!-- Drawer content -->
-      <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
+      <!-- <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
         <app-toolbar>Website</app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
           <a name="home" href="[[rootPath]]home">Home</a>
@@ -119,15 +158,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <a name="officers" href="[[rootPath]]officers">Officers</a>
           <a name="tutoring" href="[[rootPath]]tutoring">Tutoring</a>
         </iron-selector>
-      </app-drawer>
+      </app-drawer> -->
 
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
-        <app-header slot="header" condenses reveals effects="waterfall">
-          <app-toolbar class="top-toolbar">
-            <paper-icon-button icon="shared-icons:menu" drawer-toggle></paper-icon-button>
-            <div main-title></div>
-            <paper-tabs selected="[[page]]" attr-for-selected="name" scrollable no-bar fit-container style="width: 520px;">
+        <app-header id="app-header" condenses reveals effects="waterfall resize-title blend-background parallax-background">
+          <!-- TODO redesign custom app-toolbar -->
+          <app-toolbar class="top">
+            <paper-icon-button icon="shared-icons:menu"></paper-icon-button>
+            <h4 condensed-title>Site Title &mdash; [[fancyPage]]</h4>
+            <paper-tabs selected="[[page]]" attr-for-selected="name" no-bar>
               <paper-tab name="home" link>
                 <a href="[[rootPath]]home" tabindex="-1">HOME</a>
               </paper-tab>
@@ -141,8 +181,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <a href="[[rootPath]]tutoring" tabindex="-1">TUTORING</a>
               </paper-tab>
             </paper-tabs>
+            <div id="toolbarBtnContainer">
+              <paper-icon-button icon="shared-icons:arrow-back"></paper-icon-button>
+              <paper-icon-button icon="shared-icons:arrow-back"></paper-icon-button>
+            </div>
           </app-toolbar>
-          <app-toolbar class="spacer-toolbar"></app-toolbar>
+          <app-toolbar class="title">
+            <div>
+              <h1 main-title>Site Title</h1>
+            </div>
+          </app-toolbar>
+          <app-toolbar class="banner-main" banner>
+            <div id="bannerContainer">
+              <h4 id="blurb">Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.<br/> Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.</h4>
+              <span id="bannerBtnContainer">
+                <paper-button raised class="indigo">
+                  <iron-icon icon="shared-icons:arrow-back"></iron-icon>
+                  &nbsp; JOIN US!
+                </paper-button>
+                <paper-button raised class="indigo">
+                  <iron-icon icon="shared-icons:arrow-back"></iron-icon>
+                  &nbsp; CONTACT US
+                </paper-button>
+              </span>
+            </div>
+          </app-toolbar>
         </app-header>
 
         <iron-pages
@@ -171,12 +234,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             reflectToAttribute: true,
             observer: '_pageChanged',
           },
+          fancyPage: {
+            type: String
+          },
           routeData: Object,
           subroute: String,
           // This shouldn't be neccessary, but the Analyzer isn't picking up
           // Polymer.Element#rootPath
           rootPath: String,
+          bannerContainer: {
+            type: Node,
+            observer: '_bannerObtained',
+          },
         };
+      }
+
+      ready(){
+        super.ready();
+        this.bannerContainer = this.$.bannerContainer;
       }
 
       static get observers() {
@@ -184,14 +259,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           '_routePageChanged(routeData.page)',
         ];
       }
+      
+      _bannerObtained(banner) { // TODO: calculate view width for scroll offset and duration
+        // Setup banner animation via ScrollMagic
+        var controller = new ScrollMagic.Controller();
+        console.log(banner.childNodes)
+        var blurbTween = TweenMax.fromTo(banner.childNodes[1], 0.1, {opacity: 1}, {opacity: 0})
+        var buttonsTween = TweenMax.fromTo(banner.childNodes[3], 0.1, {opacity: 1}, {opacity: 0, pointerEvents: 'none'})
+        new ScrollMagic.Scene({
+                duration: 170,
+                offset: 0
+            })
+            .setTween(blurbTween)
+            .addIndicators({name: 'blurb'})
+            .addTo(controller);
+          new ScrollMagic.Scene({
+            duration: 50,
+            offset: 170
+          })
+          .setTween(buttonsTween)
+          .addIndicators({name: 'toolbar buttons'})
+          .addTo(controller);
+      }
 
       _routePageChanged(page) {
         this.page = page || 'home';
-
-        // Close a non-persistent drawer when the page & route are changed.
-        if (!this.$.drawer.persistent) {
-          this.$.drawer.close();
-        }
+        this.fancyPage = (this.page === '') ? page.charAt(0).toUpperCase() + page.slice(1) : 'Home';
+        window.scrollTo(0, 0);
       }
 
       _pageChanged(page) {
