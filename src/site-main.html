@@ -41,12 +41,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
       :host {
         display: block;
+        --app-drawer-width: 300px;
       }
-
+      
+      /** App drawer */
       app-drawer-layout:not([narrow]) [drawer-toggle] {
         display: none;
       }
-      
+      .drawer-list {
+        margin: 0 20px;
+      }
+      .drawer-list a {
+        display: block;
+        padding: 0 16px;
+        text-decoration: none;
+        color: var(--app-secondary-color);
+        line-height: 40px;
+      }
+      .drawer-list a.iron-selected {
+        color: black;
+        font-weight: bold;
+      }
+
+      /** App header */
       app-header {
         position: fixed;
         top: 0;
@@ -57,12 +74,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         background-color: #252525;
         /* https://bugs.chromium.org/p/chromium/issues/detail?id=637072 */
         --app-header-background-front-layer: {
-          /* background-image: url(https://app-layout-assets.appspot.com/assets/bg1.jpg); */
+          background-image: url(https://app-layout-assets.appspot.com/assets/bg1.jpg);
           background-position: left center;
         };
-      }
-      paper-icon-button {
-        --paper-icon-button-ink-color: white;
       }
       app-toolbar.title {
         width: 100%;
@@ -71,33 +85,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         text-align: center;
         justify-content: center;
       }
-      #blurb {
-        font-style: italic;
-        padding: 0 3em 0 3em;
-      }
-      app-toolbar.banner-main {
-        width: 100%;
-        height: 220px;
-        padding: 0;
-        justify-content: center;
-        text-align: center;
-      }
-      iron-pages {
-        padding-top: 45vw;
-      }
       [condensed-title] {
         font-weight: lighter;
         margin-left: 30px;
         overflow: hidden;
         text-overflow: ellipsis;
+        white-space: nowrap;
       }
       [condensed-title] i {
         font-weight: 100;
         font-style: normal;
       }
-      
+      span#appbarTitle {
+        font-weight: 550;
+      }
+      app-toolbar.banner-main {
+        padding: 48px 0 0 0;
+        text-align: center;
+        justify-content: center;
+      }
+      div#bannerContainer {
+        max-width: 800px;
+      }
+      h4#blurb {
+        font-style: italic;
+        font-weight: 550;
+      }
       paper-tabs {
-        margin-right: 1em;
+        margin-right: -5.5em;
       }
       paper-tabs[no-bar] paper-tab.iron-selected {
         background-color: #fff;
@@ -113,26 +128,92 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       paper-tab.iron-selected > a {
         color: rgb(124, 97, 97);
       }
-
-      paper-button.indigo {
-        background-color: var(--paper-indigo-500);
-        color: white;
-        font-size: 11pt;
-        font-weight: 400;
-        width: 150px;
-        padding: 0.7em;
-        margin: 0 0.5em 0 0.5em;
-        --paper-button-raised-keyboard-focus: {
-          background-color: var(--paper-pink-a200) !important;
-          color: white !important;
-        };
+      app-toolbar.banner-btns {
+        padding: 72px 0 0 0;
+        text-align: center;
+        justify-content: center;
       }
-      paper-button.indigo:hover {
-        background-color: var(--paper-indigo-400);
+      paper-button.social-btns {
+        width: 170px;
+        font-size: 12pt;
+        background: #3488FF;
+      }
+      paper-icon-button#menuIcon {
+        visibility: hidden;
       }
 
-      @media only screen and (max-width: 774px)  {
-        
+      /** App main */
+      iron-pages {
+        padding-top: 45vw;
+      }
+
+
+      /** Tablets and phones */
+      @media only screen and (max-width: 1000px) {
+        app-header {
+          height: 450px;
+        }
+        app-toolbar.title {
+          height: 50px;
+          padding-top: 16px;
+        }
+        div#bannerContainer {
+          padding: 0 32px 0 32px;
+        }
+        h4#blurb {
+          font-size: 14pt;
+          font-weight: 400;
+        }
+        paper-tabs {
+          visibility: block;
+          opacity: 1;
+          transition: visibility 1s 0s, opacity 1s linear;
+        }
+        .banner-btns {
+          visibility: block;
+          opacity: 1;
+          transition: visibility 1s 0s, opacity 1s linear;
+        }
+
+        iron-pages {
+          padding-top: 450px;
+        }
+      }
+      @media only screen and (max-width: 920px) {
+        paper-tabs {
+          visibility: hidden;
+          opacity: 0;
+          transition: visibility 0s 1s, opacity 1s linear;
+        }
+        .banner-btns {
+          visibility: hidden;
+          opacity: 0;
+          transition: visibility 0s 1s, opacity 1s linear;
+        }
+        paper-icon-button#menuIcon {
+          visibility: visible;
+        }
+      }
+      @media only screen and (max-width: 850px) { /** Appbar */
+        paper-tabs {
+          display: none;
+        }
+        .banner-btns {
+          display: none;
+        }
+        div#iconBtnContainer {
+          display: none;
+        }
+      }
+      @media only screen and (max-width: 470px) { /** Accomodate text wrap */
+        h4#blurb {
+          margin-top: 64px;
+        }
+      }
+
+      /** Base - for unusually small screens */
+      @media only screen and (max-width: 350px) {
+        /** TODO: fixme */
       }
     </style>
 
@@ -148,26 +229,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         tail="{{subroute}}">
     </app-route>
 
-    <app-drawer-layout fullbleed narrow="{{narrow}}">
+    <app-drawer-layout fullbleed narrow="{{narrow}}" force-narrow>
       <!-- Drawer content -->
-      <!-- <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
-        <app-toolbar>Website</app-toolbar>
+      <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
+        <app-toolbar>IEEE UTD</app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
           <a name="home" href="[[rootPath]]home">Home</a>
           <a name="committees" href="[[rootPath]]committees">Committees</a>
           <a name="officers" href="[[rootPath]]officers">Officers</a>
           <a name="tutoring" href="[[rootPath]]tutoring">Tutoring</a>
         </iron-selector>
-      </app-drawer> -->
+      </app-drawer>
 
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
-        <app-header id="app-header" condenses reveals effects="waterfall resize-title blend-background parallax-background">
-          <!-- TODO redesign custom app-toolbar -->
-          <app-toolbar class="top">
-            <paper-icon-button icon="shared-icons:menu"></paper-icon-button>
-            <h4 condensed-title>Site Title &mdash; [[fancyPage]]</h4>
-            <paper-tabs selected="[[page]]" attr-for-selected="name" no-bar>
+        <app-header id="appHeader" condenses reveals effects="waterfall blend-background parallax-background">
+          <app-toolbar id="mainToolbar" class="top">
+            <paper-icon-button id="menuIcon" icon="shared-icons:menu" on-tap="menuHandler"></paper-icon-button>
+            <h4 condensed-title><span id="appbarTitle">IEEE UTD</span> &mdash; [[fancyPage]]</h4>
+             <paper-tabs selected="[[page]]" attr-for-selected="name" no-bar>
               <paper-tab name="home" link>
                 <a href="[[rootPath]]home" tabindex="-1">HOME</a>
               </paper-tab>
@@ -181,31 +261,33 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <a href="[[rootPath]]tutoring" tabindex="-1">TUTORING</a>
               </paper-tab>
             </paper-tabs>
-            <div id="toolbarBtnContainer">
-              <paper-icon-button icon="shared-icons:arrow-back"></paper-icon-button>
-              <paper-icon-button icon="shared-icons:arrow-back"></paper-icon-button>
+            <div id="iconBtnContainer">
+              <paper-icon-button icon="shared-icons:members"></paper-icon-button>
+              <paper-icon-button icon="shared-icons:contact"></paper-icon-button>
             </div>
           </app-toolbar>
           <app-toolbar class="title">
             <div>
-              <h1 main-title>Site Title</h1>
+              <h1 id="siteTitle" main-title>IEEE UTD</h1>
             </div>
           </app-toolbar>
           <app-toolbar class="banner-main" banner>
             <div id="bannerContainer">
-              <h4 id="blurb">Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.<br/> Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.</h4>
-              <span id="bannerBtnContainer">
-                <paper-button raised class="indigo">
-                  <iron-icon icon="shared-icons:arrow-back"></iron-icon>
-                  &nbsp; JOIN US!
-                </paper-button>
-                <paper-button raised class="indigo">
-                  <iron-icon icon="shared-icons:arrow-back"></iron-icon>
-                  &nbsp; CONTACT US
-                </paper-button>
-              </span>
+              <h4 id="blurb">We are the student branch of the Institute of Electrical and Electronics Engineers (IEEE) at The University of Texas at UT Dallas. </h4>
             </div>
           </app-toolbar>
+          <app-toolbar class="banner-btns" banner>
+              <div id="btnsContainer">
+                <paper-button raised class="social-btns">
+                  <iron-icon id="menuIcon" icon="shared-icons:members"></iron-icon>
+                  &nbsp; Join Us!
+                </paper-button>
+                <paper-button raised class="social-btns">
+                  <iron-icon id="menuIcon" icon="shared-icons:contact"></iron-icon>
+                  &nbsp; Contact Us
+                </paper-button>
+              </div>
+            </app-toolbar>
         </app-header>
 
         <iron-pages
@@ -242,16 +324,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           // This shouldn't be neccessary, but the Analyzer isn't picking up
           // Polymer.Element#rootPath
           rootPath: String,
-          bannerContainer: {
+          appHeader: {
             type: Node,
-            observer: '_bannerObtained',
+            observer: '_headerLoaded',
           },
         };
       }
 
       ready(){
         super.ready();
-        this.bannerContainer = this.$.bannerContainer;
+        this.appHeader = this.$.appHeader;
       }
 
       static get observers() {
@@ -259,33 +341,83 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           '_routePageChanged(routeData.page)',
         ];
       }
-      
-      _bannerObtained(banner) { // TODO: calculate view width for scroll offset and duration
-        // Setup banner animation via ScrollMagic
+
+      _headerLoaded(header) { // TODO: observer for width change
+        var tabs = header.childNodes[1].childNodes[5];
+        var iconBtns = header.childNodes[1].childNodes[7];
+        var title = header.childNodes[3].childNodes[1].childNodes[1];
+        var blurb = header.childNodes[5].childNodes[1].childNodes[1];
+        var btns = header.childNodes[7].childNodes[1];
+        var titleData = title.getBoundingClientRect();
+        var blurbData = blurb.getBoundingClientRect();
+        var btnData = btns.getBoundingClientRect();
+        var blurbDist = 
+        Math.sqrt(
+            Math.pow((titleData.left + titleData.width / 2) - (blurbData.left + blurbData.width / 2), 2) + 
+            Math.pow((titleData.top + titleData.height / 2) - (blurbData.top + blurbData.height / 2), 2)
+        );
+        var btnDist = 
+        Math.sqrt(
+            Math.pow((titleData.left + titleData.width / 2) - (btnData.left + btnData.width / 2), 2) + 
+            Math.pow((titleData.top + titleData.height / 2) - (btnData.top + btnData.height / 2), 2)
+        );
         var controller = new ScrollMagic.Controller();
-        console.log(banner.childNodes)
-        var blurbTween = TweenMax.fromTo(banner.childNodes[1], 0.1, {opacity: 1}, {opacity: 0})
-        var buttonsTween = TweenMax.fromTo(banner.childNodes[3], 0.1, {opacity: 1}, {opacity: 0, pointerEvents: 'none'})
+        var titleTween = TweenMax.fromTo(title, 0.1, {opacity: 1}, {opacity: 0, pointerEvents: 'none'});
+        var blurbTween = TweenMax.fromTo(blurb, 0.1, {opacity: 1}, {opacity: 0, pointerEvents: 'none'});
+        var btnTween = TweenMax.fromTo(btns, 0.1, {opacity: 1}, {opacity: 0, pointerEvents: 'none'});
+        var tabsTween = TweenMax.fromTo(tabs, 0.1, {x: 0}, {x: -90});
+        var iconsTween = TweenMax.fromTo(iconBtns, 0.1, {pointerEvents: 'none', visibility: 'hidden', opacity: 0}, {pointerEvents: 'visible', visibility: 'visible', opacity: 1});
         new ScrollMagic.Scene({
-                duration: 170,
-                offset: 0
-            })
-            .setTween(blurbTween)
-            .addIndicators({name: 'blurb'})
-            .addTo(controller);
-          new ScrollMagic.Scene({
-            duration: 50,
-            offset: 170
+          duration: 100,
+          offset: 0
+        })
+        .setTween(titleTween)
+        .addIndicators({name: 'title'})
+        .addTo(controller);
+        new ScrollMagic.Scene({
+            duration: 100,
+            offset: blurbDist
           })
-          .setTween(buttonsTween)
-          .addIndicators({name: 'toolbar buttons'})
+          .setTween(blurbTween)
+          .addIndicators({name: 'blurb'})
+          .addTo(controller);
+        new ScrollMagic.Scene({
+            duration: 100,
+            offset: btnDist
+          })
+          .setTween(btnTween)
+          .addIndicators({name: 'btn'})
+          .addTo(controller);
+        new ScrollMagic.Scene({
+            duration: 120,
+            offset: btnDist
+          })
+          .setTween(tabsTween)
+          .addIndicators({name: 'tabs'})
+          .addTo(controller);
+        new ScrollMagic.Scene({
+            duration: 120,
+            offset: (btnDist+10)
+          })
+          .setTween(iconsTween)
+          .addIndicators({name: 'icons'})
           .addTo(controller);
       }
 
       _routePageChanged(page) {
         this.page = page || 'home';
-        this.fancyPage = (this.page === '') ? page.charAt(0).toUpperCase() + page.slice(1) : 'Home';
+        if (this.page == '') {
+          this.fancyPage = 'Home';
+        } else {
+          this.fancyPage = page.charAt(0).toUpperCase() + page.slice(1);
+        }
+        console.log(this.fancyPage);
         window.scrollTo(0, 0);
+
+        // Close a non-persistent drawer when the page & route are changed.
+        if (!this.$.drawer.persistent) {
+          this.$.drawer.close();
+        }
       }
 
       _pageChanged(page) {
@@ -300,6 +432,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _showPage404() {
         this.page = 'notfound';
+      }
+
+      menuHandler() {
+        this.$.drawer.open();
       }
     }
 
