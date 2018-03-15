@@ -17,9 +17,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
         padding: 10px 20px;
       }
+      .container {
+        width: 100%;
+        height: 500px;
+        display: flex;
+        justify-content: center;
+      }
+      h3#message {
+        margin-top: 50px;
+      }
     </style>
 
-    Oops you hit a 404. <a href="[[rootPath]]">Head back to home.</a>
+    <div class="container">
+      <h3 id="message">
+        Oops! We couldn't find what you were looking for.<br/>
+        <a href="[[rootPath]]">Head back to home.</a>
+      </h3>
+    </div>
   </template>
 
   <script>

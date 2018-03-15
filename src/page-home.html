@@ -9,6 +9,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../lib/polymer/polymer-element.html">
+<link rel="import" href="../lib/iron-ajax/iron-ajax.html">
+<link rel="import" href="../lib/iron-list/iron-list.html">
+<link rel="import" href="../lib/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../lib/iron-image/iron-image.html">
+<link rel="import" href="../lib/paper-button/paper-button.html">
+<link rel="import" href="../lib/google-map/google-map.html">
+<link rel="import" href="../lib/google-map/google-map-marker.html">
+<link rel="import" href="../lib/google-map/google-map-poly.html">
+<link rel="import" href="../lib/google-map/google-map-directions.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="page-home">
@@ -18,11 +27,111 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
         padding: 20px;
       }
+      .responsive-container {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        display: flex;
+        flex-flow: row wrap;
+      }
+      .announcements, .events {
+        min-width: 320px;
+        width: calc(50% - 8px);
+        padding-left: 4px;
+        padding-right: 4px;
+        margin: auto;
+        margin-top: 5px;
+        z-index: 0;
+      }
+      h2.flex-title {
+        min-width: 305px;
+        max-width: 550px;
+        background: #232323;
+        color: #ffffff;
+        padding-top: 6px;
+        margin-bottom: 0;
+        padding-bottom: 6px;
+        padding-left: 5px;
+        text-overflow: ellipsis;
+      }
+      h2.title {
+        min-width: 305px;
+        max-width: 550px;
+        background: #232323;
+        color: #ffffff;
+        padding-top: 6px;
+        margin-bottom: 0;
+        padding-bottom: 6px;
+        padding-left: 5px;
+        text-overflow: ellipsis;
+      }
+      iron-icon {
+        fill: #ffffff;
+        margin-left: 5px;
+      }
+      iron-list {
+        height: 400px;
+        min-width: 320px;
+        max-width: 566px;
+        padding-top: 10px;
+        margin-bottom: 20px;
+        overflow: scroll;
+        z-index: 0;
+      }
+      .item {
+        padding-top: 5px;
+        padding-bottom: 15px;
+      }
+      .pad {
+        padding: 0 15px;
+        border-left: 4px solid #5a5a5a;
+      }
+      .important {
+        border-left: 4px solid #3488ff !important;
+      }
+      .important > .item-date, .important > .item-title {
+        color: #3488ff !important;
+      }
+      h2.item-title {
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-style: italic;
+        font-weight: 550; 
+      }
+      p.item-date {
+        margin-top: 0;
+        margin-bottom: 5px;
+        margin-left: 5px;
+        font-style: italic;
+      }
+      p.item-blurb {
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+      paper-button {
+        background: #607D8B;
+        color: #ffffff;
+      }
+      .location-container {
+        margin-left: 17px;
+        margin-right: 17px;
+      }
+      google-map {
+        height: 500px;
+      }
+      a {
+        color: #3488ff;
+        text-decoration: none;
+        border-bottom: 1px #3488ff dotted;
+      }
+
+
       @media only screen and (max-width: 920px) {
         :host {
           padding: 10px;
         }
         .card {
+          min-width: 330px;
           margin-left: 20px;
           margin-right: 20px;
         }
@@ -32,6 +141,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           padding: 0px;
         }
         .card {
+          padding: 0;
           margin-left: 10px;
           margin-right: 10px;
         }
@@ -39,62 +149,86 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 
     <div class="card">
-      <div class="circle">1</div>
-      <h1>Home</h1>
-      <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+      <section class="responsive-container">
+        <div class="announcements">
+          <div class="accouncements-content">
+            <h2 class="flex-title">
+              <iron-icon icon="shared-icons:announcement"></iron-icon>
+              &nbsp; Announcements
+            </h2>
+            <iron-ajax auto
+                url="../data/announcements.json"
+                handle-as="json"
+                last-response="{{announcementResponse}}"></iron-ajax>
+            
+            <iron-list items="[[announcementResponse]]" as="item">
+              <template>
+                <div class="item" tabindex$="[[tabIndex]]">
+                  <div class$="{{getClasses(item.veryImportant)}}">
+                    <p class="item-date">[[item.dateCreated]]</p>
+                    <h2 class="item-title">[[item.title]]</h2>
+                    <p class="item-blurb">[[item.blurb]]</p>
+                  </div>
+                </div>
+              </template>
+            </iron-list>
+            <!-- <paper-button raised class="social-btns">View More</paper-button> -->
+          </div>
+        </div>
+        <div class="events">
+          <div class="events-content">
+            <h2 class="flex-title">
+              <iron-icon icon="shared-icons:event"></iron-icon>
+              &nbsp; Events
+            </h2>
+            <iron-ajax auto
+                url="../data/events.json"
+                handle-as="json"
+                last-response="{{eventResponse}}"></iron-ajax>
+            
+            <iron-list items="[[eventResponse]]" as="item">
+              <template>
+                <div class="item" tabindex$="[[tabIndex]]">
+                  <div class$="{{getClasses(item.veryImportant)}}">
+                    <p class="item-date">[[item.date]] @ [[item.time]] in [[item.place]]</p>
+                    <h2 class="item-title">[[item.title]]</h2>
+                    <p class="item-blurb">[[item.blurb]]</p>
+                  </div>
+                </div>
+              </template>
+            </iron-list>
+            <!-- <paper-button raised class="social-btns">View More</paper-button> -->
+          </div>
+        </div>
+      </section>
+      <section class="location-container">
+        <h2 class="title">
+          <iron-icon icon="shared-icons:map"></iron-icon>
+          &nbsp; Location
+        </h2>
+        <p>We are located at<br/>
+            <a href="https://www.google.com/maps/place/Synergy+Park+North+Building+-+UT+Dallas/@32.9889742,-96.7559906,15z/data=!4m5!3m4!1s0x864c2206e04feeb9:0x54e35d04c429ba8a!8m2!3d32.9939073!4d-96.752337" target="_blank">3000 Synergy Park Blvd,<br/> 
+            Richardson, TX 75080<br/>
+            Room: SPN 2.220</a>
+        </p>
+        <google-map latitude="32.9889742" longitude="-96.7559906" api-key="AIzaSyD3E1D9b-Z7ekrT3tbhl_dy8DCXuIuDDRc" zoom="17" max-zoom="17" min-zoom="17">
+          <google-map-marker latitude="32.9889742" longitude="-96.7559906" draggable="true"></google-map-marker>
+        </google-map>
+      </section>
     </div>
   </template>
 
   <script>
     class HomePage extends Polymer.Element {
       static get is() { return 'page-home'; }
-    }
 
+      getClasses(veryImportant) {
+        var classes = 'pad';
+        if (veryImportant) classes += ' important';
+        return classes;
+      }
+    }
+    
     window.customElements.define(HomePage.is, HomePage);
   </script>
 </dom-module>

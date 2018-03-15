@@ -70,6 +70,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         left: 0;
         width: 100%;
         height: 45vw;
+        z-index: 10 !important;
         color: #fff;
         background-color: #252525;
         /* https://bugs.chromium.org/p/chromium/issues/detail?id=637072 */
@@ -84,6 +85,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: 16px 0 0 0;
         text-align: center;
         justify-content: center;
+      }
+      h1#siteTitle {
+        font-size: 48pt;
       }
       [condensed-title] {
         font-weight: lighter;
@@ -115,7 +119,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin-right: -5.5em;
       }
       paper-tabs[no-bar] paper-tab.iron-selected {
-        background-color: #fff;
+        background-color: #ffffff;
       }
       paper-tab a {
         /* These mixins (from iron-flex-layout) center the link text. */
@@ -136,7 +140,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       paper-button.social-btns {
         width: 170px;
         font-size: 12pt;
-        background: #3488FF;
+        background: #3488ff;
       }
       paper-icon-button#menuIcon {
         visibility: hidden;
@@ -145,8 +149,59 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       /** App main */
       iron-pages {
         padding-top: 45vw;
+        min-height: 570px;
       }
 
+      /** Footer */
+      .footer {
+        background: #232323;
+        color: #ffffff;
+        min-height: 250px;
+        width: 100%;
+        padding-bottom: 2.5em;
+      }
+      .footer-container {
+        max-width: 1000px;
+        height: 100%;
+        padding-left: 2.5em;
+        padding-right: 2em;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: flex-start;
+      }
+      .footer-social, .footer-contact, .footer-affiliates {
+        min-width: 200px;
+        flex-grow: 1;
+        margin-right: 5em;
+      }
+      .link-container {
+        list-style-type: none;
+      }
+      .link-container > li {
+        margin-bottom: 5px;
+      }
+      li.long {
+        line-height: 14.5pt;
+        margin-bottom: 12px;
+      }
+      .link-container > li > a {
+        text-decoration: none;
+        color: #ffffff;
+        margin-bottom: 1em;
+      }
+      .footer-title {
+        font-size: 16.5pt;
+        margin-left: 1.75em;
+        color: #afafaf;
+        margin-bottom: 0.2em;
+      }
+      .copyright {
+        position: absolute;
+        bottom: 0.5em;
+        left: 1em;
+        font-size: 10pt;
+      }
+      
 
       /** Tablets and phones */
       @media only screen and (max-width: 1000px) {
@@ -184,6 +239,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           visibility: hidden;
           opacity: 0;
           transition: visibility 0s 1s, opacity 1s linear;
+        }
+        h1#siteTitle {
+          font-size: 40pt;
         }
         .banner-btns {
           visibility: hidden;
@@ -289,7 +347,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </div>
             </app-toolbar>
         </app-header>
-
+        
         <iron-pages
             selected="[[page]]"
             attr-for-selected="name"
@@ -301,6 +359,52 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <page-tutoring name="tutoring"></page-tutoring>
           <page-notfound name="notfound"></page-notfound>
         </iron-pages>
+
+        <div class="footer">
+          <div class="footer-container">
+            <div class="footer-social">
+              <h3 class="footer-title">Social</h3>
+              <ul class="link-container">
+                <li><a href="#" target="_blank">
+                  <iron-icon id="menuIcon" icon="shared-icons:facebook"></iron-icon>
+                  Facebook</a>
+                <li><a href="#" target="_blank">
+                  <iron-icon id="menuIcon" icon="shared-icons:slack"></iron-icon>
+                  Slack</a>
+                <li><a href="#" target="_blank">
+                  <iron-icon id="menuIcon" icon="shared-icons:refresh"></iron-icon>
+                  OrgSync</a>
+              </ul>
+            </div>
+            <div class="footer-contact">
+                <h3 class="footer-title">Contact</h3>
+                <ul class="link-container">
+                  <li><a href="#" target="_blank">
+                    <iron-icon id="menuIcon" icon="shared-icons:email"></iron-icon>
+                    Email</a>
+                  <li><a href="#" target="_blank">
+                    <iron-icon id="menuIcon" icon="shared-icons:messenger"></iron-icon>
+                    Facebook Message</a>
+                </ul>
+            </div>
+            <div class="footer-affiliates">
+              <h3 class="footer-title">Affiliates</h3>
+              <ul class="link-container">
+                <li class="long"><a href="#" target="_blank">
+                  <iron-icon id="menuIcon" icon="shared-icons:domain"></iron-icon>
+                  The Institute of Electrial<br/> 
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  and Electronics Engineers</a>
+                <li class="long"><a href="#" target="_blank">
+                  <iron-icon id="menuIcon" icon="shared-icons:education"></iron-icon>
+                  The University of Texas<br/> 
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  at Dallas</a>
+              </ul>
+            </div>
+          </div>
+          <div class="copyright">&copy; 2018 IEEE UTD.</div>
+        </div>
       </app-header-layout>
     </app-drawer-layout>
   </template>
@@ -372,46 +476,44 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           offset: 0
         })
         .setTween(titleTween)
-        .addIndicators({name: 'title'})
+        // .addIndicators({name: 'title'})
         .addTo(controller);
         new ScrollMagic.Scene({
             duration: 100,
             offset: blurbDist
           })
           .setTween(blurbTween)
-          .addIndicators({name: 'blurb'})
+          // .addIndicators({name: 'blurb'})
           .addTo(controller);
         new ScrollMagic.Scene({
             duration: 100,
             offset: btnDist
           })
           .setTween(btnTween)
-          .addIndicators({name: 'btn'})
+          // .addIndicators({name: 'btn'})
           .addTo(controller);
         new ScrollMagic.Scene({
             duration: 120,
             offset: btnDist
           })
           .setTween(tabsTween)
-          .addIndicators({name: 'tabs'})
+          // .addIndicators({name: 'tabs'})
           .addTo(controller);
         new ScrollMagic.Scene({
             duration: 120,
             offset: (btnDist+10)
           })
           .setTween(iconsTween)
-          .addIndicators({name: 'icons'})
+          // .addIndicators({name: 'icons'})
           .addTo(controller);
       }
 
       _routePageChanged(page) {
         this.page = page || 'home';
-        if (this.page == '') {
-          this.fancyPage = 'Home';
-        } else {
-          this.fancyPage = page.charAt(0).toUpperCase() + page.slice(1);
+        this.fancyPage = this.page.charAt(0).toUpperCase() + this.page.slice(1);
+        if (this.page != 'home' && this.page != 'committees' && this.page != 'officers' && this.page != 'tutoring') {
+          this.fancyPage = 'Not found';
         }
-        console.log(this.fancyPage);
         window.scrollTo(0, 0);
 
         // Close a non-persistent drawer when the page & route are changed.
