@@ -48,6 +48,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app-drawer-layout:not([narrow]) [drawer-toggle] {
         display: none;
       }
+      #drawer-title {
+        color: #3488ff;
+        font-size: 20pt;
+      }
       .drawer-list {
         margin: 0 20px;
       }
@@ -62,6 +66,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: black;
         font-weight: bold;
       }
+      .drawer-links > a {
+        text-decoration: none;
+        color: black;
+        display: block;
+        padding: 0 16px;
+        line-height: 40px;
+      }
 
       /** App header */
       app-header {
@@ -75,7 +86,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         background-color: #252525;
         /* https://bugs.chromium.org/p/chromium/issues/detail?id=637072 */
         --app-header-background-front-layer: {
-          background-image: url(https://app-layout-assets.appspot.com/assets/bg1.jpg);
+          background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url(/images/banner-photo.jpg);
+          filter: blur(5px);
+          /* background-image: url(https://app-layout-assets.appspot.com/assets/bg1.jpg); */
           background-position: left center;
         };
       }
@@ -183,6 +196,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       li.long {
         line-height: 14.5pt;
         margin-bottom: 12px;
+        max-width: 200px;
       }
       .link-container > li > a {
         text-decoration: none;
@@ -290,13 +304,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-drawer-layout fullbleed narrow="{{narrow}}" force-narrow>
       <!-- Drawer content -->
       <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
-        <app-toolbar>IEEE UTD</app-toolbar>
+        <app-toolbar id="drawer-title">IEEE UTD</app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
           <a name="home" href="[[rootPath]]home">Home</a>
           <a name="committees" href="[[rootPath]]committees">Committees</a>
           <a name="officers" href="[[rootPath]]officers">Officers</a>
           <a name="tutoring" href="[[rootPath]]tutoring">Tutoring</a>
         </iron-selector>
+        <div class="drawer-links">
+          <a href="#" target="_blank">Join</a>
+          <a href="#" target="_blank">Contact</a>
+        </div>
       </app-drawer>
 
       <!-- Main content -->
@@ -392,14 +410,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <ul class="link-container">
                 <li class="long"><a href="#" target="_blank">
                   <iron-icon id="menuIcon" icon="shared-icons:domain"></iron-icon>
-                  The Institute of Electrial<br/> 
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  and Electronics Engineers</a>
+                  The Institute of Electrial and Electronics Engineers</a>
                 <li class="long"><a href="#" target="_blank">
                   <iron-icon id="menuIcon" icon="shared-icons:education"></iron-icon>
-                  The University of Texas<br/> 
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  at Dallas</a>
+                  The University of Texas at Dallas</a>
               </ul>
             </div>
           </div>
