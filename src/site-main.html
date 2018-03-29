@@ -17,6 +17,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../lib/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../lib/app-route/app-location.html">
 <link rel="import" href="../lib/app-route/app-route.html">
+<link rel="import" href="../lib/iron-image/iron-image.html">
 <link rel="import" href="../lib/iron-pages/iron-pages.html">
 <link rel="import" href="../lib/iron-selector/iron-selector.html">
 <link rel="import" href="../lib/paper-icon-button/paper-icon-button.html">
@@ -88,7 +89,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         --app-header-background-front-layer: {
           background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url(/images/banner-photo.jpg);
           filter: blur(5px);
-          /* background-image: url(https://app-layout-assets.appspot.com/assets/bg1.jpg); */
           background-position: left center;
         };
       }
@@ -158,6 +158,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       paper-icon-button#menuIcon {
         visibility: hidden;
+      }
+      iron-image.banner-logo {
+        --iron-image-width: 400px;
       }
 
       /** App main */
@@ -244,6 +247,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           opacity: 1;
           transition: visibility 1s 0s, opacity 1s linear;
         }
+        iron-image.banner-logo {
+          --iron-image-width: 350px;
+          margin-top: 30px;
+          margin-bottom: 50px;
+        }
 
         iron-pages {
           padding-top: 450px;
@@ -281,6 +289,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       @media only screen and (max-width: 470px) { /** Accomodate text wrap */
         h4#blurb {
           margin-top: 64px;
+        }
+        iron-image.banner-logo {
+          --iron-image-width: 300px;
+          margin-top: 50px;
+          margin-bottom: 30px;
         }
       }
 
@@ -345,12 +358,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </app-toolbar>
           <app-toolbar class="title">
             <div>
-              <h1 id="siteTitle" main-title>IEEE UTD</h1>
+              <template is="dom-if" if="{{bannerTitle}}">
+                <iron-image class="banner-logo" src="/images/logo.png"></iron-image>
+              </template>
+              <template is="dom-if" if="{{!bannerTitle}}">
+                <h1 id="siteTitle" main-title>[[fancyPage]]</h1> 
+              </template>
             </div>
           </app-toolbar>
           <app-toolbar class="banner-main" banner>
             <div id="bannerContainer">
-              <h4 id="blurb">We are the student branch of the Institute of Electrical and Electronics Engineers (IEEE) at The University of Texas at UT Dallas. </h4>
+              <h4 id="blurb">[[bannerBlurb]]</h4>
             </div>
           </app-toolbar>
           <app-toolbar class="banner-btns" banner>
@@ -438,6 +456,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           fancyPage: {
             type: String
           },
+          bannerTitle: {
+            type: Boolean
+          },
+          bannerBlurb: {
+            type: String,
+          },
           routeData: Object,
           subroute: String,
           // This shouldn't be neccessary, but the Analyzer isn't picking up
@@ -464,8 +488,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _headerLoaded(header) { // TODO: observer for width change
         var tabs = header.childNodes[1].childNodes[5];
         var iconBtns = header.childNodes[1].childNodes[7];
-        var title = header.childNodes[3].childNodes[1].childNodes[1];
-        var blurb = header.childNodes[5].childNodes[1].childNodes[1];
+        var title = header.childNodes[3].childNodes[1];
+        var blurb = header.childNodes[5].childNodes[1];
         var btns = header.childNodes[7].childNodes[1];
         var titleData = title.getBoundingClientRect();
         var blurbData = blurb.getBoundingClientRect();
@@ -525,8 +549,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _routePageChanged(page) {
         this.page = page || 'home';
+        if (this.page === 'home') {
+          this.bannerTitle = true;
+          this.bannerBlurb = 'We are the student branch of the Institute of Electrical and Electronics Engineers (IEEE) at The University of Texas at UT Dallas.';
+        } else {
+          this.bannerTitle = false;
+          this.bannerBlurb = '';
+        }
         this.fancyPage = this.page.charAt(0).toUpperCase() + this.page.slice(1);
-        if (this.page != 'home' && this.page != 'committees' && this.page != 'officers' && this.page != 'tutoring') {
+        if (this.page !== 'home' && this.page !== 'committees' && this.page !== 'officers' && this.page !== 'tutoring') {
           this.fancyPage = 'Not found';
         }
         window.scrollTo(0, 0);
