@@ -10,7 +10,8 @@
   "sources": [
     "images/**/*",
     "data/**/*",
-    "src/**/*"
+    "src/**/*",
+    "404.html"
   ],
   "extraDependencies": [
     "bower_components/webcomponentsjs/*.js",
