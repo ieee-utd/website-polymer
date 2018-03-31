@@ -1,0 +1,151 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-list/iron-list.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="./footer.html">
+<dom-module id="view-tutoring">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+        --paper-tab-ink: #232323;
+      }
+      .spacer {
+        height: 1em;
+      }
+      iron-list {
+        height: 400px;
+        overflow: scroll;
+        max-width: 375px;
+      }
+      .item {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        max-width: 375px;
+      }
+      .pad {
+        padding: 0 15px;
+        border-left: 4px solid #5a5a5a;
+      }
+      .important {
+        border-left: 4px solid #3488ff !important;
+      }
+      .important > .item-date, .important > .item-title {
+        color: #3488ff !important;
+      }
+      paper-tabs {
+        margin-top: 5px;
+        font-family: 'Roboto', 'Noto', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        --paper-tabs-selection-bar-color: #ffffff;
+        width: 100%;
+        color: #ffffff;
+        background: #5a5a5a;
+        text-transform: uppercase;
+        margin-bottom: 1px;
+      }
+      paper-tab.iron-selected {
+        font-weight: 800;
+      }
+      iron-pages {
+        width: 100%;
+        background: #f2f2f2;
+        display: flex;
+      }
+      .schedule-container {
+        min-height: 500px;
+        width: 100%;
+        display: flex;
+      }
+      iframe {
+        flex-grow: 1;
+      }
+    </style>    
+
+    <div class="container">
+      <div class="card">
+        <h1>Tutoring</h1>
+        <p>Blurb goes here.</p>
+
+        <h2>Announcements</h2>
+        <iron-ajax auto
+            url="../data/tutoring-events.json"
+            handle-as="json"
+            last-response="{{eventsResponse}}"></iron-ajax>
+        
+        <iron-list items="[[eventsResponse]]" as="item">
+          <template>
+            <div class="item" tabindex$="[[tabIndex]]">
+              <div class$="{{getClasses(item.veryImportant)}}">
+                <p class="item-date">[[item.date]]</p>
+                <h2 class="item-title">[[item.name]]</h2>
+                <p class="item-blurb">[[item.blurb]]</p>
+              </div>
+            </div>
+          </template>
+        </iron-list>
+        <div class="spacer"></div>
+        <iron-ajax auto
+              url="../data/tutoring-schedules.json"
+              handle-as="json"
+              last-response="{{schedulesResponse}}"></iron-ajax>
+        <paper-tabs scrollable selected="{{selected}}">
+          <dom-repeat items="{{schedulesResponse}}">
+            <template>
+              <paper-tab>[[item.name]]</paper-tab>
+            </template>
+          </dom-repeat>
+        </paper-tabs>
+        <iron-pages selected="{{selected}}">
+          <dom-repeat items="{{schedulesResponse}}">
+            <template>
+              <div class="schedule-container">
+                <iframe src="{{item.link}}" scrollbars="no"></iframe>
+              </div>
+            </template>
+          </dom-repeat>
+        </iron-pages>
+      </div>
+    <app-footer></app-footer>
+    </div>
+  </template>
+
+  <script>
+    class Tutoring extends Polymer.Element {
+      static get is() { return 'view-tutoring'; }
+      // https://docs.google.com/gview?embedded=true&url=https://anrlutdallas.github.io/resource/document/advise.pdf
+      static get properties() {
+        return {
+          selected: {
+            type: Number,
+            value: 0
+          }
+        };
+      }
+      
+      _scheduleSelected(tutoringSchedule) {
+        console.log(tutoringSchedule);
+      }
+
+      getClasses(veryImportant) {
+        var classes = 'pad';
+        if (veryImportant) classes += ' important';
+        return classes;
+      }
+    }
+
+    window.customElements.define(Tutoring.is, Tutoring);
+  </script>
+</dom-module>

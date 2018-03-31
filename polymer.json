@@ -2,18 +2,20 @@
   "entrypoint": "index.html",
   "shell": "src/my-app.html",
   "fragments": [
-    "src/my-view1.html",
-    "src/my-view2.html",
-    "src/my-view3.html",
-    "src/my-view404.html"
+    "src/home.html",
+    "src/committees.html",
+    "src/tutoring.html",
+    "src/404.html"
   ],
   "sources": [
-    "src/**/*",
-    "images/**/*"
+    "images/**/*",
+    "data/**/*",
+    "src/**/*"
   ],
   "extraDependencies": [
-    "manifest.json",
-    "bower_components/webcomponentsjs/*.js"
+    "bower_components/webcomponentsjs/*.js",
+    "!bower_components/webcomponentsjs/gulpfile.js",
+    "manifest.json"
   ],
   "lint": {
     "rules": ["polymer-2"]
