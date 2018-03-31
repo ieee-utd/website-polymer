@@ -1,0 +1,1 @@
+cp -a ./build/es5-bundled/. ./docs/

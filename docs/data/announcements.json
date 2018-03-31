@@ -1,0 +1,23 @@
+[
+  {
+    "index": 0,
+    "dateCreated": "Jan 1, 2018",
+    "title": "Announcement Title 1",
+    "blurb": "Some important details about the announcement.",
+    "veryImportant": false
+  },
+  {
+    "index": 1,
+    "dateCreated": "Jan 2, 2018",
+    "title": "Important Announcement",
+    "blurb": "Some important details about the announcement.",
+    "veryImportant": true
+  },
+  {
+    "index": 2,
+    "dateCreated": "Jan 3, 2018",
+    "title": "Announcement Title 3",
+    "blurb": "Some important details about the announcement.",
+    "veryImportant": false
+  }
+]

@@ -1,0 +1,47 @@
+[
+  {
+    "index": 0,
+    "date": "Jan 1, 2018",
+    "time": "6:00pm",
+    "place": "JSSEC",
+    "title": "Event Title 1",
+    "blurb": "Some important details about the event.",
+    "veryImportant": false
+  },
+  {
+    "index": 1,
+    "date": "Jan 2, 2018",
+    "time": "6:00pm",
+    "place": "JSSEC",
+    "title": "General Meeting 2",
+    "blurb": "Some important details about the event.",
+    "veryImportant": true
+  },
+  {
+    "index": 2,
+    "date": "Jan 3, 2018",
+    "time": "6:00pm",
+    "place": "JSSEC",
+    "title": "Event Title 3",
+    "blurb": "Some important details about the event.",
+    "veryImportant": false
+  },
+  {
+    "index": 3,
+    "date": "Jan 3, 2018",
+    "time": "6:00pm",
+    "place": "JSSEC",
+    "title": "Event Title 4",
+    "blurb": "Some important details about the event.",
+    "veryImportant": false
+  },
+  {
+    "index": 4,
+    "date": "Jan 4, 2018",
+    "time": "6:00pm",
+    "place": "JSSEC",
+    "title": "Event Title 5",
+    "blurb": "Some important details about the event.",
+    "veryImportant": false
+  }
+]
