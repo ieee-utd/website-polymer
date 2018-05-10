@@ -1,19 +1,11 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
+<script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-if.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="./footer.html">
-<link rel="import" href="shared-styles.html">
+<link rel="import" href="./components/footer.html">
+<link rel="import" href="./shared-styles.html">
 
 <dom-module id="view-committees">
   <template>
@@ -22,10 +14,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
         --paper-tab-ink: #232323;
       }
+      .container {
+        min-height: calc(100vh - 48px);
+        display: flex;
+        flex-direction: column;
+      }
+      .body {
+        padding: 10px;
+        flex-grow: 1;
+        min-height: 350px;
+        display: flex;
+        justify-content: center;
+        background: #f7f7f7;
+      }
+      .inner {
+        margin: 5px 10px;
+        width: 1200px;
+      }
+      a {
+        color: #3488ff;
+        text-decoration: none;
+        border-bottom: 1px #3488ff dotted;
+      }
       paper-tabs {
         margin-top: 5px;
         font-family: 'Roboto', 'Noto', sans-serif;
-        -webkit-font-smoothing: antialiased;
         --paper-tabs-selection-bar-color: #ffffff;
         width: 100%;
         color: #ffffff;
@@ -37,68 +50,86 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-weight: 800;
       }
       iron-pages {
-        width: 100%;
-        min-height: 500px;
-        background: #f2f2f2;
-        display: flex;
+        width: calc(100% - 20px);
+        min-height: 300px;
+        background: #e1e1e1;
+        padding: 10px;
       }
       .committee-container {
-        min-height: 500px;
-        width: 100%;
-        display: flex;
-        margin: 1em;
+        margin: 0 48px;
+      }
+      .committee-container > p {
+        margin-top: 0;
+      }
+
+      @media only screen and (max-width: 400px) {
+        .committee-container {
+          margin: 0;
+          font-size: 14px;
+        }
       }
     </style>
 
     <div class="container">
-      <div class="card">
-        <h1>Committees</h1>
-        <p>Blurb goes here.</p>
-        
-        <iron-ajax auto
-            url="../data/committees.json"
-            handle-as="json"
-            last-response="{{committeesResponse}}"></iron-ajax>
-        <paper-tabs scrollable selected="{{selected}}">
-          <dom-repeat items="{{committeesResponse}}">
-            <template>
-              <paper-tab>[[item.name]]</paper-tab>
+      <div class="body">
+        <div class="inner">
+          <h1>Committees</h1>
+          <p>If you want to join a committee, fill out this <a href="#" target="_blank">form</a>.</p>
+          <paper-tabs scrollable selected="{{selected}}">
+            <dom-repeat items="[[committees]]">
+              <template>
+                <paper-tab>[[item.name]]</paper-tab>
+              </template>
+            </dom-repeat>
+          </paper-tabs>
+          <iron-pages selected="{{selected}}">
+            <template is="dom-if" if="[[loading]]">
+              Loading...
             </template>
-          </dom-repeat>
-        </paper-tabs>
-        <iron-pages selected="{{selected}}">
-          <dom-repeat items="{{committeesResponse}}">
-            <template>
-              <div class="committee-container">
-                {{item.info}}
-              </div>
-            </template>
-          </dom-repeat>
-        </iron-pages>
+            <dom-repeat items="[[committees]]">
+              <template>
+                <!-- TODO: inner-h-t-m-l is terrible; find something better -->
+                <div class="committee-container" inner-h-t-m-l="[[item.about]]"></div>
+              </template>
+            </dom-repeat>
+          </iron-pages>
+        </div>
       </div>
-
       <app-footer></app-footer>
     </div>
   </template>
 
   <script>
-    class Committees extends Polymer.Element {
+    class CommitteesView extends Polymer.Element {
       static get is() { return 'view-committees'; }
 
       static get properties() {
         return {
-          selected: {
-            type: Number,
-            value: 0
-          }
-        };
+          loading: {
+            type: Boolean,
+            value: true
+          },
+          committees: {
+            type: Array,
+            value: []
+          },
+        }
       }
-      
-      _scheduleSelected(tutoringSchedule) {
-        console.log(tutoringSchedule);
+
+      connectedCallback() {
+        super.connectedCallback();
+
+        Tabletop.init( { key: 'https://docs.google.com/spreadsheets/d/18k69-NZcpUhzbuw0OVTmYuCDFZxnfSK8l-rSgYNBzAQ/pubhtml',
+          callback: (data, tabletop) => {
+            this.committees = data;
+            this.selected = 0;
+            this.loading = false;
+          },
+          simpleSheet: true
+        })
       }
     }
 
-    window.customElements.define(Committees.is, Committees);
+    window.customElements.define(CommitteesView.is, CommitteesView);
   </script>
 </dom-module>

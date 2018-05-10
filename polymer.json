@@ -1,17 +1,16 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/my-app.html",
+  "shell": "src/app.html",
   "fragments": [
     "src/home.html",
+    "src/officers.html",
     "src/committees.html",
     "src/tutoring.html",
     "src/404.html"
   ],
   "sources": [
     "images/**/*",
-    "data/**/*",
-    "src/**/*",
-    "404.html"
+    "src/**/*"
   ],
   "extraDependencies": [
     "bower_components/webcomponentsjs/*.js",

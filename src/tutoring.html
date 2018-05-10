@@ -1,20 +1,16 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
+<script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-if.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="../bower_components/iron-list/iron-list.html">
-<link rel="import" href="shared-styles.html">
-<link rel="import" href="./footer.html">
+<link rel="import" href="./components/footer.html">
+<link rel="import" href="./shared-styles.html">
+
 <dom-module id="view-tutoring">
   <template>
     <style include="shared-styles">
@@ -22,33 +18,90 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
         --paper-tab-ink: #232323;
       }
-      .spacer {
-        height: 1em;
+      .container {
+        min-height: calc(100vh - 48px);
+        display: flex;
+        flex-direction: column;
+      }
+      h2 {
+        background: #232323;
+        display: flex;
+        align-items: center;
+        color: #ffffff;
+      }
+      iron-icon {
+        padding: 0 15px 0 8px;
+      }
+      .body {
+        padding: 10px;
+        flex-grow: 1;
+        min-height: 350px;
+        display: flex;
+        justify-content: center;
+        background: #f7f7f7;
+      }
+      .inner {
+        margin: 5px 10px;
+        width: 1200px;
+      }
+      a {
+        color: #3488ff;
+        text-decoration: none;
+        border-bottom: 1px #3488ff dotted;
+      }
+      .top {
+        display: flex;
+        justify-content: center;
+        flex-flow: row wrap;
+      }
+      .announcements, .events {
+        margin: 10px;
       }
       iron-list {
-        height: 400px;
-        overflow: scroll;
-        max-width: 375px;
+        min-height: 200px;
+        max-height: 400px;
+        width: 350px;
+        background: #e1e1e1;
+        padding: 10px;
       }
       .item {
-        padding-top: 10px;
-        padding-bottom: 10px;
-        max-width: 375px;
-      }
-      .pad {
-        padding: 0 15px;
-        border-left: 4px solid #5a5a5a;
+        min-height: 100px;
+        background: white;
+        margin: 3px 0;
+        padding: 3px 5px 5px 16px;
+        border-left: 4px solid #232323;
+        font-size: 14px;
       }
       .important {
-        border-left: 4px solid #3488ff !important;
+        border-left: 4px solid #3488ff;
       }
-      .important > .item-date, .important > .item-title {
-        color: #3488ff !important;
+      .item-date {
+        font-style: italic;
+        color: #8c8c8c;
+      }
+      .item-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+      .item-top {
+        display: flex;
+        align-items: center;
+        height: 38px;
+      }
+      .item-top-spacer {
+        @apply --layout-flex;
+      }
+      .item-link > a {
+        border: none;
+      }
+      .item-link-icon {
+        width: 38px;
+        height: 38px;
       }
       paper-tabs {
         margin-top: 5px;
         font-family: 'Roboto', 'Noto', sans-serif;
-        -webkit-font-smoothing: antialiased;
         --paper-tabs-selection-bar-color: #ffffff;
         width: 100%;
         color: #ffffff;
@@ -60,92 +113,194 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-weight: 800;
       }
       iron-pages {
-        width: 100%;
-        background: #f2f2f2;
-        display: flex;
+        width: calc(100% - 20px);
+        min-height: 300px;
+        background: #e1e1e1;
+        padding: 10px;
       }
       .schedule-container {
-        min-height: 500px;
+        margin: 0 48px;
+      }
+      img {
         width: 100%;
+      }
+      .schedules-top {
         display: flex;
+        justify-content: center;
+        flex-flow: row wrap;
       }
-      iframe {
-        flex-grow: 1;
+      .schedules {
+        width: calc(100% - 20px);
+        margin: 0 10px;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
       }
-    </style>    
+      .schedules-title, .schedules-spacer {
+        width: 370px;
+        margin: 0 10px;
+      }
+
+      @media only screen and (max-width: 400px) {
+        .schedule-container {
+          margin: 0;
+        }
+        iron-list {
+          min-height: 200px;
+          max-height: 400px;
+          width: 280px;
+          padding: 5px;
+        }
+        .schedules-title, .schedules-spacer {
+          width: 290px;
+        }
+      }
+    </style>
 
     <div class="container">
-      <div class="card">
-        <h1>Tutoring</h1>
-        <p>Blurb goes here.</p>
-
-        <h2>Announcements</h2>
-        <iron-ajax auto
-            url="../data/tutoring-events.json"
-            handle-as="json"
-            last-response="{{eventsResponse}}"></iron-ajax>
-        
-        <iron-list items="[[eventsResponse]]" as="item">
-          <template>
-            <div class="item" tabindex$="[[tabIndex]]">
-              <div class$="{{getClasses(item.veryImportant)}}">
-                <p class="item-date">[[item.date]]</p>
-                <h2 class="item-title">[[item.name]]</h2>
-                <p class="item-blurb">[[item.blurb]]</p>
+        <div class="body">
+        <div class="inner">
+          <h1>Tutoring</h1>
+          <p>If you want to be a tutor, fill out this <a href="#" target="_blank">form</a>.</p>
+          
+          <div class="top">
+              <div class="announcements">
+                <h2><iron-icon icon="shared-icons:announcement"></iron-icon> Announcements</h2>
+                <iron-list items="[[announcements]]">
+                  <template is="dom-if" if="[[loading]]">
+                    Loading...
+                  </template>
+                  <template>
+                    <div>
+                      <div class$="{{getClasses(item.veryImportant)}}">
+                        <div class="item-top">
+                          <div class="item-date">[[item.date]]</div>
+                          <div class="item-top-spacer"></div>
+                          <div class="item-link">
+                            <template is="dom-if" if="[[item.link]]">
+                              <a href="[[item.link]]" target="_blank">
+                                <paper-icon-button class="item-link-icon" icon="shared-icons:link"></paper-icon-button>
+                              </a>
+                            </template>
+                          </div>
+                        </div>
+                        <div class="item-title">[[item.title]]</div>
+                        <div>[[item.announcement]]</div>
+                      </div>
+                    </div>
+                  </template>
+                </iron-list>
               </div>
+    
+              <div class="events">
+                <h2><iron-icon icon="shared-icons:event"></iron-icon> Events</h2>
+                <iron-list items="[[events]]">
+                  <template is="dom-if" if="[[loading]]">
+                    Loading...
+                  </template>
+                  <template>
+                    <div>
+                      <div class$="{{getClasses(item.veryImportant)}}">
+                        <div class="item-top">
+                          <div class="item-date">[[item.date]] [[item.time]] @ [[item.location]]</div>
+                          <div class="item-top-spacer"></div>
+                          <div class="item-link">
+                              <template is="dom-if" if="{{item.link}}">
+                                <a href="[[item.link]]" target="_blank">
+                                  <paper-icon-button class="item-link-icon" icon="shared-icons:link"></paper-icon-button>
+                                </a>
+                              </template>
+                            </div>
+                        </div>
+                        <div class="item-title">[[item.title]]</div>
+                        <div>[[item.event]]</div>
+                      </div>
+                    </div>
+                  </template>
+                </iron-list>
+              </div>
+          
+          <div class="schedules-top">
+            <div class="schedules-title">
+              <h2><iron-icon icon="shared-icons:schedule"></iron-icon> Schedules</h2>
             </div>
-          </template>
-        </iron-list>
-        <div class="spacer"></div>
-        <iron-ajax auto
-              url="../data/tutoring-schedules.json"
-              handle-as="json"
-              last-response="{{schedulesResponse}}"></iron-ajax>
-        <paper-tabs scrollable selected="{{selected}}">
-          <dom-repeat items="{{schedulesResponse}}">
-            <template>
-              <paper-tab>[[item.name]]</paper-tab>
-            </template>
-          </dom-repeat>
-        </paper-tabs>
-        <iron-pages selected="{{selected}}">
-          <dom-repeat items="{{schedulesResponse}}">
-            <template>
-              <div class="schedule-container">
-                <iframe src="{{item.link}}" scrollbars="no"></iframe>
-              </div>
-            </template>
-          </dom-repeat>
-        </iron-pages>
+            <div class="schedules-spacer"></div>
+          </div>
+          <div class="schedules">
+            <paper-tabs scrollable selected="{{selected}}">
+              <dom-repeat items="[[schedules]]">
+                <template>
+                  <paper-tab>[[item.name]]</paper-tab>
+                </template>
+              </dom-repeat>
+            </paper-tabs>
+            <iron-pages selected="{{selected}}">
+              <template is="dom-if" if="[[loading]]">
+                Loading...
+              </template>
+              <dom-repeat items="[[schedules]]">
+                <template>
+                  <div class="schedule-container">
+                    <img src="[[item.link]]"></img>
+                  </div>
+                </template>
+              </dom-repeat>
+            </iron-pages>
+          </div>
+          
+        </div>
+        </div>
       </div>
-    <app-footer></app-footer>
+      <app-footer></app-footer>
     </div>
   </template>
 
   <script>
-    class Tutoring extends Polymer.Element {
+    class TutoringView extends Polymer.Element {
       static get is() { return 'view-tutoring'; }
-      // https://docs.google.com/gview?embedded=true&url=https://anrlutdallas.github.io/resource/document/advise.pdf
+
       static get properties() {
         return {
-          selected: {
-            type: Number,
-            value: 0
-          }
-        };
+          loading: {
+            type: Boolean,
+            value: true
+          },
+          announcements: {
+            type: Array,
+            value: []
+          },
+          events: {
+            type: Array,
+            value: []
+          },
+          schedules: {
+            type: Array,
+            value: []
+          },
+        }
       }
       
-      _scheduleSelected(tutoringSchedule) {
-        console.log(tutoringSchedule);
+      connectedCallback() {
+        super.connectedCallback();
+        Tabletop.init( { key: 'https://docs.google.com/spreadsheets/d/1NQGJRlueLY9rirKH7yiEOj51ZMhSMZY1tRbY6KzUINo/pubhtml',
+          callback: (data, tabletop) => {
+            this.announcements = data.Announcements.elements;
+            this.events = data.Events.elements;
+            this.schedules = data.Schedules.elements;
+            this.selected = 0;
+            this.loading = false;
+          },
+          simpleSheet: false
+        })
       }
 
       getClasses(veryImportant) {
-        var classes = 'pad';
-        if (veryImportant) classes += ' important';
+        var classes = 'item';
+        if (veryImportant === 'TRUE') classes += ' important';
         return classes;
       }
     }
 
-    window.customElements.define(Tutoring.is, Tutoring);
+    window.customElements.define(TutoringView.is, TutoringView);
   </script>
 </dom-module>

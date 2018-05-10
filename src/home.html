@@ -1,23 +1,15 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
+<script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js'></script>
+<link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../bower_components/iron-image/iron-image.html">
-<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-if.html">
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../bower_components/google-map/google-map.html">
-<link rel="import" href="../bower_components/google-map/google-map-marker.html">
-<link rel="import" href="../bower_components/google-map/google-map-poly.html">
-<link rel="import" href="../bower_components/google-map/google-map-directions.html">
-<link rel="import" href="./footer.html">
 <link rel="import" href="./shared-styles.html">
+<link rel="import" href="./components/banner.html">
+<link rel="import" href="./components/footer.html">
 
 <dom-module id="view-home">
   <template>
@@ -25,151 +17,252 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
-      
-      .banner:before {
-        width: 100%;
-        height: 400px;
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        z-index: -1;
-        background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url(/images/banner-photo.jpg);
-        filter: blur(5px);
-        background-position: left center;
+      .container {
+        min-height: calc(100vh - 48px);
+        display: flex;
+        flex-direction: column;
       }
-      .banner {
-        width: 100%;
-        height: 400px;
-        text-align: center;
-      }
-      h3 {
+      h2 {
+        background: #232323;
+        display: flex;
+        align-items: center;
         color: #ffffff;
-        font-style: italic;
       }
-      iron-image {
-        margin-top: 30px;
-        --iron-image-width: 400px;
+      iron-icon {
+        padding: 0 15px 0 8px;
       }
-      iron-list {
-        height: 400px;
-        overflow: scroll;
-        max-width: 375px;
+      .body {
+        flex-grow: 1;
+        min-height: 350px;
+        justify-content: center;
+        background: #f7f7f7;
+        display: flex;
       }
-      .item {
-        padding-top: 10px;
-        padding-bottom: 10px;
-        max-width: 375px;
-      }
-      .pad {
-        padding: 0 15px;
-        border-left: 4px solid #5a5a5a;
-      }
-      .important {
-        border-left: 4px solid #3488ff !important;
-      }
-      .important > .item-date, .important > .item-title {
-        color: #3488ff !important;
-      }
-      p.item-date {
-        margin-top: 0;
-        margin-bottom: 5px;
-        margin-left: 5px;
-        font-style: italic;
-      }
-      p.item-blurb {
-        margin-top: 5px;
-        margin-bottom: 5px;
+      .inner {
+        margin: 10px;
+        width: 1200px;
       }
       a {
         color: #3488ff;
         text-decoration: none;
         border-bottom: 1px #3488ff dotted;
       }
+      .top {
+        display: flex;
+        justify-content: center;
+        flex-flow: row wrap;
+      }
+      .announcements, .events {
+        margin: 10px;
+      }
+      iron-list {
+        min-height: 200px;
+        max-height: 400px;
+        width: 350px;
+        background: #e1e1e1;
+        padding: 10px;
+      }
+      .item {
+        min-height: 100px;
+        background: white;
+        margin: 3px 0;
+        padding: 3px 5px 5px 16px;
+        border-left: 4px solid #232323;
+        font-size: 14px;
+      }
+      .important {
+        border-left: 4px solid #3488ff;
+      }
+      .item-date {
+        font-style: italic;
+        color: #8c8c8c;
+      }
+      .item-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+      .item-top {
+        display: flex;
+        align-items: center;
+        height: 38px;
+      }
+      .item-top-spacer {
+        @apply --layout-flex;
+      }
+      .item-link > a {
+        border: none;
+      }
+      .item-link-icon {
+        width: 38px;
+        height: 38px;
+      }
+      .location {
+        display: flex;
+        justify-content: center;
+      }
+      .location-inner {
+        display: flex;
+        justify-content: center;
+        flex-flow: row wrap;
+      }
+      .location-title, .location-spacer {
+        width: 370px;
+        margin: 0 10px;
+      }
+      .map-container {
+        width: calc(100% - 20px);
+        height: 400px;
+        background: #e1e1e1;
+      }
       google-map {
-        height: 500px;
+        margin: 10px;
+        height: 380px;
       }
 
-      @media only screen and (max-width: 700px) {
-        iron-image {
-          --iron-image-width: 350px;
-        }
-      }
       @media only screen and (max-width: 400px) {
-        iron-image {
-          --iron-image-width: 275px;
+        iron-list {
+          min-height: 200px;
+          max-height: 400px;
+          width: 280px;
+          padding: 5px;
+        }
+        .location-title, .location-spacer {
+          width: 290px;
         }
       }
     </style>
 
     <div class="container">
-      <div class="banner">
-        <iron-image class="banner-logo" src="/images/logo.png"></iron-image>
-        <h3>Blurb goes here.</h3>
-      </div>
-
-      <div class="card">
-        <h1>Home</h1>
-        <h2>Announcements</h2>
-        <iron-ajax auto
-            url="../data/announcements.json"
-            handle-as="json"
-            last-response="{{announcementResponse}}"></iron-ajax>
-        <iron-list items="[[announcementResponse]]" as="item">
-          <template>
-            <div class="item" tabindex$="[[tabIndex]]">
-              <div class$="{{getClasses(item.veryImportant)}}">
-                <p class="item-date">[[item.dateCreated]]</p>
-                <h2 class="item-title">[[item.title]]</h2>
-                <p class="item-blurb">[[item.blurb]]</p>
-              </div>
+      <app-banner></app-banner>
+      <div class="body">
+        <div class="inner">
+          <div class="top">
+            <div class="announcements">
+              <h2><iron-icon icon="shared-icons:announcement"></iron-icon> Announcements</h2>
+              <iron-list items="[[announcements]]">
+                <template is="dom-if" if="[[loading]]">
+                  Loading...
+                </template>
+                <template>
+                  <div>
+                    <div class$="{{getClasses(item.veryImportant)}}">
+                      <div class="item-top">
+                        <div class="item-date">[[item.date]]</div>
+                        <div class="item-top-spacer"></div>
+                        <div class="item-link">
+                          <template is="dom-if" if="[[item.link]]">
+                            <a href="[[item.link]]" target="_blank">
+                              <paper-icon-button class="item-link-icon" icon="shared-icons:link"></paper-icon-button>
+                            </a>
+                          </template>
+                        </div>
+                      </div>
+                      <div class="item-title">[[item.title]]</div>
+                      <div>[[item.announcement]]</div>
+                    </div>
+                  </div>
+                </template>
+              </iron-list>
             </div>
-          </template>
-        </iron-list>
-
-        <h2>Events</h2>
-        <iron-ajax auto
-            url="../data/events.json"
-            handle-as="json"
-            last-response="{{eventResponse}}"></iron-ajax>
-            
-        <iron-list items="[[eventResponse]]" as="item">
-          <template>
-            <div class="item" tabindex$="[[tabIndex]]">
-              <div class$="{{getClasses(item.veryImportant)}}">
-                <p class="item-date">[[item.date]] @ [[item.time]] in [[item.place]]</p>
-                <h2 class="item-title">[[item.title]]</h2>
-                <p class="item-blurb">[[item.blurb]]</p>
-              </div>
+  
+            <div class="events">
+              <h2><iron-icon icon="shared-icons:event"></iron-icon> Events</h2>
+              <iron-list items="[[events]]">
+                <template is="dom-if" if="[[loading]]">
+                  Loading...
+                </template>
+                <template>
+                  <div>
+                    <div class$="{{getClasses(item.veryImportant)}}">
+                      <div class="item-top">
+                        <div class="item-date">[[item.date]] [[item.time]] @ [[item.location]]</div>
+                        <div class="item-top-spacer"></div>
+                        <div class="item-link">
+                            <template is="dom-if" if="{{item.link}}">
+                              <a href="[[item.link]]" target="_blank">
+                                <paper-icon-button class="item-link-icon" icon="shared-icons:link"></paper-icon-button>
+                              </a>
+                            </template>
+                          </div>
+                      </div>
+                      <div class="item-title">[[item.title]]</div>
+                      <div>[[item.event]]</div>
+                    </div>
+                  </div>
+                </template>
+              </iron-list>
             </div>
-          </template>
-        </iron-list>
+        </div>
 
-        <h2>Location</h2>
-        <p>We are located at<br/>
-          <a href="https://www.google.com/maps/place/Synergy+Park+North+Building+-+UT+Dallas/@32.9889742,-96.7559906,15z/data=!4m5!3m4!1s0x864c2206e04feeb9:0x54e35d04c429ba8a!8m2!3d32.9939073!4d-96.752337" target="_blank">3000 Synergy Park Blvd,<br/> 
-          Richardson, TX 75080<br/>
-          Room: SPN 2.220</a>
-        </p>
-        <google-map latitude="32.9889742" longitude="-96.7559906" api-key="AIzaSyD3E1D9b-Z7ekrT3tbhl_dy8DCXuIuDDRc" zoom="17" max-zoom="17" min-zoom="17">
-          <google-map-marker latitude="32.9889742" longitude="-96.7559906" draggable="true"></google-map-marker>
-        </google-map>
+        <div class="location">
+          <div class="location-inner">
+            <div class="location-title">
+              <h2><iron-icon icon="shared-icons:map"></iron-icon> Location</h2>
+              <p>
+                We are located at <br/>
+                <a href="https://www.google.com/maps/place/Synergy+Park+North+Building+-+UT+Dallas/@32.9889742,-96.7559906,15z/data=!4m5!3m4!1s0x864c2206e04feeb9:0x54e35d04c429ba8a!8m2!3d32.9939073!4d-96.752337" target="_blank">3000 Synergy Park Blvd,<br/> 
+                Richardson, TX 75080<br/>
+                SPN 2.220</a>
+              </p>
+            </div>
+            <div class="location-spacer"></div>
+            <div class="map-container">
+              <google-map latitude="32.9889742" longitude="-96.7559906" zoom="16" api-key="">
+                <google-map-marker latitude="32.9889742" longitude="-96.7559906"></google-map-marker>
+              </google-map>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
       <app-footer></app-footer>
     </div>
   </template>
 
   <script>
-    class Home extends Polymer.Element {
-      static get is() { return 'view-home'; }
+    class HomeView extends Polymer.Element {
+      static get is() { 
+        return 'view-home'; 
+      }
+
+      static get properties() {
+        return {
+          loading: {
+            type: Boolean,
+            value: true
+          },
+          announcements: {
+            type: Array,
+            value: []
+          },
+          events: {
+            type: Array,
+            value: []
+          },
+        }
+      }
+      
+      connectedCallback() {
+        super.connectedCallback();
+        
+        Tabletop.init( { key: 'https://docs.google.com/spreadsheets/d/1MJl02X4gZnw4K64KmVoy9xkMQXOGdNPju0yUPGJa1YY/pubhtml',
+          callback: (data, tabletop) => {
+            this.announcements = data.Announcements.elements;
+            this.events = data.Events.elements;
+            this.loading = false;
+          },
+          simpleSheet: false
+        })
+      }
 
       getClasses(veryImportant) {
-        var classes = 'pad';
-        if (veryImportant) classes += ' important';
+        var classes = 'item';
+        if (veryImportant === 'TRUE') classes += ' important';
         return classes;
       }
     }
 
-    window.customElements.define(Home.is, Home);
+    window.customElements.define(HomeView.is, HomeView);
   </script>
 </dom-module>
