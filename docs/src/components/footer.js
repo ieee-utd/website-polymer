@@ -1,4 +1,4 @@
-define(["../../node_modules/@polymer/polymer/polymer-element.js","../../node_modules/@polymer/iron-icon/iron-icon.js","../../node_modules/@polymer/iron-icons/communication-icons.js","../../node_modules/@polymer/iron-icons/social-icons.js"],function(_polymerElement){"use strict";class Footer extends _polymerElement.PolymerElement{static get properties(){return{}}constructor(){super()}ready(){super.ready()}static get template(){return _polymerElement.html`
+import{PolymerElement,html}from"../../node_modules/@polymer/polymer/polymer-element.js";import"../../node_modules/@polymer/iron-icon/iron-icon.js";import"../../node_modules/@polymer/iron-icons/communication-icons.js";import"../../node_modules/@polymer/iron-icons/social-icons.js";class Footer extends PolymerElement{static get properties(){return{}}constructor(){super()}ready(){super.ready()}static get template(){return html`
       <style>
         .footer {
           background: #232323;
@@ -119,4 +119,4 @@ define(["../../node_modules/@polymer/polymer/polymer-element.js","../../node_mod
           <div class="copyright">&copy; 2018 IEEE UTD.</div>
         </div>
       </div>
-    `}}customElements.define("app-footer",Footer)});
+    `}}customElements.define("app-footer",Footer);

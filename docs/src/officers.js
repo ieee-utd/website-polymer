@@ -1,4 +1,4 @@
-define(["https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js","../node_modules/@polymer/polymer/polymer-element.js","../node_modules/@polymer/polymer/lib/elements/dom-if.js","../node_modules/@polymer/polymer/lib/elements/dom-repeat.js","../node_modules/@polymer/iron-icons/communication-icons.js","../node_modules/@polymer/paper-card/paper-card.js","../node_modules/@polymer/paper-icon-button/paper-icon-button.js","./components/footer.js"],function(_tabletopMin,_polymerElement){"use strict";class OfficerPage extends _polymerElement.PolymerElement{static get properties(){return{loading:{type:Boolean,value:!0},officers:{type:Array,value:[]}}}constructor(){super()}connectedCallback(){super.connectedCallback();Tabletop.init({key:"https://docs.google.com/spreadsheets/d/1ohEgdV4T6ACI99TkWw60EuHs4Pj8Ex-o7kwSt4fkNOw/pubhtml",callback:data=>{this.officers=data;this.loading=!1},simpleSheet:!0})}static get template(){return _polymerElement.html`
+import"https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js";import{PolymerElement,html}from"../node_modules/@polymer/polymer/polymer-element.js";import"../node_modules/@polymer/polymer/lib/elements/dom-if.js";import"../node_modules/@polymer/polymer/lib/elements/dom-repeat.js";import"../node_modules/@polymer/iron-icons/communication-icons.js";import"../node_modules/@polymer/paper-card/paper-card.js";import"../node_modules/@polymer/paper-icon-button/paper-icon-button.js";import"./components/footer.js";class OfficerPage extends PolymerElement{static get properties(){return{loading:{type:Boolean,value:!0},officers:{type:Array,value:[]}}}constructor(){super()}connectedCallback(){super.connectedCallback();Tabletop.init({key:"https://docs.google.com/spreadsheets/d/1ohEgdV4T6ACI99TkWw60EuHs4Pj8Ex-o7kwSt4fkNOw/pubhtml",callback:data=>{this.officers=data;this.loading=!1},simpleSheet:!0})}static get template(){return html`
       <style>
         .container {
           min-height: calc(100vh - 48px);
@@ -120,4 +120,4 @@ define(["https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.j
         </div>
         <app-footer></app-footer>
       </div>
-    `}}customElements.define("page-officers",OfficerPage)});
+    `}}customElements.define("page-officers",OfficerPage);

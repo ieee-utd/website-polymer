@@ -1,4 +1,4 @@
-define(["https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js","../node_modules/@polymer/polymer/polymer-element.js","../node_modules/@polymer/polymer/lib/elements/dom-if.js","../node_modules/@polymer/polymer/lib/elements/dom-repeat.js","../node_modules/@polymer/iron-pages/iron-pages.js","../node_modules/@polymer/paper-tabs/paper-tabs.js","./components/footer.js"],function(_tabletopMin,_polymerElement){"use strict";class CommitteesPage extends _polymerElement.PolymerElement{static get properties(){return{loading:{type:Boolean,value:!0},committees:{type:Array,value:[]}}}constructor(){super()}connectedCallback(){super.connectedCallback();Tabletop.init({key:"https://docs.google.com/spreadsheets/d/18k69-NZcpUhzbuw0OVTmYuCDFZxnfSK8l-rSgYNBzAQ/pubhtml",callback:data=>{this.committees=data;this.selected=0;this.loading=!1},simpleSheet:!0})}static get template(){return _polymerElement.html`
+import"https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js";import{PolymerElement,html}from"../node_modules/@polymer/polymer/polymer-element.js";import"../node_modules/@polymer/polymer/lib/elements/dom-if.js";import"../node_modules/@polymer/polymer/lib/elements/dom-repeat.js";import"../node_modules/@polymer/iron-pages/iron-pages.js";import"../node_modules/@polymer/paper-tabs/paper-tabs.js";import"./components/footer.js";class CommitteesPage extends PolymerElement{static get properties(){return{loading:{type:Boolean,value:!0},committees:{type:Array,value:[]}}}constructor(){super()}connectedCallback(){super.connectedCallback();Tabletop.init({key:"https://docs.google.com/spreadsheets/d/18k69-NZcpUhzbuw0OVTmYuCDFZxnfSK8l-rSgYNBzAQ/pubhtml",callback:data=>{this.committees=data;this.selected=0;this.loading=!1},simpleSheet:!0})}static get template(){return html`
       <style>
         :host {
           display: block;
@@ -96,4 +96,4 @@ define(["https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.j
         </div>
         <app-footer></app-footer>
       </div>
-    `}}customElements.define("page-committees",CommitteesPage)});
+    `}}customElements.define("page-committees",CommitteesPage);

@@ -1,4 +1,4 @@
-define(["../../node_modules/@polymer/polymer/polymer-element.js","../../node_modules/@polymer/iron-image/iron-image.js"],function(_polymerElement){"use strict";class Banner extends _polymerElement.PolymerElement{static get properties(){return{}}constructor(){super()}ready(){super.ready()}static get template(){return _polymerElement.html`
+import{PolymerElement,html}from"../../node_modules/@polymer/polymer/polymer-element.js";import"../../node_modules/@polymer/iron-image/iron-image.js";class Banner extends PolymerElement{static get properties(){return{}}constructor(){super()}ready(){super.ready()}static get template(){return html`
       <style>
         .container {
           height: 400px;
@@ -111,4 +111,4 @@ define(["../../node_modules/@polymer/polymer/polymer-element.js","../../node_mod
           </div>    
         </div>
       </div>
-    `}}customElements.define("app-banner",Banner)});
+    `}}customElements.define("app-banner",Banner);
