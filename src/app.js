@@ -74,6 +74,7 @@ class PolymerApp extends PolymerElement {
     if (!this.$.drawer.persistent) {
       this.$.drawer.close();
     }
+    window.scrollTo(0, 0);
   }
 
   _menuAction() {
