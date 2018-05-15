@@ -90,6 +90,7 @@ class OfficerPage extends PolymerElement {
           align-items: center;
         }
         iron-image {
+          border-radius: 50%;
           height: 75px;
           width: 75px;
         }
