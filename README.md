@@ -2,4 +2,4 @@
 
 Website written with Polymer 3.
 
-Live at [beta.ieeeutd.org](beta.ieeeutd.org).
+Live at [beta.ieeeutd.org](https://beta.ieeeutd.org).
