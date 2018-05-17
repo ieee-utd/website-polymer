@@ -1,7 +1,5 @@
 import { PolymerElement, html } from '../../node_modules/@polymer/polymer/polymer-element.js';
 import '../../node_modules/@polymer/iron-icon/iron-icon.js';
-import '../../node_modules/@polymer/iron-icons/communication-icons.js';
-import '../../node_modules/@polymer/iron-icons/social-icons.js';
 
 class Footer extends PolymerElement {
   static get properties () {
@@ -80,6 +78,15 @@ class Footer extends PolymerElement {
       <iron-iconset-svg name="custom-icons" size="24">
         <svg>
           <defs>
+            <g id="email">
+              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+            </g>
+            <g id="domain">
+              <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z" />
+            </g>
+            <g id="school">
+              <path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z" />
+            </g>
             <g id="facebook">
               <path d="M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3M18,5H15.5A3.5,3.5 0 0,0 12,8.5V11H10V14H12V21H15V14H18V11H15V9A1,1 0 0,1 16,8H18V5Z" />
             </g>
@@ -108,7 +115,7 @@ class Footer extends PolymerElement {
             <ul class="link">
               <li>
                 <a href="mailto:contact@ieeeutd.org">
-                  <iron-icon icon="communication:email"></iron-icon>
+                  <iron-icon icon="custom-icons:email"></iron-icon>
                   <p>Email</p>
                 </a>
               </li>
@@ -125,13 +132,13 @@ class Footer extends PolymerElement {
             <ul class="link">
               <li class="long">
                 <a href="https://www.utdallas.edu/" target="_blank">
-                  <iron-icon icon="social:domain"></iron-icon>
+                  <iron-icon icon="custom-icons:domain"></iron-icon>
                   <p>The Institute of Electrial<br/> and Electronics Engineers</p>
                 </a>
               </li>
               <li class="long">
                 <a href="https://www.utdallas.edu/" target="_blank">
-                  <iron-icon icon="social:school"></iron-icon>
+                  <iron-icon icon="custom-icons:school"></iron-icon>
                   <p>The University of Texas<br/> at Dallas</p>
                 </a>
               </li>
