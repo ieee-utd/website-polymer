@@ -9,11 +9,6 @@ import '../node_modules/@polymer/iron-icons/iron-icons.js';
 import '../node_modules/@polymer/iron-selector/iron-selector.js';
 import '../node_modules/@polymer/iron-pages/iron-pages.js';
 import '../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
-import './home.js';
-import './officers.js';
-import './committees.js';
-import './tutoring.js';
-import './notfound.js';
 
 class PolymerApp extends PolymerElement {
   static get properties () {
@@ -31,7 +26,8 @@ class PolymerApp extends PolymerElement {
 
   static get observers() {
     return [
-      '_viewChanged(routeData.view)',
+      '_routeChanged(route.*)',
+      '_viewChanged(routeData.view)'
     ];
   }
 
@@ -56,6 +52,40 @@ class PolymerApp extends PolymerElement {
         };
         var targetNode = document.body;
         observer.observe(targetNode, observerConfig);
+  }
+
+  _routeChanged(route) {
+    if (route.base.path === '/' || route.base.path === '/home') {
+      import('./home.js').then((HomePage) => {
+        // loaded
+      }).catch((reason) => {
+        console.log("failed to load home page", reason);
+      });
+    } else if (route.base.path === '/officers') {
+      import('./officers.js').then((OfficersPage) => {
+        // loaded
+      }).catch((reason) => {
+        console.log("failed to load officers page", reason);
+      });
+    } else if (route.base.path === '/committees') {
+      import('./committees.js').then((CommitteesPage) => {
+        // loaded
+      }).catch((reason) => {
+        console.log("failed to load committees page", reason);
+      });
+    } else if (route.base.path === '/tutoring') {
+      import('./tutoring.js').then((TutoringPage) => {
+        // loaded
+      }).catch((reason) => {
+        console.log("failed to load tutoring page", reason);
+      });
+    } else {
+      import('./notfound.js').then((NotfoundPage) => {
+        // loaded
+      }).catch((reason) => {
+        console.log("failed to load notfound page", reason);
+      });
+    }
   }
 
   _viewChanged(view) {
