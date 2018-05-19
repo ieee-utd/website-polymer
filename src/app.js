@@ -79,7 +79,14 @@ class PolymerApp extends PolymerElement {
       }).catch((reason) => {
         console.log("failed to load tutoring page", reason);
       });
-    } else {
+    } else if (route.base.path === '/join') {
+      import('./join.js').then((JoinPage) => {
+        // loaded
+      }).catch((reason) => {
+        console.log("failed to load mailing list page", reason);
+      });
+    } 
+    else {
       import('./notfound.js').then((NotfoundPage) => {
         // loaded
       }).catch((reason) => {
@@ -90,7 +97,7 @@ class PolymerApp extends PolymerElement {
 
   _viewChanged(view) {
     this.view = view || 'home';
-    if (view !== '' && view !== 'home' && view !== 'officers' && view !== 'committees' && view !== 'tutoring') {
+    if (view !== '' && view !== 'home' && view !== 'officers' && view !== 'committees' && view !== 'tutoring' && view !== 'join') {
       this.page = '404';
       document.title = 'IEEE UTD | 404';
     } else {
@@ -197,7 +204,7 @@ class PolymerApp extends PolymerElement {
           <a name="committees" href="/committees">Committees</a>
           <a name="tutoring" href="/tutoring">Tutoring</a>
           <div class="spacer"></div>
-          <a name="join" href="https://goo.gl/forms/27VNzLklSdBmFqgF3" target="_blank">Join Us!</a>
+          <a name="tutoring" href="/join">Join Us!</a>
           <a name="contact" href="mailto:contact@ieeeutd.org">Contact Us!</a>
         </iron-selector>
       </app-drawer>
@@ -217,6 +224,7 @@ class PolymerApp extends PolymerElement {
         <page-committees name="committees"></page-committees>
         <page-officers name="officers"></page-officers>
         <page-tutoring name="tutoring"></page-tutoring>
+        <page-join name="join"></page-join>
         <page-notfound name="404"></page-notfound>
       </iron-pages>
     `;

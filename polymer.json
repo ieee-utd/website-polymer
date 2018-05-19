@@ -6,6 +6,7 @@
     "src/officers.js",
     "src/committees.js",
     "src/tutoring.js",
+    "src/join.js",
     "src/notfound.js",
     "src/components/banner.js",
     "src/components/footer.js"

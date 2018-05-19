@@ -157,7 +157,7 @@ class HomePage extends PolymerElement {
         .google-map {
           margin: 10px;
           width: calc(100% - 20px);
-        } 
+        }
 
         @media only screen and (max-width: 400px) {
           iron-list {
