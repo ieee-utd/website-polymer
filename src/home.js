@@ -4,6 +4,7 @@ import '../node_modules/@polymer/iron-icons/iron-icons.js';
 import '../node_modules/@polymer/iron-icons/maps-icons.js';
 import '../node_modules/@polymer/iron-list/iron-list.js';
 import '../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
+import '../node_modules/@polymer/paper-spinner/paper-spinner.js';
 import './tabletop.js';
 import './components/banner.js';
 import './components/footer.js';
@@ -158,6 +159,13 @@ class HomePage extends PolymerElement {
           margin: 10px;
           width: calc(100% - 20px);
         }
+        .loading-container {
+          width: 100%;
+          height: 180px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
 
         @media only screen and (max-width: 400px) {
           iron-list {
@@ -182,7 +190,9 @@ class HomePage extends PolymerElement {
                 <h2><iron-icon icon="icons:announcement"></iron-icon> Announcements</h2>
                 <iron-list items="[[announcements]]">
                   <template is="dom-if" if="[[loading]]">
-                    Loading...
+                    <div class="loading-container">
+                      <paper-spinner active></paper-spinner>
+                    </div>
                   </template>
                   <template>
                     <div>
@@ -209,7 +219,9 @@ class HomePage extends PolymerElement {
                 <h2><iron-icon icon="icons:event"></iron-icon> Events</h2>
                 <iron-list items="[[events]]">
                   <template is="dom-if" if="[[loading]]">
-                    Loading...
+                    <div class="loading-container">
+                      <paper-spinner active></paper-spinner>
+                    </div>
                   </template>
                   <template>
                     <div>

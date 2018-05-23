@@ -4,6 +4,7 @@ import '../node_modules/@polymer/polymer/lib/elements/dom-repeat.js';
 import '../node_modules/@polymer/iron-icons/communication-icons.js';
 import '../node_modules/@polymer/paper-card/paper-card.js';
 import '../node_modules/@polymer/paper-icon-button/paper-icon-button.js';
+import '../node_modules/@polymer/paper-spinner/paper-spinner.js';
 import './tabletop.js';
 import './components/footer.js';
 
@@ -114,6 +115,13 @@ class OfficerPage extends PolymerElement {
           width: 32px;
           height: 32px;
         }
+        .loading-container {
+          width: 100%;
+          height: 320px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
 
         @media only screen and (max-width: 400px) {
           .inner {
@@ -131,7 +139,9 @@ class OfficerPage extends PolymerElement {
             
             <div class="cards-container">
               <template is="dom-if" if="[[loading]]">
-                Loading...
+                <div class="loading-container">
+                  <paper-spinner active></paper-spinner>
+                </div>
               </template>
               <dom-repeat items="[[officers]]">
                 <template>
