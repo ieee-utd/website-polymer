@@ -1,0 +1,43 @@
+cache:
+  image: redis
+api:
+  build: ./images/api/
+  volumes:
+    - ./api/:/ieeeutd-api/
+    - ./.git/:/ieeeutd-api/.git/
+  working_dir: /ieeeutd-api/
+  command: npm run dev
+  environment:
+    - VIRTUAL_HOST=dev.ieeeutd.org
+    - VIRTUAL_PORT=3000
+    - ORIGIN=http://dev.ieeeutd.com
+    - SESSION_SECRET=aASKF4AFjas52wFSAF
+    - CACHE_HOST=cache
+  ports:
+    - "8000:3000"
+  links:
+    - database
+    - cache
+ui:
+  image: nginx
+  volumes:
+    - ./ui/:/usr/share/nginx/html/
+    - ./images/nginx/conf.d:/etc/nginx/conf.d
+  working_dir: /ui/
+  environment:
+    - VIRTUAL_HOST=dev.ieeeutd.org
+    - VIRTUAL_PORT=80
+  ports:
+    - "8001:80"
+  links:
+    - api
+database:
+  image: mongo
+nginx:
+  image: jwilder/nginx-proxy
+  volumes:
+    - /var/run/docker.sock:/tmp/docker.sock
+    - ./certs/:/etc/nginx/certs
+  ports:
+    - "80:80"
+    - "443:443"
