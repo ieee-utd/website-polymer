@@ -8,9 +8,9 @@ api:
   working_dir: /ieeeutd-api/
   command: npm run dev
   environment:
-    - VIRTUAL_HOST=dev.ieeeutd.org
+    - VIRTUAL_HOST=api.dev.ieeeutd.org
     - VIRTUAL_PORT=3000
-    - ORIGIN=http://dev.ieeeutd.com
+    - ORIGIN=http://api.dev.ieeeutd.com
     - SESSION_SECRET=aASKF4AFjas52wFSAF
     - CACHE_HOST=cache
   ports:
@@ -22,7 +22,6 @@ ui:
   image: nginx
   volumes:
     - ./ui/:/usr/share/nginx/html/
-    - ./images/nginx/conf.d:/etc/nginx/conf.d
   working_dir: /ui/
   environment:
     - VIRTUAL_HOST=dev.ieeeutd.org
