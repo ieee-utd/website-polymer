@@ -5,14 +5,10 @@ class PageMain extends PolymerElement {
   static get template() {
     return html`
       <style include="shared-styles">
-        :host {
-          display: block;
-
-          padding: 10px;
-        }
+        
       </style>
 
-      <div class="card">
+      <div>
         <div class="circle">1</div>
         <h1>View One</h1>
         <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
