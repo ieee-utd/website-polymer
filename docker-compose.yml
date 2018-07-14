@@ -8,8 +8,6 @@ api:
   working_dir: /ieeeutd-api/
   command: npm run dev
   environment:
-    - VIRTUAL_HOST=api.dev.ieeeutd.org
-    - VIRTUAL_PORT=3000
     - ORIGIN=http://api.dev.ieeeutd.com
     - SESSION_SECRET=aASKF4AFjas52wFSAF
     - CACHE_HOST=cache
@@ -19,24 +17,22 @@ api:
     - database
     - cache
 ui:
+  volumes:
+    - ./ui/:/ui/
+  build: ./images/ui/
+  command: /ui-runtime/node_modules/polymer-cli/bin/polymer.js serve --port 5000
+  working_dir: /ui/
+  ports:
+    - "5000:5000"
+nginx:
   image: nginx
   volumes:
-    - ./ui/:/usr/share/nginx/html/
-  working_dir: /ui/
-  environment:
-    - VIRTUAL_HOST=dev.ieeeutd.org
-    - VIRTUAL_PORT=80
-  ports:
-    - "8001:80"
-  links:
-    - api
-database:
-  image: mongo
-nginx:
-  image: jwilder/nginx-proxy
-  volumes:
-    - /var/run/docker.sock:/tmp/docker.sock
+    - ./images/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     - ./certs/:/etc/nginx/certs
   ports:
     - "80:80"
-    - "443:443"
+  links:
+    - api
+    - ui
+database:
+  image: mongo
