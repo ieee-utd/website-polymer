@@ -1,5 +1,5 @@
-import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
-import './shared-styles.js';
+import { PolymerElement, html } from '../../node_modules/@polymer/polymer/polymer-element.js';
+import '../shared-styles.js';
 
 class PageCommittees extends PolymerElement {
   static get template() {
