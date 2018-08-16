@@ -1,6 +1,8 @@
 cache:
+  container_name: ieeeutd_cache
   image: redis
 api:
+  container_name: ieeeutd_api
   build: ./images/api/
   volumes:
     - ./api/:/ieeeutd-api/
@@ -17,6 +19,7 @@ api:
     - database
     - cache
 ui:
+  container_name: ieeeutd_ui
   volumes:
     - ./ui/:/ui/
   build: ./images/ui/
@@ -25,6 +28,7 @@ ui:
   ports:
     - "5000:5000"
 nginx:
+  container_name: ieeeutd_nginx
   image: nginx
   volumes:
     - ./images/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
@@ -35,4 +39,5 @@ nginx:
     - api
     - ui
 database:
-  image: mongo
+  container_name: ieeeutd_db
+  image: mongo:4.0
