@@ -1,4 +1,4 @@
-import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import { PolymerElement, html } from '../../node_modules/@polymer/polymer/polymer-element.js';
 // import '../elements/poly-hero.js';
 import '../elements/poly-card.js';
 import '../shared-styles.js';
@@ -11,7 +11,7 @@ class PageMain extends PolymerElement {
           display: block;
           background-color: #212121;
         }
-        
+
         .main {
           min-height: calc(100vh - 128px);
           display: flex;
@@ -21,7 +21,7 @@ class PageMain extends PolymerElement {
           margin: 0 auto;
           padding: 64px 0;
         }
-        
+
         .col {
           flex-grow: 1;
           min-width: 320px;
@@ -53,4 +53,3 @@ class PageMain extends PolymerElement {
 }
 
 window.customElements.define('page-main', PageMain);
-

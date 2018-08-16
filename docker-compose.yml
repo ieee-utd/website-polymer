@@ -23,7 +23,7 @@ ui:
   volumes:
     - ./ui/:/ui/
   build: ./images/ui/
-  command: /ui-runtime/node_modules/polymer-cli/bin/polymer.js serve --port 5000 --hostname 0.0.0.0
+  command: /ui-runtime/node_modules/polymer-cli/bin/polymer.js serve --port 5000 --hostname 0.0.0.0 --npm
   working_dir: /ui/
   ports:
     - "5000:5000"

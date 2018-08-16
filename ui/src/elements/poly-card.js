@@ -1,15 +1,15 @@
 /*
- * TODO: 
+ * TODO:
  * - xhr
  * - for* rows
  * - more button for each row
- * - default nothing image 
+ * - default nothing image
  */
 
-import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import { PolymerElement, html } from '@polymer/polymer/polymer-element';
 
-import '@polymer/paper-button/paper-button.js';
-import '@polymer/iron-icons/iron-icons.js';
+import '@polymer/paper-button/paper-button';
+import '@polymer/iron-icons/iron-icons';
 import '@polymer/paper-icon-button/paper-icon-button';
 import '../shared-styles.js';
 
@@ -37,7 +37,7 @@ class PolyCard extends PolymerElement {
           overflow: hidden;
           color: white;
         }
-        
+
         .card-title {
           width: calc(100% - 32px);
           height: 50px;
@@ -64,7 +64,7 @@ class PolyCard extends PolymerElement {
           position: absolute;
           bottom: 50px;
         }
-        
+
         .card-action {
           width: calc(100% - 32px);
           height: 50px;
@@ -77,7 +77,7 @@ class PolyCard extends PolymerElement {
           font-weight: 600;
           color: white;
         }
-        
+
         .card-row {
           width: 100%;
           height: 150px;
