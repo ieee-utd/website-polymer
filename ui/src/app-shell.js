@@ -13,6 +13,8 @@ import '@polymer/iron-selector/iron-selector.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
 import './app-icons.js';
 
+import './elements/poly-toolbar.js';
+
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.
 setPassiveTouchGestures(true);
@@ -32,7 +34,7 @@ class AppShell extends PolymerElement {
           display: block;
         }
 
-        app-drawer-layout:not([narrow]) [drawer-toggle] {
+        /* app-drawer-layout:not([narrow]) [drawer-toggle] {
           display: none;
         }
 
@@ -60,6 +62,12 @@ class AppShell extends PolymerElement {
         .drawer-list a.iron-selected {
           color: black;
           font-weight: bold;
+        } */
+
+        poly-toolbar {
+          --bar-height: 64px;
+          --background-absolute: transparent;
+          --background-relative: gray;
         }
       </style>
 
@@ -69,8 +77,7 @@ class AppShell extends PolymerElement {
       <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}">
       </app-route>
 
-      <app-drawer-layout fullbleed="" narrow="{{narrow}}">
-        <!-- Drawer content -->
+      <!-- <app-drawer-layout fullbleed="" narrow="{{narrow}}">
         <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
           <app-toolbar>Menu</app-toolbar>
           <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
@@ -80,7 +87,6 @@ class AppShell extends PolymerElement {
           </iron-selector>
         </app-drawer>
 
-        <!-- Main content -->
         <app-header-layout has-scrolling-region="">
 
           <app-header slot="header" condenses="" reveals="" effects="waterfall">
@@ -94,7 +100,17 @@ class AppShell extends PolymerElement {
             <page-main name="main"></page-main>
           </iron-pages>
         </app-header-layout>
-      </app-drawer-layout>
+      </app-drawer-layout> -->
+
+      <div class="main">
+        <poly-toolbar position="[[toolbarPosition]]" page="[[page]]"></poly-toolbar>
+        <iron-pages selected="[[page]]" attr-for-selected="name" role="main">
+          <page-main name="main"></page-main>
+          <my-view2 name="view2"></my-view2>
+          <my-view3 name="view3"></my-view3>
+          <page-ohnoes name="ohnoes"></page-ohnoes>
+        </iron-pages>
+      </div>
     `;
   }
 
@@ -105,8 +121,9 @@ class AppShell extends PolymerElement {
         reflectToAttribute: true,
         observer: '_pageChanged'
       },
+      toolbarPosition: String,
       routeData: Object,
-      subroute: Object
+      subroute: Object,
     };
   }
 
@@ -123,16 +140,20 @@ class AppShell extends PolymerElement {
      // Show 'view1' in that case. And if the page doesn't exist, show 'view404'.
     if (!page) {
       this.page = 'main';
+      this.toolbarPosition = 'absolute';
     } else if (['main', 'view2', 'view3'].indexOf(page) !== -1) {
       this.page = page;
+      if (page === 'main') this.toolbarPosition = 'absolute';
+      else this.toolbarPosition = 'relative';
     } else {
       this.page = 'ohnoes';
+      this.toolbarPosition = 'relative';
     }
 
     // Close a non-persistent drawer when the page & route are changed.
-    if (!this.$.drawer.persistent) {
-      this.$.drawer.close();
-    }
+    // if (!this.$.drawer.persistent) {
+    //   this.$.drawer.close();
+    // }
   }
 
   _pageChanged(page) {
@@ -144,6 +165,16 @@ class AppShell extends PolymerElement {
       case 'main':
         import('./pages/page-main.js');
         break;
+      case 'view2':
+        import('./pages/page-officers.js');
+        break;
+      case 'view3':
+        import('./pages/page-committees.js');
+        break;
+      case 'ohnoes':
+        import('./pages/page-ohnoes.js');
+        break;
+
     }
   }
 }
