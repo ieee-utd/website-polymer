@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { PolymerElement, html } from '../../node_modules/@polymer/polymer/polymer-element.js';
 import '../elements/poly-hero.js';
+=======
+import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+// import '../elements/poly-hero.js';
+>>>>>>> 8c1186f6c295568792a1c2ae0e390b9088bf2cbe
 import '../elements/poly-card.js';
 import '../shared-styles.js';
 
