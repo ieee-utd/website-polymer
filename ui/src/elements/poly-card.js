@@ -7,10 +7,11 @@
  */
 
 import { PolymerElement, html } from '@polymer/polymer/polymer-element';
-
 import '@polymer/paper-button/paper-button';
 import '@polymer/iron-icons/iron-icons';
 import '@polymer/paper-icon-button/paper-icon-button';
+import '@polymer/iron-image/iron-image';
+import './poly-row.js';
 import '../shared-styles.js';
 
 class PolyCard extends PolymerElement {
@@ -19,115 +20,206 @@ class PolyCard extends PolymerElement {
       <style include="shared-styles">
         :host {
           display: block;
+          width: 100%;
+        }
+        
+        .mask[expand] {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          min-width: 320px;
+          min-height: 500px;
+          height: 100%;
+          z-index: 1;
+        }
+
+        .mask-inner[expand] {
+          position: relative;
+          max-width: 980px;
+          min-width: 320px;
+          height: calc(100% - 128px);
+          margin: 0 auto;
+          padding: 64px 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: #212121;
+        }
+        
+        .card[expand] {
+          position: relative;
+          width: 100%;
+          height: 100%;
         }
 
         .card {
           width: 100%;
-          height: 250px;
-          border-radius: 7px;
+          min-height: 300px;
+          max-height: 550px;
+          border-radius: 12px;
           background-color: #424242;
           box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-          position: relative;
-        }
-
-        .card-content {
-          width: calc(100% - 32px);
-          padding: 0 16px;
-          height: calc(100% - 50px - 32px - 16px);
-          overflow: hidden;
-          color: white;
         }
 
         .card-title {
-          width: calc(100% - 32px);
-          height: 50px;
-          background-color: #C75B13;
-          border-top-left-radius: 7px;
-          border-top-right-radius: 7px;
-          font-size: 20pt;
-          font-weight: 700;
+          min-height: 32px;
+          padding: 8px 5px 8px 16px;
+          border-top-left-radius: 12px;
+          border-top-right-radius: 12px;
+          background-color: #c75b13;
+          font-size: 18pt;
+          font-weight: 500;
           display: flex;
           align-items: center;
-          padding: 0 16px;
-          color: white;
+          color: #fff;
+        }
+        
+        .title-inner {
+          display: flex;
+          flex-flow: row wrap;
+          align-items: center;
+        }
+        
+        .title {
+          display: block;
+          margin-right: 32px;
         }
 
-        .card-title-spacer {
+        .title-spacer {
           display: block;
           flex-grow: 1;
         }
 
-        .card-content-blur {
-          width: 100%;
-          height: 80px;
-          background: linear-gradient(to bottom, rgba(66,66,66,0), rgba(66,66,66,1));
-          position: absolute;
-          bottom: 50px;
+        .title-button {
+          background-color: transparent;
+          border: 2px solid #fff;
+          border-radius: 7px;
+          padding: 3px 5px;
+          text-transform: none;
+          color: #fff;
+          font-size: 11pt;
+          margin-right: 12px;
+          cursor: pointer;
         }
 
-        .card-action {
-          width: calc(100% - 32px);
-          height: 50px;
-          position: relative;
-          flex-flow: row wrap;
+        paper-icon-button {
           display: flex;
           justify-content: center;
           align-items: center;
-          margin: 0 16px;
-          font-weight: 600;
-          color: white;
         }
 
-        .card-row {
+        .card-content {
           width: 100%;
-          height: 150px;
-          margin-top: 10px;
-          margin-bottom: 32px;
+          min-height: 242px;
+          height: 100%;
+          max-height: 492px;
+          border-bottom-left-radius: 12px;
+          border-bottom-right-radius: 12px;
+          overflow: scroll;
+          color: #d8d8d8;
         }
 
-        .card-row-title {
+        .no-content {
+          width: 100%;
+          height: 100%;
+          min-height: 245px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        
+        .no-content-inner {
+          display: block;
+          text-align: center;
+        }
+
+        .no-content-title {
           font-size: 16pt;
           font-weight: 600;
-          margin: 0 0 10px 0;
+          color: #c75b13;
+          text-transform: capitalize;
+          display: block;
         }
 
-        .card-row-content {
-          margin: 0;
-          height: 100px;
-          overflow: hidden;
-          display: -webkit-box;
-          -webkit-line-clamp: 4;
-          -webkit-box-orient: vertical;
+        .no-content-message {
+          display: block;
+        }
+
+        iron-image {
+          --iron-image-height: 100px;
+        }
+
+        poly-row {
+          margin-bottom: 2px;
         }
       </style>
 
-      <div class="card">
-        <div class="card-title">
-          Title
-          <span class="card-title-spacer"></span>
-          <paper-icon-button icon="open-in-new"></paper-icon-button>
-        </div>
-        <div class="card-content">
-          <div class="card-row">
-            <h3 class="card-row-title">Row 2</h3>
-            <div class="card-row-content">
-              Artisan gastropub coloring book pok pok yr. Ramps poutine truffaut tacos snackwave mixtape schlitz normcore aesthetic. Chartreuse gluten-free forage, pabst humblebrag etsy food truck chillwave listicle. Hella pork belly leggings artisan art party shaman actually mustache pug. Actually tilde marfa scenester fashion axe shaman live-edge iPhone chillwave palo santo williamsburg coloring book crucifix chambray.
+      <div class="mask" expand$="[[expand]]"><div class="mask-inner" expand$="[[expand]]">
+        <div class="card" expand$="[[expand]]">
+          <div class="card-title">
+            <div class="title-inner">
+              <span class="title">[[title]]</span>
+              <dom-if if="[[button]]">
+                <template>
+                  <a href="[[button.link]]" target="_blank"><paper-button noink class="title-button">[[button.name]]</paper-button>
+                </template>
+              </dom-if>
             </div>
+            <span class="title-spacer"></span>
+            <paper-icon-button icon="[[sizeIcon]]" on-tap="resizeCard"></paper-icon-button>
+          </div>
+          <div class="card-content" expand$="[[expand]]">
+            <dom-if if="[[_noContent()]]">
+              <template>
+                <div class="no-content">
+                  <div class="no-content-inner">
+                    <iron-image src="[[image]]"></iron-image>
+                    <span class="no-content-title">No [[title]]!</span>
+                    <slot></slot>
+                  </div>
+                </div>
+              </template>
+            </dom-if>
+            <dom-if if="[[!_noContent()]]">
+              <template>
+                <dom-repeat items="[[items]]">
+                  <template>
+                    <poly-row title="[[item.title]]" time="[[item.time]]" location="[[item.location]]" content="[[item.content]]"></poly-row>
+                  </template>
+                </dom-repeat>
+              </template>
+            </dom-if>
           </div>
         </div>
-        <div class="card-content-blur"></div>
-        <div class="card-action"><paper-button>View more</paper-button></div>
-      </div>
+      </div></div>
     `;
   }
 
   static get properties() {
     return {
-      active: {
+      image: String,
+      title: String,
+      button: Object,
+      items: Array,
+      sizeIcon: {
+        type: String,
+        value: 'fullscreen'
+      },
+      expand: {
         type: Boolean,
         value: false
       }
     }
+  }
+
+  resizeCard() {
+    this.sizeIcon = (this.sizeIcon === 'fullscreen') ? 'fullscreen-exit' : 'fullscreen';
+    this.expand = (this.expand == false) ? true : false;
+  }
+
+  _noContent() {
+    return this.items.length == 0;
   }
 }
 

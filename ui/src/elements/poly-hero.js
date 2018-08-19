@@ -9,30 +9,21 @@ class PolyHero extends PolymerElement {
           display: block;
         }
 
-        .image {
+        .hero {
           width: 100%;
-          height: var(--hero-height);
-          background: url("/images/circuit.jpg") no-repeat center center fixed;
+          height: 500px;
+          position: absolute;
+          top: 0;
+          left: 0;
+          background: url("/img/hero.svg");
+          background-position: center 10%;
           background-size: cover;
-          position: absolute;
-          display: inline-block;
-          opacity: 0.3;
-          top: 0;
-          right: 0;
-        }
-
-        .gradient {
-          width: 100%;
-          height: var(--hero-height);
-          background: linear-gradient(to bottom, rgba(0,0,0,0.7),rgba(0,0,0,0.15));
-          position: absolute;
-          top: 0;
-          right: 0;
         }
       </style>
 
-      <div class="image"></div>
-      <div class="gradient"></div>
+      <div class="hero">
+
+      </div>
     `;
   }
 }
