@@ -89,14 +89,27 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 import { Strategy } from "passport-local";
-import { User } from "./models";
+import { Officer } from "./models";
 passport.use('local', new Strategy( { usernameField: "email", passwordField: "password" }, async (username: any, password: any, done: any) => {
-  let user: any = await User.findOne({ email: username.toLowerCase().trim() });
+  let user: any = await Officer.findOne({ email: username.toLowerCase().trim() });
 
   if (user) {
     easyPbkdf2.verify(user.passwordSalt, user.passwordHash, password, (err: any, valid: any) => {
       if (valid) {
-        return done(null, user);
+        if (!user.permissionLevel || user.permissionLevel < 2) {
+          return done({
+            status: 401,
+            message: "Account disabled"
+          })
+        } else if (user.requirePasswordChange) {
+          return done({
+            status: 401,
+            message: "Password change required",
+            action: "setPassword"
+          });
+        } else {
+          return done(null, user);
+        }
       } else {
         return done(null, false);
       }
@@ -114,7 +127,7 @@ passport.serializeUser(async (user: any, done: any) => {
 });
 
 passport.deserializeUser(async (serializedUser: any, done: any) => {
-  var user = await User.findById(serializedUser._id)
+  var user = await Officer.findById(serializedUser._id)
   .select("firstName lastName email _id");
 
   done(null, user);
