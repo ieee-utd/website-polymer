@@ -1,5 +1,5 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
-// import '../elements/poly-hero.js';
+import '../elements/poly-hero.js';
 import '../elements/poly-card.js';
 import '../shared-styles.js';
 

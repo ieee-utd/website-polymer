@@ -15,7 +15,7 @@ class PolyHero extends PolymerElement {
           position: absolute;
           top: 0;
           left: 0;
-          background: url("/img/hero.svg");
+          background: url('/img/hero.svg');
           background-position: center 10%;
           background-size: cover;
         }
