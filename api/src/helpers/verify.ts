@@ -32,15 +32,16 @@ export function userCan(action: string) {
   assert(typeof minLevel !== 'undefined', `Invalid user action ${action}`);
 
   return function(req: any, res: any, next: any) {
+    console.log(req.user)
     if (!req.isAuthenticated || !req.isAuthenticated()) {
       next({
         status: 401,
         message: "Must be logged in"
       });
-    } else if (!req.user.permissionLevel < minLevel) {
+    } else if (!req.user.permissionLevel || req.user.permissionLevel < minLevel) {
       next({
         status: 403,
-        message: "Not allowed"
+        message: "Not allowed to access this request"
       });
     } else {
       next();
