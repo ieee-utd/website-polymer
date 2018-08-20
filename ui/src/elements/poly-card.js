@@ -44,19 +44,18 @@ class PolyCard extends PolymerElement {
           display: flex;
           justify-content: center;
           align-items: center;
-          background-color: #212121;
         }
         
         .card[expand] {
           position: relative;
           width: 100%;
           height: 100%;
+          transition: all 0.5s;
         }
 
         .card {
           width: 100%;
-          min-height: 300px;
-          max-height: 550px;
+          height: 300px;
           border-radius: 12px;
           background-color: #424242;
           box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -75,15 +74,8 @@ class PolyCard extends PolymerElement {
           color: #fff;
         }
         
-        .title-inner {
-          display: flex;
-          flex-flow: row wrap;
-          align-items: center;
-        }
-        
         .title {
           display: block;
-          margin-right: 32px;
         }
 
         .title-spacer {
@@ -99,11 +91,20 @@ class PolyCard extends PolymerElement {
           text-transform: none;
           color: #fff;
           font-size: 11pt;
-          margin-right: 12px;
+          margin: 0;
           cursor: pointer;
+          margin-left: 10px;
+        }
+
+        .title-button:focus {
+          font-weight: 500;
+          border: 2px solid #fff;
         }
 
         paper-icon-button {
+          width: 32px;
+          height: 32px;
+          padding: 4px;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -111,12 +112,10 @@ class PolyCard extends PolymerElement {
 
         .card-content {
           width: 100%;
-          min-height: 242px;
-          height: 100%;
-          max-height: 492px;
+          height:  calc(100% - 53px);
           border-bottom-left-radius: 12px;
           border-bottom-right-radius: 12px;
-          overflow: scroll;
+          overflow: auto;
           color: #d8d8d8;
         }
 
@@ -158,14 +157,12 @@ class PolyCard extends PolymerElement {
       <div class="mask" expand$="[[expand]]"><div class="mask-inner" expand$="[[expand]]">
         <div class="card" expand$="[[expand]]">
           <div class="card-title">
-            <div class="title-inner">
-              <span class="title">[[title]]</span>
-              <dom-if if="[[button]]">
-                <template>
-                  <a href="[[button.link]]" target="_blank"><paper-button noink class="title-button">[[button.name]]</paper-button>
-                </template>
-              </dom-if>
-            </div>
+            <span class="title">[[title]]</span>
+            <dom-if if="[[button]]">
+              <template>
+                <a href="[[button.link]]" target="_blank"><paper-button noink class="title-button">[[button.name]]</paper-button>
+              </template>
+            </dom-if>
             <span class="title-spacer"></span>
             <paper-icon-button icon="[[sizeIcon]]" on-tap="resizeCard"></paper-icon-button>
           </div>

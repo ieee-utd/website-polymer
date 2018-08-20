@@ -20,6 +20,7 @@ class PageContact extends PolymerElement {
 
       <div class="main">
         <h1>Contact</h1>
+        <p>Have questions to ask us? We're active on Facebook and Email. Email is our preferred of contact.</p>
       </div>
     `;
   }

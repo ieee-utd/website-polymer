@@ -12,7 +12,7 @@ class PolyToolbar extends PolymerElement {
           height: var(--bar-height);
           display: flex;
           justify-content: center;
-          overflow: scroll;
+          overflow: auto;
         }
         :host([position="absolute"]) {
           position: absolute;

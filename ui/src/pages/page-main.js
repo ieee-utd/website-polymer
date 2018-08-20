@@ -17,7 +17,7 @@ class PageMain extends PolymerElement {
           left: 0;
           width: 100%;
           min-height: 700px;
-          height: 100%;
+          height: 100vh;
           background-color: #212121;
         }
 
@@ -57,7 +57,7 @@ class PageMain extends PolymerElement {
         }
       </style>
 
-      
+      <!-- TODO: fix background height -->
       <div class="main">
         <poly-hero></poly-hero>
         <div class="content">
@@ -68,7 +68,7 @@ class PageMain extends PolymerElement {
               </poly-card>
             </div>
             <div class="col">
-              <poly-card title="Events" button='{"name": "Add to GCal", "link": "https://calendar.google.com/calendar?cid=ZTluYjE4YTE3cWY2OThoNzJnMnRyNGVjYW9AZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ"}' items='[[items]]' image="/img/calendar-question.svg">
+              <poly-card title="Events" button='{"name": "Add to GCal", "link": "https://calendar.google.com/calendar?cid=ZTluYjE4YTE3cWY2OThoNzJnMnRyNGVjYW9AZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ"}' items='[]' image="/img/calendar-question.svg">
                 <span class="no-content-message">Check back soon for the latest events.</span>
               </poly-card>
             </div>
@@ -87,7 +87,7 @@ class PageMain extends PolymerElement {
     return {
       items: {
         type: Array,
-        value: [{"title": "Row 1", "time": "Jan 3, 4-6pm", "location": {"name": "Makerspace", "link": "https://www.google.com/maps/place/UTDallas+Makerspace/@32.9982837,-96.6722161,13z/data=!4m8!1m2!2m1!1sutd+makerspace!3m4!1s0x864c2206dfe20ddb:0x1906acd349077109!8m2!3d32.9935207!4d-96.7521344"}, "content": "Fixie thundercats 90's pabst etsy. Messenger bag echo park humblebrag yr, sriracha gastropub hella gentrify etsy chia forage air plant tumblr. Hot chicken blue bottle actually mlkshk disrupt copper mug kogi enamel pin. Coloring book hashtag banh mi, viral gochujang whatever post-ironic listicle meditation pinterest."}]
+        // value: [{"title": "Row 1", "time": "Jan 3, 4-6pm", "location": {"name": "Makerspace", "link": "https://www.google.com/maps/place/UTDallas+Makerspace/@32.9982837,-96.6722161,13z/data=!4m8!1m2!2m1!1sutd+makerspace!3m4!1s0x864c2206dfe20ddb:0x1906acd349077109!8m2!3d32.9935207!4d-96.7521344"}, "content": "Fixie thundercats 90's pabst etsy. Messenger bag echo park humblebrag yr, sriracha gastropub hella gentrify etsy chia forage air plant tumblr. Hot chicken blue bottle actually mlkshk disrupt copper mug kogi enamel pin. Coloring book hashtag banh mi, viral gochujang whatever post-ironic listicle meditation pinterest."}]
         // value: [{"title": "Row 1", "time": "Jan 3, 4-6pm", "location": {}, "content": "Fixie thundercats 90's pabst etsy. Messenger bag echo park humblebrag yr, sriracha gastropub hella gentrify etsy chia forage air plant tumblr. Hot chicken blue bottle actually mlkshk disrupt copper mug kogi enamel pin. Coloring book hashtag banh mi, viral gochujang whatever post-ironic listicle meditation pinterest."}]
       }
     }
