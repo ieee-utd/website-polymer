@@ -106,8 +106,9 @@ class AppShell extends PolymerElement {
         <poly-toolbar position="[[toolbarPosition]]" page="[[page]]"></poly-toolbar>
         <iron-pages selected="[[page]]" attr-for-selected="name" role="main">
           <page-main name="main"></page-main>
-          <my-view2 name="view2"></my-view2>
-          <my-view3 name="view3"></my-view3>
+          <page-about name="about"></page-about>
+          <page-tutoring name="tutoring"></page-tutoring>
+          <page-contact name="contact"></page-contact>
           <page-ohnoes name="ohnoes"></page-ohnoes>
         </iron-pages>
       </div>
@@ -141,7 +142,7 @@ class AppShell extends PolymerElement {
     if (!page) {
       this.page = 'main';
       this.toolbarPosition = 'absolute';
-    } else if (['main', 'view2', 'view3'].indexOf(page) !== -1) {
+    } else if (['main', 'about', 'tutoring', 'contact'].indexOf(page) !== -1) {
       this.page = page;
       if (page === 'main') this.toolbarPosition = 'absolute';
       else this.toolbarPosition = 'relative';
@@ -165,11 +166,14 @@ class AppShell extends PolymerElement {
       case 'main':
         import('./pages/page-main.js');
         break;
-      case 'view2':
-        import('./pages/page-officers.js');
+      case 'about':
+        import('./pages/page-about.js');
         break;
-      case 'view3':
-        import('./pages/page-committees.js');
+      case 'tutoring':
+        import('./pages/page-tutoring.js');
+        break;
+      case 'contact':
+        import('./pages/page-contact.js');
         break;
       case 'ohnoes':
         import('./pages/page-ohnoes.js');
