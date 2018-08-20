@@ -15,7 +15,8 @@ export let CreateOfficerUserSchema = {
     "password": Joi.string().min(8).required(),
     "memberSince": Joi.number().integer().min(1900).max(2100),
     "bioMarkdown": Joi.string(),
-    "position": Joi.string()
+    "position": Joi.string(),
+    "permissionLevel": Joi.number().integer().min(1).max(5).required()
   }).unknown(false)
 }
 

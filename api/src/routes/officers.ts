@@ -3,6 +3,7 @@ import * as moment from "moment";
 
 const validate = require('express-validation')
 
+import { cleanUser, cleanAll } from "../helpers/clean";
 import { CreateOfficerUserSchema, UpdateOfficerUserSchema } from "../helpers/schema";
 import { userCan } from "../helpers/verify";
 const EasyPbkdf2 = require('easy-pbkdf2');
@@ -13,12 +14,14 @@ import { Officer } from "../models";
 export let route = express.Router();
 //list officers (non-privileged)
 route.get('/', async (req: any, res: any, next: any) => {
-
+  let officers = await Officer.find();
+  res.send(cleanAll(officers, cleanUser));
 })
 
 //list officers (admin)
 route.get('/list', userCan("manageUsers"), async (req: any, res: any, next: any) => {
-  
+  let officers = await Officer.find();
+  res.send(cleanAll(officers, cleanUser));
 })
 
 //create officer
@@ -33,6 +36,7 @@ route.post("/", userCan("manageUsers"), validate(CreateOfficerUserSchema), async
       passwordHash: hash,
       passwordSalt: originalSalt,
       requirePasswordChange: true,
+      permissionLevel: req.body.permissionLevel,
 
       memberSince: req.body.memberSince || moment().year(),
       bioMarkdown: req.body.bioMarkdown || undefined,
@@ -77,4 +81,4 @@ route.put('/:userid', validate(UpdateOfficerUserSchema), userCan("manageUsers"),
   }
 })
 
-//TODO enable, disable officers by converting them to members
+//TODO enable, disable officers by converting them to members (or even to tutors)

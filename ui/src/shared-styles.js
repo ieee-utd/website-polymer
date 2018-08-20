@@ -21,6 +21,9 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
       p {
         font-family: var(--font-main);
       }
+      [hidden] {
+        display: none!important;
+      }
     </style>
   </template>
 </dom-module>`;

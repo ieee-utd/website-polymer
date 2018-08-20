@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 const errorMessages: {[index:string] : string} = {
 
 };
@@ -22,7 +24,8 @@ function cleanErrorMessage(s: string, key: string) {
 export function getErrorForm(_errors: any) {
   var errors : {[index:string] : string}= { };
   for (var i in _errors) {
-    errors[_errors[i].field.replace(/\./g,"-")] = getErrorMessage(_errors[i].field) || cleanErrorMessage(_errors[i].messages[0].replace(/"/g, "").replace(/'/g, ""), _errors[i].field) || "Invalid value";
+    let field = (_.isArray(_errors[i].field)) ? _errors[i].field[0] : _errors[i].field;
+    errors[field.replace(/\./g,"-")] = getErrorMessage(field) || cleanErrorMessage(_errors[i].messages[0].replace(/"/g, "").replace(/'/g, ""), field) || "Invalid value";
   }
   return errors;
 }

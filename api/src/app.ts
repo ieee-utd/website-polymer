@@ -128,7 +128,7 @@ passport.serializeUser(async (user: any, done: any) => {
 
 passport.deserializeUser(async (serializedUser: any, done: any) => {
   var user = await Officer.findById(serializedUser._id)
-  .select("firstName lastName email _id");
+  .select("firstName lastName email _id permissionLevel");
 
   done(null, user);
 });
