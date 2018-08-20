@@ -26,7 +26,9 @@
     "@polymer/paper-button": "^3.0.0-pre.21",
     "@polymer/paper-icon-button": "^3.0.0-pre.15",
     "@polymer/polymer": "^3.0.0",
-    "@webcomponents/webcomponentsjs": "^2.0.0"
+    "@webcomponents/webcomponentsjs": "^2.0.0",
+    "jquery": "^3.3.1",
+    "moment": "^2.22.2"
   },
   "devDependencies": {
     "wct-browser-legacy": "^1.0.0"

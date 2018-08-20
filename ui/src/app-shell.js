@@ -13,7 +13,9 @@ import '@polymer/iron-selector/iron-selector.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
 import './app-icons.js';
 
+import './shared-styles.js';
 import './elements/poly-toolbar.js';
+import { BaseElement } from './base-element.js';
 
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.
@@ -23,10 +25,10 @@ setPassiveTouchGestures(true);
 // in `index.html`.
 setRootPath(AppGlobals.rootPath);
 
-class AppShell extends PolymerElement {
+class AppShell extends BaseElement {
   static get template() {
     return html`
-      <style>
+      <style include="shared-styles">
         :host {
           --app-primary-color: #4285f4;
           --app-secondary-color: black;

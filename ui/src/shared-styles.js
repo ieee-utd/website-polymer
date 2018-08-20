@@ -5,10 +5,10 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
   <template>
     <style>
       :host {
-        --color-primary: #C75B12; //orange
-        --color-background: #212121; //dark grey
-        --color-secondary: #424242; //grey
-        --color-secondary-active: #666666; //lighter grey
+        --color-primary: #C75B12;
+        --color-background: #212121;
+        --color-secondary: #424242;
+        --color-secondary-active: #666666;
 
         --font-head: "Rubik";
         --font-main: "Roboto";
