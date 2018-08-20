@@ -5,7 +5,9 @@ var schema = new mongoose.Schema({
   startTime: { type: Date, required: true },
   endTime: { type: Date },
   locationName: { type: String },
-  locationUrl: { type: String }
+  locationUrl: { type: String },
+  reservationLink: { type: String },
+  reservationRequired: { type: Boolean, default: false }
 });
 
 schema.index({ __t: 1, startTime: -1 });

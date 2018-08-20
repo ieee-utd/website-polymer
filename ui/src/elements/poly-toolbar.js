@@ -25,8 +25,7 @@ class PolyToolbar extends PolymerElement {
           background-color: var(--background-relative);
         }
         nav {
-          width: 700px;
-          height: 100%;
+          width: 100%;
           margin: 0;
           padding: 0;
           display: flex;
@@ -47,7 +46,7 @@ class PolyToolbar extends PolymerElement {
         a:hover {
           color: #d3d3d3;
         }
-        
+
         .logo {
           display: block;
           margin: 0 0 0 24px;
@@ -65,11 +64,13 @@ class PolyToolbar extends PolymerElement {
       </style>
 
       <nav class="main">
-        <span class="logo"><iron-icon src="[[icon]]"></iron-icon></span>
-        <span><a href="[[rootPath]]main" active$="[[active.main]]">Home</a></span>
-        <span><a href="[[rootPath]]about" active$="[[active.about]]">About</a></span>
-        <span><a href="[[rootPath]]tutoring" active$="[[active.tutoring]]">Tutoring</a></span>
-        <span><a href="[[rootPath]]contact" active$="[[active.contact]]">Contact</a></span>
+        <app-container>
+          <span class="logo"><iron-icon src="[[icon]]"></iron-icon></span>
+          <span><a href="[[rootPath]]main" active$="[[active.main]]">Home</a></span>
+          <span><a href="[[rootPath]]about" active$="[[active.about]]">About</a></span>
+          <span><a href="[[rootPath]]tutoring" active$="[[active.tutoring]]">Tutoring</a></span>
+          <span><a href="[[rootPath]]contact" active$="[[active.contact]]">Contact</a></span>
+        </app-container>
       </div>
     `;
   }

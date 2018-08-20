@@ -11,11 +11,14 @@ import '@polymer/app-route/app-route.js';
 import '@polymer/iron-pages/iron-pages.js';
 import '@polymer/iron-selector/iron-selector.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
-import './app-icons.js';
 
 import './shared-styles.js';
-import './elements/poly-toolbar.js';
+import './app-icons.js';
+import './mdi.js'
 import { BaseElement } from './base-element.js';
+
+import './elements/poly-toolbar.js';
+import './elements/drawer-item.js';
 
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.
@@ -29,48 +32,114 @@ class AppShell extends BaseElement {
   static get template() {
     return html`
       <style include="shared-styles">
-        :host {
-          --app-primary-color: #4285f4;
-          --app-secondary-color: black;
+      :host {
+        display: block;
+        min-height: 100vh;
+        background-color: var(--background-color);
 
-          display: block;
-        }
-
-        /* app-drawer-layout:not([narrow]) [drawer-toggle] {
-          display: none;
-        }
-
-        app-header {
-          color: #fff;
-          background-color: var(--app-primary-color);
-        }
-
-        app-header paper-icon-button {
-          --paper-icon-button-ink-color: white;
-        }
-
-        .drawer-list {
-          margin: 0 20px;
-        }
-
-        .drawer-list a {
-          display: block;
-          padding: 0 16px;
-          text-decoration: none;
-          color: var(--app-secondary-color);
-          line-height: 40px;
-        }
-
-        .drawer-list a.iron-selected {
-          color: black;
-          font-weight: bold;
-        } */
-
-        poly-toolbar {
-          --bar-height: 64px;
-          --background-absolute: transparent;
-          --background-relative: gray;
-        }
+        --app-drawer-width: 300px;
+      }
+      app-drawer-layout:not([narrow]) [drawer-toggle] {
+        display: none;
+      }
+      app-header {
+        color: #fff;
+        background-color: var(--primary-color);
+      }
+      app-header[transparent] {
+        background-color: rgba(0,0,0,0.4);
+      }
+      app-header app-toolbar {
+        @apply --font-head;
+        font-size: 24px;
+      }
+      app-header img.logo {
+        width: 36px;
+        height: 36px;
+        margin-right: 12px;
+      }
+      app-toolbar {
+        padding: 0 8px;
+        background-color: var(--color-background);
+      }
+      app-toolbar div {
+        @apply --layout-horizontal;
+        @apply --layout-center;
+        @apply --layout-center-justified;
+      }
+      app-toolbar span.tab {
+        @apply --layout-vertical;
+        @apply --layout-center;
+        @apply --layout-center-justified;
+      }
+      app-toolbar span.tab > a {
+        font-family: "Rubik";
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--paper-grey-400);
+        text-decoration: none;
+        margin: 0 16px;
+        transition: 0.4s color;
+      }
+      app-toolbar span.tab > a[active] {
+        color: white;
+      }
+      app-toolbar span.tab > a:hover {
+        color: var(--paper-grey-100);
+      }
+      app-toolbar img {
+        height: 48px;
+        width: auto;
+        margin-right: 16px;
+      }
+      app-drawer {
+        z-index: 500;
+      }
+      app-drawer > .top {
+        height: 160px;
+        background-color: var(--primary-color);
+        @apply --layout-vertical;
+        @apply --layout-center;
+        @apply --layout-end-justified;
+        margin-bottom: 8px;
+      }
+      app-drawer > .top > img {
+        width: auto;
+        height: 64px;
+        margin-bottom: 16px;
+      }
+      app-drawer > .top paper-button {
+        box-shadow: none;
+        width: 100%;
+        text-transform: none;
+        @apply --layout-horizontal;
+        @apply --layout-justified;
+        @apply --layout-center;
+        padding: 12px 16px;
+        font-size: 14px;
+      }
+      app-drawer h5 {
+        padding: 16px 16px 6px 16px;
+        color: var(--paper-grey-600);
+      }
+      hr {
+        margin: 4px 16px 12px 16px;
+      }
+      div.grey {
+        background-color: var(--paper-grey-200);
+        @apply --layout-vertical;
+        padding-bottom: 12px;
+      }
+      paper-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        width: 100%;
+        --paper-progress-active-color: white;
+        --paper-progress-container-color: var(--primary-color);
+      }
       </style>
 
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
@@ -79,39 +148,37 @@ class AppShell extends BaseElement {
       <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}">
       </app-route>
 
-      <!-- <app-drawer-layout fullbleed="" narrow="{{narrow}}">
-        <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
-          <app-toolbar>Menu</app-toolbar>
-          <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-            <a name="view1" href="[[rootPath]]view1">View One</a>
-            <a name="view2" href="[[rootPath]]view2">View Two</a>
-            <a name="view3" href="[[rootPath]]view3">View Three</a>
-          </iron-selector>
-        </app-drawer>
+      <paper-progress indeterminate hidden$="[[!loading]]"></paper-progress>
 
-        <app-header-layout has-scrolling-region="">
+      <app-header reveals fixed>
+        <app-toolbar>
+          <app-container>
+            <div>
+              <!--<paper-icon-button class="drawer-toggle" icon="mdi:menu" on-tap="_toggleDrawer"></paper-icon-button>-->
+              <img src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd-icon-color.svg" hidden$="[[_active(page,'main')]]"></img>
+              <span class="tab"><a href="[[rootPath]]main" active$="[[_active(page,'main')]]">Home</a></span>
+              <span class="tab"><a href="[[rootPath]]about" active$="[[_active(page,'about')]]">About</a></span>
+              <span class="tab"><a href="[[rootPath]]tutoring" active$="[[_active(page,'tutoring')]]">Tutoring</a></span>
+              <span class="tab"><a href="[[rootPath]]contact" active$="[[_active(page,'contact')]]">Contact</a></span>
+            </div>
+          </app-container>
+        </app-toolbar>
+      </app-header>
 
-          <app-header slot="header" condenses="" reveals="" effects="waterfall">
-            <app-toolbar>
-              <paper-icon-button icon="app-icons:menu" drawer-toggle=""></paper-icon-button>
-              <div main-title="">My App</div>
-            </app-toolbar>
-          </app-header>
-
-          <iron-pages selected="[[page]]" attr-for-selected="name" role="main">
-            <page-main name="main"></page-main>
-          </iron-pages>
-        </app-header-layout>
-      </app-drawer-layout> -->
+      <!--<app-drawer swipe-open hidden$="{{!_layoutMain(layout)}}" id="drawer">
+        <div style="margin-top:8px">
+          <drawer-item icon="mdi:qrcode-scan" text="Scanner" page="scan" on="[[page]]"></drawer-item>
+          <drawer-item icon="mdi:file-document-box" text="Orders" page="orders" on="[[page]]"></drawer-item>
+          <drawer-item icon="mdi:package-variant-closed" text="Inventory" page="inventory" on="[[page]]"></drawer-item>
+        </div>
+      </app-drawer>-->
 
       <div class="main">
-        <poly-toolbar position="[[toolbarPosition]]" page="[[page]]"></poly-toolbar>
         <iron-pages selected="[[page]]" attr-for-selected="name" role="main">
           <page-main name="main"></page-main>
           <page-about name="about"></page-about>
           <page-tutoring name="tutoring"></page-tutoring>
           <page-contact name="contact"></page-contact>
-          <page-ohnoes name="ohnoes"></page-ohnoes>
         </iron-pages>
       </div>
     `;
@@ -127,6 +194,7 @@ class AppShell extends BaseElement {
       toolbarPosition: String,
       routeData: Object,
       subroute: Object,
+      _subdrawerOpen: { type: Boolean, value: false }
     };
   }
 
@@ -134,6 +202,10 @@ class AppShell extends BaseElement {
     return [
       '_routePageChanged(routeData.page)'
     ];
+  }
+
+  _active(page, expected) {
+    return page === expected;
   }
 
   _routePageChanged(page) {
