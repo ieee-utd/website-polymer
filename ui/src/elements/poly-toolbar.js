@@ -12,6 +12,7 @@ class PolyToolbar extends PolymerElement {
           height: var(--bar-height);
           display: flex;
           justify-content: center;
+          overflow: scroll;
         }
         :host([position="absolute"]) {
           position: absolute;
@@ -46,11 +47,15 @@ class PolyToolbar extends PolymerElement {
         a:hover {
           color: #d3d3d3;
         }
+        
+        .logo {
+          display: block;
+          margin: 0 0 0 24px;
+        }
 
         iron-icon {
           --iron-icon-width: 42px;
           --iron-icon-height: 42px;
-          margin: 0 12px;
         }
 
         a[active] {
@@ -60,7 +65,7 @@ class PolyToolbar extends PolymerElement {
       </style>
 
       <nav class="main">
-        <iron-icon src="[[icon]]"></iron-icon>
+        <span class="logo"><iron-icon src="[[icon]]"></iron-icon></span>
         <span><a href="[[rootPath]]main" active$="[[active.main]]">Home</a></span>
         <span><a href="[[rootPath]]about" active$="[[active.about]]">About</a></span>
         <span><a href="[[rootPath]]tutoring" active$="[[active.tutoring]]">Tutoring</a></span>
