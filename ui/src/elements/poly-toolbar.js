@@ -62,8 +62,9 @@ class PolyToolbar extends PolymerElement {
       <nav class="main">
         <iron-icon src="[[icon]]"></iron-icon>
         <span><a href="[[rootPath]]main" active$="[[active.main]]">Home</a></span>
-        <span><a href="[[rootPath]]view2" active$="[[active.view2]]">About</a></span>
-        <span><a href="[[rootPath]]view3" active$="[[active.view3]]">Contact</a></span>
+        <span><a href="[[rootPath]]about" active$="[[active.about]]">About</a></span>
+        <span><a href="[[rootPath]]tutoring" active$="[[active.tutoring]]">Tutoring</a></span>
+        <span><a href="[[rootPath]]contact" active$="[[active.contact]]">Contact</a></span>
       </div>
     `;
   }
@@ -95,13 +96,15 @@ class PolyToolbar extends PolymerElement {
 
   _setActive(page) {
     if (page === 'main') {
-      return {main: true, view2: false, view3: false};
-    } else if (page === 'view2') {
-      return {main: false, view2: true, view3: false};
-    } else if (page === 'view3') {
-      return {main: false, view2: false, view3: true};
+      return {main: true, about: false, tutoring: false, contact: false};
+    } else if (page === 'about') {
+      return {main: false, about: true, tutoring: false, contact: false};
+    } else if (page === 'tutoring') {
+      return {main: false, about: false, tutoring: true, contact: false};
+    } else if (page === 'contact') {
+      return {main: false, about: false, tutoring: false, contact: true};
     } else {
-      return {main: false, view2: false, view3: false};
+      return {main: false, about: false, tutoring: false, contact: false};
     }
   }
 }
