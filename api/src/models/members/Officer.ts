@@ -20,6 +20,7 @@ var schema = new mongoose.Schema({
   passwordHash: { type: String },
   passwordSalt: { type: String },
   permissionLevel: { type: Number, enum: [1, 2, 3, 4, 5], default: 1 },
+  requirePasswordChange: { type: Boolean, value: false },
 
   //timestamps
   dateLastLogin: { type: Date },

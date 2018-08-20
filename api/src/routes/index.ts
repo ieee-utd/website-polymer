@@ -1,6 +1,7 @@
 import * as express from "express";
 import * as fs from "fs";
 import { route as userRoute } from "./user";
+import { route as announcementsRoute } from "./announcements"
 import { cache, cacheMiddleware } from "../helpers/cache";
 
 export let routes = express.Router();
@@ -29,4 +30,5 @@ routes.get('/version', cacheMiddleware('1 hour'), async (req: any, res: any) => 
   res.json({ versionString: process.env.IEEEUTD_API_VERSION || "dev-build", revision: gitSHA });
 });
 
-routes.use("/user",  userRoute);
+routes.use("/user", userRoute);
+routes.use("/announcements", announcementsRoute);
