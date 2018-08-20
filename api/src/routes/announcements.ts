@@ -30,7 +30,7 @@ route.get('/:link', async (req: any, res: any, next: any) => {
 
 //Create new announcement
 route.post('/', userCan("create"), async (req: any, res: any, next: any) => {
-
+  
 });
 
 //Update announcement

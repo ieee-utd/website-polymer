@@ -4,7 +4,7 @@ import * as passport from "passport";
 const validate = require('express-validation')
 
 import { cleanFromMongo } from "../helpers/clean";
-import { LoginSchema, SetInitialPasswordSchema, ChangePasswordSchema } from "../helpers/schema";
+import { LoginSchema, SetInitialPasswordSchema, ChangePasswordSchema} from "../helpers/schema";
 import { ensureAuthenticated, ensureUnauthenticated } from "../helpers/verify";
 const EasyPbkdf2 = require('easy-pbkdf2');
 const easyPbkdf2 = new EasyPbkdf2();
@@ -92,7 +92,7 @@ route.post("/setInitialPassword", ensureUnauthenticated, validate(SetInitialPass
   })
 })
 
-//change password
+//change your password
 route.post("/changePassword", ensureAuthenticated, validate(ChangePasswordSchema), async (req: any, res: any, next: any) => {
 
   var user: any = await Officer.findOne({ _id: req.user._id });
@@ -111,7 +111,7 @@ route.post("/changePassword", ensureAuthenticated, validate(ChangePasswordSchema
     var salt = easyPbkdf2.generateSalt();
     easyPbkdf2.secureHash(req.body.newPassword, salt, async (err: any, hash: any, originalSalt: any) => {
       if (err) return next(err);
-      
+
       await Officer.findOneAndUpdate({ _id: user._id }, { $set: {
         passwordSalt: originalSalt,
         passwordHash: hash

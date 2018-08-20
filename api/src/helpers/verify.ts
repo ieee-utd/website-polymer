@@ -23,6 +23,7 @@ export const USER_ACTIONS: any = {
   "edit": 3,
   "approve": 4,
   "delete": 4,
+  "manageUsers": 5,
   "admin": 5
 }
 

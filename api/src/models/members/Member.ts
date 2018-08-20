@@ -8,7 +8,7 @@ var schema = new mongoose.Schema({
 
   //timestamps
   dateCreated: { type: Date, required: true },
-  memberSince: { type: String, required: true },
+  memberSince: { type: Number, required: true },
 }, {
   toObject: { virtuals: true },
   toJSON: { virtuals: true },
