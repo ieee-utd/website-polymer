@@ -24,8 +24,7 @@ class PolyToolbar extends PolymerElement {
           position: relative;
           background-color: var(--background-relative);
         }
-        nav {
-          width: 100%;
+        nav.main {
           margin: 0;
           padding: 0;
           display: flex;
@@ -71,7 +70,7 @@ class PolyToolbar extends PolymerElement {
           <span><a href="[[rootPath]]tutoring" active$="[[active.tutoring]]">Tutoring</a></span>
           <span><a href="[[rootPath]]contact" active$="[[active.contact]]">Contact</a></span>
         </app-container>
-      </div>
+      </nav>
     `;
   }
 

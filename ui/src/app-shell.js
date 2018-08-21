@@ -58,9 +58,13 @@ class AppShell extends BaseElement {
         height: 36px;
         margin-right: 12px;
       }
+      /** TODO: find a better way */
       app-toolbar {
+        position: absolute;
+        width: 100%;
         padding: 0 8px;
         background-color: var(--color-background);
+        z-index: 10;
       }
       app-toolbar div {
         @apply --layout-horizontal;
