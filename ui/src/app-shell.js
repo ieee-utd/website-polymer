@@ -17,6 +17,7 @@ import './app-icons.js';
 import './mdi.js'
 import { BaseElement } from './base-element.js';
 
+import './elements/app-card.js';
 import './elements/app-container.js';
 import './elements/app-grid-item.js';
 import './elements/app-grid.js';
