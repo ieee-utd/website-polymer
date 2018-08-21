@@ -11,76 +11,97 @@ class EventCard extends BaseElement {
 
         paper-card {
           position: relative;
-          height: 180px;
-          background-color: var(--color-secondary);
-          border-radius: 8px;
-          transition: 0.2s background-color, 0.2s box-shadow;
-          cursor: pointer;
-          @apply --shadow-elevation-2dp;
+          width: 100%;
+          height: 210px;
+          border-radius: 10px;
+          background-color: var(--card-color);
+          color: var(--card-text-primary);
+          transition: ease 0.5s;
         }
-        paper-card:hover {
-          background-color: var(--color-secondary-active);
-          @apply --shadow-elevation-12dp;
+        div.title {
+          height: 50px;
+          margin: 0 24px;
+          display: flex;
+          align-items: center;
         }
-        paper-card:hover > div.card-bottom {
-          display: none;
+        div.content {
+          position: relative;
+          height: 100px;
+          margin: 0 24px;
+          overflow-y: hidden;
         }
-        h3.card-title {
-          margin: 0;
-          padding: 16px 16px 0 16px;
-        }
-        div.card-content {
-          height: 60px;
-          padding: 16px;
-          overflow: hidden;
-        }
-        div.card-content-mask {
+        div.content-mask {
           position: absolute;
-          top: 50%;
           bottom: 0;
           left: 0;
-          right: 0;
-          transition: 0.2s background;
-          background: linear-gradient(to bottom, rgba(66,66,66,0), rgba(66,66,66,1));
+          height: 30px;
+          width: 100%;
+          padding-bottom: 20px;
+          background: linear-gradient(to bottom, var(--card-gradient-from), var(--card-gradient-to));
         }
-        paper-card:hover > div.card-content-mask {
-          background: linear-gradient(to bottom, rgba(102,102,102,0), rgba(102,102,102,1));
+        div.actions {
+          height: 30px;
+          margin: 12px 24px 0 24px;
+          display: flex;
+          align-items: center;
+          color: var(--card-text-secondary);
         }
-        div.card-bottom {
-          height: 40px;
-          border: none;
-          padding: 5px 16px;
-          opacity: 0.4;
-          transition: 0.2s opacity;
+
+        paper-card:hover {
+          box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+          transition: ease 0.5s;
         }
-        div.card-bottom-more {
-          height: 40px;
-          border: none;
-          padding: 5px 16px;
-          color: #C6C6C6;
+        div.mask {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          border-radius: 10px;
+          z-index: 2;
+          pointer-events: none;
+          background-color: transparent;
+          transition: ease 0.5s;
+        }
+        paper-card:hover > div.mask {
+          background-color: var(--card-hover-color);
+          opacity: 0.5;
+          transition: ease 0.5s;
+        }
+        div.content-alt {
+          position: absolute;
+          bottom: 10px;
+          width: 100%;
+          height: 50px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1;
+          background-color: var(--card-color);
+          visibility: hidden;
           opacity: 0;
+          transition: visibility 0.5s ease, opacity 0.5s ease;
+          transition-delay: 1;
+          transition: ease 0.5s;
         }
-        div.card-bottom-more:hover {
-          display: block;
-        }
-        iron-icon.card-icon {
-          margin-right: 10px;
+        paper-card:hover > div.content-alt {
+          visibility: visible;
+          opacity: 1;
         }
       </style>
 
       <paper-card>
-        <h3 class="card-title">Tutoring Starts Wednesday</h3>
-        <div class="card-content">
-          <div class="card-content-mask"></div>
+        <div class="mask"></div>
+        <div class="title">
+          <h3>Tutoring Starts Wednesday</h3>
+        </div>
+        <div class="content">
           Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
-
+          <div class="content-mask"></div>
         </div>
-        <div class="card-bottom">
-          <iron-icon class="card-icon" icon="app-icons:calendar-clock"></iron-icon>
-          Posted 3 days ago
+        <div class="actions">
+          <iron-icon class="card-action-icon" icon="app-icons:calendar-clock"></iron-icon>Posted 3 days ago
         </div>
-        <div class="card-bottom-more">
-          ghk
+        <div class="content-alt">
+          <slot name="actions-alt"></slot>
         </div>
       </paper-card>
     `;

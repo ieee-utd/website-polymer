@@ -10,6 +10,7 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         --color-background: var(--paper-grey-900);
         --color-secondary: var(--paper-grey-800);
         --color-secondary-active: var(--paper-grey-700);
+        --color-accent: #f2be32;
 
         --font-head: "Rubik";
         --font-main: "Roboto";

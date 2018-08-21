@@ -8,26 +8,88 @@ class AppCard extends BaseElement {
       <style include="shared-styles">
         :host {
           display: block;
+
+          --card-color: var(--paper-grey-800);
+          --card-color-hover: var(--paper-grey-700);
         }
 
         paper-card {
-          position: relative;
           width: 100%;
-          height: 210px;
-          border-radius: 10px;
+          height: 190px;
+          border-radius: 8px;
           background-color: var(--card-color);
-          color: var(--card-text-primary);
-          transition: ease 0.5s;
+          color: white;
+          cursor: pointer;
+          overflow: hidden;
+          transition: 0.24s background-color, 0.24s box-shadow;
+          padding: 16px;
+          @apply --shadow-elevation-2dp;
         }
+        paper-card:hover {
+          background-color: var(--card-color-hover);
+          @apply --shadow-elevation-12dp;
+        }
+
         div.title {
+          margin: 6px 0 16px 0;
+        }
+
+        div.content {
+          overflow-y: hidden;
+          height: 70px;
+        }
+        div.content-mask {
+          position: absolute;
+          bottom: 50px;
+          left: 0;
+          height: 30px;
+          width: 100%;
+          padding-bottom: 20px;
+          background: linear-gradient(to bottom, transparent, var(--card-color));
+          opacity: 1;
+          transition: 0.24s opacity;
+        }
+        paper-card:hover div.content-mask {
+          opacity: 0;
+        }
+        div.actions {
+          height: 30px;
+          margin: 12px 0;
+          display: flex;
+          align-items: center;
+        }
+        div.content-alt {
+          position: absolute;
+          bottom: 0px;
+          left: 0;
+          right: 0;
           height: 50px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1;
+          background-color: var(--card-color);
+          font-family: var(--font-head);
+          font-weight: 700;
+          opacity: 0;
+          transition: opacity 0.24s, background-color 0.24s;
+        }
+        paper-card:hover div.content-alt {
+          opacity: 1;
+          background-color: var(--card-color-hover);
+        }
+
+        /*
+        div.title {
+          height: 52px;
           margin: 0 24px;
+          margin-top: 8px;
           display: flex;
           align-items: center;
         }
         div.content {
           position: relative;
-          height: 100px;
+          height: 70px;
           margin: 0 24px;
           overflow-y: hidden;
         }
@@ -38,7 +100,12 @@ class AppCard extends BaseElement {
           height: 30px;
           width: 100%;
           padding-bottom: 20px;
-          background: linear-gradient(to bottom, var(--card-gradient-from), var(--card-gradient-to));
+          background: linear-gradient(to bottom, transparent, var(--paper-grey-800));
+          opacity: 1;
+          transition: 0.24s opacity;
+        }
+        paper-card:hover div.content-mask {
+          opacity: 0;
         }
         div.actions {
           height: 30px;
@@ -47,53 +114,35 @@ class AppCard extends BaseElement {
           align-items: center;
           color: var(--card-text-secondary);
         }
-
         paper-card:hover {
-          box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
-          transition: ease 0.5s;
-        }
-        div.mask {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          border-radius: 10px;
-          z-index: 2;
-          pointer-events: none;
-          background-color: transparent;
-          transition: ease 0.5s;
-        }
-        paper-card:hover > div.mask {
-          background-color: var(--card-hover-color);
-          opacity: 0.5;
-          transition: ease 0.5s;
+          @apply --shadow-elevation-12dp;
         }
         div.content-alt {
           position: absolute;
-          bottom: 10px;
+          bottom: 0px;
           width: 100%;
           height: 50px;
           display: flex;
           justify-content: center;
           align-items: center;
           z-index: 1;
-          background-color: var(--card-color);
+          background-color: var(--paper-grey-800);
           visibility: hidden;
           opacity: 0;
-          transition: visibility 0.5s ease, opacity 0.5s ease;
-          transition-delay: 1;
-          transition: ease 0.5s;
+          transition: visibility 0.24s, opacity 0.24s, background-color 0.24s;
         }
         paper-card:hover > div.content-alt {
           visibility: visible;
           opacity: 1;
-        }
+          background-color: var(--paper-grey-700);
+        }*/
       </style>
 
       <paper-card>
-        <div class="mask"></div>
         <div class="title">
           <slot name="title"></slot>
         </div>
+
         <div class="content">
           <slot name="content"></slot>
           <div class="content-mask"></div>
@@ -110,7 +159,7 @@ class AppCard extends BaseElement {
 
   static get properties() {
     return {
-      
+
     }
   }
 }
