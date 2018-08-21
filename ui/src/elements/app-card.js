@@ -55,8 +55,9 @@ class AppCard extends BaseElement {
         div.mask {
           position: absolute;
           width: 100%;
-          height: 100%;
-          border-radius: 10px;
+          height: 150px;
+          border-top-left-radius: 10px;
+          border-top-right-radius: 10px;
           z-index: 2;
           pointer-events: none;
           background-color: transparent;
@@ -67,7 +68,7 @@ class AppCard extends BaseElement {
           opacity: 0.5;
           transition: ease 0.5s;
         }
-        div.content-alt {
+        div.action-alt {
           position: absolute;
           bottom: 10px;
           width: 100%;
@@ -76,16 +77,32 @@ class AppCard extends BaseElement {
           justify-content: center;
           align-items: center;
           z-index: 1;
-          background-color: var(--card-color);
+          background-color: var(--card-hover-action-color);
           visibility: hidden;
           opacity: 0;
           transition: visibility 0.5s ease, opacity 0.5s ease;
           transition-delay: 1;
           transition: ease 0.5s;
         }
-        paper-card:hover > div.content-alt {
+        paper-card:hover > div.action-alt {
           visibility: visible;
           opacity: 1;
+        }
+        div.mask-bottom {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          height: 10px;
+          pointer-events: none;
+          background-color: transparent;
+          transition: ease 0.5s;
+        }
+        paper-card:hover > div.mask-bottom {
+          background-color: var(--card-hover-color);
+          border-bottom-left-radius: 10px;
+          border-bottom-right-radius: 10px;
+          opacity: 0.5;
+          transition: ease 0.5s;
         }
       </style>
 
@@ -101,9 +118,10 @@ class AppCard extends BaseElement {
         <div class="actions">
           <slot name="actions"></slot>
         </div>
-        <div class="content-alt">
+        <div class="action-alt">
           <slot name="actions-alt"></slot>
         </div>
+        <div class="mask-bottom"></div>
       </paper-card>
     `;
   }

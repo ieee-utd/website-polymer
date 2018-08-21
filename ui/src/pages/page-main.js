@@ -101,7 +101,8 @@ class PageMain extends BaseElement {
           --card-text-secondary: #c6c6c6;
           --card-gradient-from: rgba(66,66,66,0);
           --card-gradient-to: rgba(66,66,66,1);
-          --card-hover-color: #666666;        
+          --card-hover-color: #666666;
+          --card-hover-action-color: #545454;
         }
         iron-icon.card-action-icon {
           margin-right: 10px;
