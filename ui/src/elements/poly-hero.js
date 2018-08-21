@@ -19,11 +19,13 @@ class PolyHero extends PolymerElement {
           background-position: center 10%;
           background-size: cover;
         }
+        .hero-overlay {
+          
+        }
       </style>
 
-      <div class="hero">
-
-      </div>
+      <div class="hero"></div>
+      <div class="hero-overlay"></div>
     `;
   }
 }

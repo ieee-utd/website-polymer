@@ -17,8 +17,9 @@ import './app-icons.js';
 import './mdi.js'
 import { BaseElement } from './base-element.js';
 
-import './elements/poly-toolbar.js';
 import './elements/drawer-item.js';
+import './elements/loading-block.js';
+import './elements/poly-toolbar.js';
 
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.
@@ -58,13 +59,16 @@ class AppShell extends BaseElement {
         height: 36px;
         margin-right: 12px;
       }
-      /** TODO: find a better way */
       app-toolbar {
         position: absolute;
-        width: 100%;
+        left: 0;
+        right: 0;
         padding: 0 8px;
         background-color: var(--color-background);
         z-index: 10;
+      }
+      app-toolbar[transparent] {
+        background-color: transparent;
       }
       app-toolbar div {
         @apply --layout-horizontal;
@@ -93,8 +97,14 @@ class AppShell extends BaseElement {
       }
       app-toolbar img {
         height: 48px;
-        width: auto;
+        width: 48px;
         margin-right: 16px;
+        transition: 0.4s width, 0.4s opacity;
+        opacity: 1;
+      }
+      app-toolbar img[gone] {
+        width: 0px;
+        opacity: 0;
       }
       app-drawer {
         z-index: 500;
@@ -155,12 +165,12 @@ class AppShell extends BaseElement {
       <paper-progress indeterminate hidden$="[[!loading]]"></paper-progress>
 
       <app-header reveals fixed>
-        <app-toolbar>
-          <app-container>
+        <app-toolbar transparent$="[[_active(page,'')]]">
+          <app-container style="width: 100%">
             <div>
               <!--<paper-icon-button class="drawer-toggle" icon="mdi:menu" on-tap="_toggleDrawer"></paper-icon-button>-->
-              <img src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd-icon-color.svg" hidden$="[[_active(page,'main')]]"></img>
-              <span class="tab"><a href="[[rootPath]]main" active$="[[_active(page,'main')]]">Home</a></span>
+              <a href="[[rootPath]]" style="height:48px"><img src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd-icon-color.svg" draggable=false gone$="[[_active(page,'')]]"></img></a>
+              <span class="tab"><a href="[[rootPath]]" active$="[[_active(page,'')]]">Home</a></span>
               <span class="tab"><a href="[[rootPath]]about" active$="[[_active(page,'about')]]">About</a></span>
               <span class="tab"><a href="[[rootPath]]tutoring" active$="[[_active(page,'tutoring')]]">Tutoring</a></span>
               <span class="tab"><a href="[[rootPath]]contact" active$="[[_active(page,'contact')]]">Contact</a></span>
@@ -178,8 +188,8 @@ class AppShell extends BaseElement {
       </app-drawer>-->
 
       <div class="main">
-        <iron-pages selected="[[page]]" attr-for-selected="name" role="main">
-          <page-main name="main"></page-main>
+        <iron-pages selected="[[_page]]" attr-for-selected="name" role="main">
+          <page-main name=""></page-main>
           <page-about name="about"></page-about>
           <page-tutoring name="tutoring"></page-tutoring>
           <page-contact name="contact"></page-contact>
@@ -195,6 +205,7 @@ class AppShell extends BaseElement {
         reflectToAttribute: true,
         observer: '_pageChanged'
       },
+      _page: { type: String },
       toolbarPosition: String,
       routeData: Object,
       subroute: Object,
@@ -218,11 +229,11 @@ class AppShell extends BaseElement {
      // If no page was found in the route data, page will be an empty string.
      // Show 'view1' in that case. And if the page doesn't exist, show 'view404'.
     if (!page) {
-      this.page = 'main';
+      this.page = '';
       this.toolbarPosition = 'absolute';
-    } else if (['main', 'about', 'tutoring', 'contact'].indexOf(page) !== -1) {
+    } else if (['', 'about', 'tutoring', 'contact'].indexOf(page) !== -1) {
       this.page = page;
-      if (page === 'main') this.toolbarPosition = 'absolute';
+      if (page === '') this.toolbarPosition = 'absolute';
       else this.toolbarPosition = 'relative';
     } else {
       this.page = 'ohnoes';
@@ -241,20 +252,20 @@ class AppShell extends BaseElement {
     // Note: `polymer build` doesn't like string concatenation in the import
     // statement, so break it up.
     switch (page) {
-      case 'main':
-        import('./pages/page-main.js');
+      case '':
+        import('./pages/page-main.js').then(() => { this._page = page; });
         break;
       case 'about':
-        import('./pages/page-about.js');
+        import('./pages/page-about.js').then(() => { this._page = page; });
         break;
       case 'tutoring':
-        import('./pages/page-tutoring.js');
+        import('./pages/page-tutoring.js').then(() => { this._page = page; });
         break;
       case 'contact':
-        import('./pages/page-contact.js');
+        import('./pages/page-contact.js').then(() => { this._page = page; });
         break;
       case 'ohnoes':
-        import('./pages/page-ohnoes.js');
+        import('./pages/page-ohnoes.js').then(() => { this._page = page; });
         break;
 
     }
