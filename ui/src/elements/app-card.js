@@ -80,13 +80,13 @@ class AppCard extends BaseElement {
           background-color: var(--card-hover-action-color);
           visibility: hidden;
           opacity: 0;
-          transition: visibility 0.5s ease, opacity 0.5s ease;
-          transition-delay: 1;
-          transition: ease 0.5s;
+          /* transition: visibility 0.3s ease, opacity 0.3s ease; */
+          transition: ease 0.7s;
         }
         paper-card:hover > div.action-alt {
           visibility: visible;
           opacity: 1;
+          transition: ease 0.3s;
         }
         div.mask-bottom {
           position: absolute;
@@ -95,7 +95,7 @@ class AppCard extends BaseElement {
           height: 10px;
           pointer-events: none;
           background-color: transparent;
-          transition: ease 0.5s;
+          transition: ease 0.7s;
         }
         paper-card:hover > div.mask-bottom {
           background-color: var(--card-hover-color);
