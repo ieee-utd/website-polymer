@@ -198,6 +198,7 @@ class AppShell extends BaseElement {
           <page-about name="about"></page-about>
           <page-tutoring name="tutoring"></page-tutoring>
           <page-contact name="contact"></page-contact>
+          <page-announcement name="announcement"></page-announcement>
         </iron-pages>
       </div>
     `;
@@ -235,14 +236,14 @@ class AppShell extends BaseElement {
      // Show 'view1' in that case. And if the page doesn't exist, show 'view404'.
     if (!page) {
       this.page = '';
-      this.toolbarPosition = 'absolute';
-    } else if (['', 'about', 'tutoring', 'contact'].indexOf(page) !== -1) {
+      return;
+    }
+
+    let el = this.$$(`iron-pages [name="${page}"]`);
+    if (el) {
       this.page = page;
-      if (page === '') this.toolbarPosition = 'absolute';
-      else this.toolbarPosition = 'relative';
     } else {
-      this.page = 'ohnoes';
-      this.toolbarPosition = 'relative';
+      this.page = '';
     }
 
     // Close a non-persistent drawer when the page & route are changed.
@@ -272,7 +273,9 @@ class AppShell extends BaseElement {
       case 'ohnoes':
         import('./pages/page-ohnoes.js').then(() => { this._page = page; });
         break;
-
+      case 'announcement':
+        import('./pages/page-announcement.js').then(() => { this._page = page; });
+        break;
     }
   }
 }
