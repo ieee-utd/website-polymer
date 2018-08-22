@@ -21,15 +21,14 @@ class AppCard extends BaseElement {
           color: white;
           cursor: pointer;
           overflow: hidden;
-          transition: 0.24s background-color, 0.24s box-shadow;
           padding: 16px;
           @apply --shadow-elevation-2dp;
-          transition: 0.5s ease;
+          transition: 0.24s ease;
         }
         paper-card:hover {
           background-color: var(--card-color-hover);
           @apply --shadow-elevation-12dp;
-          transition: 0.5s ease;
+          transition: 0.24s ease;
         }
 
         div.title {
@@ -51,7 +50,7 @@ class AppCard extends BaseElement {
           padding-bottom: 20px;
           pointer-events: none;
           background: linear-gradient(to bottom, transparent, var(--card-color));
-          transition: 0.5s ease;
+          transition: 0.24s ease;
         }
         paper-card:hover > div.content > div.content-mask {
           opacity: 0;
@@ -67,11 +66,11 @@ class AppCard extends BaseElement {
           pointer-events: none;
           opacity: 0;
           background: linear-gradient(to bottom, transparent, var(--card-color-hover));
-          transition: 0.5s ease;
+          transition: 0.24s ease;
         }
         paper-card:hover > div.content > div.content-mask-hover {
           opacity: 1;
-          transition: 0.5s ease;
+          transition: 0.24s ease;
         }
         div.actions {
           height: 30px;
@@ -93,13 +92,13 @@ class AppCard extends BaseElement {
           font-family: var(--font-head);
           font-weight: 700;
           opacity: 0;
-          transition: 0.5s ease;
-          
+          transition: 0.24s ease;
+
         }
         paper-card:hover div.content-alt {
           opacity: 1;
           background-color: var(--card-color-hover);
-          transition: 0.5s ease;
+          transition: 0.24s ease;
         }
       </style>
 
