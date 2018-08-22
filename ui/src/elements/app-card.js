@@ -49,14 +49,27 @@ class AppCard extends BaseElement {
           height: 30px;
           width: 100%;
           padding-bottom: 20px;
-          /* background-color: var(--card-color); */
           background: linear-gradient(to bottom, transparent, var(--card-color));
-          transition: 0.5s opacity ease, 0.5s background-color ease;
+          transition: 0.5s ease;
         }
         paper-card:hover > div.content > div.content-mask {
-          /* background-color: var(--card-hover-color); */
+          opacity: 0;
+          transition: 0.5s ease;
+        }
+        div.content-mask-hover {
+          position: absolute;
+          bottom: 50px;
+          left: 0;
+          height: 30px;
+          width: 100%;
+          padding-bottom: 20px;
+          opacity: 0;
           background: linear-gradient(to bottom, transparent, var(--card-hover-color));
-          transition: 0.5s opacity ease, 0.5s background-color ease;
+          transition: 0.5s ease;
+        }
+        paper-card:hover > div.content > div.content-mask-hover {
+          opacity: 1;
+          transition: 0.5s ease;
         }
         div.actions {
           height: 30px;
@@ -92,10 +105,10 @@ class AppCard extends BaseElement {
         <div class="title">
           <slot name="title"></slot>
         </div>
-
         <div class="content">
           <slot name="content"></slot>
           <div class="content-mask"></div>
+          <div class="content-mask-hover"></div>
         </div>
         <div class="actions">
           <slot name="actions"></slot>
