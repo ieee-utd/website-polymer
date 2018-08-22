@@ -8,6 +8,7 @@ import '@polymer/app-layout/app-scroll-effects/app-scroll-effects.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import '@polymer/app-route/app-location.js';
 import '@polymer/app-route/app-route.js';
+import '@polymer/paper-card/paper-card.js';
 import '@polymer/iron-pages/iron-pages.js';
 import '@polymer/iron-selector/iron-selector.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
@@ -197,8 +198,7 @@ class AppShell extends BaseElement {
 
   ready() {
     super.ready();
-    this.addEventListener('card-click', this._routeCard);
-    console.log('shell ready');
+    this.addEventListener('change-page', this._navigate);
   }
 
   static get properties() {
@@ -276,9 +276,10 @@ class AppShell extends BaseElement {
     }
   }
 
-  _routeCard(e) {
-    let detail = e.detail;
-    console.log(detail);
+  _navigate(e) {
+    let url = e.detail;
+    console.log(this.route, url);
+    this.set("route.path", url);
   }
 }
 

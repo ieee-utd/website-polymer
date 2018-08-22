@@ -133,79 +133,21 @@ class PageMain extends BaseElement {
 
           <h2 class="title"><iron-icon icon="mdi:bullhorn" style="transform: rotate(-30deg)"></iron-icon>Important Announcements</h2>
           <app-grid>
-            <app-grid-item width=6>
-              <app-card on-click="_navigate" url="announcement/asdfasdfsomeidhere">
-                <span slot="title">
-                  <h3 style="margin: 0; color:var(--color-accent)">Announcement</h3>
-                </span>
-                <span slot="content">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</span>
-                <div slot="actions">
-                  <iron-icon class="card-action-icon" icon="app-icons:calendar-clock"></iron-icon>Posted <b>3 days ago</b>
-                </div>
-                <div slot="actions-alt">
-                  View more
-                </div>
-            </app-grid-item>
-            <app-grid-item width=6>
-              <app-card>
-                <span slot="title">
-                  <h3 style="margin:0;">Title</h3>
-                </span>
-                <span slot="content">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</span>
-                <div slot="actions">
-                  <iron-icon class="card-action-icon" icon="app-icons:calendar-clock"></iron-icon>Posted 3 days ago
-                </div>
-                <div slot="actions-alt">
-                  <paper-button>View more</paper-button>
-                </div>
-              </app-card>
-            </app-grid-item>
+            <dom-repeat items="[[announcements]]">
+              <template>
+                <app-grid-item width=6>
+                  <event-card announcement="[[item]]"></event-card>
+                </app-grid-item>
+              </template>
+            </dom-repeat>
           </app-grid>
           <h2 class="title">This Week</h2>
           <app-grid>
-            <app-grid-item width=6>
-              <app-card  on-click="_navigate" url="event/asdfasdfsomeidhere">
-                <span slot="title">
-                  <h3 style="margin: 0">Event</h3>
-                </span>
-                <span slot="content">
-                  Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
-                </span>
-                <div slot="actions" class="action">
-                  <div>
-                    <iron-icon class="card-action-icon" icon="mdi:calendar-clock"></iron-icon><b>Mar 3 at 6p</b>
-                  </div>
-                  <div>
-                    <iron-icon class="card-action-icon" icon="mdi:map-marker"></iron-icon><b>Makerspace</b></a>
-                  </div>
-                </div>
-                <div slot="actions-alt">
-                  View more
-                </div>
-              </app-card>
-            </app-grid-item>
-            <app-grid-item width=6>
-              <event-card></event-card>
-            </app-grid-item>
+            
           </app-grid>
           <h2 class="title">Happening Soon</h2>
           <app-grid>
-            <app-grid-item width=6>
-              <app-card title="First General Meeting">
-                <span slot="content">
-                  Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
-                </span>
-                <div slot="actions" style="opacity:0.4;font-family:var(--font-head)">
-                  <iron-icon class="card-action-icon" icon="app-icons:calendar-clock"></iron-icon>Posted <b>3 days ago</b>
-                </div>
-                <div slot="actions-alt">
-                  View more
-                </div>
-              </app-card>
-            </app-grid-item>
-            <app-grid-item width=6>
-              <loading-block></loading-block>
-            </app-grid-item>
+            
           </app-grid>
         </div>
       </app-container>
@@ -214,13 +156,34 @@ class PageMain extends BaseElement {
 
   static get properties() {
     return {
-
+      announcements: {
+        type: Array,
+        value: [
+          {
+            "_id": "5b7daeda6a85c4001dac1a24",
+            "title": "An important announcement!!",
+            "content": "Announcement content",
+            "visibleFrom": "2017-08-20T05:00:00.000Z",
+            "visibleUntil": "2019-08-23T05:00:00.000Z",
+            "link": "aG4jrOgmdTk",
+            "createdBy": {
+                "_id": "5b7b2452fec60c0042f48bdf",
+                "firstName": "Caleb",
+                "lastName": "Fung",
+                "email": "caleb.t.fung@gmail.com",
+                "memberSince": 2018,
+                "initials": "CF"
+            },
+            "createdOn": "2018-08-22T18:43:38.360Z"
+          }
+        ]
+      }
     }
   }
 
   _navigate(e) {
     let url = this._getAttributeFromEvent(e, 'url', "");
-    this._fire('card-click', {url: url});
+    this._fire('change-page', url);
   }
 }
 

@@ -15,7 +15,7 @@ class PageAnnouncement extends BaseElement {
 
   static get properties() {
     return {
-
+      
     }
   }
 }

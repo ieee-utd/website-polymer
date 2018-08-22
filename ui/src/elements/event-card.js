@@ -9,109 +9,64 @@ class EventCard extends BaseElement {
           display: block;
         }
 
-        paper-card {
-          position: relative;
-          width: 100%;
-          height: 210px;
-          border-radius: 10px;
-          background-color: var(--card-color);
-          color: var(--card-text-primary);
-          transition: ease 0.5s;
+        div.action {
+          font-family: var(--font-head);
+          @apply --layout-horizontal;
+          @apply --layout-start-justified;
+          @apply --layout-center;
         }
-        div.title {
-          height: 50px;
-          margin: 0 24px;
-          display: flex;
-          align-items: center;
+        div.action > div {
+          margin-right: 16px;
         }
-        div.content {
-          position: relative;
-          height: 100px;
-          margin: 0 24px;
-          overflow-y: hidden;
-        }
-        div.content-mask {
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          height: 30px;
-          width: 100%;
-          padding-bottom: 20px;
-          background: linear-gradient(to bottom, var(--card-gradient-from), var(--card-gradient-to));
-        }
-        div.actions {
-          height: 30px;
-          margin: 12px 24px 0 24px;
-          display: flex;
-          align-items: center;
-          color: var(--card-text-secondary);
-        }
-
-        paper-card:hover {
-          box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
-          transition: ease 0.5s;
-        }
-        div.mask {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          border-radius: 10px;
-          z-index: 2;
-          pointer-events: none;
-          background-color: transparent;
-          transition: ease 0.5s;
-        }
-        paper-card:hover > div.mask {
-          background-color: var(--card-hover-color);
-          opacity: 0.5;
-          transition: ease 0.5s;
-        }
-        div.content-alt {
-          position: absolute;
-          bottom: 10px;
-          width: 100%;
-          height: 50px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          z-index: 1;
-          background-color: var(--card-color);
-          visibility: hidden;
-          opacity: 0;
-          transition: visibility 0.5s ease, opacity 0.5s ease;
-          transition-delay: 1;
-          transition: ease 0.5s;
-        }
-        paper-card:hover > div.content-alt {
-          visibility: visible;
-          opacity: 1;
+        iron-icon.card-action-icon {
+          margin-right: 10px;
         }
       </style>
 
-      <paper-card>
-        <div class="mask"></div>
-        <div class="title">
-          <h3>Tutoring Starts Wednesday</h3>
+      <app-card on-click="_navigate">
+        <span slot="title">
+          <h3 style="margin: 0">[[announcement.title]]</h3>
+        </span>
+        <span slot="content">
+          [[announcement.content]]
+        </span>
+        <div slot="actions" class="action">
+          <div hidden$="[[isEvent]]" style="opacity:0.4;">
+            <iron-icon class="card-action-icon" icon="mdi:calendar-clock"></iron-icon>Posted <b>[[_parseAnnouncementDate(announcement.visibleFrom)]]</b>
+          </div>
+          <div hidden$="[[!isEvent]]">
+            <iron-icon class="card-action-icon" icon="mdi:calendar-clock"></iron-icon><b>Mar 3 at 6p</b>
+          </div>
+          <div hidden$="[[!isEvent]]">
+            <iron-icon class="card-action-icon" icon="mdi:map-marker"></iron-icon><b>Makerspace</b></a>
+          </div>
         </div>
-        <div class="content">
-          Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
-          <div class="content-mask"></div>
+        <div slot="actions-alt">
+          View more
         </div>
-        <div class="actions">
-          <iron-icon class="card-action-icon" icon="app-icons:calendar-clock"></iron-icon>Posted 3 days ago
-        </div>
-        <div class="content-alt">
-          <slot name="actions-alt"></slot>
-        </div>
-      </paper-card>
+      </app-card>
     `;
   }
 
   static get properties() {
     return {
-      title: String,
-      content: { type: String, value: "" },
+      announcement: Object,
+      isEvent: { type: Boolean, value: false }
     }
+  }
+
+  _parseAnnouncementDate(date) {
+    if (moment(date).add(23, 'hours').isBefore(moment())) {
+      return moment(date).fromNow();
+    } else if (moment().year() === moment(date).year()) {
+      return moment(date).format('MMM D [at] h:mm a');
+    } else {
+      return moment(date).format('MMM D, YYYY');
+    }
+  }
+
+  _navigate() {
+    this._fire('change-page', `/${this.isEvent ? 'event' : 'announcement'}/${this.announcement.link}`);
   }
 }
 

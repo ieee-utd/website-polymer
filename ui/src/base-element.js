@@ -1,7 +1,6 @@
 import { PolymerElement } from '@polymer/polymer/polymer-element.js';
 import { Polymer } from '@polymer/polymer/polymer-legacy';
 import 'jquery/dist/jquery.min.js';
-import 'moment';
 
 export class BaseElement extends PolymerElement {
   constructor() {
