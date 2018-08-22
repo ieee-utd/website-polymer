@@ -242,10 +242,10 @@ export class BaseElement extends PolymerElement {
 
   _getAttributeFromEvent(e, prop, startsWith) {
     var result = this._getAttributeRecursively(e.currentTarget, prop, (s) => {
-      return s && typeof s === "string" && s.startsWith(startsWith);
+      return s && typeof s === "string" && (startsWith ? s.startsWith(startsWith) : true);
     });
 
-    if (typeof result === 'undefined') return null;
+    if (typeof result === 'undefined' || result == null) return null;
 
     return result.substring(startsWith.length)
   }

@@ -131,8 +131,7 @@ class PageMain extends BaseElement {
           <h2 class="title"><iron-icon icon="mdi:bullhorn" style="transform: rotate(-30deg)"></iron-icon>Important Announcements</h2>
           <app-grid>
             <app-grid-item width=6>
-              <loading-block hidden="true"></loading-block>
-              <app-card>
+              <app-card on-click="_navigate" url="announcement/asdfasdfsomeidhere">
                 <span slot="title">
                   <h3 style="margin: 0; color:var(--color-accent)">Announcement</h3>
                 </span>
@@ -204,8 +203,13 @@ class PageMain extends BaseElement {
 
   static get properties() {
     return {
-      
+
     }
+  }
+
+  _navigate(e) {
+    let url = this._getAttributeFromEvent(e, 'url', "");
+    location.href = url;
   }
 }
 

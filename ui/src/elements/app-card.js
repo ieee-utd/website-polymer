@@ -42,7 +42,7 @@ class AppCard extends BaseElement {
           position: absolute;
           bottom: 50px;
           left: 0;
-          height: 30px;
+          height: 18px;
           width: 100%;
           padding-bottom: 20px;
           background: linear-gradient(to bottom, transparent, var(--card-color));
