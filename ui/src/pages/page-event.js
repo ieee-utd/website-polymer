@@ -1,7 +1,7 @@
 import { html } from '@polymer/polymer/polymer-element.js';
 import { BaseElement } from '../base-element.js'
 
-class PageAnnouncement extends BaseElement {
+class PageEvent extends BaseElement {
   static get template() {
     return html`
       <style include="shared-styles">
@@ -30,4 +30,4 @@ class PageAnnouncement extends BaseElement {
   }
 }
 
-window.customElements.define('page-announcement', PageAnnouncement);
+window.customElements.define('page-event', PageEvent);

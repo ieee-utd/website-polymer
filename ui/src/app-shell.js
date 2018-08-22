@@ -191,6 +191,9 @@ class AppShell extends BaseElement {
           <page-tutoring name="tutoring"></page-tutoring>
           <page-contact name="contact"></page-contact>
           <page-announcement name="announcement"></page-announcement>
+          <page-event name="event"></page-event>
+          <page-events name="events"></page-events>
+          <page-ohnoes name="ohnoes"></page-ohnoes>
         </iron-pages>
       </div>
     `;
@@ -240,7 +243,7 @@ class AppShell extends BaseElement {
     if (el) {
       this.page = page;
     } else {
-      this.page = '';
+      this.page = 'ohnoes';
     }
 
     // Close a non-persistent drawer when the page & route are changed.
@@ -272,6 +275,15 @@ class AppShell extends BaseElement {
         break;
       case 'announcement':
         import('./pages/page-announcement.js').then(() => { this._page = page; });
+        break;
+      case 'event':
+        import('./pages/page-event.js').then(() => { this._page = page; });
+        break;
+      case 'events':
+        import('./pages/page-events.js').then(() => { this._page = page; });
+        break;
+      case 'ohnoes':
+        import('./pages/page-ohnoes.js').then(() => { this._page = page; });
         break;
     }
   }
