@@ -17,7 +17,12 @@ import './app-icons.js';
 import './mdi.js'
 import { BaseElement } from './base-element.js';
 
+import './elements/app-card.js';
+import './elements/app-container.js';
+import './elements/app-grid-item.js';
+import './elements/app-grid.js';
 import './elements/drawer-item.js';
+import './elements/event-card.js';
 import './elements/loading-block.js';
 import './elements/poly-toolbar.js';
 
@@ -169,7 +174,7 @@ class AppShell extends BaseElement {
           <app-container style="width: 100%">
             <div>
               <!--<paper-icon-button class="drawer-toggle" icon="mdi:menu" on-tap="_toggleDrawer"></paper-icon-button>-->
-              <a href="[[rootPath]]" style="height:48px"><img src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd-icon-color.svg" draggable=false gone$="[[_active(page,'')]]"></img></a>
+              <a href="[[rootPath]]" style="height:48px"><img src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_icon_color_bordered.svg" draggable=false gone$="[[_active(page,'')]]"></img></a>
               <span class="tab"><a href="[[rootPath]]" active$="[[_active(page,'')]]">Home</a></span>
               <span class="tab"><a href="[[rootPath]]about" active$="[[_active(page,'about')]]">About</a></span>
               <span class="tab"><a href="[[rootPath]]tutoring" active$="[[_active(page,'tutoring')]]">Tutoring</a></span>

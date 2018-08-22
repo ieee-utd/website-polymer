@@ -6,9 +6,11 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
     <style>
       :host {
         --color-primary: #C75B12;
-        --color-background: #212121;
-        --color-secondary: #424242;
-        --color-secondary-active: #666666;
+        --color-primary-blue: #0072A6;
+        --color-background: var(--paper-grey-900);
+        --color-secondary: var(--paper-grey-800);
+        --color-secondary-active: var(--paper-grey-700);
+        --color-accent: #f2be32;
 
         --font-head: "Rubik";
         --font-main: "Roboto";
