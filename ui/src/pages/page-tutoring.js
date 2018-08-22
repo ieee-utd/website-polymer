@@ -8,6 +8,15 @@ class PageTutoring extends PolymerElement {
         :host {
           display: block;
         }
+        
+        .top-bar {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 64px;
+          width: 100%;
+          background-color: var(--color-background);
+        }
 
         .main {
           max-width: 980px;
@@ -24,6 +33,7 @@ class PageTutoring extends PolymerElement {
       </style>
 
       <div class="main">
+        <div class="top-bar"></div>
         <h1>Tutoring</h1>
         <p>We offer tutoring at []. You can find updated tutoring announcements, events, and schedules below.</p>
         <span class="section-spacer"></span>

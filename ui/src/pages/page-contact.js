@@ -9,6 +9,15 @@ class PageContact extends PolymerElement {
           display: block;
         }
 
+        .top-bar {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 64px;
+          width: 100%;
+          background-color: var(--color-background);
+        }
+
         .main {
           max-width: 980px;
           height: calc(100vh - 160px);
@@ -19,6 +28,7 @@ class PageContact extends PolymerElement {
       </style>
 
       <div class="main">
+        <div class="top-bar"></div>
         <h1>Contact</h1>
         <p>Have questions to ask us? We're active on Facebook and Email. Email is our preferred of contact.</p>
       </div>

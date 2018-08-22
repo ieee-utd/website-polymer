@@ -8,6 +8,15 @@ class PageAnnouncement extends BaseElement {
         :host {
           display: block;
         }
+
+        .top-bar {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 64px;
+          width: 100%;
+          background-color: var(--color-background);
+        }
       </style>
 
     `;
@@ -15,7 +24,7 @@ class PageAnnouncement extends BaseElement {
 
   static get properties() {
     return {
-      
+
     }
   }
 }

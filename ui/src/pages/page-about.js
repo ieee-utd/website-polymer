@@ -11,6 +11,15 @@ class PageAbout extends PolymerElement {
         :host {
           display: block;
         }
+        
+        .top-bar {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 64px;
+          width: 100%;
+          background-color: var(--color-background);
+        }
 
         .main {
           max-width: 980px;
@@ -108,6 +117,7 @@ class PageAbout extends PolymerElement {
       </style>
 
       <div class="main">
+        <div class="top-bar"></div>
         <h1>About</h1>
         <p>
           We are the student chapter of the Institute of Electrical and Electronics Engineers (IEEE) at the University of Texas at Dallas (UTD).
