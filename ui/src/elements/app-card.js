@@ -24,14 +24,18 @@ class AppCard extends BaseElement {
           transition: 0.24s background-color, 0.24s box-shadow;
           padding: 16px;
           @apply --shadow-elevation-2dp;
+          transition: 0.5s ease;
         }
         paper-card:hover {
           background-color: var(--card-color-hover);
           @apply --shadow-elevation-12dp;
+          transition: 0.5s ease;
         }
 
         div.title {
           margin: 6px 0 16px 0;
+          height: 30px;
+          overflow: hidden;
         }
 
         div.content {
@@ -46,11 +50,26 @@ class AppCard extends BaseElement {
           width: 100%;
           padding-bottom: 20px;
           background: linear-gradient(to bottom, transparent, var(--card-color));
-          opacity: 1;
-          transition: 0.24s opacity;
+          transition: 0.5s ease;
         }
-        paper-card:hover div.content-mask {
+        paper-card:hover > div.content > div.content-mask {
           opacity: 0;
+          transition: 0.5s ease;
+        }
+        div.content-mask-hover {
+          position: absolute;
+          bottom: 50px;
+          left: 0;
+          height: 30px;
+          width: 100%;
+          padding-bottom: 20px;
+          opacity: 0;
+          background: linear-gradient(to bottom, transparent, var(--card-hover-color));
+          transition: 0.5s ease;
+        }
+        paper-card:hover > div.content > div.content-mask-hover {
+          opacity: 1;
+          transition: 0.5s ease;
         }
         div.actions {
           height: 30px;
@@ -72,11 +91,13 @@ class AppCard extends BaseElement {
           font-family: var(--font-head);
           font-weight: 700;
           opacity: 0;
-          transition: opacity 0.24s, background-color 0.24s;
+          transition: 0.5s ease;
+          
         }
         paper-card:hover div.content-alt {
           opacity: 1;
           background-color: var(--card-color-hover);
+          transition: 0.5s ease;
         }
       </style>
 
@@ -84,10 +105,10 @@ class AppCard extends BaseElement {
         <div class="title">
           <slot name="title"></slot>
         </div>
-
         <div class="content">
           <slot name="content"></slot>
           <div class="content-mask"></div>
+          <div class="content-mask-hover"></div>
         </div>
         <div class="actions">
           <slot name="actions"></slot>
