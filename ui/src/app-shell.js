@@ -173,7 +173,7 @@ class AppShell extends BaseElement {
         <app-toolbar transparent$="[[_active(page,'')]]">
           <app-container style="width: 100%">
             <div>
-              <a href="[[rootPath]]" style="height:48px"><img src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_icon_color_bordered.svg" draggable=false gone$="[[_active(page,'')]]"></img></a>
+              <a href="[[rootPath]]" style="height:48px"><img src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_icon_color_bordered.svg" draggable=false gone$="[[_active(page,'')]]"/></a>
               <span class="tab"><a href="[[rootPath]]" active$="[[_active(page,'')]]">Home</a></span>
               <span class="tab"><a href="[[rootPath]]about" active$="[[_active(page,'about')]]">About</a></span>
               <span class="tab"><a href="[[rootPath]]tutoring" active$="[[_active(page,'tutoring')]]">Tutoring</a></span>
@@ -193,6 +193,12 @@ class AppShell extends BaseElement {
         </iron-pages>
       </div>
     `;
+  }
+
+  ready() {
+    super.ready();
+    this.addEventListener('card-click', this._routeCard);
+    console.log('shell ready');
   }
 
   static get properties() {
@@ -268,6 +274,11 @@ class AppShell extends BaseElement {
         import('./pages/page-announcement.js').then(() => { this._page = page; });
         break;
     }
+  }
+
+  _routeCard(e) {
+    let detail = e.detail;
+    console.log(detail);
   }
 }
 

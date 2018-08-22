@@ -49,6 +49,7 @@ class AppCard extends BaseElement {
           height: 30px;
           width: 100%;
           padding-bottom: 20px;
+          pointer-events: none;
           background: linear-gradient(to bottom, transparent, var(--card-color));
           transition: 0.5s ease;
         }
@@ -63,8 +64,9 @@ class AppCard extends BaseElement {
           height: 30px;
           width: 100%;
           padding-bottom: 20px;
+          pointer-events: none;
           opacity: 0;
-          background: linear-gradient(to bottom, transparent, var(--card-hover-color));
+          background: linear-gradient(to bottom, transparent, var(--card-color-hover));
           transition: 0.5s ease;
         }
         paper-card:hover > div.content > div.content-mask-hover {

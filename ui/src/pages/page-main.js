@@ -1,6 +1,7 @@
 import { html } from '@polymer/polymer/polymer-element.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/paper-button/paper-button.js';
+import '@polymer/app-route/app-route.js';
 
 import { BaseElement } from '../base-element';
 import '../shared-styles.js';
@@ -124,7 +125,7 @@ class PageMain extends BaseElement {
 
         <div class="content">
           <div class="logo">
-            <img class="logo" draggable=false src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_logo.svg"></img>
+            <img class="logo" draggable=false src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_logo.svg"/>
           </div>
           <br>
           <p>We are the student chapter of the Institute of Electrical and Electronics Engineers (IEEE) at the University of Texas at Dallas (UTD)</p>
@@ -141,7 +142,7 @@ class PageMain extends BaseElement {
                   <iron-icon class="card-action-icon" icon="app-icons:calendar-clock"></iron-icon>Posted <b>3 days ago</b>
                 </div>
                 <div slot="actions-alt">
-                  <paper-button>View more</paper-button>
+                  View more
                 </div>
             </app-grid-item>
             <app-grid-item width=6>
@@ -162,7 +163,7 @@ class PageMain extends BaseElement {
           <h2 class="title">This Week</h2>
           <app-grid>
             <app-grid-item width=6>
-              <app-card>
+              <app-card  on-click="_navigate" url="event/asdfasdfsomeidhere">
                 <span slot="title">
                   <h3 style="margin: 0">Event</h3>
                 </span>
@@ -218,7 +219,7 @@ class PageMain extends BaseElement {
 
   _navigate(e) {
     let url = this._getAttributeFromEvent(e, 'url', "");
-    location.href = url;
+    this._fire('card-click', {url: url});
   }
 }
 
