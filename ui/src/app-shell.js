@@ -173,7 +173,6 @@ class AppShell extends BaseElement {
         <app-toolbar transparent$="[[_active(page,'')]]">
           <app-container style="width: 100%">
             <div>
-              <!--<paper-icon-button class="drawer-toggle" icon="mdi:menu" on-tap="_toggleDrawer"></paper-icon-button>-->
               <a href="[[rootPath]]" style="height:48px"><img src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_icon_color_bordered.svg" draggable=false gone$="[[_active(page,'')]]"></img></a>
               <span class="tab"><a href="[[rootPath]]" active$="[[_active(page,'')]]">Home</a></span>
               <span class="tab"><a href="[[rootPath]]about" active$="[[_active(page,'about')]]">About</a></span>
@@ -184,20 +183,13 @@ class AppShell extends BaseElement {
         </app-toolbar>
       </app-header>
 
-      <!--<app-drawer swipe-open hidden$="{{!_layoutMain(layout)}}" id="drawer">
-        <div style="margin-top:8px">
-          <drawer-item icon="mdi:qrcode-scan" text="Scanner" page="scan" on="[[page]]"></drawer-item>
-          <drawer-item icon="mdi:file-document-box" text="Orders" page="orders" on="[[page]]"></drawer-item>
-          <drawer-item icon="mdi:package-variant-closed" text="Inventory" page="inventory" on="[[page]]"></drawer-item>
-        </div>
-      </app-drawer>-->
-
       <div class="main">
         <iron-pages selected="[[_page]]" attr-for-selected="name" role="main">
           <page-main name=""></page-main>
           <page-about name="about"></page-about>
           <page-tutoring name="tutoring"></page-tutoring>
           <page-contact name="contact"></page-contact>
+          <page-announcement name="announcement"></page-announcement>
         </iron-pages>
       </div>
     `;
@@ -235,14 +227,14 @@ class AppShell extends BaseElement {
      // Show 'view1' in that case. And if the page doesn't exist, show 'view404'.
     if (!page) {
       this.page = '';
-      this.toolbarPosition = 'absolute';
-    } else if (['', 'about', 'tutoring', 'contact'].indexOf(page) !== -1) {
+      return;
+    }
+
+    let el = this.$$(`iron-pages [name="${page}"]`);
+    if (el) {
       this.page = page;
-      if (page === '') this.toolbarPosition = 'absolute';
-      else this.toolbarPosition = 'relative';
     } else {
-      this.page = 'ohnoes';
-      this.toolbarPosition = 'relative';
+      this.page = '';
     }
 
     // Close a non-persistent drawer when the page & route are changed.
@@ -272,7 +264,9 @@ class AppShell extends BaseElement {
       case 'ohnoes':
         import('./pages/page-ohnoes.js').then(() => { this._page = page; });
         break;
-
+      case 'announcement':
+        import('./pages/page-announcement.js').then(() => { this._page = page; });
+        break;
     }
   }
 }
