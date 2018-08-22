@@ -173,7 +173,6 @@ class AppShell extends BaseElement {
         <app-toolbar transparent$="[[_active(page,'')]]">
           <app-container style="width: 100%">
             <div>
-              <!--<paper-icon-button class="drawer-toggle" icon="mdi:menu" on-tap="_toggleDrawer"></paper-icon-button>-->
               <a href="[[rootPath]]" style="height:48px"><img src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_icon_color_bordered.svg" draggable=false gone$="[[_active(page,'')]]"></img></a>
               <span class="tab"><a href="[[rootPath]]" active$="[[_active(page,'')]]">Home</a></span>
               <span class="tab"><a href="[[rootPath]]about" active$="[[_active(page,'about')]]">About</a></span>
@@ -183,14 +182,6 @@ class AppShell extends BaseElement {
           </app-container>
         </app-toolbar>
       </app-header>
-
-      <!--<app-drawer swipe-open hidden$="{{!_layoutMain(layout)}}" id="drawer">
-        <div style="margin-top:8px">
-          <drawer-item icon="mdi:qrcode-scan" text="Scanner" page="scan" on="[[page]]"></drawer-item>
-          <drawer-item icon="mdi:file-document-box" text="Orders" page="orders" on="[[page]]"></drawer-item>
-          <drawer-item icon="mdi:package-variant-closed" text="Inventory" page="inventory" on="[[page]]"></drawer-item>
-        </div>
-      </app-drawer>-->
 
       <div class="main">
         <iron-pages selected="[[_page]]" attr-for-selected="name" role="main">
