@@ -49,6 +49,7 @@ class PageMain extends BaseElement {
         img.logo {
           height: 160px;
           width: auto;
+          max-width: 100%;
         }
         div.bg {
           height: 500px;

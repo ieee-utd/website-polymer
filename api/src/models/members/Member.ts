@@ -15,6 +15,10 @@ var schema = new mongoose.Schema({
   collection: "members"
 });
 
+schema.virtual('initials', function() {
+  return this.firstName.substring(0, 1).toUpperCase() + this.lastName.substring(0, 1).toUpperCase();
+})
+
 schema.index({ email: 1 });
 
 export var Member = mongoose.model('Member', schema);
