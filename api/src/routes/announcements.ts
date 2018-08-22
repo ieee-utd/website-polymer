@@ -1,12 +1,21 @@
 import * as express from "express";
+import * as moment from "moment";
 export let route = express.Router();
 
+import { cleanAll, cleanAnnouncement } from "../helpers/clean";
 import { userCan } from "../helpers/verify";
 import { Announcement } from "../models";
-import * as helper from "../helpers/announcements.helper";
+import { CreateAnnouncementSchema } from "../helpers/schema";
+
+const validate = require('express-validation');
+const crypto = require('crypto');
+const base64url = require('base64url');
 
 route.param('link', async function (req : any, res, next, link) {
-  var announcement = await Announcement.findOne({ link: link });
+  var announcement = await Announcement.findOne({ link: link })
+  .populate('createdBy')
+  .populate('updatedBy');
+
   if (!announcement) {
     return next({
       status: 404,
@@ -18,27 +27,75 @@ route.param('link', async function (req : any, res, next, link) {
   next();
 });
 
-//List all announcements
+//List all active announcements
 route.get('/', async (req: any, res: any, next: any) => {
-  return await helper.listAll("announcements");
+  try {
+    let _announcements = await Announcement
+    .find({ visibleUntil: { $gte: moment().toDate() }})
+    .sort({ createdOn: -1 })
+    .populate('createdBy')
+    .populate('updatedBy');
+
+    res.send(cleanAll(_announcements, cleanAnnouncement));
+  } catch (e) {
+    next(e)
+  }
 });
 
-//Get a specific announcement
+//Get full text about a specific announcement
 route.get('/:link', async (req: any, res: any, next: any) => {
-
+  try {
+    res.send(cleanAnnouncement(req.announcement, true))
+  } catch (e) {
+    next(e)
+  }
 });
 
 //Create new announcement
-route.post('/', userCan("create"), async (req: any, res: any, next: any) => {
-  
+route.post('/', userCan("create"), validate(CreateAnnouncementSchema), async (req: any, res: any, next: any) => {
+  try {
+    let announcement = req.body;
+    announcement.link = base64url(crypto.randomBytes(8));
+    announcement.createdBy = req.user._id;
+    announcement.createdOn = Date.now();
+
+    if (moment().isSameOrAfter(announcement.visibleUntil)) {
+      return next({
+        status: 400,
+        message: "Some fields are invalid",
+        errors: {
+          visibleUntil: "Visible until date must be in the future"
+        }
+      })
+    }
+
+    let object = new Announcement(announcement);
+    await object.save();
+
+    res.send({ link: announcement.link, message: "Successfully created announcement" })
+  } catch (e) {
+    next(e)
+  }
 });
 
 //Update announcement
 route.put('/:link', userCan("edit"), async (req: any, res: any, next: any) => {
+  try {
+    await Announcement.findOneAndUpdate({ _id: req.announcement._id }, req.body)
 
+    res.send({ message: "Announcement updated" })
+  } catch (e) {
+    next(e)
+  }
 });
 
 //Delete announcement
 route.delete('/:link', userCan("delete"), async (req: any, res: any, next: any) => {
+  try {
+    await Announcement.remove({ _id: req.announcement._id });
 
+    res.send({ message: "Announcement deleted" })
+  } catch (e) {
+    next(e)
+  }
 });

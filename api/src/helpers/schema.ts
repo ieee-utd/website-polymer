@@ -45,3 +45,45 @@ export let ChangePasswordSchema = {
     "newPassword": Joi.string().min(8).required()
   }).unknown(false)
 }
+
+export let CreateAnnouncementSchema = {
+  body: Joi.object({
+    "title": Joi.string().required().min(1).max(64),
+    "content": Joi.string(),
+    "visibleUntil": Joi.date().required()
+  }).unknown(false)
+}
+
+export let UpdateAnnouncementSchema = {
+  body: Joi.object({
+    "title": Joi.string().min(1).max(64),
+    "content": Joi.string(),
+    "visibleUntil": Joi.date()
+  }).unknown(false)
+}
+
+export let CreateEventSchema = {
+  body: Joi.object({
+    "title": Joi.string().required().min(1).max(64),
+    "content": Joi.string(),
+    "startTime": Joi.date().required(),
+    "endTime": Joi.date().required(),
+    "locationName": Joi.string(),
+    "locationUrl": Joi.string(),
+    "reservationLink": Joi.string(),
+    "reservationRequired": Joi.boolean().required()
+  }).unknown(false)
+}
+
+export let UpdateEventSchema = {
+  body: Joi.object({
+    "title": Joi.string(),
+    "content": Joi.string(),
+    "startTime": Joi.date(),
+    "endTime": Joi.date(),
+    "locationName": Joi.string(),
+    "locationUrl": Joi.string(),
+    "reservationLink": Joi.string(),
+    "reservationRequired": Joi.boolean()
+  }).unknown(false)
+}
