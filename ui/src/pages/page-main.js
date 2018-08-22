@@ -136,20 +136,19 @@ class PageMain extends BaseElement {
                 <span slot="title">
                   <h3 style="margin: 0; color:var(--color-accent)">Announcement</h3>
                 </span>
-                <span slot="content">
-                  Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
-                </span>
-                <div slot="actions" style="opacity:0.4;font-family:var(--font-head)">
+                <span slot="content">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</span>
+                <div slot="actions">
                   <iron-icon class="card-action-icon" icon="app-icons:calendar-clock"></iron-icon>Posted <b>3 days ago</b>
                 </div>
                 <div slot="actions-alt">
-                  View more
+                  <paper-button>View more</paper-button>
                 </div>
-              </app-card>
             </app-grid-item>
             <app-grid-item width=6>
               <app-card>
-                <h2 slot="title">Title</h2>
+                <span slot="title">
+                  <h3 style="margin:0;">Title</h3>
+                </span>
                 <span slot="content">Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</span>
                 <div slot="actions">
                   <iron-icon class="card-action-icon" icon="app-icons:calendar-clock"></iron-icon>Posted 3 days ago
@@ -171,12 +170,12 @@ class PageMain extends BaseElement {
                   Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
                 </span>
                 <div slot="actions" class="action">
-                <div>
-                  <iron-icon class="card-action-icon" icon="mdi:calendar-clock"></iron-icon><b>Mar 3 at 6p</b>
-                </div>
-                <div>
-                  <iron-icon class="card-action-icon" icon="mdi:map-marker"></iron-icon><b>Makerspace</b></a>
-                </div>
+                  <div>
+                    <iron-icon class="card-action-icon" icon="mdi:calendar-clock"></iron-icon><b>Mar 3 at 6p</b>
+                  </div>
+                  <div>
+                    <iron-icon class="card-action-icon" icon="mdi:map-marker"></iron-icon><b>Makerspace</b></a>
+                  </div>
                 </div>
                 <div slot="actions-alt">
                   View more
