@@ -50,7 +50,8 @@ export let CreateAnnouncementSchema = {
   body: Joi.object({
     "title": Joi.string().required().min(1).max(64),
     "content": Joi.string(),
-    "visibleUntil": Joi.date().required()
+    "visibleUntil": Joi.date().required(),
+    "visibleFrom": Joi.date().required()
   }).unknown(false)
 }
 
@@ -58,7 +59,8 @@ export let UpdateAnnouncementSchema = {
   body: Joi.object({
     "title": Joi.string().min(1).max(64),
     "content": Joi.string(),
-    "visibleUntil": Joi.date()
+    "visibleUntil": Joi.date(),
+    "visibleFrom": Joi.date()
   }).unknown(false)
 }
 

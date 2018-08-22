@@ -15,7 +15,7 @@ var schema = new mongoose.Schema({
   collection: "members"
 });
 
-schema.virtual('initials', function() {
+schema.virtual('initials').get(function() {
   return this.firstName.substring(0, 1).toUpperCase() + this.lastName.substring(0, 1).toUpperCase();
 })
 

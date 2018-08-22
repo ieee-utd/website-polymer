@@ -3,10 +3,10 @@ var { AnnouncementBase } = require('./AnnouncementBase');
 
 var schema = new mongoose.Schema({
   startTime: { type: Date, required: true },
-  endTime: { type: Date },
+  endTime: { type: Date, required: true },
   locationName: { type: String },
   locationUrl: { type: String },
-  reservationLink: { type: String },
+  reservationUrl: { type: String },
   reservationRequired: { type: Boolean, default: false }
 });
 

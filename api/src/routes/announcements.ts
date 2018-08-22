@@ -31,8 +31,8 @@ route.param('link', async function (req : any, res, next, link) {
 route.get('/', async (req: any, res: any, next: any) => {
   try {
     let _announcements = await Announcement
-    .find({ visibleUntil: { $gte: moment().toDate() }})
-    .sort({ createdOn: -1 })
+    .find({ visibleFrom: { $lt: moment().toDate() }, visibleUntil: { $gte: moment().toDate() }})
+    .sort({ visibleFrom: -1 })
     .populate('createdBy')
     .populate('updatedBy');
 
@@ -81,6 +81,9 @@ route.post('/', userCan("create"), validate(CreateAnnouncementSchema), async (re
 //Update announcement
 route.put('/:link', userCan("edit"), async (req: any, res: any, next: any) => {
   try {
+    req.body.lastUpdated = Date.now();
+    req.body.updatedBy = req.user._id;
+
     await Announcement.findOneAndUpdate({ _id: req.announcement._id }, req.body)
 
     res.send({ message: "Announcement updated" })
