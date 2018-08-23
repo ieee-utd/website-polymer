@@ -54,7 +54,7 @@ class AppCard extends BaseElement {
         }
         paper-card:hover > div.content > div.content-mask {
           opacity: 0;
-          transition: 0.5s ease;
+          transition: 0.24s ease;
         }
         div.content-mask-hover {
           position: absolute;
