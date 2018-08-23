@@ -1,5 +1,6 @@
 import { PolymerElement } from '@polymer/polymer/polymer-element.js';
 import { Polymer } from '@polymer/polymer/polymer-legacy';
+import * as Async from '@polymer/polymer/lib/utils/async.js'
 import 'jquery/dist/jquery.min.js';
 
 export class BaseElement extends PolymerElement {
@@ -55,10 +56,11 @@ export class BaseElement extends PolymerElement {
   }
 
   _async(f) {
-    // if (window.requestIdleCallback)
-      Polymer.Async.idlePeriod.run(f);
-    // else
-      // Polymer.Async.microTask.run(f);
+    Async.idlePeriod.run(f);
+  }
+
+  _microTask(f) {
+    Async.microTask.run(f);
   }
 
   _showToast(message, type, detail) {

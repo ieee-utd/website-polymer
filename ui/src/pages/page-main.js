@@ -118,6 +118,10 @@ class PageMain extends BaseElement {
         div.action > div {
           margin-right: 16px;
         }
+        loading-block[loading].extra {
+          margin-top:20px;
+          margin-bottom:32px;
+        }
       </style>
 
       <app-container>
@@ -132,22 +136,24 @@ class PageMain extends BaseElement {
           <p>We are the student chapter of the Institute of Electrical and Electronics Engineers (IEEE) at the University of Texas at Dallas (UTD)</p>
 
           <h2 class="title"><iron-icon icon="mdi:bullhorn" style="transform: rotate(-30deg)"></iron-icon>Important Announcements</h2>
-          <app-grid>
-            <dom-repeat items="[[announcements]]">
-              <template>
-                <app-grid-item width=6>
-                  <event-card announcement="[[item]]"></event-card>
-                </app-grid-item>
-              </template>
-            </dom-repeat>
-          </app-grid>
+          <loading-block loading$="[[_loadingAnnouncements]]" class="extra">
+            <app-grid>
+              <dom-repeat items="[[announcements]]">
+                <template>
+                  <app-grid-item width=6>
+                    <event-card announcement="[[item]]"></event-card>
+                  </app-grid-item>
+                </template>
+              </dom-repeat>
+            </app-grid>
+          </loading-block>
           <h2 class="title">This Week</h2>
           <app-grid>
-            
+
           </app-grid>
           <h2 class="title">Happening Soon</h2>
           <app-grid>
-            
+
           </app-grid>
         </div>
       </app-container>
@@ -158,27 +164,27 @@ class PageMain extends BaseElement {
     return {
       announcements: {
         type: Array,
-        value: [
-          {
-            "_id": "5b7daeda6a85c4001dac1a24",
-            "title": "An important announcement!!",
-            "content": "Announcement content",
-            "visibleFrom": "2017-08-20T05:00:00.000Z",
-            "visibleUntil": "2019-08-23T05:00:00.000Z",
-            "link": "aG4jrOgmdTk",
-            "createdBy": {
-                "_id": "5b7b2452fec60c0042f48bdf",
-                "firstName": "Caleb",
-                "lastName": "Fung",
-                "email": "caleb.t.fung@gmail.com",
-                "memberSince": 2018,
-                "initials": "CF"
-            },
-            "createdOn": "2018-08-22T18:43:38.360Z"
-          }
-        ]
+        value: [ ]
       }
     }
+  }
+
+  onload(subroute) {
+    return new Promise((resolve, reject) => {
+      resolve();
+
+      this._async(() => {
+        this.set("_loadingAnnouncements", true)
+        this._get("/announcements", { silent: true })
+        .then((ann) => {
+          this.set("announcements", ann);
+          this.set("_loadingAnnouncements", false)
+        })
+        .catch((e) => {
+          this.set("_loadingAnnouncements", false)
+        })
+      })
+    })
   }
 
   _navigate(e) {

@@ -157,8 +157,8 @@ class AppShell extends BaseElement {
         right: 0;
         z-index: 1000;
         width: 100%;
-        --paper-progress-active-color: white;
-        --paper-progress-container-color: var(--primary-color);
+        --paper-progress-active-color: var(--color-accent);
+        --paper-progress-container-color: var(--color-primary);
       }
       </style>
 
@@ -168,7 +168,7 @@ class AppShell extends BaseElement {
       <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}">
       </app-route>
 
-      <paper-progress indeterminate hidden$="[[!loading]]"></paper-progress>
+      <paper-progress indeterminate hidden$="[[!_loading]]"></paper-progress>
 
       <app-header reveals fixed>
         <app-toolbar transparent$="[[_active(page,'')]]">
@@ -212,7 +212,8 @@ class AppShell extends BaseElement {
       toolbarPosition: String,
       routeData: Object,
       subroute: Object,
-      _subdrawerOpen: { type: Boolean, value: false }
+      _subdrawerOpen: { type: Boolean, value: false },
+      _loading: { type: Boolean, value: false }
     };
   }
 
@@ -254,26 +255,50 @@ class AppShell extends BaseElement {
     //
     // Note: `polymer build` doesn't like string concatenation in the import
     // statement, so break it up.
+
     switch (page) {
       case '':
-        import('./pages/page-main.js').then(() => { this._page = page; });
+        import('./pages/page-main.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
         break;
       case 'about':
-        import('./pages/page-about.js').then(() => { this._page = page; });
+        import('./pages/page-about.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
         break;
       case 'tutoring':
-        import('./pages/page-tutoring.js').then(() => { this._page = page; });
+        import('./pages/page-tutoring.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
         break;
       case 'contact':
-        import('./pages/page-contact.js').then(() => { this._page = page; });
+        import('./pages/page-contact.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
         break;
       case 'ohnoes':
-        import('./pages/page-ohnoes.js').then(() => { this._page = page; });
+        import('./pages/page-ohnoes.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed).bind(this);
         break;
       case 'announcement':
-        import('./pages/page-announcement.js').then(() => { this._page = page; });
+        import('./pages/page-announcement.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
         break;
     }
+  }
+
+  _pageLoaded() {
+    this._async(() => {
+      let el = this.$$(`iron-pages [name="${this.page}"]`);
+      var promise = () => { return Promise.resolve(); }
+      if (typeof el.onload === 'function') {
+        promise = el.onload;
+      }
+
+      promise.call(el)
+      .then(() => {
+        this.set("_page", this.page)
+        window.scroll(0, 0);
+        // this.set("_loading", false)
+      })
+      .catch(this._pageLoadFailed.bind(this))
+    })
+  }
+
+  _pageLoadFailed() {
+    this.set("_loading", false)
+    this._navigate({ detail: "/" })
   }
 
   _navigate(e) {

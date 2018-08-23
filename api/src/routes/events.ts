@@ -32,9 +32,7 @@ route.get('/', async (req: any, res: any, next: any) => {
   try {
     let _announcements = await Event
     .find({ endTime: { $gte: moment().add(1, 'day').toDate() }})
-    .sort({ createdOn: -1 })
-    .populate('createdBy')
-    .populate('updatedBy');
+    .sort({ createdOn: -1 });
 
     res.send(cleanAll(_announcements, cleanAnnouncement));
   } catch (e) {

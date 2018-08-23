@@ -28,7 +28,7 @@ class AppGrid extends PolymerElement {
           padding: 0;
           border: var(--grid-margin-between-items) solid transparent;
           box-sizing: border-box; /* this makes the grid work :) */
-          margin-bottom: calc(var(--grid-margin-between-items) * 2);
+          /*margin-bottom: calc(var(--grid-margin-between-items) * 2);*/
           @apply --layout-horizontal;
           @apply --layout-justified;
           @apply --grid-item;
@@ -97,7 +97,7 @@ class AppGrid extends PolymerElement {
 
   static get properties() {
     return {
-      
+
     }
   }
 }

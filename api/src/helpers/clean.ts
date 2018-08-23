@@ -62,7 +62,16 @@ export function cleanAnnouncement(_a: any, showAllContent?: boolean) {
   if (a.content && !showAllContent) {
     a.content = a.content.length > 500 ? a.content.substring(0, 500).trim() : a.content.trim();
   }
-  a.createdBy = cleanUser(a.createdBy, true);
-  a.updatedBy = cleanUser(a.updatedBy, true);
+  if (_.isPlainObject(a.createdBy)) {
+    a.createdBy = cleanUser(a.createdBy, true);
+  } else {
+    delete a.createdBy;
+  }
+  if (_.isPlainObject(a.updatedBy)) {
+    a.updatedBy = cleanUser(a.updatedBy, true);
+  } else {
+    delete a.updatedBy;
+  }
+
   return a;
 }
