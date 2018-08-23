@@ -1,5 +1,6 @@
 import { html } from '@polymer/polymer/polymer-element.js';
 import { BaseElement } from '../base-element';
+import moment from 'moment/src/moment.js';
 
 class EventCard extends BaseElement {
   static get template() {
