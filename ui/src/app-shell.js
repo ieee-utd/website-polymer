@@ -159,6 +159,14 @@ class AppShell extends BaseElement {
         --paper-progress-container-color: var(--color-background);
         --paper-progress-height: 6px;
       }
+      div.main {
+        opacity: 1;
+        transition: 0.8s ease-in-out opacity;
+      }
+      div.main[loading] {
+        opacity: 0.6;
+        pointer-events: none!important;
+      }
       </style>
 
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
@@ -183,7 +191,7 @@ class AppShell extends BaseElement {
         </app-toolbar>
       </app-header>
 
-      <div class="main">
+      <div class="main" loading$="[[_loading]]">
         <iron-pages selected="[[_page]]" attr-for-selected="name" role="main">
           <page-main name=""></page-main>
           <page-about name="about"></page-about>
