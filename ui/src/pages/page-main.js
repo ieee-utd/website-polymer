@@ -160,72 +160,64 @@ class PageMain extends BaseElement {
 
         <div class="content">
           <div class="logo">
-            <img class="logo" draggable=false src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_logo.svg"/>
+            <iron-image preload fade sizing="contain" style="width:100%; height:160px;" src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_logo.svg"></iron-image>
           </div>
           <br>
           <div class="blurb">
             <p>We are the student chapter of the Institute of Electrical and Electronics Engineers (IEEE) at The University of Texas at Dallas (UTD)</p>
             <div>
               <paper-button class="large">Join our mailing list</paper-button>
-              <paper-button class="large">Learn more</paper-button>
+              <paper-button class="large" on-tap="_navigate" url="/about">Learn more</paper-button>
             </div>
           </div>
 
           <div class="main-card">
             <h2 class="title"><iron-icon icon="mdi:bullhorn" style="transform: rotate(-30deg)"></iron-icon>Important Announcements</h2>
-            <loading-block loading$="[[_loadingAnnouncements]]" class="extra">
-              <app-grid>
-                <dom-repeat items="[[announcements]]">
-                  <template>
-                    <app-grid-item width=6>
-                      <event-card announcement="[[item]]"></event-card>
-                    </app-grid-item>
-                  </template>
-                </dom-repeat>
-              </app-grid>
-            </loading-block>
+            <app-grid>
+              <dom-repeat items="[[announcements]]">
+                <template>
+                  <app-grid-item width=6>
+                    <event-card announcement="[[item]]"></event-card>
+                  </app-grid-item>
+                </template>
+              </dom-repeat>
+            </app-grid>
           </div>
           <div class="main-card">
             <h2 class="title">This Week</h2>
-            <loading-block loading$="[[_loadingEvents]]" class="extra">
-              <app-grid>
-                <dom-repeat items="[[events.thisWeek]]">
-                  <template>
-                    <app-grid-item width=6>
-                      <event-card announcement="[[item]]" is-event></event-card>
-                    </app-grid-item>
-                  </template>
-                </dom-repeat>
-              </app-grid>
-            </loading-block>
+            <app-grid>
+              <dom-repeat items="[[events.thisWeek]]">
+                <template>
+                  <app-grid-item width=6>
+                    <event-card announcement="[[item]]" is-event></event-card>
+                  </app-grid-item>
+                </template>
+              </dom-repeat>
+            </app-grid>
           </div>
           <div class="main-card">
             <h2 class="title">Next Week</h2>
-            <loading-block loading$="[[_loadingEvents]]" class="extra">
-              <app-grid>
-                <dom-repeat items="[[events.nextWeek]]">
-                  <template>
-                    <app-grid-item width=6>
-                      <event-card announcement="[[item]]" is-event></event-card>
-                    </app-grid-item>
-                  </template>
-                </dom-repeat>
-              </app-grid>
-            </loading-block>
+            <app-grid>
+              <dom-repeat items="[[events.nextWeek]]">
+                <template>
+                  <app-grid-item width=6>
+                    <event-card announcement="[[item]]" is-event></event-card>
+                  </app-grid-item>
+                </template>
+              </dom-repeat>
+            </app-grid>
           </div>
           <div class="main-card">
             <h2 class="title">Happening Soon</h2>
-            <loading-block loading$="[[_loadingEvents]]" class="extra">
-              <app-grid>
-                <dom-repeat items="[[events.upcoming]]">
-                  <template>
-                    <app-grid-item width=6>
-                      <event-card announcement="[[item]]" is-event></event-card>
-                    </app-grid-item>
-                  </template>
-                </dom-repeat>
-              </app-grid>
-            </loading-block>
+            <app-grid>
+              <dom-repeat items="[[events.upcoming]]">
+                <template>
+                  <app-grid-item width=6>
+                    <event-card announcement="[[item]]" is-event></event-card>
+                  </app-grid-item>
+                </template>
+              </dom-repeat>
+            </app-grid>
           </div>
         </div>
       </app-container>
@@ -250,29 +242,17 @@ class PageMain extends BaseElement {
 
   onload(subroute) {
     return new Promise((resolve, reject) => {
-      resolve();
-
-      this._async(() => {
-        this.set("_loadingAnnouncements", true)
-        this.set("_loadingEvents", true)
-
-        this._get("/events", { silent: true })
-        .then((events) => {
-          this.set("events", events);
-          this.set("_loadingEvents", false)
-        })
-        .catch((e) => {
-          this.set("_loadingEvents", false)
-        })
-
+      Promise.all([
+        this._get("/events", { silent: true }),
         this._get("/announcements", { silent: true })
-        .then((ann) => {
-          this.set("announcements", ann);
-          this.set("_loadingAnnouncements", false)
-        })
-        .catch((e) => {
-          this.set("_loadingAnnouncements", false)
-        })
+      ])
+      .then((data) => {
+        this.set("events", data[0]);
+        this.set("announcements", data[1]);
+        resolve();
+      })
+      .catch((e) => {
+        reject();
       })
     })
   }

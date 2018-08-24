@@ -83,13 +83,14 @@ class AppCard extends BaseElement {
           margin: 12px 0;
           display: flex;
           align-items: center;
+          background: transparent;
         }
         div.content-alt {
           position: absolute;
           bottom: 0px;
           left: 0;
           right: 0;
-          height: 50px;
+          height: 0px;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -99,10 +100,10 @@ class AppCard extends BaseElement {
           font-weight: 700;
           opacity: 0;
           transition: 0.14s linear;
-
         }
         paper-card:hover div.content-alt {
           opacity: 1;
+          height: 50px;
           /*background-color: var(--card-color-hover);*/
         }
       </style>
