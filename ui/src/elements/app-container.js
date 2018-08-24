@@ -7,7 +7,6 @@ class AppContainer extends PolymerElement {
       <style include="shared-styles">
         :host {
           display: block;
-          width: 100%;
           --app-container-content: { };
         }
         div.container {
