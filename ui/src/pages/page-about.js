@@ -1,7 +1,6 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import '@polymer/iron-image/iron-image';
 import '@polymer/iron-icons/communication-icons.js';
-import '@polymer/paper-icon-button/paper-icon-button';
 import '../shared-styles.js';
 
 class PageAbout extends PolymerElement {
@@ -11,26 +10,15 @@ class PageAbout extends PolymerElement {
         :host {
           display: block;
         }
-        
-        .top-bar {
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 64px;
+
+        .top-bg {
+          height: 400px;
           width: 100%;
           background-color: var(--color-background);
         }
 
-        .main {
-          max-width: 980px;
-          min-height: calc(100vh - 160px);
-          min-height: 700px;
-          padding: 72px 32px 64px 32px;
-          margin: 0 auto;
-        }
-
-        h1 {
-          margin: 0;
+        .content {
+          margin: 16px;
         }
 
         .section-spacer {
@@ -114,11 +102,32 @@ class PageAbout extends PolymerElement {
           align-items: center;
           background-color: lightgray;
         }
+
+        h1 {
+          font-size: 2.4em;
+          margin: 0 16px;
+        }
+
+        .overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 400px;
+          width: 100%;
+          background: linear-gradient(to bottom, var(--color-background), transparent);
+          z-index: 1;
+        }
       </style>
 
-      <div class="main">
-        <div class="top-bar"></div>
-        <h1>About</h1>
+      <div class="image">
+        <div class="overlay"></div>
+        <iron-image class="top-bg" sizing="cover" src="/img/about.jpg" preload fade></iron-image>
+        <app-container style="position:relative;top:-72px;margin-bottom:-36px;">
+          <h1 style="color:white;">About</h1>
+        </app-container>
+      </div>
+      
+      <app-container class="content">
         <p>
           We are the student chapter of the Institute of Electrical and Electronics Engineers (IEEE) at the University of Texas at Dallas (UTD).
           IEEE UTD was founded in [] by students passionate about engineering with only [] members. 
@@ -160,7 +169,7 @@ class PageAbout extends PolymerElement {
         <div class="committees-container">
           More info coming soon!
         </div>
-      </div>
+      </app-container>
     `;
   }
 

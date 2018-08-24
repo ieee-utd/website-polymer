@@ -167,7 +167,7 @@ class AppShell extends BaseElement {
       <paper-progress indeterminate hidden$="[[!_loading]]"></paper-progress>
 
       <app-header reveals fixed>
-        <app-toolbar transparent$="[[_active(page,'')]]">
+        <app-toolbar transparent$="[[!_loading]]">
           <app-container style="width: 100%">
             <div>
               <a href="[[rootPath]]" style="height:48px"><img src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_icon_color_bordered.svg" draggable=false gone$="[[_active(page,'')]]"/></a>
