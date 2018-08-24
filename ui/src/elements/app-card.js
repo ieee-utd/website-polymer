@@ -11,6 +11,7 @@ class AppCard extends BaseElement {
 
           --card-color: var(--paper-grey-800);
           --card-color-hover: var(--paper-grey-700);
+          --card-color-hover-dark: var(--color-primary);
         }
 
         paper-card {
@@ -25,12 +26,12 @@ class AppCard extends BaseElement {
           @apply --shadow-elevation-2dp;
           /*box-shadow: none;*/
           /*border: 1px solid var(--paper-grey-500);*/
-          transition: 0.14s ease;
+          transition: 0.14s linear;
         }
         paper-card:hover {
           background-color: var(--card-color-hover);
           @apply --shadow-elevation-12dp;
-          transition: 0.14s ease;
+          transition: 0.14s linear;
         }
 
         div.title {
@@ -43,7 +44,7 @@ class AppCard extends BaseElement {
           overflow-y: hidden;
           height: 70px;
           opacity: 0.7;
-          transition: 0.14s;
+          transition: 0.14s linear;
         }
         paper-card:hover div.content {
           opacity: 1;
@@ -57,7 +58,7 @@ class AppCard extends BaseElement {
           padding-bottom: 20px;
           pointer-events: none;
           background: linear-gradient(to bottom, transparent, var(--card-color));
-          transition: 0.14s;
+          transition: 0.14s linear;
         }
         paper-card:hover > div.content > div.content-mask {
           opacity: 0;
@@ -72,7 +73,7 @@ class AppCard extends BaseElement {
           pointer-events: none;
           opacity: 0;
           background: linear-gradient(to bottom, transparent, var(--card-color-hover));
-          transition: 0.14s;
+          transition: 0.14s linear;
         }
         paper-card:hover > div.content > div.content-mask-hover {
           opacity: 1;
@@ -93,16 +94,16 @@ class AppCard extends BaseElement {
           justify-content: center;
           align-items: center;
           z-index: 1;
-          background-color: var(--card-color);
+          background-color: var(--card-color-hover-dark);
           font-family: var(--font-head);
           font-weight: 700;
           opacity: 0;
-          transition: 0.14s;
+          transition: 0.14s linear;
 
         }
         paper-card:hover div.content-alt {
           opacity: 1;
-          background-color: var(--card-color-hover);
+          /*background-color: var(--card-color-hover);*/
         }
       </style>
 
