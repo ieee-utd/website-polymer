@@ -3,6 +3,7 @@ import * as fs from "fs";
 import { route as userRoute } from "./user";
 import { route as announcementsRoute } from "./announcements"
 import { route as officersRoute } from "./officers";
+import { route as eventsRoute } from "./events";
 import { cache, cacheMiddleware } from "../helpers/cache";
 
 export let routes = express.Router();
@@ -34,3 +35,4 @@ routes.get('/version', cacheMiddleware('1 hour'), async (req: any, res: any) => 
 routes.use("/user", userRoute);
 routes.use("/officers", officersRoute);
 routes.use("/announcements", announcementsRoute);
+routes.use("/events", eventsRoute);

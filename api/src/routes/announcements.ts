@@ -5,7 +5,7 @@ export let route = express.Router();
 import { cleanAll, cleanAnnouncement } from "../helpers/clean";
 import { userCan } from "../helpers/verify";
 import { Announcement } from "../models";
-import { CreateAnnouncementSchema } from "../helpers/schema";
+import { CreateAnnouncementSchema, UpdateAnnouncementSchema } from "../helpers/schema";
 
 const validate = require('express-validation');
 const crypto = require('crypto');
@@ -32,9 +32,7 @@ route.get('/', async (req: any, res: any, next: any) => {
   try {
     let _announcements = await Announcement
     .find({ visibleFrom: { $lt: moment().toDate() }, visibleUntil: { $gte: moment().toDate() }})
-    .sort({ visibleFrom: -1 })
-    .populate('createdBy')
-    .populate('updatedBy');
+    .sort({ visibleFrom: -1 });
 
     res.send(cleanAll(_announcements, cleanAnnouncement));
   } catch (e) {
@@ -55,7 +53,7 @@ route.get('/:link', async (req: any, res: any, next: any) => {
 route.post('/', userCan("create"), validate(CreateAnnouncementSchema), async (req: any, res: any, next: any) => {
   try {
     let announcement = req.body;
-    announcement.link = base64url(crypto.randomBytes(8));
+    announcement.link = base64url(crypto.randomBytes(6));
     announcement.createdBy = req.user._id;
     announcement.createdOn = Date.now();
 
@@ -79,12 +77,12 @@ route.post('/', userCan("create"), validate(CreateAnnouncementSchema), async (re
 });
 
 //Update announcement
-route.put('/:link', userCan("edit"), async (req: any, res: any, next: any) => {
+route.put('/:link', userCan("edit"), validate(UpdateAnnouncementSchema), async (req: any, res: any, next: any) => {
   try {
     req.body.lastUpdated = Date.now();
     req.body.updatedBy = req.user._id;
 
-    await Announcement.findOneAndUpdate({ _id: req.announcement._id }, req.body)
+    await Announcement.findOneAndUpdate({ _id: req.announcement._id }, { $set: req.body })
 
     res.send({ message: "Announcement updated" })
   } catch (e) {

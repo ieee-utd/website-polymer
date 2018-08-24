@@ -26,7 +26,7 @@ class EventCard extends BaseElement {
 
       <app-card on-click="_navigate">
         <span slot="title">
-          <h3 style="margin: 0">[[announcement.title]]</h3>
+          <h3 style="margin: 0; color:var(--color-orange-complement)">[[announcement.title]]</h3>
         </span>
         <span slot="content">
           [[announcement.content]]
@@ -36,7 +36,7 @@ class EventCard extends BaseElement {
             <iron-icon class="card-action-icon" icon="mdi:calendar-clock"></iron-icon>Posted <b>[[_parseAnnouncementDate(announcement.visibleFrom)]]</b>
           </div>
           <div hidden$="[[!isEvent]]">
-            <iron-icon class="card-action-icon" icon="mdi:calendar-clock"></iron-icon><b>Mar 3 at 6p</b>
+            <iron-icon class="card-action-icon" icon="mdi:calendar-clock"></iron-icon><b>[[_parseEventDate(announcement.startTime,announcement.endTime)]]</b>
           </div>
           <div hidden$="[[!isEvent]]">
             <iron-icon class="card-action-icon" icon="mdi:map-marker"></iron-icon><b>Makerspace</b></a>
@@ -57,12 +57,74 @@ class EventCard extends BaseElement {
   }
 
   _parseAnnouncementDate(date) {
-    if (moment(date).add(23, 'hours').isBefore(moment())) {
+    if (moment(date).add(23, 'hours').isAfter(moment())) {
       return moment(date).fromNow();
     } else if (moment().year() === moment(date).year()) {
       return moment(date).format('MMM D [at] h:mm a');
     } else {
       return moment(date).format('MMM D, YYYY');
+    }
+  }
+
+  _parseEventDate(_startDate, _endDate) {
+    if (!_startDate) return "";
+    var startDate = moment(_startDate);
+    var endDate = moment(_endDate);
+    if (startDate > endDate) {
+      var _temp = _startDate;
+      _startDate = _endDate;
+      _endDate = _temp;
+      startDate = moment(_startDate);
+      endDate = moment(_endDate);
+    }
+
+    if (startDate.year() != moment().year()) {
+      //not current year
+      if (startDate.month() == endDate.month()) {
+        //same month
+        return startDate.format("MMM D") + " - " + endDate.format("D, YYYY");
+      } else if (startDate.year() == endDate.year()){
+        //different months
+        return startDate.format("MMM D") + " - " + endDate.format("MMM D, YYYY");
+      } else {
+        //different years
+        return startDate.format("MMM D, YYYY") + " - " + endDate.format("MMM D, YYYY");
+      }
+    } else if (moment(_endDate).startOf('minute').isSame(moment(_startDate).startOf('minute'))) {
+      //same time
+      return startDate.calendar(null, {
+        sameDay: `[Today at] h${startDate.minute() > 0 ? ':mm' : ''} a`,
+        nextDay: `[Tomorrow at] h${startDate.minute() > 0 ? ':mm' : ''} a`,
+        nextWeek: `MMM D [at] h${startDate.minute() > 0 ? ':mm' : ''} a`,
+        lastDay: `[Yesterday at] h${startDate.minute() > 0 ? ':mm' : ''} a`,
+        lastWeek: `MMM D [at] h${startDate.minute() > 0 ? ':mm' : ''} a`,
+        sameElse: `MMM D [at] h${startDate.minute() > 0 ? ':mm' : ''} a`
+      });
+    } else if (moment(_endDate).startOf('day').isSame(moment(_startDate).startOf('day'))) {
+      //same day
+      return startDate.calendar(null, {
+        sameDay: `[Today], h${startDate.minute() > 0 ? ':mm' : ''} a`,
+        nextDay: `[Tomorrow], h${startDate.minute() > 0 ? ':mm' : ''} a`,
+        nextWeek: `MMM D, h${startDate.minute() > 0 ? ':mm' : ''} a`,
+        lastDay: `[Yesterday], h${startDate.minute() > 0 ? ':mm' : ''} a`,
+        lastWeek: `MMM D, h${startDate.minute() > 0 ? ':mm' : ''} a`,
+        sameElse: `MMM D, h${startDate.minute() > 0 ? ':mm' : ''} a`
+      }) + endDate.format(`[ -] h${endDate.minute() > 0 ? ':mm' : ''} a`);
+    } else if (moment(_endDate).startOf('month').isSame(moment(_startDate).startOf('month'))) {
+      //same month, different days
+      return startDate.format(`MMM D`) + " - " + endDate.format(`D`);
+    } else {
+      //same year, different months
+      if (startDate.month() == endDate.month()) {
+        //same month
+        return startDate.format("MMM D") + " - " + endDate.format("D, YYYY");
+      } else if (startDate.year() == endDate.year()){
+        //different months
+        return startDate.format("MMM D") + " - " + endDate.format("MMM D, YYYY");
+      } else {
+        //different years
+        return startDate.format("MMM D, YYYY") + " - " + endDate.format("MMM D, YYYY");
+      }
     }
   }
 

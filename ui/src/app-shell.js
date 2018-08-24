@@ -60,11 +60,6 @@ class AppShell extends BaseElement {
         @apply --font-head;
         font-size: 24px;
       }
-      app-header img.logo {
-        width: 36px;
-        height: 36px;
-        margin-right: 12px;
-      }
       app-toolbar {
         position: absolute;
         left: 0;
@@ -105,12 +100,13 @@ class AppShell extends BaseElement {
         height: 48px;
         width: 48px;
         margin-right: 16px;
-        transition: 0.4s width, 0.4s opacity;
+        transition: 0.4s width, 0.4s opacity, 0.4s margin-right;
         opacity: 1;
       }
       app-toolbar img[gone] {
         width: 0px;
         opacity: 0;
+        margin-right: 0;
       }
       app-drawer {
         z-index: 500;

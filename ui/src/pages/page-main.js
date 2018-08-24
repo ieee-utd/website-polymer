@@ -42,7 +42,7 @@ class PageMain extends BaseElement {
           top: 0;
           left: 0;
           right: 0;
-          padding: 16px 32px;
+          padding: 16px;
         }
         div.logo {
           text-align: center;
@@ -122,6 +122,36 @@ class PageMain extends BaseElement {
           margin-top:20px;
           margin-bottom:32px;
         }
+        div.blurb {
+          @apply --layout-vertical;
+          @apply --layout-center-justified;
+          @apply --layout-center;
+        }
+        div.blurb > p {
+          max-width: 600px;
+          font-size: 18px;
+          font-family: var(--font-head);
+          text-align: center;
+          margin-bottom: 36px;
+        }
+
+        div.blurb > div > paper-button.large {
+          text-transform: none;
+          font-family: var(--font-head);
+          font-weight: 700;
+          color: white;
+          background-color: var(--color-primary);
+          padding: 12px 16px;
+          margin-bottom: 36px;
+        }
+
+        div.main-card {
+          background-color: var(--paper-grey-900);
+          padding: 16px;
+          padding-bottom: 0;
+          margin-bottom: 32px;
+          border-radius: 16px;
+        }
       </style>
 
       <app-container>
@@ -133,28 +163,70 @@ class PageMain extends BaseElement {
             <img class="logo" draggable=false src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_logo.svg"/>
           </div>
           <br>
-          <p>We are the student chapter of the Institute of Electrical and Electronics Engineers (IEEE) at the University of Texas at Dallas (UTD)</p>
+          <div class="blurb">
+            <p>We are the student chapter of the Institute of Electrical and Electronics Engineers (IEEE) at The University of Texas at Dallas (UTD)</p>
+            <div>
+              <paper-button class="large">Join our mailing list</paper-button>
+              <paper-button class="large">Learn more</paper-button>
+            </div>
+          </div>
 
-          <h2 class="title"><iron-icon icon="mdi:bullhorn" style="transform: rotate(-30deg)"></iron-icon>Important Announcements</h2>
-          <loading-block loading$="[[_loadingAnnouncements]]" class="extra">
-            <app-grid>
-              <dom-repeat items="[[announcements]]">
-                <template>
-                  <app-grid-item width=6>
-                    <event-card announcement="[[item]]"></event-card>
-                  </app-grid-item>
-                </template>
-              </dom-repeat>
-            </app-grid>
-          </loading-block>
-          <h2 class="title">This Week</h2>
-          <app-grid>
-
-          </app-grid>
-          <h2 class="title">Happening Soon</h2>
-          <app-grid>
-
-          </app-grid>
+          <div class="main-card">
+            <h2 class="title"><iron-icon icon="mdi:bullhorn" style="transform: rotate(-30deg)"></iron-icon>Important Announcements</h2>
+            <loading-block loading$="[[_loadingAnnouncements]]" class="extra">
+              <app-grid>
+                <dom-repeat items="[[announcements]]">
+                  <template>
+                    <app-grid-item width=6>
+                      <event-card announcement="[[item]]"></event-card>
+                    </app-grid-item>
+                  </template>
+                </dom-repeat>
+              </app-grid>
+            </loading-block>
+          </div>
+          <div class="main-card">
+            <h2 class="title">This Week</h2>
+            <loading-block loading$="[[_loadingEvents]]" class="extra">
+              <app-grid>
+                <dom-repeat items="[[events.thisWeek]]">
+                  <template>
+                    <app-grid-item width=6>
+                      <event-card announcement="[[item]]" is-event></event-card>
+                    </app-grid-item>
+                  </template>
+                </dom-repeat>
+              </app-grid>
+            </loading-block>
+          </div>
+          <div class="main-card">
+            <h2 class="title">Next Week</h2>
+            <loading-block loading$="[[_loadingEvents]]" class="extra">
+              <app-grid>
+                <dom-repeat items="[[events.nextWeek]]">
+                  <template>
+                    <app-grid-item width=6>
+                      <event-card announcement="[[item]]" is-event></event-card>
+                    </app-grid-item>
+                  </template>
+                </dom-repeat>
+              </app-grid>
+            </loading-block>
+          </div>
+          <div class="main-card">
+            <h2 class="title">Happening Soon</h2>
+            <loading-block loading$="[[_loadingEvents]]" class="extra">
+              <app-grid>
+                <dom-repeat items="[[events.upcoming]]">
+                  <template>
+                    <app-grid-item width=6>
+                      <event-card announcement="[[item]]" is-event></event-card>
+                    </app-grid-item>
+                  </template>
+                </dom-repeat>
+              </app-grid>
+            </loading-block>
+          </div>
         </div>
       </app-container>
     `;
@@ -165,7 +237,14 @@ class PageMain extends BaseElement {
       announcements: {
         type: Array,
         value: [ ]
-      }
+      },
+      events: {
+        type: Object,
+        value: {
+          thisWeek: [ ],
+          upcoming: [ ]
+        }
+      },
     }
   }
 
@@ -175,6 +254,17 @@ class PageMain extends BaseElement {
 
       this._async(() => {
         this.set("_loadingAnnouncements", true)
+        this.set("_loadingEvents", true)
+
+        this._get("/events", { silent: true })
+        .then((events) => {
+          this.set("events", events);
+          this.set("_loadingEvents", false)
+        })
+        .catch((e) => {
+          this.set("_loadingEvents", false)
+        })
+
         this._get("/announcements", { silent: true })
         .then((ann) => {
           this.set("announcements", ann);

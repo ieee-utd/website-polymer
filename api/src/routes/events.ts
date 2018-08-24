@@ -1,11 +1,12 @@
 import * as express from "express";
 import * as moment from "moment";
+import * as _ from "lodash";
 export let route = express.Router();
 
 import { cleanAll, cleanAnnouncement } from "../helpers/clean";
 import { userCan } from "../helpers/verify";
 import { Event } from "../models";
-import { CreateAnnouncementSchema } from "../helpers/schema";
+import { CreateEventSchema, UpdateEventSchema } from "../helpers/schema";
 
 const validate = require('express-validation');
 const crypto = require('crypto');
@@ -30,11 +31,26 @@ route.param('link', async function (req : any, res, next, link) {
 //List all active events
 route.get('/', async (req: any, res: any, next: any) => {
   try {
-    let _announcements = await Event
-    .find({ endTime: { $gte: moment().add(1, 'day').toDate() }})
-    .sort({ createdOn: -1 });
+    let _events = await Event
+    .find({
+      startTime: { $lte: moment().add(30, 'days').toDate() },
+      endTime: { $gte: moment().day(0).startOf('day').toDate() }
+    })
+    .sort({ startTime: -1 });
 
-    res.send(cleanAll(_announcements, cleanAnnouncement));
+    let events = cleanAll(_events, cleanAnnouncement);
+
+    let result: any = { };
+    let firstDayOfNextWeek = moment().day(7).startOf('day');
+
+    result.thisWeek = _.filter(events, (e: any) => {
+      return moment(e.endTime).isBefore(firstDayOfNextWeek);
+    })
+    result.upcoming = _.filter(events, (e: any) => {
+      return moment(e.endTime).isSameOrAfter(firstDayOfNextWeek);
+    })
+
+    res.send(result);
   } catch (e) {
     next(e)
   }
@@ -43,33 +59,36 @@ route.get('/', async (req: any, res: any, next: any) => {
 //Get full details about a specific event
 route.get('/:link', async (req: any, res: any, next: any) => {
   try {
-    res.send(cleanAnnouncement(req.announcement, true))
+    res.send(cleanAnnouncement(req.event, true))
   } catch (e) {
     next(e)
   }
 });
 
 //Create new event
-route.post('/', userCan("create"), validate(CreateAnnouncementSchema), async (req: any, res: any, next: any) => {
+route.post('/', userCan("create"), validate(CreateEventSchema), async (req: any, res: any, next: any) => {
   try {
     let event = req.body;
-    event.link = base64url(crypto.randomBytes(8));
+    event.link = base64url(crypto.randomBytes(6));
     event.createdBy = req.user._id;
     event.createdOn = Date.now();
 
     let object = new Event(event);
     await object.save();
 
-    res.send({ link: event.link, message: "Successfully created announcement" })
+    res.send({ link: event.link, message: "Successfully created event" })
   } catch (e) {
     next(e)
   }
 });
 
 //Update event
-route.put('/:link', userCan("edit"), async (req: any, res: any, next: any) => {
+route.put('/:link', userCan("edit"), validate(UpdateEventSchema), async (req: any, res: any, next: any) => {
   try {
-    await Event.findOneAndUpdate({ _id: req.event._id }, req.body)
+    req.body.lastUpdated = Date.now();
+    req.body.updatedBy = req.user._id;
+
+    await Event.findOneAndUpdate({ _id: req.event._id }, { $set: req.body })
 
     res.send({ message: "Event updated" })
   } catch (e) {

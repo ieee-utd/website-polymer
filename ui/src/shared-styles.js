@@ -7,6 +7,7 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
       :host {
         --color-primary: #C75B12;
         --color-primary-blue: #0072A6;
+        --color-orange-complement: #E88F0C;
         --color-background: var(--paper-grey-900);
         --color-secondary: var(--paper-grey-800);
         --color-secondary-active: var(--paper-grey-700);
