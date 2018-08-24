@@ -8,10 +8,12 @@ import '@polymer/app-layout/app-scroll-effects/app-scroll-effects.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import '@polymer/app-route/app-location.js';
 import '@polymer/app-route/app-route.js';
-import '@polymer/paper-card/paper-card.js';
+import '@polymer/iron-image/iron-image.js';
 import '@polymer/iron-pages/iron-pages.js';
 import '@polymer/iron-selector/iron-selector.js';
+import '@polymer/paper-card/paper-card.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
+import '@polymer/paper-progress/paper-progress.js';
 
 import './shared-styles.js';
 import './app-icons.js';
@@ -153,8 +155,9 @@ class AppShell extends BaseElement {
         right: 0;
         z-index: 1000;
         width: 100%;
-        --paper-progress-active-color: var(--color-accent);
-        --paper-progress-container-color: var(--color-primary);
+        --paper-progress-active-color: var(--color-primary);
+        --paper-progress-container-color: var(--color-background);
+        --paper-progress-height: 6px;
       }
       </style>
 
@@ -212,7 +215,7 @@ class AppShell extends BaseElement {
       routeData: Object,
       subroute: Object,
       _subdrawerOpen: { type: Boolean, value: false },
-      _loading: { type: Boolean, value: false }
+      _loading: { type: Boolean, value: true }
     };
   }
 
@@ -254,6 +257,7 @@ class AppShell extends BaseElement {
     //
     // Note: `polymer build` doesn't like string concatenation in the import
     // statement, so break it up.
+    this.set("_loading", true)
 
     switch (page) {
       case '':
@@ -298,7 +302,7 @@ class AppShell extends BaseElement {
       .then(() => {
         this.set("_page", this.page)
         window.scroll(0, 0);
-        // this.set("_loading", false)
+        this.set("_loading", false)
       })
       .catch(this._pageLoadFailed.bind(this))
     })
@@ -311,7 +315,6 @@ class AppShell extends BaseElement {
 
   _navigate(e) {
     let url = e.detail;
-    console.log(this.route, url);
     this.set("route.path", url);
   }
 }

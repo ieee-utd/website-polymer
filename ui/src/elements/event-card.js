@@ -12,6 +12,7 @@ class EventCard extends BaseElement {
 
         div.action {
           font-family: var(--font-head);
+          background-color: transparent;
           @apply --layout-horizontal;
           @apply --layout-start-justified;
           @apply --layout-center;
