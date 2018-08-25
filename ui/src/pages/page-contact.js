@@ -9,29 +9,46 @@ class PageContact extends PolymerElement {
           display: block;
         }
 
-        .top-bar {
-          position: absolute;
-          top: 0;
-          left: 0;
-          height: 64px;
+        .bg {
+          height: 400px;
           width: 100%;
           background-color: var(--color-background);
         }
 
-        .main {
-          max-width: 980px;
-          height: calc(100vh - 160px);
-          min-height: 700px;
-          padding: 72px 32px 64px 32px;
-          margin: 0 auto;
+        .bg-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 400px;
+          background: linear-gradient(to bottom, var(--color-background), transparent);
+          z-index: 1;
+        }
+
+        .content {
+          padding: 16px 32px;
+          display: block;
+        }
+
+        h1 {
+          font-size: 2.4em;
+          margin: 0 16px;
         }
       </style>
 
-      <div class="main">
-        <div class="top-bar"></div>
-        <h1>Contact</h1>
-        <p>Have questions to ask us? We're active on Facebook and Email. Email is our preferred of contact.</p>
+      <div class="image">
+        <div class="bg-overlay"></div>
+        <iron-image class="bg" sizing="cover" src="/img/contact.jpg" preload fade></iron-image>
+        <app-container style="position:relative;top:-72px;margin-bottom:-36px;padding: 0 16px;">
+          <h1 style="color:white;">Contact</h1>
+        </app-container>
       </div>
+
+      <app-container class="content">
+        <p>
+          asdf
+        </p>
+      </app-container>
     `;
   }
 }
