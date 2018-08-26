@@ -38,7 +38,7 @@ class PageTutoring extends PolymerElement {
 
       <div class="image">
         <div class="bg-overlay"></div>
-        <iron-image class="bg" sizing="cover" src="/img/tutoring.jpg" preload fade></iron-image>
+        <iron-image class="bg" sizing="cover" src="/img/tutoring.png" preload fade></iron-image>
         <app-container style="position:relative;top:-72px;margin-bottom:-36px;padding: 0 16px;">
           <h1 style="color:white;">Tutoring</h1>
         </app-container>
@@ -46,20 +46,20 @@ class PageTutoring extends PolymerElement {
 
       <app-container class="content">
         <p>
-          asdf
+          We offer tutoring at Jonsson School Student Enrichment Center (JSSEC), Synergy Park North (SPN) 2.220. We offer tutoring for Electrical Network Analysis, Signals and Systems, and more! Below, you can find up to date tutoring announcements, events, and schedules. 
         </p>
 
         <h2>Announcements</h2>
-        <p>asdf</p>
+        
 
         <h2>Events</h2>
-        <p>asdf</p>
+        
         
         <h2>Schedules</h2>
-        <p>asdf</p>
+        
 
-        <h2>Tutors</h2>
-        <p>asdf</p>
+        <!-- TODO -->
+        <!-- <h2>Tutors</h2> -->
       </app-container>
     `;
   }

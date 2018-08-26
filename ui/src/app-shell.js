@@ -287,13 +287,13 @@ class AppShell extends BaseElement {
         import('./pages/page-announcement.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
         break;
       case 'event':
-        import('./pages/page-event.js').then(() => { this._page = page; });
+        import('./pages/page-event.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
         break;
       case 'events':
-        import('./pages/page-events.js').then(() => { this._page = page; });
+        import('./pages/page-events.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
         break;
       case 'ohnoes':
-        import('./pages/page-ohnoes.js').then(() => { this._page = page; });
+        import('./pages/page-ohnoes.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
         break;
     }
   }

@@ -1,7 +1,8 @@
-import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import { html } from '@polymer/polymer/polymer-element.js';
+import { BaseElement } from '../base-element.js';
 import '../shared-styles.js';
 
-class PageOhNoes extends PolymerElement {
+class PageOhNoes extends BaseElement {
   static get template() {
     return html`
       <style>
@@ -18,9 +19,10 @@ class PageOhNoes extends PolymerElement {
           background-color: var(--color-background);
         }
 
-        div.main {
-          width: 100%;
-          height: 100vh;
+        .content {
+          padding: 16px 32px;
+          height: 500px;
+          display: block;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -29,9 +31,9 @@ class PageOhNoes extends PolymerElement {
 
       
       <div class="top-bar"></div>
-      <div class="main">
-        <p>Oops you hit a 404. <a href="[[rootPath]]">Head back to home.</a></p>
-      </div>
+      <app-container class="content">
+        <p>Oh noes! What you're looking for is lost in the quantum realm.<br/><a href="[[rootPath]]">Head back to home.</a></p>
+      </app-container>
     `;
   }
 }

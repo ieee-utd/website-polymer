@@ -164,7 +164,7 @@ class PageMain extends BaseElement {
           </div>
           <br>
           <div class="blurb">
-            <p>We are the student chapter of the Institute of Electrical and Electronics Engineers (IEEE) at The University of Texas at Dallas (UTD)</p>
+            <p>We are the student chapter of the Institute of Electrical and Electronics Engineers (IEEE) at The University of Texas at Dallas (UTD).</p>
             <div>
               <paper-button class="large">Join our mailing list</paper-button>
               <paper-button class="large" on-tap="_navigate" url="/about">Learn more</paper-button>

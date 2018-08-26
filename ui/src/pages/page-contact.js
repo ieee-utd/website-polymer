@@ -38,7 +38,7 @@ class PageContact extends PolymerElement {
 
       <div class="image">
         <div class="bg-overlay"></div>
-        <iron-image class="bg" sizing="cover" src="/img/contact.jpg" preload fade></iron-image>
+        <iron-image class="bg" sizing="cover" src="/img/contact.png" preload fade></iron-image>
         <app-container style="position:relative;top:-72px;margin-bottom:-36px;padding: 0 16px;">
           <h1 style="color:white;">Contact</h1>
         </app-container>
@@ -46,7 +46,7 @@ class PageContact extends PolymerElement {
 
       <app-container class="content">
         <p>
-          asdf
+          Got an electrifying question? Contact us at the links below! Email us and we'll respond as soon as we can. Feel free to send us a Facebook message if you have simple questions about upcoming events.
         </p>
       </app-container>
     `;
