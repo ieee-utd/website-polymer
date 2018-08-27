@@ -57,7 +57,7 @@ class PageContact extends PolymerElement {
         <p><a href="mailto:ieeeutd@gmail.com">ieeeutd@gmail.com</a></p>
 
         <h2>Facebook</h2>
-        <p><a href="https://www.facebook.com/IEEEUTD/" target="_blank">https://www.facebook.com/IEEEUTD/</a><br/><a href="http://m.me/IEEEUTD" target="_blank">(Messenger)</a></p>
+        <p><a href="https://www.facebook.com/IEEEUTD/" target="_blank">https://www.facebook.com/IEEEUTD/</a><br/><a href="https://m.me/IEEEUTD" target="_blank">(Messenger)</a></p>
 
         <h2>LinkedIn</h2>
         <p><a href="https://www.linkedin.com/company/ieee-utd/" target="_blank">https://www.linkedin.com/company/ieee-utd/</a></p>

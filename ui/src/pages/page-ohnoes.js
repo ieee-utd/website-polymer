@@ -1,11 +1,11 @@
-import { html } from '@polymer/polymer/polymer-element.js';
-import { BaseElement } from '../base-element.js';
+import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import '../shared-styles.js';
 
-class PageOhNoes extends BaseElement {
+class PageOhNoes extends PolymerElement {
   static get template() {
     return html`
-      <style>
+      <style include="shared-styles">
+        <style>
         :host {
           display: block;
         }

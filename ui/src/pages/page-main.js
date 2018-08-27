@@ -152,6 +152,20 @@ class PageMain extends BaseElement {
           margin-bottom: 32px;
           border-radius: 16px;
         }
+
+        a.button-link {
+          color: inherit;
+          background-color: inherit;
+        }
+        a.button-link > paper-button.large {
+          text-transform: none;
+          font-family: var(--font-head);
+          font-weight: 700;
+          color: white;
+          background-color: var(--color-primary);
+          padding: 12px 16px;
+          margin-bottom: 36px;
+        }
       </style>
 
       <app-container>
@@ -166,7 +180,7 @@ class PageMain extends BaseElement {
           <div class="blurb">
             <p>We are the student chapter of the Institute of Electrical and Electronics Engineers (IEEE) at The University of Texas at Dallas (UTD).</p>
             <div>
-              <paper-button class="large">Join our mailing list</paper-button>
+              <a class="button-link" href="http://groups.google.com/group/ieee-utd-fall-2017--present/boxsubscribe" target="_blank"><paper-button class="large">Join our mailing list</paper-button></a>
               <paper-button class="large" on-tap="_navigate" url="/about">Learn more</paper-button>
             </div>
           </div>
