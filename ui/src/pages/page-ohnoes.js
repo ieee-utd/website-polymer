@@ -21,17 +21,23 @@ class PageOhNoes extends BaseElement {
 
         .content {
           padding: 16px 32px;
-          height: 500px;
+          height: 700px;
           display: block;
           display: flex;
           justify-content: center;
           align-items: center;
+        }
+
+        .image {
+          height: 400px;
+          width: 400px;
         }
       </style>
 
       
       <div class="top-bar"></div>
       <app-container class="content">
+        <iron-image class="image" src="/img/broken.svg" sizing="contain"></iron-image>
         <p>Oh noes! What you're looking for is lost in the quantum realm.<br/><a href="[[rootPath]]">Head back to home.</a></p>
       </app-container>
     `;

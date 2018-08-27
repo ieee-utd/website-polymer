@@ -34,6 +34,10 @@ class PageContact extends PolymerElement {
           font-size: 2.4em;
           margin: 0 16px;
         }
+
+        a {
+          color: var(--color-background);
+        }
       </style>
 
       <div class="image">
@@ -48,6 +52,15 @@ class PageContact extends PolymerElement {
         <p>
           Got an electrifying question? Contact us at the links below! Email us and we'll respond as soon as we can. Feel free to send us a Facebook message if you have simple questions about upcoming events.
         </p>
+
+        <h2>Email</h2>
+        <p><a href="mailto:ieeeutd@gmail.com">ieeeutd@gmail.com</a></p>
+
+        <h2>Facebook</h2>
+        <p><a href="https://www.facebook.com/IEEEUTD/" target="_blank">https://www.facebook.com/IEEEUTD/</a><br/><a href="http://m.me/IEEEUTD" target="_blank">(Messenger)</a></p>
+
+        <h2>LinkedIn</h2>
+        <p><a href="https://www.linkedin.com/company/ieee-utd/" target="_blank">https://www.linkedin.com/company/ieee-utd/</a></p>
       </app-container>
     `;
   }

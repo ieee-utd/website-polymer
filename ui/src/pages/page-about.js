@@ -49,9 +49,8 @@ class PageAbout extends PolymerElement {
       <app-container class="content">
         <p>
           We are the student chapter of the Institute of Electrical and Electronics Engineers (IEEE) at the University of Texas at Dallas (UTD).
-          IEEE UTD was founded in [] by students passionate about engineering with only [] members.
-          Since then, IEEE UTD has grown to over [] members with students affiliated with other major engineering and computers science organizations, such as [].
-          By leveraging both IEEE and UTD resources, we provide resources for students to enforce engineering knowledge they learn and develop connections with other engineers within their fields of interest.
+          Since its founding, IEEE UTD has grown to over 200 members with students affiliated with other major engineering and computers science organizations, such as the American Society of Mechanical Engineers (ASME), UTD Makerspace, the Association for Computing Machinery (ACM), and many more!.
+          By leveraging both IEEE and UTD resources, we help students to enforce engineering knowledge they learn and develop connections with other engineers within their fields of interest.
         </p>
 
         <h2>Officers</h2>
