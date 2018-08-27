@@ -1,7 +1,7 @@
 {
-  "name": "My App",
-  "short_name": "My App",
-  "description": "My App description",
+  "name": "IEEEUTD",
+  "short_name": "IEEEUTD",
+  "description": "We are the student chapter of the Institute of Electrical and Electronics Engineers (IEEE) at The University of Texas at Dallas (UTD).",
   "icons": [
     {
       "src": "img/manifest/icon-192x192.png",
