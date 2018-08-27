@@ -69,6 +69,10 @@ class AppShell extends BaseElement {
           background-color: var(--color-background);
           z-index: 10;
         }
+        app-toolbar.light {
+          background-color: var(--paper-grey-50);
+          padding-top: 8px;
+        }
         app-toolbar[transparent] {
           background-color: transparent;
         }
@@ -109,8 +113,23 @@ class AppShell extends BaseElement {
           opacity: 0;
           margin-right: 0;
         }
+        app-toolbar .drawer-title {
+          text-align: center;
+          display: block;
+          width: 100%;
+          padding-top: 6px;
+          padding-bottom: 8px;
+          border-bottom: 1px solid var(--paper-grey-400);
+        }
+        app-toolbar .drawer-title > img {
+          height: 40px;
+          width: auto;
+        }
         app-drawer {
           z-index: 500;
+          --app-drawer-content-container: {
+            background-color: var(--paper-grey-50);
+          };
         }
         app-drawer > app-toolbar > div > h3 {
           color: white;
@@ -150,8 +169,9 @@ class AppShell extends BaseElement {
         }
         iron-selector.drawer-list {
           display: block;
-          margin: 64px 20px 0 20px;
+          margin: 64px 0 0 0;
           padding-top: 16px;
+          padding-left: 4px;
         }
         iron-selector.drawer-list a {
           display: block;
@@ -159,15 +179,17 @@ class AppShell extends BaseElement {
           text-decoration: none;
           line-height: 16px;
           outline: none;
-        }
-        iron-selector.drawer-list a {
           color: var(--color-secondary);
+          @apply --layout-horizontal;
+          @apply --layout-start-justified;
+          @apply --layout-center;
         }
         iron-selector.drawer-list a > h4 {
           margin: 0;
+          margin-left: 16px;
         }
         iron-selector.drawer-list a[active] {
-          color: var(--color-secondary-active);
+          color: var(--color-primary-blue);
         }
 
         hr {
@@ -197,7 +219,20 @@ class AppShell extends BaseElement {
           opacity: 0.6;
           pointer-events: none!important;
         }
-        
+
+        app-container.narrow-toolbar {
+          padding-left: 16px;
+          @apply --layout-horizontal;
+          @apply --layout-start-justified;
+          @apply --layout-center;
+        }
+        app-container.narrow-toolbar > span {
+          font-size: 14px;
+          font-family: var(--font-head);
+          opacity: 0.5;
+          position: relative;
+          top: -2px;
+        }
 
         @media (min-width: 768px) {
           app-drawer.drawer {
@@ -221,22 +256,21 @@ class AppShell extends BaseElement {
       </app-route>
 
       <paper-progress indeterminate hidden$="[[!_loading]]"></paper-progress>
-      
+
       <app-drawer class="drawer" swipe-open>
-        <app-toolbar>
+        <app-toolbar class="light">
           <div class="drawer-title">
-            <iron-image src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_icon_color_bordered.svg" draggable=false sizing="contain"></iron-image>
-            <h3>IEEEUTD</h3>
+            <img src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_logo.svg" draggable=false></img>
           </div>
         </app-toolbar>
         <iron-selector
-            selected="[[_page]]" 
-            class="drawer-list" 
+            selected="[[_page]]"
+            class="drawer-list"
             role="navigation">
-          <a href="[[rootPath]]" active$="[[_active(page,'')]]"><h4>Home</h4></a>
-          <a href="[[rootPath]]about" active$="[[_active(page,'about')]]"><h4>About</h4></a>
-          <a href="[[rootPath]]tutoring" active$="[[_active(page,'tutoring')]]"><h4>Tutoring</h4></a>
-          <a href="[[rootPath]]contact" active$="[[_active(page,'contact')]]"><h4>Contact</h4></a>
+          <a href="[[rootPath]]" active$="[[_active(page,'')]]"><iron-icon icon="mdi:home-outline"></iron-icon><h4>Home</h4></a>
+          <a href="[[rootPath]]about" active$="[[_active(page,'about')]]"><iron-icon icon="mdi:information-outline"></iron-icon><h4>About</h4></a>
+          <a href="[[rootPath]]tutoring" active$="[[_active(page,'tutoring')]]"><iron-icon icon="mdi:comment-question-outline"></iron-icon><h4>Tutoring</h4></a>
+          <a href="[[rootPath]]contact" active$="[[_active(page,'contact')]]"><iron-icon icon="mdi:email-outline"></iron-icon><h4>Contact</h4></a>
         </iron-selector>
       </app-drawer>
 
@@ -253,6 +287,7 @@ class AppShell extends BaseElement {
           </app-container>
           <app-container class="narrow-toolbar">
             <paper-icon-button icon="mdi:menu" on-tap="_openDrawer"></paper-icon-button>
+            <span>IEEEUTD Menu</span>
           </app-container>
         </app-toolbar>
       </app-header>

@@ -9,22 +9,6 @@ class PageEvent extends PolymerElement {
           display: block;
         }
 
-        .bg {
-          height: 400px;
-          width: 100%;
-          background-color: var(--color-background);
-        }
-
-        .bg-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 400px;
-          background: linear-gradient(to bottom, var(--color-background), transparent);
-          z-index: 1;
-        }
-
         .content {
           padding: 16px 32px;
           display: block;
@@ -34,19 +18,13 @@ class PageEvent extends PolymerElement {
           font-size: 2.4em;
           margin: 0 16px;
         }
-
-        @media (max-width: 768px) {
-          .bg, .bg-overlay {
-            height: 200px;
-          }
-        }
       </style>
 
       <div class="image">
         <div class="bg-overlay"></div>
         <!-- Poster if possible -->
         <iron-image class="bg" sizing="cover" src="/img/event.jpg" preload fade></iron-image>
-        <app-container style="position:relative;top:-72px;margin-bottom:-36px;padding: 0 16px;">
+        <app-container>
           <h1 style="color:white;">Events</h1>
         </app-container>
       </div>
