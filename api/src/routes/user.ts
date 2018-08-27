@@ -58,7 +58,7 @@ route.post("/logout", async (req: any, res: any, next: any) => {
 route.post("/setInitialPassword", ensureUnauthenticated, validate(SetInitialPasswordSchema), async (req: any, res: any, next: any) => {
 
   //typically one would use 'passport.authenticate' here, but it just didn't work... at all
-  var user: any = await Officer.findOne({ email: req.body.email });
+  var user: any = await Officer.findOne({ email: req.body.email.toLowerCase().trim() });
 
   if (!user) {
     return next({ status: 401, message: "Account disabled" });
