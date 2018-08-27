@@ -19,6 +19,15 @@ class EventCard extends BaseElement {
         }
         div.action > div {
           margin-right: 16px;
+          @apply --layout-horizontal;
+          @apply --layout-start-justified;
+          @apply --layout-center;
+        }
+        div.action > div > span {
+          display: block;
+          width: 100%;
+          max-height: 48px;
+          overflow: hidden;
         }
         iron-icon.card-action-icon {
           margin-right: 10px;
@@ -34,13 +43,14 @@ class EventCard extends BaseElement {
         </span>
         <div slot="actions" class="action">
           <div hidden$="[[isEvent]]" style="opacity:0.4;">
-            <iron-icon class="card-action-icon" icon="mdi:calendar-clock"></iron-icon>Posted <b>[[_parseAnnouncementDate(announcement.visibleFrom)]]</b>
+            <iron-icon class="card-action-icon" icon="mdi:calendar-clock"></iron-icon>
+            <span>Posted <b>[[_parseAnnouncementDate(announcement.visibleFrom)]]</b></span>
           </div>
           <div hidden$="[[!isEvent]]">
-            <iron-icon class="card-action-icon" icon="mdi:calendar-clock"></iron-icon><b>[[_parseEventDate(announcement.startTime,announcement.endTime)]]</b>
+            <iron-icon class="card-action-icon" icon="mdi:calendar-clock"></iron-icon><span><b>[[_parseEventDate(announcement.startTime,announcement.endTime)]]</b></span>
           </div>
           <div hidden$="[[!isEvent]]">
-            <iron-icon class="card-action-icon" icon="mdi:map-marker"></iron-icon><b>Makerspace</b></a>
+            <iron-icon class="card-action-icon" icon="mdi:map-marker"></iron-icon><span><b>Makerspace</b></span>
           </div>
         </div>
         <div slot="actions-alt">
