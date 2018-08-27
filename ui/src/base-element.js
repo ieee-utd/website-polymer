@@ -1,7 +1,6 @@
 import { PolymerElement } from '@polymer/polymer/polymer-element.js';
 import { Polymer } from '@polymer/polymer/polymer-legacy';
 import * as Async from '@polymer/polymer/lib/utils/async.js'
-import moment from 'moment/src/moment.js';
 import 'jquery/dist/jquery.min.js';
 
 export class BaseElement extends PolymerElement {

@@ -1,8 +1,12 @@
 {
   "entrypoint": "index.html",
-  "shell": "src/my-app.js",
+  "shell": "src/app-shell.js",
   "sources": [
-    "images/**/*"
+    "img/**/*",
+    "fonts/**/*",
+    "fonts.css",
+    "node_modules/lodash*/**/*",
+    "node_modules/jquery/dist/jquery.min.js"
   ],
   "extraDependencies": [
     "manifest.json",
@@ -12,43 +16,7 @@
   ],
   "builds": [
     {
-      "name": "esm-bundled",
-      "browserCapabilities": [
-        "es2015",
-        "modules"
-      ],
-      "js": {
-        "minify": true
-      },
-      "css": {
-        "minify": true
-      },
-      "html": {
-        "minify": true
-      },
-      "bundle": true,
-      "addServiceWorker": true
-    },
-    {
-      "name": "es6-bundled",
-      "browserCapabilities": [
-        "es2015"
-      ],
-      "js": {
-        "minify": true,
-        "transformModulesToAmd": true
-      },
-      "css": {
-        "minify": true
-      },
-      "html": {
-        "minify": true
-      },
-      "bundle": true,
-      "addServiceWorker": true
-    },
-    {
-      "name": "es5-bundled",
+      "name": "default",
       "js": {
         "minify": true,
         "compile": true,
