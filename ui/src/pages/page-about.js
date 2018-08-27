@@ -36,6 +36,12 @@ class PageAbout extends PolymerElement {
           font-size: 2.4em;
           margin: 0 16px;
         }
+
+        @media (max-width: 768px) {
+          .bg, .bg-overlay {
+            height: 200px;
+          }
+        }
       </style>
 
       <div class="image">
