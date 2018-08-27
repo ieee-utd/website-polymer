@@ -35,6 +35,14 @@ class PageTutoring extends PolymerElement {
           margin: 0 16px;
         }
 
+        .filler {
+          height: 350px;
+          background-color: var(--paper-grey-300);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
         @media (max-width: 768px) {
           .bg, .bg-overlay {
             height: 200px;
@@ -56,12 +64,13 @@ class PageTutoring extends PolymerElement {
         </p>
 
         <h2>Announcements</h2>
-
+        <p>Tutoring announcements will be updated shortly!</p>
 
         <h2>Events</h2>
-
+        <p>Tutoring events will be updated shortly!</p>
 
         <h2>Schedules</h2>
+        <div class="filler">More information will be added soon.</div>
 
 
         <!-- TODO -->

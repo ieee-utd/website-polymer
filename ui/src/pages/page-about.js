@@ -18,6 +18,13 @@ class PageAbout extends PolymerElement {
           font-size: 2.4em;
           margin: 0 16px;
         }
+        .filler {
+          height: 350px;
+          background-color: var(--paper-grey-300);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
       </style>
 
       <div class="image">
@@ -34,12 +41,13 @@ class PageAbout extends PolymerElement {
           Since its founding, IEEE UTD has remained true to its mission. IEEE UTD members are often involved in other engineering and computer science organizations, such as the American Society of Mechanical Engineers (ASME), UTD Makerspace, the Association for Computing Machinery (ACM), and many more!.
           By leveraging both IEEE and UTD resources, we help students to enforce engineering knowledge they learn and develop connections with other engineers within their fields of interest.
         </p>
-
-        <h2>Officers</h2>
-        <p>Our officers are dedicated to helping the engineering community grow through our diverse backgrounds and interests &mdash; our officers range from freshmen and seniors!</p>
+        
+        <!-- <h2>Officers</h2>
+        <p>Our officers are dedicated to helping the engineering community grow through our diverse backgrounds and interests &mdash; our officers range from freshmen and seniors!</p> -->
 
         <h2>Committees</h2>
         <p>Committees at IEEE UTD allow students to collaborate with peers who share their interests. The smaller sizes of committees allow students to work closely to accomplish engineering-related goals.</p>
+        <div class="filler">More information will be added soon.</div>
       </app-container>
     `;
   }
