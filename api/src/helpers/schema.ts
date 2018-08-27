@@ -72,7 +72,7 @@ export let CreateEventSchema = {
     "endTime": Joi.date().required(),
     "locationName": Joi.string(),
     "locationUrl": Joi.string(),
-    "reservationLink": Joi.string(),
+    "reservationUrl": Joi.string(),
     "reservationRequired": Joi.boolean().required()
   }).unknown(false)
 }
@@ -85,7 +85,7 @@ export let UpdateEventSchema = {
     "endTime": Joi.date(),
     "locationName": Joi.string(),
     "locationUrl": Joi.string(),
-    "reservationLink": Joi.string(),
+    "reservationUrl": Joi.string(),
     "reservationRequired": Joi.boolean()
   }).unknown(false)
 }
