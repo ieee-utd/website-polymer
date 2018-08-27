@@ -281,7 +281,7 @@ class AppShell extends BaseElement {
         import('./pages/page-contact.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
         break;
       case 'ohnoes':
-        import('./pages/page-ohnoes.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed).bind(this);
+        import('./pages/page-ohnoes.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
         break;
       case 'announcement':
         import('./pages/page-announcement.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
@@ -291,9 +291,6 @@ class AppShell extends BaseElement {
         break;
       case 'events':
         import('./pages/page-events.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
-        break;
-      case 'ohnoes':
-        import('./pages/page-ohnoes.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
         break;
     }
   }

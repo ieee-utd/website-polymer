@@ -48,8 +48,8 @@ class PageContact extends PolymerElement {
         </app-container>
       </div>
 
-      <app-container class="content">
-        <p>
+      <app-container class="content" style="padding-top:0">
+        <p style="margin-top: 0">
           Got an electrifying question? Contact us at the links below! Email us and we'll respond as soon as we can. Feel free to send us a Facebook message if you have simple questions about upcoming events.
         </p>
 
