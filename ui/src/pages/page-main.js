@@ -209,7 +209,7 @@ class PageMain extends BaseElement {
               </dom-repeat>
             </app-grid>
           </div>
-          <div class="main-card">
+          <!-- <div class="main-card">
             <h2 class="title">Next Week</h2>
             <app-grid>
               <dom-repeat items="[[events.nextWeek]]">
@@ -220,7 +220,7 @@ class PageMain extends BaseElement {
                 </template>
               </dom-repeat>
             </app-grid>
-          </div>
+          </div> -->
           <div class="main-card">
             <h2 class="title">Happening Soon</h2>
             <app-grid>
