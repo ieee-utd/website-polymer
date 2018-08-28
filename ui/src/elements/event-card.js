@@ -49,7 +49,7 @@ class EventCard extends BaseElement {
             <iron-icon class="card-action-icon" icon="mdi:calendar-clock"></iron-icon><span><b>[[_parseEventDate(announcement.startTime,announcement.endTime)]]</b></span>
           </div>
           <div hidden$="[[!isEvent]]">
-            <iron-icon class="card-action-icon" icon="mdi:map-marker"></iron-icon><span><b>[[announcement.locationLink]]</b></span>
+            <iron-icon class="card-action-icon" icon="mdi:map-marker"></iron-icon><span><b>[[announcement.locationName]]</b></span>
           </div>
         </div>
         <div slot="actions-alt">
