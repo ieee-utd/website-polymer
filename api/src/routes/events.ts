@@ -43,12 +43,12 @@ route.get('/', async (req: any, res: any, next: any) => {
     let result: any = { };
     let firstDayOfNextWeek = moment().day(7).startOf('day');
 
-    result.thisWeek = _.filter(events, (e: any) => {
+    result.thisWeek = _(events).filter((e: any) => {
       return moment(e.endTime).isBefore(firstDayOfNextWeek);
-    })
-    result.upcoming = _.filter(events, (e: any) => {
+    }).reverse().value();
+    result.upcoming = _(events).filter((e: any) => {
       return moment(e.endTime).isSameOrAfter(firstDayOfNextWeek);
-    })
+    }).reverse().value();
 
     res.send(result);
   } catch (e) {
