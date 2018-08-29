@@ -184,8 +184,11 @@ class PageMain extends BaseElement {
               <paper-button class="large" on-tap="_navigate" url="/about">Learn more</paper-button>
             </div>
           </div>
-
-          <div class="main-card">
+          <div class="main-card" hidden$="[[_haveEvents(announcements,events)]]">
+            <h2 class="title"><iron-icon icon="mdi:calendar-clock"></iron-icon>Events</h2>
+            <h4 style="font-weight: normal; opacity: 0.7;">There aren't any events in the next few weeks. Check back later!</h4>
+          </div>
+          <div class="main-card" hidden$="[[!_have(announcements)]]">
             <h2 class="title"><iron-icon icon="mdi:bullhorn" style="transform: rotate(-30deg)"></iron-icon>Important Announcements</h2>
             <app-grid>
               <dom-repeat items="[[announcements]]">
@@ -197,8 +200,8 @@ class PageMain extends BaseElement {
               </dom-repeat>
             </app-grid>
           </div>
-          <div class="main-card">
-            <h2 class="title">This Week</h2>
+          <div class="main-card" hidden$="[[!_have(events.thisWeek)]]">
+            <h2 class="title"><iron-icon icon="mdi:calendar-clock"></iron-icon>This Week</h2>
             <app-grid>
               <dom-repeat items="[[events.thisWeek]]">
                 <template>
@@ -221,8 +224,8 @@ class PageMain extends BaseElement {
               </dom-repeat>
             </app-grid>
           </div> -->
-          <div class="main-card">
-            <h2 class="title">Happening Soon</h2>
+          <div class="main-card" hidden$="[[!_have(events.upcoming)]]">
+            <h2 class="title"><iron-icon icon="mdi:calendar"></iron-icon>Happening Soon</h2>
             <app-grid>
               <dom-repeat items="[[events.upcoming]]">
                 <template>
@@ -252,6 +255,10 @@ class PageMain extends BaseElement {
         }
       },
     }
+  }
+
+  _haveEvents(announcements, events) {
+    return announcements && events && (announcements.length || events.upcoming.length || events.thisWeek.length) ? true : false
   }
 
   onload(subroute) {
