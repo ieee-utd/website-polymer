@@ -32,7 +32,7 @@ class PageTutoring extends PolymerElement {
 
         h1 {
           font-size: 2.4em;
-          margin: 0 16px;
+          margin: 0;
         }
 
         .filler {
@@ -53,7 +53,7 @@ class PageTutoring extends PolymerElement {
       <div class="image">
         <div class="bg-overlay"></div>
         <iron-image class="bg" sizing="cover" src="/img/tutoring.png" preload fade></iron-image>
-        <app-container style="position:relative;top:-72px;margin-bottom:-36px;padding: 0 16px;">
+        <app-container style="position:relative;top:-72px;margin-bottom:-36px;padding: 0 32px;">
           <h1 style="color:white;">Tutoring</h1>
         </app-container>
       </div>

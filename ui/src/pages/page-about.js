@@ -16,7 +16,7 @@ class PageAbout extends PolymerElement {
         }
         h1 {
           font-size: 2.4em;
-          margin: 0 16px;
+          margin: 0;
         }
         .filler {
           height: 350px;
@@ -30,7 +30,7 @@ class PageAbout extends PolymerElement {
       <div class="image">
         <div class="bg-overlay"></div>
         <iron-image class="bg" sizing="cover" src="/img/about.jpg" preload fade></iron-image>
-        <app-container style="position:relative;top:-72px;margin-bottom:-36px;padding: 0 16px;">
+        <app-container style="position:relative;top:-72px;margin-bottom:-36px;padding: 0 32px;">
           <h1 style="color:white;">About</h1>
         </app-container>
       </div>
@@ -41,7 +41,7 @@ class PageAbout extends PolymerElement {
           Since its founding, IEEE UTD has remained true to its mission. IEEE UTD members are often involved in other engineering and computer science organizations, such as the American Society of Mechanical Engineers (ASME), UTD Makerspace, the Association for Computing Machinery (ACM), and many more!.
           By leveraging both IEEE and UTD resources, we help students to enforce engineering knowledge they learn and develop connections with other engineers within their fields of interest.
         </p>
-        
+
         <!-- <h2>Officers</h2>
         <p>Our officers are dedicated to helping the engineering community grow through our diverse backgrounds and interests &mdash; our officers range from freshmen and seniors!</p> -->
 

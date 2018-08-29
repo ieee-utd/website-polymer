@@ -16,7 +16,7 @@ class PageEvents extends PolymerElement {
 
         h1 {
           font-size: 2.4em;
-          margin: 0 16px;
+          margin: 0;
         }
       </style>
 

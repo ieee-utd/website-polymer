@@ -16,7 +16,7 @@ class PageEvent extends PolymerElement {
 
         h1 {
           font-size: 2.4em;
-          margin: 0 16px;
+          margin: 0;
         }
       </style>
 
@@ -24,8 +24,8 @@ class PageEvent extends PolymerElement {
         <div class="bg-overlay"></div>
         <!-- Poster if possible -->
         <iron-image class="bg" sizing="cover" src="/img/event.jpg" preload fade></iron-image>
-        <app-container>
-          <h1 style="color:white;">Events</h1>
+        <app-container style="position:relative;top:-72px;margin-bottom:-36px;padding: 0 32px;">
+          <h1 style="color:white;">Event</h1>
         </app-container>
       </div>
 

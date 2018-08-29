@@ -23,7 +23,7 @@ class PageAnnouncement extends PolymerElement {
       <div class="image">
         <div class="bg-overlay"></div>
         <iron-image class="bg" sizing="cover" src="/img/announcement.jpg" preload fade></iron-image>
-        <app-container style="position:relative;top:-72px;margin-bottom:-36px;padding: 0 16px;">
+        <app-container style="position:relative;top:-72px;margin-bottom:-36px;padding: 0 32px;">
           <h1 style="color:white;">Announcement</h1>
         </app-container>
       </div>

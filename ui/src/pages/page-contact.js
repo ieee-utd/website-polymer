@@ -16,7 +16,7 @@ class PageContact extends PolymerElement {
 
         h1 {
           font-size: 2.4em;
-          margin: 0 16px;
+          margin: 0;
         }
 
         a {
@@ -27,7 +27,7 @@ class PageContact extends PolymerElement {
       <div class="image">
         <div class="bg-overlay"></div>
         <iron-image class="bg" sizing="cover" src="/img/contact.png" preload fade></iron-image>
-        <app-container style="position:relative;top:-72px;margin-bottom:-36px;padding: 0 16px;">
+        <app-container style="position:relative;top:-72px;margin-bottom:-36px;padding: 0 32px;">
           <h1 style="color:white;">Contact</h1>
         </app-container>
       </div>
