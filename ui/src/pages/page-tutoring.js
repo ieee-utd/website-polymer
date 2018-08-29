@@ -70,7 +70,7 @@ class PageTutoring extends PolymerElement {
         <p>Tutoring events will be updated shortly!</p>
 
         <h2>Schedules</h2>
-        <div class="filler">More information will be added soon.</div>
+        <div class="filler">Schedules will be posted next week.</div>
 
 
         <!-- TODO -->
