@@ -9,25 +9,15 @@ class PageContact extends PolymerElement {
           display: block;
         }
 
-        .content {
-          padding: 16px 32px;
-          display: block;
-        }
-
-        h1 {
-          font-size: 2.4em;
-          margin: 0;
-        }
-
         a {
           color: var(--color-background);
         }
       </style>
 
-      <div class="image">
+      <div class="hero-image">
         <div class="bg-overlay"></div>
         <iron-image class="bg" sizing="cover" src="/img/contact.png" preload fade></iron-image>
-        <app-container style="position:relative;top:-72px;margin-bottom:-36px;padding: 0 32px;">
+        <app-container>
           <h1 style="color:white;">Contact</h1>
         </app-container>
       </div>

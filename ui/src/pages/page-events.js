@@ -20,10 +20,10 @@ class PageEvents extends PolymerElement {
         }
       </style>
 
-      <div class="image">
+      <div class="hero-image">
         <div class="bg-overlay"></div>
         <iron-image class="bg" sizing="cover" src="/img/event.jpg" preload fade></iron-image>
-        <app-container style="position:relative;top:-72px;margin-bottom:-36px;padding: 0 16px;">
+        <app-container>
           <h1 style="color:white;">Events</h1>
         </app-container>
       </div>

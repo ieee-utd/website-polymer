@@ -30,13 +30,12 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
       }
 
       /** HEADER IMAGE **/
-      div.image > iron-image.bg {
+      div.hero-image > iron-image.bg {
         height: 300px;
         width: 100%;
         background-color: var(--color-background);
       }
-
-      div.image > div.bg-overlay {
+      div.hero-image > div.bg-overlay {
         position: absolute;
         top: 0;
         left: 0;
@@ -45,20 +44,34 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         background: linear-gradient(to bottom, rgba(33,33,33,1), rgba(33,33,33,0.3));
         z-index: 1;
       }
-
-      div.image > app-container {
+      div.hero-image > app-container {
         position:relative;
         top:-72px;
         margin-bottom:-36px;
         padding: 0 16px;
         z-index: 2;
       }
-
       @media (max-width: 768px) {
-        div.image > iron-image.bg,
-        div.image > div.bg-overlay {
+        div.hero-image > iron-image.bg,
+        div.hero-image > div.bg-overlay {
           height: 200px;
         }
+      }
+      div.hero-image > app-container {
+        position: relative;
+        top: -72px;
+        margin-bottom: -36px;
+        padding: 0 32px;
+      }
+
+      app-container.content {
+        padding: 16px 32px 32px 32px;
+        display: block;
+      }
+
+      h1 {
+        font-size: 2.4em;
+        margin: 0;
       }
     </style>
   </template>
