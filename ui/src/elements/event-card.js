@@ -31,13 +31,16 @@ class EventCard extends BaseElement {
         iron-icon.card-action-icon {
           margin-right: 10px;
         }
+        a {
+          color: white;
+        }
       </style>
 
       <app-card on-click="_navigate">
         <span slot="title">
           <h3 style="margin: 0; color:var(--color-orange-complement)">[[announcement.title]]</h3>
         </span>
-        <span slot="content">
+        <span id="content" slot="content">
           [[announcement.content]]
         </span>
         <div slot="actions" class="action">
@@ -61,9 +64,13 @@ class EventCard extends BaseElement {
 
   static get properties() {
     return {
-      announcement: Object,
+      announcement: {type: Object, observer: '_announcementChanged'},
       isEvent: { type: Boolean, value: false }
     }
+  }
+
+  _announcementChanged(announcement) {
+    this.$.content.innerHTML = this._parseMarkdown(announcement.content);
   }
 
   _navigate() {
