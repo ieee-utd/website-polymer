@@ -409,21 +409,19 @@ class AppShell extends BaseElement {
   }
 
   _pageLoaded() {
-    this._async(() => {
-      let el = this.$$(`iron-pages [name="${this.page}"]`);
-      var promise = () => { return Promise.resolve(); }
-      if (typeof el.onload === 'function') {
-        promise = el.onload;
-      }
+    let el = this.$$(`iron-pages [name="${this.page}"]`);
+    var promise = () => { return Promise.resolve(); }
+    if (typeof el.onload === 'function') {
+      promise = el.onload;
+    }
 
-      promise.call(el, this.subroute, window.scrollY)
-      .then(() => {
-        this.set("_page", this.page)
-        window.scroll(0, this._scrollTo);
-        this.set("_loading", false)
-      })
-      .catch(this._pageLoadFailed.bind(this))
+    promise.call(el, this.subroute, window.scrollY)
+    .then(() => {
+      this.set("_page", this.page)
+      window.scroll(0, this._scrollTo);
+      this.set("_loading", false)
     })
+    .catch(this._pageLoadFailed.bind(this))
   }
 
   _pageLoadFailed() {
