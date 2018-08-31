@@ -326,7 +326,8 @@ class AppShell extends BaseElement {
       routeData: Object,
       subroute: Object,
       _subdrawerOpen: { type: Boolean, value: false },
-      _loading: { type: Boolean, value: true }
+      _loading: { type: Boolean, value: true },
+      _scrollTo: { type: Number, value: 0 }
     };
   }
 
@@ -419,6 +420,7 @@ class AppShell extends BaseElement {
     .then(() => {
       this.set("_page", this.page)
       window.scroll(0, this._scrollTo);
+      this.set("_scrollTo", 0);
       this.set("_loading", false)
     })
     .catch(this._pageLoadFailed.bind(this))
