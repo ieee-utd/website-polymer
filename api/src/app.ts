@@ -67,7 +67,40 @@ let sessionStore = new MongoStore({
 });
 
 //middleware
-app.use(morgan('dev'));
+
+function headersSent (res: any) {
+  return typeof res.headersSent !== 'boolean'
+    ? Boolean(res._header)
+    : res.headersSent
+}
+
+const developmentFormatLine: any = function(tokens: any, req: any, res: any) {
+  // get the status code if response written
+  var status: any = headersSent(res)
+    ? res.statusCode
+    : undefined
+
+  // get status color
+  var color: any = status >= 500 ? 31 // red
+    : status >= 400 ? 33 // yellow
+      : status >= 300 ? 36 // cyan
+        : status >= 200 ? 32 // green
+          : 0 // no color
+
+  // get colored function
+  var fn: any = developmentFormatLine[color];
+
+  if (!fn) {
+    // compile
+    fn = developmentFormatLine[color] = morgan.compile('\x1b[0m:date[iso] :method :url \x1b[' +
+      color + 'm:status \x1b[0m:response-time ms - :res[content-length]\x1b[0m')
+  }
+
+  return fn(tokens, req, res)
+};
+morgan.format('devtime', developmentFormatLine);
+
+app.use(morgan('devtime'));
 app.use(compression());
 app.use(bodyParser.json());
 app.use(session({
