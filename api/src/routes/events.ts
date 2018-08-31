@@ -34,7 +34,7 @@ route.get('/', async (req: any, res: any, next: any) => {
     let _events = await Event
     .find({
       startTime: { $lte: moment().add(30, 'days').toDate() },
-      endTime: { $gte: moment().day(0).startOf('day').toDate() }
+      endTime: { $gte: moment().startOf('day').toDate() }
     })
     .sort({ startTime: -1 });
 
