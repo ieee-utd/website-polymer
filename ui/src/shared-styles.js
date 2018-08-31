@@ -30,6 +30,9 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
       }
 
       /** HEADER IMAGE **/
+      div.hero-image {
+        margin-bottom: 16px;
+      }
       div.hero-image > iron-image.bg {
         height: 300px;
         width: 100%;
@@ -43,12 +46,12 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         height: 300px;
         background: linear-gradient(to bottom, rgba(33,33,33,1), rgba(33,33,33,0.3));
         z-index: 1;
+        @apply --layout-vertical;
+        @apply --layout-end-justified;
       }
-      div.hero-image > app-container {
-        position:relative;
-        top:-72px;
-        margin-bottom:-36px;
-        padding: 0 16px;
+      div.hero-image > div.bg-overlay > app-container {
+        display: block;
+        padding: 8px 32px;
         z-index: 2;
       }
       @media (max-width: 768px) {
@@ -56,12 +59,6 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         div.hero-image > div.bg-overlay {
           height: 200px;
         }
-      }
-      div.hero-image > app-container {
-        position: relative;
-        top: -72px;
-        margin-bottom: -36px;
-        padding: 0 32px;
       }
 
       app-container.content {

@@ -21,12 +21,13 @@ class PageEvent extends PolymerElement {
       </style>
 
       <div class="hero-image">
-        <div class="bg-overlay"></div>
+        <div class="bg-overlay">
+          <app-container>
+            <h1 style="color:white;">Event</h1>
+          </app-container>
+        </div>
         <!-- Poster if possible -->
         <iron-image class="bg" sizing="cover" src="/img/event.jpg" preload fade></iron-image>
-        <app-container>
-          <h1 style="color:white;">Event</h1>
-        </app-container>
       </div>
 
       <app-container class="content">

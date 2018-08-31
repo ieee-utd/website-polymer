@@ -43,7 +43,7 @@ class AppShell extends BaseElement {
         :host {
           display: block;
           min-height: 100vh;
-          background-color: var(--background-color);
+          background-color: var(--paper-grey-100);
 
           --app-drawer-width: 300px;
         }
@@ -70,7 +70,7 @@ class AppShell extends BaseElement {
           z-index: 10;
         }
         app-toolbar.light {
-          background-color: var(--paper-grey-50);
+          background-color: var(--paper-grey-100);
           padding-top: 8px;
         }
         app-toolbar[transparent] {
@@ -128,7 +128,7 @@ class AppShell extends BaseElement {
         app-drawer {
           z-index: 500;
           --app-drawer-content-container: {
-            background-color: var(--paper-grey-50);
+            background-color: var(--paper-grey-100);
           };
         }
         app-drawer > app-toolbar > div > h3 {
@@ -310,6 +310,7 @@ class AppShell extends BaseElement {
   ready() {
     super.ready();
     this.addEventListener('change-page', this._navigate);
+    this.addEventListener('go-back', this._goBack);
     this.drawer = this.$$('.drawer');
   }
 
@@ -415,10 +416,10 @@ class AppShell extends BaseElement {
         promise = el.onload;
       }
 
-      promise.call(el)
+      promise.call(el, this.subroute, window.scrollY)
       .then(() => {
         this.set("_page", this.page)
-        window.scroll(0, 0);
+        window.scroll(0, this._scrollTo);
         this.set("_loading", false)
       })
       .catch(this._pageLoadFailed.bind(this))
@@ -431,8 +432,18 @@ class AppShell extends BaseElement {
   }
 
   _navigate(e) {
-    let url = e.detail;
+    var url = e.detail;
+    if (e.detail.route) {
+      url = e.detail.route;
+      this.set("_scrollTo", e.detail.scroll || 0);
+    } else {
+      this.set("_scrollTo", 0);
+    }
     this.set("route.path", url);
+  }
+
+  _goBack() {
+    window.history.back();
   }
 }
 

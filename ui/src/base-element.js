@@ -331,4 +331,10 @@ export class BaseElement extends PolymerElement {
   _andNot(a, b) {
     return a && !b;
   }
+
+  _parseMarkdown(md) {
+    var converter = new showdown.Converter();
+    converter.setFlavor('github');
+    return converter.makeHtml(md);
+  }
 }

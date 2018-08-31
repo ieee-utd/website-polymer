@@ -20,11 +20,12 @@ class PageAbout extends PolymerElement {
       </style>
 
       <div class="hero-image">
-        <div class="bg-overlay"></div>
+        <div class="bg-overlay">
+          <app-container>
+            <h1 style="color:white;">About</h1>
+          </app-container>
+        </div>
         <iron-image class="bg" sizing="cover" src="/img/about.jpg" preload fade></iron-image>
-        <app-container>
-          <h1 style="color:white;">About</h1>
-        </app-container>
       </div>
 
       <app-container class="content" style="padding-top:0">

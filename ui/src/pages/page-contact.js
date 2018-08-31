@@ -15,11 +15,12 @@ class PageContact extends PolymerElement {
       </style>
 
       <div class="hero-image">
-        <div class="bg-overlay"></div>
+        <div class="bg-overlay">
+          <app-container>
+            <h1 style="color:white;">Contact</h1>
+          </app-container>
+        </div>
         <iron-image class="bg" sizing="cover" src="/img/contact.png" preload fade></iron-image>
-        <app-container>
-          <h1 style="color:white;">Contact</h1>
-        </app-container>
       </div>
 
       <app-container class="content" style="padding-top:0">
