@@ -97,7 +97,7 @@ class PageEvent extends BaseElement {
           @apply --layout-horizontal;
           @apply --layout-start-justified;
           @apply --layout-center;
-          margin-bottom: 6px;
+          margin-bottom: 12px;
           font-weight: 700;
           font-family: var(--font-head);
           color: var(--color-primary-blue);
@@ -105,6 +105,7 @@ class PageEvent extends BaseElement {
         div.info-row > iron-icon {
           position: relative;
           left: -3px;
+          margin-right: 6px;
         }
 
         a, a:active {
@@ -131,13 +132,17 @@ class PageEvent extends BaseElement {
               <a hidden$="[[!event.locationUrl]]" href="[[event.locationUrl]]" target="_blank">[[event.locationName]]</a>
               <span hidden$="[[event.locationUrl]]">[[event.locationName]]</span>
             </div>
+            <div class="info-row">
+              <iron-icon icon="mdi:calendar-clock"></iron-icon>
+              <span>[[_parseEventDate(event.startTime, event.endTime)]]</span>
+            </div>
           </div>
 
           <div class="content-padding">
             <div id="content"></div>
             <div class="avatar-container">
               <div class="user-avatar">
-                <span style="margin-right:8px">Posted [[_parseDate(event.visibleFrom)]] by </span>
+                <span style="margin-right:8px">Posted [[_parseAnnouncementDate(event.createdOn)]] by </span>
                 <span class="name">
                   <div class="initials"><span>[[event.createdBy.initials]]</span></div>
                   <span><b>[[event.createdBy.firstName]] [[event.createdBy.lastName]]</b></span>
@@ -165,16 +170,6 @@ class PageEvent extends BaseElement {
 
   _backHome() {
     this._fire("change-page", { route: '/', scroll: this._savedScroll || 0 })
-  }
-
-  _parseDate(date) {
-    if (moment(date).add(23, 'hours').isAfter(moment())) {
-      return moment(date).fromNow();
-    } else if (moment().year() === moment(date).year()) {
-      return moment(date).format('MMM D [at] h:mm a');
-    } else {
-      return moment(date).format('MMM D, YYYY');
-    }
   }
 
   onload(subroute, scroll) {
