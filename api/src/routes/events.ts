@@ -69,7 +69,7 @@ route.get('/:link', async (req: any, res: any, next: any) => {
 route.post('/', userCan("create"), validate(CreateEventSchema), async (req: any, res: any, next: any) => {
   try {
     let event = req.body;
-    event.link = base64url(crypto.randomBytes(6));
+    event.link = base64url(crypto.randomBytes(4));
     event.createdBy = req.user._id;
     event.createdOn = Date.now();
 

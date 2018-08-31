@@ -53,7 +53,7 @@ route.get('/:link', async (req: any, res: any, next: any) => {
 route.post('/', userCan("create"), validate(CreateAnnouncementSchema), async (req: any, res: any, next: any) => {
   try {
     let announcement = req.body;
-    announcement.link = base64url(crypto.randomBytes(6));
+    announcement.link = base64url(crypto.randomBytes(4));
     announcement.createdBy = req.user._id;
     announcement.createdOn = Date.now();
 

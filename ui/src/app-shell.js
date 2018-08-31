@@ -350,6 +350,8 @@ class AppShell extends BaseElement {
       this.page = '';
       return;
     }
+    if (page == "a") { page = "announcement" };
+    if (page == "e") { page = "event" };
 
     let el = this.$$(`iron-pages [name="${page}"]`);
     if (el) {
