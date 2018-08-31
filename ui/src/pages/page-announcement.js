@@ -22,7 +22,7 @@ class PageAnnouncement extends BaseElement {
           margin-top: 64px;
           background-color: var(--paper-grey-200);
           border-radius: 8px;
-          padding: 0 16px;
+          overflow: hidden;
           color: var(--paper-grey-900);
           min-height: calc(100vh - 112px);
           @apply --shadow-elevation-4dp;
@@ -74,16 +74,23 @@ class PageAnnouncement extends BaseElement {
         }
 
         paper-card div.title {
+          background-color: var(--paper-grey-300);
+          padding: 0 16px;
+        }
+        paper-card div.title > div.spanned {
           @apply --layout-horizontal;
           @apply --layout-justified;
           @apply --layout-center;
         }
-        paper-card div.title > paper-icon-button {
+        paper-card div.title paper-icon-button {
           width: 48px;
           height: 48px;
           padding: 8px;
           position: relative;
           left: 8px;
+        }
+        paper-card div.content-padding {
+          padding: 16px;
         }
 
         #content {
@@ -97,21 +104,24 @@ class PageAnnouncement extends BaseElement {
       <app-container class="content">
         <paper-card loading$="[[_loading]]">
           <div class="title">
-            <h2>[[announcement.title]]</h2>
-            <paper-icon-button icon="mdi:close" on-tap="_backHome"></paper-icon-button>
-          </div>
-          <div id="content"></div>
-          <div class="avatar-container">
-            <div class="user-avatar">
-              <span style="margin-right:8px">Created [[_parseDate(announcement.createdOn)]] by </span>
-              <span class="name">
-                <div class="initials"><span>[[announcement.createdBy.initials]]</span></div>
-                <span><b>[[announcement.createdBy.firstName]] [[announcement.createdBy.lastName]]</b></span>
-              </span>
-              <!--<iron-image preload fade sizing="cover" src="[[announcement.createdBy.]]"></iron-image>-->
+            <div class="spanned">
+              <h2>[[announcement.title]]</h2>
+              <paper-icon-button icon="mdi:close" on-tap="_backHome"></paper-icon-button>
             </div>
           </div>
-
+          <div class="content-padding">
+            <div id="content"></div>
+            <div class="avatar-container">
+              <div class="user-avatar">
+                <span style="margin-right:8px">Posted [[_parseDate(announcement.visibleFrom)]] by </span>
+                <span class="name">
+                  <div class="initials"><span>[[announcement.createdBy.initials]]</span></div>
+                  <span><b>[[announcement.createdBy.firstName]] [[announcement.createdBy.lastName]]</b></span>
+                </span>
+                <!--<iron-image preload fade sizing="cover" src="[[announcement.createdBy.]]"></iron-image>-->
+              </div>
+            </div>
+          </div>
         </paper-card>
       </app-container>
     `;
