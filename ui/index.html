@@ -51,6 +51,9 @@
     <!-- load fonts -->
     <link rel="stylesheet" href="fonts.css">
 
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124955705-1"></script>
+
     <script>
       /**
       * [polymer-root-path]
@@ -75,6 +78,12 @@
       }
 
       const API_URL = window.location.origin + "/api";
+
+      //Analytics code
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-124955705-1');
     </script>
 
     <!-- Load webcomponents-loader.js to check and load any polyfills your browser needs -->
