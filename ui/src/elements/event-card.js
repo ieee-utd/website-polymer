@@ -15,7 +15,6 @@ class EventCard extends BaseElement {
           @apply --layout-horizontal;
           @apply --layout-start-justified;
           @apply --layout-center;
-          flex-wrap: wrap;
         }
         div.action > div {
           width: 100%;
@@ -37,15 +36,15 @@ class EventCard extends BaseElement {
         }
         a {
           color: white;
-        }    
+        }
         h3 {
           width: 100%;
           white-space: nowrap;
           text-overflow: ellipsis;
           overflow: hidden;
-          margin: 0; 
+          margin: 0;
           color:var(--color-orange-complement);
-        }    
+        }
       </style>
 
       <app-card on-click="_navigate">

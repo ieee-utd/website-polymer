@@ -11,7 +11,7 @@ class PageAnnouncement extends BaseElement {
           background-color: var(--paper-grey-900);
         }
         app-container.content {
-          min-height: calc(100vh - 64px);
+          min-height: calc(100vh - 48px);
           height: auto;
           display: block;
           color: white;
@@ -22,9 +22,8 @@ class PageAnnouncement extends BaseElement {
           margin-top: 64px;
           background-color: var(--paper-grey-200);
           border-radius: 8px;
-          overflow: hidden;
           color: var(--paper-grey-900);
-          min-height: calc(100vh - 112px);
+          overflow: hidden;
           @apply --shadow-elevation-4dp;
         }
 
