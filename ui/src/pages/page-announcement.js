@@ -85,7 +85,8 @@ class PageAnnouncement extends BaseElement {
         paper-card div.title paper-icon-button {
           width: 48px;
           height: 48px;
-          padding: 8px;
+          padding: 12px;
+          min-width: 48px;
           position: relative;
           left: 8px;
         }
