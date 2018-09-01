@@ -8,15 +8,17 @@ class EventCard extends BaseElement {
         :host {
           display: block;
         }
-
         div.action {
+          width: 100%;
           font-family: var(--font-head);
           background-color: transparent;
           @apply --layout-horizontal;
           @apply --layout-start-justified;
           @apply --layout-center;
+          flex-wrap: wrap;
         }
         div.action > div {
+          width: 100%;
           margin-right: 16px;
           @apply --layout-horizontal;
           @apply --layout-start-justified;
@@ -27,18 +29,28 @@ class EventCard extends BaseElement {
           width: 100%;
           max-height: 48px;
           overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
         iron-icon.card-action-icon {
           margin-right: 10px;
         }
         a {
           color: white;
-        }
+        }    
+        h3 {
+          width: 100%;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          margin: 0; 
+          color:var(--color-orange-complement);
+        }    
       </style>
 
       <app-card on-click="_navigate">
         <span slot="title">
-          <h3 style="margin: 0; color:var(--color-orange-complement)">[[announcement.title]]</h3>
+          <h3>[[announcement.title]]</h3>
         </span>
         <span id="content" slot="content">
           [[announcement.content]]
