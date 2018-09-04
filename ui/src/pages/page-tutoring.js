@@ -21,6 +21,27 @@ class PageTutoring extends PolymerElement {
           justify-content: center;
           align-items: center;
         }
+
+        paper-tabs {
+          font-family: var(--font-head);
+          font-size: 12pt;
+          -webkit-font-smoothing: antialiased;
+          width: 100%;
+          text-transform: uppercase;
+          --paper-tab-ink: var(--color-secondary-active);
+          --paper-tabs-selection-bar-color: var(--color-orange-complement);
+        }
+        paper-tab {
+          min-width: 30px;
+        }
+        paper-tab.iron-selected {
+          font-weight: 600;
+        }
+        iron-pages {
+          margin-top: 10px;
+          background-color: lightgray;
+          min-height: 480px;
+        }
       </style>
 
       <div class="hero-image">
@@ -38,13 +59,57 @@ class PageTutoring extends PolymerElement {
         </p>
 
         <h2>Schedules</h2>
-        <div class="filler">Schedules will be posted next week.</div>
-
+        <paper-tabs selected="{{selected}}" scrollable>
+          <paper-tab>DC</paper-tab>
+          <paper-tab>DS</paper-tab>
+          <paper-tab>ENA</paper-tab>
+          <paper-tab>S&amp;S</paper-tab>
+        </paper-tabs>
+        <iron-pages selected="{{selected}}">
+          <div>
+            <iframe
+              width="100%"
+              height="480"
+              frameborder="0" style="border:0"
+              src="https://drive.google.com/file/d/18p4CMFDFByV6w-dDtJZESglmvwhbp0qN/preview">
+            </iframe>
+          </div>
+          <div>
+            <iframe
+              width="100%"
+              height="480"
+              frameborder="0" style="border:0"
+              src="https://drive.google.com/file/d/1QwthXslDjK6FAWkzp9U9p4v4ouyvSihi/preview">
+            </iframe>
+          </div>
+          <div>
+            <iframe
+              width="100%"
+              height="480"
+              frameborder="0" style="border:0"
+              src="https://drive.google.com/file/d/1w3i-OjArqLERJ1A_u5Rs4aQYh232bUM8/preview">
+            </iframe>
+          </div>
+          <div>
+            <iframe
+              width="100%"
+              height="480"
+              frameborder="0" style="border:0"
+              src="https://drive.google.com/file/d/1vo30US0ERGVeGf0Oa4O0yFZbCMPk38P-/preview">
+            </iframe>
+          </div>
+        </iron-pages>
 
         <!-- TODO -->
         <!-- <h2>Tutors</h2> -->
       </app-container>
     `;
+  }
+
+  static get properties() {
+    return {
+      selected: { type: Number, value: 0 }
+    }
   }
 }
 

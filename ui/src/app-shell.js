@@ -14,6 +14,7 @@ import '@polymer/iron-selector/iron-selector.js';
 import '@polymer/paper-card/paper-card.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
 import '@polymer/paper-progress/paper-progress.js';
+import '@polymer/paper-tabs/paper-tabs.js';
 
 import './shared-styles.js';
 import './app-icons.js';
