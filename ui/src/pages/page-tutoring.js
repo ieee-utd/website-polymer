@@ -71,7 +71,7 @@ class PageTutoring extends PolymerElement {
               width="100%"
               height="480"
               frameborder="0" style="border:0"
-              src="https://drive.google.com/file/d/18p4CMFDFByV6w-dDtJZESglmvwhbp0qN/preview">
+              src="https://schedulebuilder.org/?despy2k9">
             </iframe>
           </div>
           <div>
@@ -79,7 +79,7 @@ class PageTutoring extends PolymerElement {
               width="100%"
               height="480"
               frameborder="0" style="border:0"
-              src="https://drive.google.com/file/d/1QwthXslDjK6FAWkzp9U9p4v4ouyvSihi/preview">
+              src="https://schedulebuilder.org/?bleuappk">
             </iframe>
           </div>
           <div>
@@ -87,7 +87,7 @@ class PageTutoring extends PolymerElement {
               width="100%"
               height="480"
               frameborder="0" style="border:0"
-              src="https://drive.google.com/file/d/1w3i-OjArqLERJ1A_u5Rs4aQYh232bUM8/preview">
+              src="https://schedulebuilder.org/?djnj5jo4">
             </iframe>
           </div>
           <div>
@@ -95,7 +95,7 @@ class PageTutoring extends PolymerElement {
               width="100%"
               height="480"
               frameborder="0" style="border:0"
-              src="https://drive.google.com/file/d/1vo30US0ERGVeGf0Oa4O0yFZbCMPk38P-/preview">
+              src="https://schedulebuilder.org/?r4zb960a">
             </iframe>
           </div>
         </iron-pages>
