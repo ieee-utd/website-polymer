@@ -118,6 +118,26 @@ class PageEvent extends BaseElement {
         #content p {
           margin-top: 0;
         }
+
+        clipboard-copy {
+          font-weight: 400;
+          background-color: var(--color-primary-blue);
+          color: var(--paper-grey-200);
+          padding: 4px 8px;
+          border-radius: 4px;
+          font-family: var(--font-mono);
+          margin-left: 4px;
+          cursor: pointer;
+        }
+
+        paper-tooltip {
+          --paper-tooltip-duration-in: 200ms;
+          --paper-tooltip-duration-out: 200ms;
+          --paper-tooltip-background: var(--paper-grey-800);
+          --paper-tooltip-text-color: var(--paper-grey-300);
+          border-radius: 8px;
+          overflow: hidden;
+        }
       </style>
 
       <app-container class="content">
@@ -135,6 +155,11 @@ class PageEvent extends BaseElement {
             <div class="info-row">
               <iron-icon icon="mdi:calendar-clock"></iron-icon>
               <span>[[_parseEventDate(event.startTime, event.endTime)]]</span>
+            </div>
+            <div class="info-row">
+              <iron-icon icon="mdi:link-variant"></iron-icon>
+              <paper-tooltip id="tooltip_event_copy" for="share_event_copy" position="right" animation-delay=0>Click to copy</paper-tooltip>
+              <span>Share event: <clipboard-copy id="share_event_copy" value="[[_getPermalink(event.link)]]" on-copy="_copyEventLink">[[_getPermalink(event.link)]]</clipboard-copy></span>
             </div>
           </div>
 
@@ -168,8 +193,19 @@ class PageEvent extends BaseElement {
     }
   }
 
+  _copyEventLink() {
+    this.$.tooltip_event_copy.innerHTML = "Copied!";
+    setTimeout(() => {
+      this.$.tooltip_event_copy.innerHTML = "Click to copy";
+    }, 300)
+  }
+
   _backHome() {
     this._fire("change-page", { route: '/', scroll: this._savedScroll || 0 })
+  }
+
+  _getPermalink(link) {
+    return window.location.hostname + "/e/" + link;
   }
 
   onload(subroute, scroll) {
@@ -191,6 +227,14 @@ class PageEvent extends BaseElement {
         this.set("_loading", false)
         reject();
       })
+    })
+  }
+
+  ready() {
+    super.ready();
+
+    document.addEventListener('copy', (event) => {
+      this._copyEventLink();
     })
   }
 }

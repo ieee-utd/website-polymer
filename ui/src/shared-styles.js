@@ -15,7 +15,8 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         --color-paper: #EEEEEE;
 
         --font-head: "Rubik";
-        --font-main: "Roboto";
+        --font-main: "Roboto", sans-serif;
+        --font-mono: "Roboto Mono", monospace;
       }
 
       h1, h2, h3, h4, h5, h6 {
