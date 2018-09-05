@@ -15,7 +15,6 @@ class EventCard extends BaseElement {
           @apply --layout-horizontal;
           @apply --layout-start-justified;
           @apply --layout-center;
-          flex-wrap: wrap;
         }
         div.action > div {
           width: 100%;

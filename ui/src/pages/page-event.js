@@ -26,7 +26,6 @@ class PageEvent extends BaseElement {
           overflow: hidden;
           @apply --shadow-elevation-4dp;
         }
-
         div.avatar-container {
           opacity: 0.5;
           margin-top: 32px;
@@ -106,6 +105,7 @@ class PageEvent extends BaseElement {
           position: relative;
           left: -3px;
           margin-right: 6px;
+          min-width: 24px;
         }
 
         a, a:active {
@@ -126,7 +126,6 @@ class PageEvent extends BaseElement {
           padding: 4px 8px;
           border-radius: 4px;
           font-family: var(--font-mono);
-          margin-left: 4px;
           cursor: pointer;
         }
 
@@ -159,7 +158,7 @@ class PageEvent extends BaseElement {
             <div class="info-row">
               <iron-icon icon="mdi:link-variant"></iron-icon>
               <paper-tooltip id="tooltip_event_copy" for="share_event_copy" position="right" animation-delay=0>Click to copy</paper-tooltip>
-              <span>Share event: <clipboard-copy id="share_event_copy" value="[[_getPermalink(event.link)]]" on-copy="_copyEventLink">[[_getPermalink(event.link)]]</clipboard-copy></span>
+              <span><span style="margin-right: 4px; display: inline-block">Share event:</span><clipboard-copy id="share_event_copy" value="[[_getPermalink(event.link)]]" on-copy="_copyEventLink">[[_getPermalink(event.link)]]</clipboard-copy></span>
             </div>
           </div>
 
