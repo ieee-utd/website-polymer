@@ -129,7 +129,7 @@ class PageHome extends BaseElement {
         }
         div.blurb > p {
           max-width: 600px;
-          font-size: 18px;
+          font-size: 16px;
           font-family: var(--font-head);
           text-align: center;
           margin-bottom: 36px;
@@ -174,7 +174,7 @@ class PageHome extends BaseElement {
 
         <div class="content">
           <div class="logo">
-            <iron-image preload fade sizing="contain" style="width:100%; height:160px;" src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_logo.svg"></iron-image>
+            <iron-image preload fade sizing="contain" style="width:100%; height:120px;" src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_logo.svg"></iron-image>
           </div>
           <br>
           <div class="blurb">

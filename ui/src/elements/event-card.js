@@ -18,6 +18,7 @@ class EventCard extends BaseElement {
           border-radius: 8px;
           background-color: var(--card-color);
           padding: 16px;
+          overflow: hidden;
         }
         h3 {
           width: 100%;
@@ -30,6 +31,9 @@ class EventCard extends BaseElement {
         div#content {
           max-height: 110px;
           overflow: hidden;
+        }
+        div#content > p {
+          margin-bottom: 0;
         }
         div.content-mask {
           position: absolute;
