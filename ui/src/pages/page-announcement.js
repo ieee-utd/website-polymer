@@ -38,6 +38,7 @@ class PageAnnouncement extends BaseElement {
           border-radius: 4px;
           color: white !important;
           margin-right: 6px;
+          pointer-events: none;
         }
 
         div.avatar-container {
@@ -126,7 +127,7 @@ class PageAnnouncement extends BaseElement {
             <div class="tags">
               <dom-repeat items="[[announcement.tags]]">
                 <template>
-                  <a href="#">#[[item]]</a>
+                  <a>#[[item]]</a>
                 </template>
               </dom-repeat>
             </div>

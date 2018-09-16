@@ -103,6 +103,7 @@ class PageEvent extends BaseElement {
           border-radius: 4px;
           color: white !important;
           margin-right: 6px;
+          pointer-events: none;
         }
 
         div.info-row {
@@ -179,7 +180,7 @@ class PageEvent extends BaseElement {
             <div class="tags">
               <dom-repeat items="[[event.tags]]">
                 <template>
-                  <a href="#">#[[item]]</a>
+                  <a>#[[item]]</a>
                 </template>
               </dom-repeat>
             </div>
