@@ -7,7 +7,7 @@ import { BaseElement } from '../base-element';
 import '../shared-styles.js';
 import '../app-icons.js';
 
-class PageMain extends BaseElement {
+class PageHome extends BaseElement {
   static get template() {
     return html`
       <style include="shared-styles">
@@ -284,4 +284,4 @@ class PageMain extends BaseElement {
   }
 }
 
-window.customElements.define('page-main', PageMain);
+window.customElements.define('page-home', PageHome);
