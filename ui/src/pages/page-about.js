@@ -40,7 +40,7 @@ class PageAbout extends PolymerElement {
           Since its founding, IEEE UTD has remained true to its mission. IEEE UTD members are often involved in other engineering and computer science organizations, such as the American Society of Mechanical Engineers (ASME), UTD Makerspace, the Association for Computing Machinery (ACM), and many more!.
           By leveraging both IEEE and UTD resources, we help students to enforce engineering knowledge they learn and develop connections with other engineers within their fields of interest.
         </p>
-        
+
         <h2>Location</h2>
         <p>We are located at<br/><a href="https://www.google.com/maps/place/Synergy+Park+North+Building+-+UT+Dallas/@32.9939073,-96.7545257,17z/data=!3m1!4b1!4m5!3m4!1s0x864c2206e04feeb9:0x54e35d04c429ba8a!8m2!3d32.9939073!4d-96.752337" target="_blank">Synergy Park North 2.220<br/>3000 Waterview Pkwy,<br/>Richardson, TX 75080</a></p>
         <div class="map">
@@ -48,8 +48,7 @@ class PageAbout extends PolymerElement {
             width="100%"
             height="450"
             frameborder="0" style="border:0"
-            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAfPLw0W2oEPGS_GaXsJhCpaZw0zTXAxOI
-              &q=Synergy+Park+North+Building+-+UT+Dallas,Richardson,TX" allowfullscreen>
+            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAfPLw0W2oEPGS_GaXsJhCpaZw0zTXAxOI&q=Synergy+Park+North+Building+-+UT+Dallas,Richardson,TX" allowfullscreen>
           </iframe>
         </div>
 
