@@ -140,7 +140,7 @@ class PageEvent extends BaseElement {
       </style>
 
       <app-container class="content">
-        <paper-card loading$="[[_loading]]">
+        <paper-card>
           <div class="title">
             <div class="spanned">
               <h2>[[event.title]]</h2>
@@ -187,7 +187,6 @@ class PageEvent extends BaseElement {
         type: Object,
         value: { }
       },
-      _loading: { type: Boolean, value: true },
       _savedScroll: { type: Number, value: 0 }
     }
   }
@@ -209,23 +208,16 @@ class PageEvent extends BaseElement {
 
   onload(subroute, scroll) {
     return new Promise((resolve, reject) => {
-      let tail = subroute.path.substring(1);
-      if (!tail) return reject({ message: "Event not found", status: 404 })
+      if (subroute.length == 0) return reject({ message: "Event not found", status: 404 })
 
-      this.set("_loading", true)
-
-      this._get("/events/" + tail)
+      this._get("/events/" + subroute[0])
       .then((event) => {
         this.set("_savedScroll", scroll);
-        this.set("_loading", false)
         this.$.content.innerHTML = this._parseMarkdown(event.content);
         this.set("event", event)
         resolve();
       })
-      .catch(() => {
-        this.set("_loading", false)
-        reject();
-      })
+      .catch(reject)
     })
   }
 

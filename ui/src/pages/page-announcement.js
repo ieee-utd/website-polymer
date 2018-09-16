@@ -102,7 +102,7 @@ class PageAnnouncement extends BaseElement {
       </style>
 
       <app-container class="content">
-        <paper-card loading$="[[_loading]]">
+        <paper-card>
           <div class="title">
             <div class="spanned">
               <h2>[[announcement.title]]</h2>
@@ -133,7 +133,6 @@ class PageAnnouncement extends BaseElement {
         type: Object,
         value: { }
       },
-      _loading: { type: Boolean, value: true },
       _savedScroll: { type: Number, value: 0 }
     }
   }
@@ -154,23 +153,16 @@ class PageAnnouncement extends BaseElement {
 
   onload(subroute, scroll) {
     return new Promise((resolve, reject) => {
-      let tail = subroute.path.substring(1);
-      if (!tail) return reject({ message: "Announcement not found", status: 404 })
+      if (subroute.length == 0) return reject({ message: "Announcement not found", status: 404 })
 
-      this.set("_loading", true)
-
-      this._get("/announcements/" + tail)
+      this._get("/announcements/" + subroute[0])
       .then((announcement) => {
         this.set("_savedScroll", scroll);
-        this.set("_loading", false)
         this.$.content.innerHTML = this._parseMarkdown(announcement.content);
         this.set("announcement", announcement)
         resolve();
       })
-      .catch(() => {
-        this.set("_loading", false)
-        reject();
-      })
+      .catch(reject)
     })
   }
 }

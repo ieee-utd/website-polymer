@@ -302,9 +302,9 @@ class LayoutMain extends BaseElement {
       this.set("subroute", path.slice(1))
 
       //change page info
-      if (page == "") page = "home";
-      if (page == "a") page = "announcement";
-      if (page == "e") page = "event";
+      if (page === "") page = "home";
+      if (page === "a") page = "announcement";
+      if (page === "e") page = "event";
 
       let el = this.$$(`iron-pages [name="${page}"]`);
       if (el) {
@@ -363,6 +363,7 @@ class LayoutMain extends BaseElement {
   }
 
   _pageLoaded() {
+    console.log("_pageLoaded", this.page)
     let el = this.$$(`iron-pages [name="${this.page}"]`);
     var promise = () => { return Promise.resolve(); }
     if (typeof el.onload === 'function') {
