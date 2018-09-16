@@ -92,6 +92,19 @@ class PageEvent extends BaseElement {
           padding: 16px;
         }
 
+        div.tags {
+          margin-bottom: 16px;
+        }
+        div.tags > a {
+          text-decoration: none;
+          font-style: italic;
+          padding: 4px;
+          background-color: var(--paper-blue-600);
+          border-radius: 4px;
+          color: white !important;
+          margin-right: 6px;
+        }
+
         div.info-row {
           @apply --layout-horizontal;
           @apply --layout-start-justified;
@@ -163,6 +176,13 @@ class PageEvent extends BaseElement {
           </div>
 
           <div class="content-padding">
+            <div class="tags">
+              <dom-repeat items="[[event.tags]]">
+                <template>
+                  <a href="#">#[[item]]</a>
+                </template>
+              </dom-repeat>
+            </div>
             <div id="content"></div>
             <div class="avatar-container">
               <div class="user-avatar">

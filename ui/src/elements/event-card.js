@@ -28,6 +28,19 @@ class EventCard extends BaseElement {
           margin: 0;
           color:var(--color-orange-complement);
         }
+        div.tags {
+          margin-top: 10px;
+          font-size: 14px;
+          list-style-type: none;
+        }
+        div.tags > a {
+          text-decoration: none;
+          font-style: italic;
+          padding: 4px;
+          background-color: var(--paper-grey-700);
+          border-radius: 4px;
+          margin: 0 1px;
+        }
         div#content {
           max-height: 110px;
           overflow: hidden;
@@ -112,6 +125,13 @@ class EventCard extends BaseElement {
 
       <paper-card on-click="_navigate">
         <h3>[[announcement.title]]</h3>
+        <div class="tags">
+          <dom-repeat items="[[announcement.tags]]">
+            <template>
+              <a href="#">#[[item]]</a>
+            </template>
+          </dom-repeat>
+        </div>
         <div hidden$="[[isEvent]]" id="content"></div>
         <div hidden$="[[isEvent]]" class="content-mask"></div>
         <div hidden$="[[!isEvent]]" class="action">

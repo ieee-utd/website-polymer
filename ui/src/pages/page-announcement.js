@@ -26,6 +26,19 @@ class PageAnnouncement extends BaseElement {
           overflow: hidden;
           @apply --shadow-elevation-4dp;
         }
+        
+        div.tags {
+          margin-bottom: 16px;
+        }
+        div.tags > a {
+          text-decoration: none;
+          font-style: italic;
+          padding: 4px;
+          background-color: var(--paper-blue-600);
+          border-radius: 4px;
+          color: white !important;
+          margin-right: 6px;
+        }
 
         div.avatar-container {
           opacity: 0.5;
@@ -110,6 +123,13 @@ class PageAnnouncement extends BaseElement {
             </div>
           </div>
           <div class="content-padding">
+            <div class="tags">
+              <dom-repeat items="[[announcement.tags]]">
+                <template>
+                  <a href="#">#[[item]]</a>
+                </template>
+              </dom-repeat>
+            </div>
             <div id="content"></div>
             <div class="avatar-container">
               <div class="user-avatar">
