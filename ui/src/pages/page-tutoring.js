@@ -33,13 +33,19 @@ class PageTutoring extends PolymerElement {
         }
         paper-tab {
           min-width: 30px;
+          max-width: 120px;
+          transition: 0.2s color, 0.2s background-color;
+        }
+        paper-tab:hover {
+          background-color: var(--paper-grey-300);
         }
         paper-tab.iron-selected {
           font-weight: 600;
+          background-color: var(--color-primary);
+          color: white;
         }
         iron-pages {
-          margin-top: 10px;
-          background-color: lightgray;
+          background-color: var(--paper-grey-300);
           min-height: 480px;
         }
       </style>
@@ -59,7 +65,7 @@ class PageTutoring extends PolymerElement {
         </p>
 
         <h2>Schedules</h2>
-        <paper-tabs selected="{{selected}}" scrollable>
+        <paper-tabs selected="{{selected}}">
           <paper-tab>DC</paper-tab>
           <paper-tab>DS</paper-tab>
           <paper-tab>ENA</paper-tab>
