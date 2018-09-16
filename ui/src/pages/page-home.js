@@ -146,7 +146,7 @@ class PageHome extends BaseElement {
         }
 
         div.main-card {
-          background-color: var(--paper-grey-900);
+          /* background-color: var(--paper-grey-900); */
           padding: 16px;
           padding-bottom: 0;
           margin-bottom: 32px;
