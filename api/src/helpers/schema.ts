@@ -51,7 +51,8 @@ export let CreateAnnouncementSchema = {
     "title": Joi.string().required().min(1).max(64),
     "content": Joi.string(),
     "visibleUntil": Joi.date().required(),
-    "visibleFrom": Joi.date().required()
+    "visibleFrom": Joi.date().required(),
+    "tags": Joi.array().items(Joi.string().min(3)).required()
   }).unknown(false)
 }
 
@@ -60,7 +61,8 @@ export let UpdateAnnouncementSchema = {
     "title": Joi.string().min(1).max(64),
     "content": Joi.string(),
     "visibleUntil": Joi.date(),
-    "visibleFrom": Joi.date()
+    "visibleFrom": Joi.date(),
+    "tags": Joi.array().items(Joi.string().min(3))
   }).unknown(false)
 }
 
@@ -73,7 +75,8 @@ export let CreateEventSchema = {
     "locationName": Joi.string(),
     "locationUrl": Joi.string(),
     "reservationUrl": Joi.string(),
-    "reservationRequired": Joi.boolean().required()
+    "reservationRequired": Joi.boolean().required(),
+    "tags": Joi.array().items(Joi.string().min(3)).required()
   }).unknown(false)
 }
 
@@ -86,6 +89,7 @@ export let UpdateEventSchema = {
     "locationName": Joi.string(),
     "locationUrl": Joi.string(),
     "reservationUrl": Joi.string(),
-    "reservationRequired": Joi.boolean()
+    "reservationRequired": Joi.boolean(),
+    "tags": Joi.array().items(Joi.string().min(3))
   }).unknown(false)
 }

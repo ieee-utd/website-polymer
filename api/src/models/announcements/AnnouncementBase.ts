@@ -9,7 +9,8 @@ var schema = new mongoose.Schema({
   createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "Member", required: true },
   createdOn: { type: Date, required: true },
   updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: "Member" },
-  lastUpdated: { type: Date }
+  lastUpdated: { type: Date },
+  tags: [{ type: String }]
 }, {
   collection: "announcements"
 });
