@@ -7,9 +7,45 @@ class EventCard extends BaseElement {
       <style include="shared-styles">
         :host {
           display: block;
+
+          --card-color: var(--paper-grey-800);
+          --card-color-hover: var(--paper-grey-700);
+          --card-color-hover-dark: var(--color-primary);
+        }
+        paper-card {
+          min-height: 50px;
+          width: 100%;
+          border-radius: 8px;
+          background-color: var(--card-color);
+          padding: 16px;
+        }
+        h3 {
+          width: 100%;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          margin: 0;
+          color:var(--color-orange-complement);
+        }
+        div#content {
+          max-height: 110px;
+          overflow: hidden;
+        }
+        div.content-mask {
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          height: 45px;
+          width: 100%;
+          border-bottom-left-radius: 8px;
+          border-bottom-right-radius: 8px;
+          pointer-events: none;
+          background: linear-gradient(to bottom, transparent, var(--card-color));
+          transition: 0.14s linear;
         }
         div.action {
           width: 100%;
+          margin-top: 16px;
           font-family: var(--font-head);
           background-color: transparent;
           @apply --layout-horizontal;
@@ -31,45 +67,62 @@ class EventCard extends BaseElement {
           white-space: nowrap;
           text-overflow: ellipsis;
         }
+        div.more {
+          position: absolute;
+          bottom: 0px;
+          left: 0;
+          right: 0;
+          height: 0px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1;
+          border-bottom-left-radius: 8px;
+          border-bottom-right-radius: 8px;
+          background-color: var(--card-color-hover-dark);
+          font-family: var(--font-head);
+          font-weight: 700;
+          opacity: 0;
+          transition: 0.14s linear;
+        }
         iron-icon.card-action-icon {
           margin-right: 10px;
         }
         a {
           color: white;
+          pointer-events: none;
         }
-        h3 {
-          width: 100%;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          overflow: hidden;
-          margin: 0;
-          color:var(--color-orange-complement);
+        
+        paper-card:hover {
+          background-color: var(--card-color-hover);
+          @apply --shadow-elevation-12dp;
+          transition: 0.14s linear;
+          cursor: pointer;
         }
+        paper-card:hover div.more {
+          opacity: 1;
+          height: 50px;
+        }
+
       </style>
 
-      <app-card on-click="_navigate">
-        <span slot="title">
-          <h3>[[announcement.title]]</h3>
-        </span>
-        <span id="content" slot="content">
-          [[announcement.content]]
-        </span>
-        <div slot="actions" class="action">
-          <div hidden$="[[isEvent]]" style="opacity:0.4;">
-            <iron-icon class="card-action-icon" icon="mdi:calendar-clock"></iron-icon>
-            <span>Posted <b>[[_parseAnnouncementDate(announcement.visibleFrom)]]</b></span>
-          </div>
-          <div hidden$="[[!isEvent]]">
+      <paper-card on-click="_navigate">
+        <h3>[[announcement.title]]</h3>
+        <div hidden$="[[isEvent]]" id="content"></div>
+        <div hidden$="[[isEvent]]" class="content-mask"></div>
+        <div hidden$="[[!isEvent]]" class="action">
+          <div>
             <iron-icon class="card-action-icon" icon="mdi:calendar-clock"></iron-icon><span><b>[[_parseEventDate(announcement.startTime,announcement.endTime)]]</b></span>
           </div>
-          <div hidden$="[[!_and(isEvent, announcement.locationName)]]">
+          <div hidden$="[[!announcement.locationName]]">
             <iron-icon class="card-action-icon" icon="mdi:map-marker"></iron-icon><span><b>[[announcement.locationName]]</b></span>
           </div>
         </div>
-        <div slot="actions-alt">
+        <div class="more">
           View more
         </div>
-      </app-card>
+        
+      </paper-card>
     `;
   }
 
