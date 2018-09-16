@@ -103,6 +103,9 @@ class AppShell extends BaseElement {
 
     let layout = path[0];
 
+    console.log(path)
+    console.log("loading layout", layout)
+
     if (!layout) return this._loadLayout("main");
 
     switch(layout) {
@@ -115,6 +118,9 @@ class AppShell extends BaseElement {
       case "tutoring":
       case "contact":
         return this._loadLayout("main")
+      case "login":
+      case "forgot-password":
+        return this._loadLayout("login")
       default:
         //ohnoes page
         return this._loadLayout("main")
@@ -127,6 +133,9 @@ class AppShell extends BaseElement {
     switch (layout) {
       case 'main':
         import('./layouts/layout-main.js').then(this._layoutLoaded.bind(this, layout)).catch(this._layoutLoadFailed.bind(this, layout));
+        break;
+      case 'login':
+        import('./layouts/layout-login.js').then(this._layoutLoaded.bind(this, layout)).catch(this._layoutLoadFailed.bind(this, layout));
         break;
     }
   }
@@ -149,6 +158,7 @@ class AppShell extends BaseElement {
   }
 
   _layoutLoadFailed() {
+    console.warn("load failed")
     this.set("_loading", false)
     this._navigate({ detail: "/" })
   }
