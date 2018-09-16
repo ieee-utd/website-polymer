@@ -132,9 +132,9 @@ class LayoutLogin extends BaseElement {
         case 'login':
           import('../pages/page-login.js').then(resolve.bind(this, page)).catch(reject);
           break;
-        case 'forgot-password':
-          import('../pages/page-forgot-password.js').then(resolve.bind(this, page)).catch(reject);
-          break;
+        // case 'forgot-password':
+        //   import('../pages/page-forgot-password.js').then(resolve.bind(this, page)).catch(reject);
+        //   break;
       }
     })
   }
