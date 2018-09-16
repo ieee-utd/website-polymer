@@ -16,7 +16,7 @@ class AppCard extends BaseElement {
 
         paper-card {
           width: 100%;
-          height: 190px;
+          /* height: 190px; */
           border-radius: 8px;
           background-color: var(--card-color);
           color: white;
@@ -42,7 +42,7 @@ class AppCard extends BaseElement {
 
         div.content {
           overflow-y: hidden;
-          height: 70px;
+          /* height: 70px; */
           opacity: 0.7;
           transition: 0.14s linear;
         }
@@ -51,7 +51,7 @@ class AppCard extends BaseElement {
         }
         div.content-mask {
           position: absolute;
-          bottom: 50px;
+          /* bottom: 50px; */
           left: 0;
           height: 30px;
           width: 100%;
