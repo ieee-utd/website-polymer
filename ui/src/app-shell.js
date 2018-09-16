@@ -101,7 +101,6 @@ class AppShell extends BaseElement {
   _pathChanged(_path) {
     let path = _path.split("/").slice(1);
     this.set("_path", path)
-    console.log("Path changed", path)
 
     let layout = path[0];
 

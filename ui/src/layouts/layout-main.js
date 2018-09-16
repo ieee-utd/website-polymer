@@ -223,10 +223,10 @@ class LayoutMain extends BaseElement {
             selected="[[_page]]"
             class="drawer-list"
             role="navigation">
-          <a href="[[rootPath]]" active$="[[_active(page,'home')]]"><iron-icon icon="mdi:home-outline"></iron-icon><h4>Home</h4></a>
-          <a href="[[rootPath]]about" active$="[[_active(page,'about')]]"><iron-icon icon="mdi:information-outline"></iron-icon><h4>About</h4></a>
-          <a href="[[rootPath]]tutoring" active$="[[_active(page,'tutoring')]]"><iron-icon icon="mdi:comment-question-outline"></iron-icon><h4>Tutoring</h4></a>
-          <a href="[[rootPath]]contact" active$="[[_active(page,'contact')]]"><iron-icon icon="mdi:email-outline"></iron-icon><h4>Contact</h4></a>
+          <a href="[[rootPath]]" active$="[[_active(_page,'home')]]"><iron-icon icon="mdi:home-outline"></iron-icon><h4>Home</h4></a>
+          <a href="[[rootPath]]about" active$="[[_active(_page,'about')]]"><iron-icon icon="mdi:information-outline"></iron-icon><h4>About</h4></a>
+          <a href="[[rootPath]]tutoring" active$="[[_active(_page,'tutoring')]]"><iron-icon icon="mdi:comment-question-outline"></iron-icon><h4>Tutoring</h4></a>
+          <a href="[[rootPath]]contact" active$="[[_active(_page,'contact')]]"><iron-icon icon="mdi:email-outline"></iron-icon><h4>Contact</h4></a>
         </iron-selector>
       </app-drawer>
 
@@ -234,11 +234,11 @@ class LayoutMain extends BaseElement {
         <app-toolbar transparent>
           <app-container class="wide-toolbar" style="width: 100%">
             <div>
-              <a href="[[rootPath]]" style="height:48px"><img src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_icon_color_bordered.svg" draggable=false gone$="[[_active(page,'home')]]"/></a>
-              <span class="tab"><a href="[[rootPath]]" active$="[[_active(page,'home')]]">Home</a></span>
-              <span class="tab"><a href="[[rootPath]]about" active$="[[_active(page,'about')]]">About</a></span>
-              <span class="tab"><a href="[[rootPath]]tutoring" active$="[[_active(page,'tutoring')]]">Tutoring</a></span>
-              <span class="tab"><a href="[[rootPath]]contact" active$="[[_active(page,'contact')]]">Contact</a></span>
+              <a href="[[rootPath]]" style="height:48px"><img src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_icon_color_bordered.svg" draggable=false gone$="[[_active(_page,'home')]]"/></a>
+              <span class="tab"><a href="[[rootPath]]" active$="[[_active(_page,'home')]]">Home</a></span>
+              <span class="tab"><a href="[[rootPath]]about" active$="[[_active(_page,'about')]]">About</a></span>
+              <span class="tab"><a href="[[rootPath]]tutoring" active$="[[_active(_page,'tutoring')]]">Tutoring</a></span>
+              <span class="tab"><a href="[[rootPath]]contact" active$="[[_active(_page,'contact')]]">Contact</a></span>
             </div>
           </app-container>
           <app-container class="narrow-toolbar">
@@ -270,11 +270,6 @@ class LayoutMain extends BaseElement {
 
   static get properties() {
     return {
-      page: {
-        type: String,
-        reflectToAttribute: true,
-        observer: '_pageChanged'
-      },
       _page: { type: String },
       toolbarPosition: String,
       routeData: Object,
@@ -299,6 +294,7 @@ class LayoutMain extends BaseElement {
     return new Promise((resolve, reject) => {
       var page = path[0];
 
+      this.set("_loading", true)
       this.set("subroute", path.slice(1))
 
       //change page info
@@ -307,82 +303,82 @@ class LayoutMain extends BaseElement {
       if (page === "e") page = "event";
 
       let el = this.$$(`iron-pages [name="${page}"]`);
-      if (el) {
-        this.set("page", page)
-      } else {
-        this.set("page", "ohnoes")
-      }
+      if (!el) page = "ohnoes";
 
-      resolve();
+      this._loadPage(page)
+      .then((page) => {
+        return this._pageLoaded(page);
+      })
+      .then(resolve)
+      .catch(reject)
     })
-  }
-
-  _pageChanged(page) {
-    // Import the page component on demand.
-    //
-    // Note: `polymer build` doesn't like string concatenation in the import
-    // statement, so break it up.
-    this.set("_loading", true)
-
-    switch (page) {
-      case 'home':
-        import('../pages/page-home.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
-        break;
-      case 'about':
-        import('../pages/page-about.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
-        break;
-      case 'tutoring':
-        import('../pages/page-tutoring.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
-        break;
-      case 'contact':
-        import('../pages/page-contact.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
-        break;
-      case 'announcement':
-        import('../pages/page-announcement.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
-        break;
-      case 'event':
-        import('../pages/page-event.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
-        break;
-      case 'events':
-        import('../pages/page-events.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
-        break;
-      default:
-        import('../pages/page-ohnoes.js').then(this._pageLoaded.bind(this)).catch(this._pageLoadFailed.bind(this));
-        break;
-    }
-
-    if (!this.$$('.drawer').persistent) {
-      setTimeout(() => { // otherwise it looks like garbage
-        this.$$('.drawer').close();
-      }, 300);
-    }
   }
 
   _openDrawer() {
     this.$$('.drawer').open();
   }
 
-  _pageLoaded() {
-    console.log("_pageLoaded", this.page)
-    let el = this.$$(`iron-pages [name="${this.page}"]`);
-    var promise = () => { return Promise.resolve(); }
-    if (typeof el.onload === 'function') {
-      promise = el.onload;
-    }
+  _pageLoaded(page) {
+    return new Promise((resolve, reject) => {
+      let el = this.$$(`iron-pages [name="${page}"]`);
+      var promise = () => { return Promise.resolve(); }
+      if (typeof el.onload === 'function') {
+        promise = el.onload;
+      }
 
-    promise.call(el, this.subroute, window.scrollY)
-    .then(() => {
-      this.set("_page", this.page)
-      window.scroll(0, this._scrollTo);
-      this.set("_scrollTo", 0);
-      this.set("_loading", false)
+      promise.call(el, this.subroute, window.scrollY)
+      .then(() => {
+        this.set("_page", page)
+        window.scroll(0, this._scrollTo);
+        this.set("_scrollTo", 0);
+        this.set("_loading", false)
+
+        if (!this.$$('.drawer').persistent) {
+          setTimeout(() => { // otherwise it looks like garbage
+            this.$$('.drawer').close();
+          }, 300);
+        }
+
+        resolve();
+      })
+      .catch(this._pageLoadFailed.bind(this))
     })
-    .catch(this._pageLoadFailed.bind(this))
   }
 
   _pageLoadFailed() {
     this.set("_loading", false)
     this._fire("change-page", "/")
+  }
+
+  _loadPage(page) {
+    return new Promise((resolve, reject) => {
+      switch (page) {
+        case 'home':
+          import('../pages/page-home.js').then(resolve.bind(this, page)).catch(reject);
+          break;
+        case 'about':
+          import('../pages/page-about.js').then(resolve.bind(this, page)).catch(reject);
+          break;
+        case 'tutoring':
+          import('../pages/page-tutoring.js').then(resolve.bind(this, page)).catch(reject);
+          break;
+        case 'contact':
+          import('../pages/page-contact.js').then(resolve.bind(this, page)).catch(reject);
+          break;
+        case 'announcement':
+          import('../pages/page-announcement.js').then(resolve.bind(this, page)).catch(reject);
+          break;
+        case 'event':
+          import('../pages/page-event.js').then(resolve.bind(this, page)).catch(reject);
+          break;
+        case 'events':
+          import('../pages/page-events.js').then(resolve.bind(this, page)).catch(reject);
+          break;
+        default:
+          import('../pages/page-ohnoes.js').then(resolve.bind(this, page)).catch(reject);
+          break;
+      }
+    })
   }
 }
 
