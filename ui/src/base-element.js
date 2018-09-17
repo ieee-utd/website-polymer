@@ -348,7 +348,7 @@ export class BaseElement extends PolymerElement {
     }
   }
 
-  _parseEventDate(_startDate, _endDate) {
+  _parseEventDate(_startDate, _endDate, assumeDateKnown) {
     if (!_startDate) return "";
     var startDate = moment(_startDate);
     var endDate = moment(_endDate);
@@ -375,22 +375,22 @@ export class BaseElement extends PolymerElement {
     } else if (moment(_endDate).startOf('minute').isSame(moment(_startDate).startOf('minute'))) {
       //same time
       return startDate.calendar(null, {
-        sameDay: `[Today at] h${startDate.minute() > 0 ? ':mm' : ''} a`,
-        nextDay: `[Tomorrow at] h${startDate.minute() > 0 ? ':mm' : ''} a`,
-        nextWeek: `MMM D [at] h${startDate.minute() > 0 ? ':mm' : ''} a`,
-        lastDay: `[Yesterday at] h${startDate.minute() > 0 ? ':mm' : ''} a`,
-        lastWeek: `MMM D [at] h${startDate.minute() > 0 ? ':mm' : ''} a`,
-        sameElse: `MMM D [at] h${startDate.minute() > 0 ? ':mm' : ''} a`
+        sameDay: `${!assumeDateKnown ? "[Today at] " : "" }h${startDate.minute() > 0 ? ':mm' : ''} a`,
+        nextDay: `${!assumeDateKnown ? "[Tomorrow at] " : ""}h${startDate.minute() > 0 ? ':mm' : ''} a`,
+        nextWeek: `${!assumeDateKnown ? "MMM D [at] " : ""}h${startDate.minute() > 0 ? ':mm' : ''} a`,
+        lastDay: `${!assumeDateKnown ? "[Yesterday at] " : ""}h${startDate.minute() > 0 ? ':mm' : ''} a`,
+        lastWeek: `${!assumeDateKnown ? "MMM D [at] " : ""}h${startDate.minute() > 0 ? ':mm' : ''} a`,
+        sameElse: `${!assumeDateKnown ? "MMM D [at] " : ""}h${startDate.minute() > 0 ? ':mm' : ''} a`
       });
     } else if (moment(_endDate).startOf('day').isSame(moment(_startDate).startOf('day'))) {
       //same day
       return startDate.calendar(null, {
-        sameDay: `[Today], h${startDate.minute() > 0 ? ':mm' : ''} a`,
-        nextDay: `[Tomorrow], h${startDate.minute() > 0 ? ':mm' : ''} a`,
-        nextWeek: `MMM D, h${startDate.minute() > 0 ? ':mm' : ''} a`,
-        lastDay: `[Yesterday], h${startDate.minute() > 0 ? ':mm' : ''} a`,
-        lastWeek: `MMM D, h${startDate.minute() > 0 ? ':mm' : ''} a`,
-        sameElse: `MMM D, h${startDate.minute() > 0 ? ':mm' : ''} a`
+        sameDay: `${!assumeDateKnown ? "[Today at] " : "" }h${startDate.minute() > 0 ? ':mm' : ''} a`,
+        nextDay: `${!assumeDateKnown ? "[Tomorrow at] " : ""}h${startDate.minute() > 0 ? ':mm' : ''} a`,
+        nextWeek: `${!assumeDateKnown ? "MMM D [at] " : ""}h${startDate.minute() > 0 ? ':mm' : ''} a`,
+        lastDay: `${!assumeDateKnown ? "[Yesterday at] " : ""}h${startDate.minute() > 0 ? ':mm' : ''} a`,
+        lastWeek: `${!assumeDateKnown ? "MMM D [at] " : ""}h${startDate.minute() > 0 ? ':mm' : ''} a`,
+        sameElse: `${!assumeDateKnown ? "MMM D [at] " : ""}h${startDate.minute() > 0 ? ':mm' : ''} a`
       }) + endDate.format(`[ -] h${endDate.minute() > 0 ? ':mm' : ''} a`);
     } else if (moment(_endDate).startOf('month').isSame(moment(_startDate).startOf('month'))) {
       //same month, different days

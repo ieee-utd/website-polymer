@@ -32,6 +32,7 @@ class EventCard extends BaseElement {
           margin-top: 10px;
           font-size: 14px;
           list-style-type: none;
+          height: 21px;
         }
         div.tags > a {
           text-decoration: none;
@@ -109,7 +110,7 @@ class EventCard extends BaseElement {
           color: white;
           pointer-events: none;
         }
-        
+
         paper-card:hover {
           background-color: var(--card-color-hover);
           @apply --shadow-elevation-12dp;
@@ -135,17 +136,17 @@ class EventCard extends BaseElement {
         <div hidden$="[[isEvent]]" id="content"></div>
         <div hidden$="[[isEvent]]" class="content-mask"></div>
         <div hidden$="[[!isEvent]]" class="action">
-          <div>
-            <iron-icon class="card-action-icon" icon="mdi:calendar-clock"></iron-icon><span><b>[[_parseEventDate(announcement.startTime,announcement.endTime)]]</b></span>
-          </div>
           <div hidden$="[[!announcement.locationName]]">
-            <iron-icon class="card-action-icon" icon="mdi:map-marker"></iron-icon><span><b>[[announcement.locationName]]</b></span>
+            <iron-icon class="card-action-icon" icon="mdi:map-marker-outline"></iron-icon><span><b>[[announcement.locationName]]</b></span>
+          </div>
+          <div>
+            <iron-icon class="card-action-icon" icon="mdi:clock-outline"></iron-icon><span><b>[[_parseEventDate(announcement.startTime,announcement.endTime,1)]]</b></span>
           </div>
         </div>
         <div class="more">
           View more
         </div>
-        
+
       </paper-card>
     `;
   }
