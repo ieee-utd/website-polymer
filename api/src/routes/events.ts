@@ -37,8 +37,6 @@ route.get('/', async (req: any, res: any, next: any) => {
     // TODO implement search query: let query = req.query.q;
     let since = req.query.s;
 
-    console.log(tags)
-
     let pred: any = {
       startTime: { $lt: moment().add(PAGINATION_DAYS, 'days').startOf('day').toDate() },
       endTime: { $gte: moment().startOf('day').toDate() }
