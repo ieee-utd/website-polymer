@@ -12,8 +12,8 @@ var schema = new mongoose.Schema({
 });
 
 function calculateTimeOffset() {
-  let offsetMins = -moment.tz("America/Chicago").utcOffset();
-  console.log("Time offset (minutes):", offsetMins);
+  let offsetMins = moment.tz("America/Chicago").utcOffset();
+  console.log("Time offset:", offsetMins / 60);
   return offsetMins;
 }
 const offsetMinutes = calculateTimeOffset();
