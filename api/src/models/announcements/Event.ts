@@ -1,4 +1,5 @@
 import * as mongoose from "mongoose";
+import * as moment from "moment-timezone";
 var { AnnouncementBase } = require('./AnnouncementBase');
 
 var schema = new mongoose.Schema({
@@ -9,6 +10,13 @@ var schema = new mongoose.Schema({
   reservationUrl: { type: String },
   reservationRequired: { type: Boolean, default: false }
 });
+
+function calculateTimeOffset() {
+  let offsetMins = -moment.tz("America/Chicago").utcOffset();
+  console.log("Time offset (minutes):", offsetMins);
+  return offsetMins;
+}
+const offsetMinutes = calculateTimeOffset();
 
 schema.statics = {
   listByDay: function(match: any) {
@@ -23,7 +31,7 @@ schema.statics = {
     //project date data
     .project({
       event: "$$ROOT",
-      date: "$startTime"
+      date: { $add: ["$startTime", offsetMinutes*60*1000] }
     })
     //sort by date - oldest first
     .sort({
