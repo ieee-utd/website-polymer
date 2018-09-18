@@ -154,7 +154,8 @@ class EventCard extends BaseElement {
   static get properties() {
     return {
       announcement: {type: Object, observer: '_announcementChanged'},
-      isEvent: { type: Boolean, value: false }
+      isEvent: { type: Boolean, value: false },
+      from: { type: String, value: "" }
     }
   }
 
@@ -163,7 +164,7 @@ class EventCard extends BaseElement {
   }
 
   _navigate() {
-    this._fire('change-page', `/${this.isEvent ? 'event' : 'announcement'}/${this.announcement.link}`);
+    this._fire('change-page', `/${this.isEvent ? 'event' : 'announcement'}/${this.announcement.link}${this.from ? "?f=" + this.from : ""}`);
   }
 }
 

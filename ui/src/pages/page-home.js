@@ -212,7 +212,7 @@ class PageHome extends BaseElement {
             font-family: var(--font-head);
             margin-right: 8px;
             display: inline-block;
-          } 
+          }
         }
       </style>
 
