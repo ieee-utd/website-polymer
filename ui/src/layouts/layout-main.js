@@ -347,7 +347,8 @@ class LayoutMain extends BaseElement {
     })
   }
 
-  _pageLoadFailed() {
+  _pageLoadFailed(e) {
+    console.error(e)
     this.set("_loading", false)
     this._fire("change-page", "/")
   }

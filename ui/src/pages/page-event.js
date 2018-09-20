@@ -229,7 +229,11 @@ class PageEvent extends BaseElement {
   }
 
   _backHome() {
-    this._fire("change-page", { route: '/', scroll: this._savedScroll || 0 })
+    var route = "/";
+    if (this.from === "t") {
+      route = "/tutoring";
+    }
+    this._fire("change-page", { route: route, scroll: this._savedScroll || 0 })
   }
 
   _getPermalink(link) {
@@ -240,7 +244,15 @@ class PageEvent extends BaseElement {
     return new Promise((resolve, reject) => {
       if (subroute.length == 0) return reject({ message: "Event not found", status: 404 })
 
-      this._get("/events/" + subroute[0])
+      var split = subroute[0].split('?');
+      var id = split[0];
+      if (split.length > 1 && split[1].split('=').length > 1) {
+        this.set("from", split[1].split('=')[1])
+      } else {
+        this.set("from", "")
+      }
+
+      this._get("/events/" + id)
       .then((event) => {
         this.set("_savedScroll", scroll);
         this.$.content.innerHTML = this._parseMarkdown(event.content);

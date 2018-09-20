@@ -166,6 +166,54 @@ class PageHome extends BaseElement {
           padding: 12px 16px;
           margin-bottom: 36px;
         }
+
+        div.day-container {
+          color: white;
+          font-family: var(--font-head);
+          font-weight: 500;
+          @apply --layout-horizontal;
+          @apply --layout-justified;
+          @apply --layout-start;
+          width: 100%;
+          padding: 16px 0;
+        }
+        div.day-container > div.day {
+          color: var(--color-orange-complement);
+          @apply --layout-vertical;
+          @apply --layout-center-justified;
+          @apply --layout-center;
+          width: 120px;
+          padding: 6px;
+        }
+        div.day-container > div.day > h2 {
+          margin: 0;
+          font-size: 42px;
+        }
+        div.day-container > div.right {
+          width: 100%;
+        }
+        div.day-container > div.right > app-grid {
+          --grid-padding-bottom: 0;
+        }
+
+        @media (max-width: 680px) {
+          div.day-container {
+            @apply --layout-vertical;
+            @apply --layout-start-justified;
+            @apply --layout-start;
+          }
+          div.day-container > div.day {
+            @apply --layout-horizontal;
+            @apply --layout-start-justified;
+            @apply --layout-center;
+            font-family: var(--font-head);
+          }
+          div.day-container > div.day > span {
+            font-family: var(--font-head);
+            margin-right: 8px;
+            display: inline-block;
+          }
+        }
       </style>
 
       <app-container>
@@ -184,7 +232,7 @@ class PageHome extends BaseElement {
               <paper-button class="large" on-tap="_navigate" url="/about">Learn more</paper-button>
             </div>
           </div>
-          <div class="main-card" hidden$="[[_haveEvents(announcements,events)]]">
+          <div class="main-card" hidden$="[[_haveEvents(announcements,eventDates)]]">
             <h2 class="title"><iron-icon icon="mdi:calendar-clock"></iron-icon>Events</h2>
             <h4 style="font-weight: normal; opacity: 0.7;">There aren't any events in the next few weeks. Check back later!</h4>
           </div>
@@ -200,41 +248,29 @@ class PageHome extends BaseElement {
               </dom-repeat>
             </app-grid>
           </div>
-          <div class="main-card" hidden$="[[!_have(events.thisWeek)]]">
-            <h2 class="title"><iron-icon icon="mdi:calendar-clock"></iron-icon>This Week</h2>
-            <app-grid>
-              <dom-repeat items="[[events.thisWeek]]">
-                <template>
-                  <app-grid-item width=6>
-                    <event-card announcement="[[item]]" is-event></event-card>
-                  </app-grid-item>
-                </template>
-              </dom-repeat>
-            </app-grid>
-          </div>
-          <!-- <div class="main-card">
-            <h2 class="title">Next Week</h2>
-            <app-grid>
-              <dom-repeat items="[[events.nextWeek]]">
-                <template>
-                  <app-grid-item width=6>
-                    <event-card announcement="[[item]]" is-event></event-card>
-                  </app-grid-item>
-                </template>
-              </dom-repeat>
-            </app-grid>
-          </div> -->
-          <div class="main-card" hidden$="[[!_have(events.upcoming)]]">
-            <h2 class="title"><iron-icon icon="mdi:calendar"></iron-icon>Happening Soon</h2>
-            <app-grid>
-              <dom-repeat items="[[events.upcoming]]">
-                <template>
-                  <app-grid-item width=6>
-                    <event-card announcement="[[item]]" is-event></event-card>
-                  </app-grid-item>
-                </template>
-              </dom-repeat>
-            </app-grid>
+          <div class="main-card" hidden$="[[!_have(eventDates)]]">
+            <h2 class="title"><iron-icon icon="mdi:calendar-clock"></iron-icon>Events</h2>
+            <dom-repeat items="[[eventDates]]" as="day">
+              <template>
+                <div class="row day-container">
+                  <div class="day">
+                    <span>[[day.month]]</span>
+                    <h2>[[day.day]]</h2>
+                  </div>
+                  <div class="right">
+                    <app-grid>
+                      <dom-repeat items="[[day.events]]" as="event">
+                        <template>
+                          <app-grid-item width=6>
+                            <event-card announcement="[[event]]" is-event></event-card>
+                          </app-grid-item>
+                        </template>
+                      </dom-repeat>
+                    </app-grid>
+                  </div>
+                </div>
+              </template>
+            </dom-repeat>
           </div>
         </div>
       </app-container>
@@ -247,18 +283,15 @@ class PageHome extends BaseElement {
         type: Array,
         value: [ ]
       },
-      events: {
-        type: Object,
-        value: {
-          thisWeek: [ ],
-          upcoming: [ ]
-        }
-      },
+      eventDates: {
+        type: Array,
+        value: [ ]
+      }
     }
   }
 
-  _haveEvents(announcements, events) {
-    return announcements && events && (announcements.length || events.upcoming.length || events.thisWeek.length) ? true : false
+  _haveEvents(announcements, eventDates) {
+    return announcements && eventDates && (announcements.length || eventDates.length) ? true : false
   }
 
   onload(subroute) {
@@ -268,13 +301,11 @@ class PageHome extends BaseElement {
         this._get("/announcements", { silent: true })
       ])
       .then((data) => {
-        this.set("events", data[0]);
+        this.set("eventDates", data[0].dates);
         this.set("announcements", data[1]);
         resolve();
       })
-      .catch((e) => {
-        reject();
-      })
+      .catch(reject)
     })
   }
 

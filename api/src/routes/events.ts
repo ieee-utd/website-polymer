@@ -28,28 +28,45 @@ route.param('link', async function (req : any, res, next, link) {
   next();
 });
 
-//List all active events
+const PAGINATION_DAYS = 30;
+
+//Search and filter events - returns an array of days
 route.get('/', async (req: any, res: any, next: any) => {
   try {
-    let _events = await Event
-    .find({
-      startTime: { $lte: moment().add(30, 'days').toDate() },
-      endTime: { $gte: moment().startOf('day').toDate() }
-    })
-    .sort({ startTime: -1 });
+    let tags = req.query.t ? req.query.t.split(',') : null;
+    // TODO implement search query: let query = req.query.q;
+    let since = req.query.s;
 
-    let events = cleanAll(_events, cleanAnnouncement);
+    let pred: any = {
+      startTime: { $lt: moment().add(PAGINATION_DAYS, 'days').startOf('day').toDate() },
+      endTime: { $gte: moment().startOf('day').toDate() }
+    };
 
     let result: any = { };
-    let firstDayOfNextWeek = moment().day(7).startOf('day');
 
-    result.thisWeek = _(events).filter((e: any) => {
-      return moment(e.endTime).isBefore(firstDayOfNextWeek);
-    }).reverse().value();
-    result.upcoming = _(events).filter((e: any) => {
-      return moment(e.endTime).isSameOrAfter(firstDayOfNextWeek);
-    }).reverse().value();
+    if (since) {
+      //we can paginate by the since parameter
+      pred.startTime = { $gte: moment(since).startOf('day').toDate() };
+      pred.endTime = { $lt: moment(since).add(PAGINATION_DAYS, 'days').startOf('day').toDate() };
+      result.next = moment(since).add(PAGINATION_DAYS, 'days').startOf('day').toDate();
+      result.prev = moment(since).subtract(PAGINATION_DAYS, 'days').startOf('day').toDate()
+    }
 
+    if (tags && tags.length > 0) {
+      pred.tags = { $in: tags };
+    }
+
+    result.dates = _.map(await Event.listByDay(pred), (day: any) => {
+      day.events = cleanAll(_.map(day.events, (e: any) => {
+        return e.event;
+      }), cleanAnnouncement);
+      day.date = day._id.day;
+      day.day = moment(day.date).format("D");
+      day.month = moment(day.date).format("MMMM");
+      day.year = moment(day.date).format("YYYY");
+      delete day._id;
+      return day;
+    })
     res.send(result);
   } catch (e) {
     next(e)
