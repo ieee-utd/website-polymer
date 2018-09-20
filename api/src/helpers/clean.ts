@@ -59,6 +59,15 @@ export function cleanUser(user: any, cleanExtra?: boolean) {
 export function cleanAnnouncement(_a: any, showAllContent?: boolean) {
   let a = cleanFromMongo(_a);
 
+  //clean recurrence rule
+  if (a.event && a.event.length == 1) {
+    a = Object.assign(a.event[0], {
+      startTime: a.startTime,
+      endTime: a.endTime,
+      link: a.event[0].link + "/" + a.linkpart
+    });
+  }
+
   if (a.content && !showAllContent) {
     a.content = a.content.length > 500 ? a.content.substring(0, 500).trim() : a.content.trim();
   }

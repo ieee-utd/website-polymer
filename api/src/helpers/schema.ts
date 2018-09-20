@@ -76,7 +76,9 @@ export let CreateEventSchema = {
     "locationUrl": Joi.string(),
     "reservationUrl": Joi.string(),
     "reservationRequired": Joi.boolean().required(),
-    "tags": Joi.array().items(Joi.string().min(1)).required()
+    "tags": Joi.array().items(Joi.string().min(1)).required(),
+    "recurrenceRule": Joi.string(),
+    "recurrenceExceptions": Joi.array().items(Joi.date())
   }).unknown(false)
 }
 
@@ -90,6 +92,7 @@ export let UpdateEventSchema = {
     "locationUrl": Joi.string(),
     "reservationUrl": Joi.string(),
     "reservationRequired": Joi.boolean(),
-    "tags": Joi.array().items(Joi.string().min(1))
+    "tags": Joi.array().items(Joi.string().min(1)),
+    "recurrenceRule": Joi.string()
   }).unknown(false)
 }

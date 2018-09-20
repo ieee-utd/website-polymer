@@ -1,16 +1,78 @@
 import * as express from "express";
-import * as moment from "moment";
+import * as moment from "moment-timezone";
 import * as _ from "lodash";
 export let route = express.Router();
 
 import { cleanAll, cleanAnnouncement } from "../helpers/clean";
 import { userCan } from "../helpers/verify";
-import { Event } from "../models";
+import { Event, EventRecurrence } from "../models";
 import { CreateEventSchema, UpdateEventSchema } from "../helpers/schema";
+import { TIMEZONE } from "../app";
 
 const validate = require('express-validation');
 const crypto = require('crypto');
 const base64url = require('base64url');
+import { RRule, RRuleSet } from 'rrule';
+
+const PAGINATION_DAYS = 120;
+const MAX_GENERATED_RECURRENCES = 60;
+
+function calculateEventRecurrence(recurrenceRule: string, recurrenceExceptions: any, startTime: string | Date, endTime: string | Date) {
+  try {
+
+    let originalRule = RRule.fromString(recurrenceRule);
+
+    if (originalRule.origOptions.freq !== RRule.MONTHLY && originalRule.origOptions.freq !== RRule.WEEKLY) {
+      return Promise.reject({
+        status: 400,
+        message: "Recurrence frequency must be monthly or weekly"
+      })
+    }
+    if (!originalRule.origOptions.until) {
+      return Promise.reject({
+        status: 400,
+        message: "Recurrence end date is required"
+      })
+    }
+
+    //create compound ruleset
+    let ruleset = new RRuleSet();
+    let ruleOptions = originalRule.origOptions;
+    let offsetMins = moment.tz("America/Chicago").utcOffset();
+    ruleOptions.dtstart = moment(startTime).add(offsetMins/60, 'hours').toDate();
+    ruleOptions.tzid = TIMEZONE;
+    ruleOptions.count = MAX_GENERATED_RECURRENCES + 5; //maximum generated events
+    ruleset.rrule(new RRule(ruleOptions));
+    ruleset.exdate(ruleOptions.dtstart);
+
+    if (recurrenceExceptions) {
+      for (var exception of recurrenceExceptions) {
+        ruleset.exdate(moment(exception).toDate());
+      }
+    }
+
+    //calculate event start times (exclude this event's start time)
+    let startTimes = ruleset.all();
+    if (startTimes.length > MAX_GENERATED_RECURRENCES) {
+      return Promise.reject({
+        status: 400,
+        message: `Too many generated events: please limit the recurrence relation to ${MAX_GENERATED_RECURRENCES} events`
+      })
+    }
+
+    //calculate event end times
+    let dt = moment(endTime).diff(moment(startTime));
+    let events = _.map(startTimes, (startTime) => {
+      return {
+        startTime: moment(startTime).toDate(),
+        endTime: moment(startTime).add(dt).toDate()
+      }
+    });
+    return Promise.resolve(events);
+  } catch (e) {
+    return Promise.reject(e);
+  }
+}
 
 route.param('link', async function (req : any, res, next, link) {
   var event = await Event.findOne({ link: link })
@@ -28,8 +90,6 @@ route.param('link', async function (req : any, res, next, link) {
   next();
 });
 
-const PAGINATION_DAYS = 30;
-
 //Search and filter events - returns an array of days
 route.get('/', async (req: any, res: any, next: any) => {
   try {
@@ -39,7 +99,8 @@ route.get('/', async (req: any, res: any, next: any) => {
 
     let pred: any = {
       startTime: { $lt: moment().add(PAGINATION_DAYS, 'days').startOf('day').toDate() },
-      endTime: { $gte: moment().startOf('day').toDate() }
+      endTime: { $gte: moment().startOf('day').toDate() },
+      hidden: { $ne: true }
     };
 
     let result: any = { };
@@ -56,14 +117,37 @@ route.get('/', async (req: any, res: any, next: any) => {
       pred.tags = { $in: tags };
     }
 
-    result.dates = _.map(await Event.listByDay(pred), (day: any) => {
-      day.events = cleanAll(_.map(day.events, (e: any) => {
-        return e.event;
-      }), cleanAnnouncement);
-      day.date = day._id.day;
-      day.day = moment(day.date).format("D");
-      day.month = moment(day.date).format("MMMM");
-      day.year = moment(day.date).format("YYYY");
+    let events = await Event.listByDay(pred);
+    delete pred.__t; //prevent contamination
+    let recurrences = await (EventRecurrence as any).listByDay(pred);
+
+    //merge recurrances array into events
+    for (var dayData of recurrences) {
+      let day = dayData._id.day;
+      let indexOfSameOrSmallerDay = _.findIndex(events, (e: any) => {
+        return e._id.day <= day;
+      })
+      if (events[indexOfSameOrSmallerDay]._id.day == day) {
+        //merge these objects
+        for (var e of dayData.events) {
+          events[indexOfSameOrSmallerDay].events.push(e)
+        }
+        events[indexOfSameOrSmallerDay].events = _.sortBy(events[indexOfSameOrSmallerDay].events, 'startTime');
+      } else {
+        //insert new day
+        events.push(dayData)
+      }
+    }
+    //resort events
+    events = _.sortBy(events, '_id.day');
+
+    result.dates = _.map(events, (day: any) => {
+      console.log(day.events)
+      day.events = cleanAll(day.events, cleanAnnouncement);
+      day.date = moment(day._id.day, "Y-M-D");
+      day.day = moment(day.date).tz(TIMEZONE).format("D");
+      day.month = moment(day.date).tz(TIMEZONE).format("MMMM");
+      day.year = moment(day.date).tz(TIMEZONE).format("YYYY");
       delete day._id;
       return day;
     })
@@ -90,8 +174,31 @@ route.post('/', userCan("create"), validate(CreateEventSchema), async (req: any,
     event.createdBy = req.user._id;
     event.createdOn = Date.now();
 
-    let object = new Event(event);
-    await object.save();
+    if (moment(event.endTime).isBefore(moment(event.startTime))) {
+      return next({
+        status: 400,
+        message: "Event end time must not be before event start time"
+      })
+    }
+
+    if (event.recurrenceRule) {
+      let recurrencesToGenerate: any = await calculateEventRecurrence(event.recurrenceRule, event.recurrenceExceptions, event.startTime, event.endTime);
+
+      let object = new Event(event);
+      let savedEvent = await object.save();
+
+      for (var recurrence of recurrencesToGenerate) {
+        recurrence.event = savedEvent._id;
+        recurrence.linkpart = base64url(crypto.randomBytes(2));
+        let r = new EventRecurrence(recurrence);
+        await r.save();
+      }
+    } else {
+      delete event.recurrenceExceptions;
+
+      let object = new Event(event);
+      await object.save();
+    }
 
     res.send({ link: event.link, message: "Successfully created event" })
   } catch (e) {
@@ -105,7 +212,34 @@ route.put('/:link', userCan("edit"), validate(UpdateEventSchema), async (req: an
     req.body.lastUpdated = Date.now();
     req.body.updatedBy = req.user._id;
 
-    await Event.findOneAndUpdate({ _id: req.event._id }, { $set: req.body })
+    let recurrenceRulesChanged = (req.event.recurrenceRule !== req.body.recurrenceRule) || (JSON.stringify(req.event.recurrenceExceptions) !== JSON.stringify(req.body.recurrenceExceptions));
+
+    let updatedEvent = Object.assign(req.event, req.body);
+
+    if (updatedEvent.recurrenceRule && recurrenceRulesChanged) {
+      let recurrencesToGenerate: any = await calculateEventRecurrence(updatedEvent.recurrenceRule, updatedEvent.recurrenceExceptions, updatedEvent.startTime, updatedEvent.endTime);
+      console.log(recurrencesToGenerate);
+
+      //hide all occurances of event - keep in case a user bookmarked the link
+      await EventRecurrence.updateMany({ event: req.event._id }, { $set: { hidden: true }})
+
+      //reinsert event recurrences
+      for (var recurrence of recurrencesToGenerate) {
+        recurrence.event = req.event._id;
+        recurrence.linkpart = base64url(crypto.randomBytes(3));
+        let r = new EventRecurrence(recurrence);
+        await r.save();
+      }
+
+      //update event
+      await Event.findOneAndUpdate({ _id: req.event._id }, { $set: req.body })
+
+    } else {
+      req.body.recurrenceRule = null;
+      req.body.recurrenceExceptions = [ ];
+
+      await Event.findOneAndUpdate({ _id: req.event._id }, { $set: req.body })
+    }
 
     res.send({ message: "Event updated" })
   } catch (e) {
@@ -116,6 +250,10 @@ route.put('/:link', userCan("edit"), validate(UpdateEventSchema), async (req: an
 //Delete event
 route.delete('/:link', userCan("delete"), async (req: any, res: any, next: any) => {
   try {
+    //remove all occurances of event
+    await EventRecurrence.remove({ event: req.event._id })
+
+    //remove event
     await Event.remove({ _id: req.event._id });
 
     res.send({ message: "Event deleted" })

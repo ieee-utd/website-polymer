@@ -9,3 +9,4 @@ export { Committee } from './Committee';
 export { AnnouncementBase } from './announcements/AnnouncementBase';
 export { Announcement } from './announcements/Announcement';
 export { Event } from './announcements/Event';
+export { EventRecurrence } from './EventRecurrence';

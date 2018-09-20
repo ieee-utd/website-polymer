@@ -40,14 +40,14 @@ rejectionEmitter.on("unhandledRejection", (error: any, promise: any) => {
 
 //Prepare connection details
 const dbPath = (process.env.NODE_ENV === "test") ? "/ieeeutd-test" : "/ieeeutd";
-const DATABASE_URI = "mongodb://" + process.env.DATABASE_PORT_27017_TCP_ADDR + dbPath;
+const DATABASE_URI = "mongodb://" + process.env.DATABASE_PORT_27017_TCP_ADDR + ":27017" + dbPath;
 console.log(chalk.green("Database: ", DATABASE_URI));
 import { REDIS_HOST } from "./helpers/cache";
 console.log(chalk.green("Cache   : ", REDIS_HOST));
 
 //Connect to database
 export const db = mongoose.connection;
-mongoose.connect(DATABASE_URI, { config: { autoIndex: true } })
+mongoose.connect(DATABASE_URI, { config: { autoIndex: true }, useNewUrlParser: true })
 .then(async () => {
   //perform one-time database init here
 })
@@ -55,6 +55,9 @@ mongoose.connect(DATABASE_URI, { config: { autoIndex: true } })
   console.error(err);
   process.exit(1);
 })
+
+//prepare timezone
+export const TIMEZONE = "America/Chicago";
 
 //init app
 export let app = express();

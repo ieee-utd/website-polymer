@@ -1,15 +1,14 @@
 import * as mongoose from "mongoose";
-var { AnnouncementBase } = require('./AnnouncementBase');
-import { TIMEZONE } from "../../app";
+import { TIMEZONE } from "../app";
 
 var schema = new mongoose.Schema({
+  event: { type: mongoose.Schema.Types.ObjectId, ref: "Event", required: true },
   startTime: { type: Date, required: true },
   endTime: { type: Date, required: true },
-  locationName: { type: String },
-  locationUrl: { type: String },
-  reservationUrl: { type: String },
-  reservationRequired: { type: Boolean, default: false },
-  recurrenceRule: { type: String, default: null }
+  linkpart: { type: String, required: true },
+  hidden: { type: Boolean, default: false }
+}, {
+  collection: "eventRecurrences"
 });
 
 schema.statics = {
@@ -19,13 +18,19 @@ schema.statics = {
     .match(match)
     //remove some fields
     .project({
-      content: 0,
       __v: 0,
       _id: 0,
     })
     //sort by date - oldest first
     .sort({
       startTime: 1,
+    })
+    //inner join on announcements
+    .lookup({
+      from: "announcements",
+      localField: "event",
+      foreignField: "_id",
+      as: "event"
     })
     //project date data
     .project({
@@ -52,6 +57,7 @@ schema.statics = {
   }
 }
 
-schema.index({ __t: 1, startTime: -1 });
+schema.index({ event: 1, linkpart: 1 })
+schema.index({ startTime: 1, event: 1 })
 
-export var Event = AnnouncementBase.discriminator('Event', schema);
+export var EventRecurrence = mongoose.model('EventRecurrence', schema);
