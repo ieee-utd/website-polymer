@@ -174,6 +174,15 @@ class PageEvent extends BaseElement {
               <paper-tooltip id="tooltip_event_copy" for="share_event_copy" position="right" animation-delay=0>Click to copy</paper-tooltip>
               <span><span style="margin-right: 4px; display: inline-block">Share event:</span><clipboard-copy id="share_event_copy" value="[[_getPermalink(event.link)]]" on-copy="_copyEventLink">[[_getPermalink(event.link)]]</clipboard-copy></span>
             </div>
+            <dom-if if="[[event.reservationUrl]]">
+              <template>
+                <div class="info-row">
+                  <iron-icon icon="mdi:link-variant"></iron-icon>
+                  <paper-tooltip id="tooltip_event_copy" for="share_event_copy" position="right" animation-delay=0>Click to copy</paper-tooltip>
+                  <span><span style="margin-right: 4px; display: inline-block">Registration link:</span><a href="[[reservationUrl]]" target="_blank">[[event.reservationUrl]]</a></span>
+                </div>
+              </template>
+            </dom-if>
           </div>
 
           <div class="content-padding">
