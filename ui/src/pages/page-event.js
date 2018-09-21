@@ -244,15 +244,21 @@ class PageEvent extends BaseElement {
     return new Promise((resolve, reject) => {
       if (subroute.length == 0) return reject({ message: "Event not found", status: 404 })
 
-      var split = subroute[0].split('?');
-      var id = split[0];
+      var split = subroute[subroute.length-1].split('?');
+      var id = subroute[0].split('?')[0];
       if (split.length > 1 && split[1].split('=').length > 1) {
         this.set("from", split[1].split('=')[1])
       } else {
         this.set("from", "")
       }
 
-      this._get("/events/" + id)
+      if (subroute.length == 2) {
+        this.set("recurrence", subroute[1]);
+      } else {
+        this.set("recurrence", "")
+      }
+
+      this._get("/events/" + id + (this.recurrence ? "?r=" + this.recurrence : ""))
       .then((event) => {
         this.set("_savedScroll", scroll);
         this.$.content.innerHTML = this._parseMarkdown(event.content);

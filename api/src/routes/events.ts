@@ -14,7 +14,7 @@ const crypto = require('crypto');
 const base64url = require('base64url');
 import { RRule, RRuleSet } from 'rrule';
 
-const PAGINATION_DAYS = 120;
+const PAGINATION_DAYS = 30;
 const MAX_GENERATED_RECURRENCES = 60;
 
 function calculateEventRecurrence(recurrenceRule: string, recurrenceExceptions: any, startTime: string | Date, endTime: string | Date) {
@@ -145,9 +145,9 @@ route.get('/', async (req: any, res: any, next: any) => {
       console.log(day.events)
       day.events = cleanAll(day.events, cleanAnnouncement);
       day.date = moment(day._id.day, "Y-M-D");
-      day.day = moment(day.date).tz(TIMEZONE).format("D");
-      day.month = moment(day.date).tz(TIMEZONE).format("MMMM");
-      day.year = moment(day.date).tz(TIMEZONE).format("YYYY");
+      day.day = moment.utc(day.date).format("D");
+      day.month = moment.utc(day.date).format("MMMM");
+      day.year = moment.utc(day.date).format("YYYY");
       delete day._id;
       return day;
     })
@@ -160,7 +160,26 @@ route.get('/', async (req: any, res: any, next: any) => {
 //Get full details about a specific event
 route.get('/:link', async (req: any, res: any, next: any) => {
   try {
-    res.send(cleanAnnouncement(req.event, true))
+    let recurrenceId = req.query.r;
+    let event = JSON.parse(JSON.stringify(req.event))
+    if (recurrenceId) {
+      let recurrence: any = await EventRecurrence
+      .findOne({ event: req.event._id, linkpart: recurrenceId, hidden: { $ne: true }})
+      .populate('event');
+
+      if (recurrence) {
+        let updatedEvent = Object.assign(event, {
+          link: event.link + "/" + recurrence.linkpart,
+          startTime: recurrence.startTime,
+          endTime: recurrence.endTime
+        })
+        res.send(cleanAnnouncement(updatedEvent, true))
+        return;
+      }
+    }
+
+    res.send(cleanAnnouncement(event, true))
+
   } catch (e) {
     next(e)
   }
