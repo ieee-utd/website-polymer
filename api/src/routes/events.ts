@@ -231,7 +231,7 @@ route.put('/:link', userCan("edit"), validate(UpdateEventSchema), async (req: an
     req.body.lastUpdated = Date.now();
     req.body.updatedBy = req.user._id;
 
-    let recurrenceRulesChanged = (req.event.recurrenceRule !== req.body.recurrenceRule) || (JSON.stringify(req.event.recurrenceExceptions) !== JSON.stringify(req.body.recurrenceExceptions));
+    let recurrenceRulesChanged = (req.event.recurrenceRule !== req.body.recurrenceRule) || (JSON.stringify(req.event.recurrenceExceptions || [ ]) !== JSON.stringify(req.body.recurrenceExceptions || [ ]));
 
     let updatedEvent = Object.assign(req.event, req.body);
 

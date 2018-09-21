@@ -93,6 +93,7 @@ export let UpdateEventSchema = {
     "reservationUrl": Joi.string(),
     "reservationRequired": Joi.boolean(),
     "tags": Joi.array().items(Joi.string().min(1)),
-    "recurrenceRule": Joi.string()
+    "recurrenceRule": Joi.string(),
+    "recurrenceExceptions": Joi.array().items(Joi.date())
   }).unknown(false)
 }
