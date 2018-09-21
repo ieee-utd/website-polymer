@@ -119,6 +119,7 @@ route.get('/', async (req: any, res: any, next: any) => {
 
     let events = await Event.listByDay(pred);
     delete pred.__t; //prevent contamination
+    delete pred.tags; //tags don't belong here
     let recurrences = await (EventRecurrence as any).listByDay(pred);
 
     //merge recurrances array into events
