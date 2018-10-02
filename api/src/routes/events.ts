@@ -128,7 +128,7 @@ route.get('/', async (req: any, res: any, next: any) => {
       let indexOfSameOrSmallerDay = _.findIndex(events, (e: any) => {
         return e._id.day <= day;
       })
-      if (events[indexOfSameOrSmallerDay]._id.day == day) {
+      if (indexOfSameOrSmallerDay >= 0 && events[indexOfSameOrSmallerDay]._id.day == day) {
         //merge these objects
         for (var e of dayData.events) {
           events[indexOfSameOrSmallerDay].events.push(e)
