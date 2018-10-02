@@ -22,7 +22,7 @@ gulp.task('compile', ['clean'], function () {
 gulp.task('build', ['clean'], function() {
   return tsProject.src()
   .pipe(tsProject()).js
-  .pipe(minify())
+//  .pipe(minify())
   .pipe(gulp.dest('dist/'));
 })
 
