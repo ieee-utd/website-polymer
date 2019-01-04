@@ -1,5 +1,6 @@
 import { html } from '@polymer/polymer/polymer-element.js';
 import { BaseElement } from '../base-element';
+import '../elements/basic-schedule';
 import '../shared-styles.js';
 
 class PageTutoring extends BaseElement {
@@ -45,10 +46,10 @@ class PageTutoring extends BaseElement {
           background-color: var(--color-primary);
           color: white;
         }
-        iron-pages {
+        /* iron-pages {
           background-color: var(--paper-grey-300);
           min-height: 480px;
-        }
+        } */
 
         div.day-container {
           color: white;
@@ -150,36 +151,16 @@ class PageTutoring extends BaseElement {
         </paper-tabs>
         <iron-pages selected="{{selected}}">
           <div>
-            <iframe
-              width="100%"
-              height="480"
-              frameborder="0" style="border:0"
-              src="https://schedulebuilder.org/?despy2k9">
-            </iframe>
+            <basic-schedule data="[[scheduleData.dc]]"></basic-schedule>
           </div>
           <div>
-            <iframe
-              width="100%"
-              height="480"
-              frameborder="0" style="border:0"
-              src="https://schedulebuilder.org/?bleuappk">
-            </iframe>
+            <!--  -->
           </div>
           <div>
-            <iframe
-              width="100%"
-              height="480"
-              frameborder="0" style="border:0"
-              src="https://schedulebuilder.org/?djnj5jo4">
-            </iframe>
+            <!--  -->
           </div>
           <div>
-            <iframe
-              width="100%"
-              height="480"
-              frameborder="0" style="border:0"
-              src="https://schedulebuilder.org/?r4zb960a">
-            </iframe>
+            <!--  -->
           </div>
         </iron-pages>
 
@@ -192,7 +173,125 @@ class PageTutoring extends BaseElement {
   static get properties() {
     return {
       selected: { type: Number, value: 0 },
-      eventDates: { type: Array, value: [ ] }
+      eventDates: { type: Array, value: [ ] },
+      scheduleData: { type: Object, value: 
+        {
+          dc: {
+            week: [
+              {
+                day: "Sunday",
+                events: [
+                  {
+                    title: "Item 1",
+                    location: "",
+                    locationUrl: "",
+                    startTime: "2018-12-16T07:30:00-06:00",
+                    endTime: "2018-12-16T08:00:00-06:00",
+                    people: ["Temoc Hsoohw", "Gib Enarc"],
+                    notes: "Hello world!",
+                    color: "4286f4"
+                  }
+                ]
+              },
+              {
+                day: "Monday",
+                events: [
+                  {
+                    title: "Item 2a",
+                    location: "",
+                    locationUrl: "",
+                    startTime: "2018-12-17T08:00:00-06:00",
+                    endTime: "2018-12-17T10:00:00-06:00",
+                    people: ["Temoc Hsoohw"],
+                    notes: "",
+                    color: "f46241"
+                  },
+                  {
+                    title: "Item 2b",
+                    location: "Building C",
+                    locationUrl: "",
+                    startTime: "2018-12-17T09:00:00-06:00",
+                    endTime: "2018-12-17T11:30:00-06:00",
+                    people: ["Temoc Hsoohw"],
+                    notes: "",
+                    color: "41f488"
+                  },
+                  {
+                    title: "Item 2c",
+                    location: "Building C",
+                    locationUrl: "",
+                    startTime: "2018-12-17T09:00:00-06:00",
+                    endTime: "2018-12-17T11:30:00-06:00",
+                    people: ["Temoc Hsoohw"],
+                    notes: "",
+                    color: "41f488"
+                  },
+                  {
+                    title: "Item 2d",
+                    location: "Building C",
+                    locationUrl: "",
+                    startTime: "2018-12-17T11:00:00-06:00",
+                    endTime: "2018-12-17T13:00:00-06:00",
+                    people: ["Temoc Hsoohw"],
+                    notes: "",
+                    color: "41f488"
+                  },
+                  {
+                    title: "Item 2e",
+                    location: "Building C",
+                    locationUrl: "",
+                    startTime: "2018-12-17T12:00:00-06:00",
+                    endTime: "2018-12-17T14:00:00-06:00",
+                    people: ["Temoc Hsoohw"],
+                    notes: "",
+                    color: "41f488"
+                  }
+                ]
+              },
+              {
+                day: "Tuesday",
+                events: []
+              },
+              {
+                day: "Wednesday",
+                events: []
+              },
+              {
+                day: "Thursday",
+                events: []
+              },
+              {
+                day: "Friday",
+                events: [
+                  {
+                    title: "Item 3",
+                    location: "",
+                    locationUrl: "",
+                    startTime: "2018-12-21T15:00:00-06:00",
+                    endTime: "2018-12-21T18:05:00-06:00",
+                    people: ["Temoc Hsoohw"],
+                    notes: "",
+                    color: "4286f4"
+                  }
+                ]
+              },
+              {
+                day: "Saturday",
+                events: []
+              }
+            ]
+          },
+          ds: {
+            someKey: 'this is not the expected format'
+          },
+          ena: {
+            someKey: 'this is not the expected format'
+          },
+          sns: { 
+            someKey: 'this is not the expected format'
+          }
+        } 
+      }
     }
   }
 
