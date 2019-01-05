@@ -67,7 +67,7 @@ class BasicSchedule extends PolymerElement {
         }
         .event-inner {
           max-width: 50px;
-          min-height: 32px;
+          min-height: 50px;
           height: 100%;
           margin: 0 2px;
           border-radius: 25px;
