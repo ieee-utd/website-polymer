@@ -282,7 +282,7 @@ class PageTutoring extends BaseElement {
                     location: "",
                     locationUrl: "",
                     startTime: "2018-12-22T15:00:00-06:00",
-                    endTime: "2018-12-22T18:05:00-06:00",
+                    endTime: "2018-12-22T18:15:00-06:00",
                     people: ["Temoc Hsoohw"],
                     notes: "",
                     color: "4286f4"
