@@ -182,11 +182,21 @@ class PageTutoring extends BaseElement {
                 day: "Sunday",
                 events: [
                   {
-                    title: "Item 1",
+                    title: "Item 1a",
                     location: "",
                     locationUrl: "",
                     startTime: "2018-12-16T07:30:00-06:00",
-                    endTime: "2018-12-16T08:00:00-06:00",
+                    endTime: "2018-12-16T10:00:00-06:00",
+                    people: ["Temoc Hsoohw", "Gib Enarc"],
+                    notes: "Hello world!",
+                    color: "4286f4"
+                  },
+                  {
+                    title: "Item 1b",
+                    location: "",
+                    locationUrl: "",
+                    startTime: "2018-12-16T08:00:00-06:00",
+                    endTime: "2018-12-16T08:30:00-06:00",
                     people: ["Temoc Hsoohw", "Gib Enarc"],
                     notes: "Hello world!",
                     color: "4286f4"
@@ -202,7 +212,7 @@ class PageTutoring extends BaseElement {
                     locationUrl: "",
                     startTime: "2018-12-17T08:00:00-06:00",
                     endTime: "2018-12-17T10:00:00-06:00",
-                    people: ["Temoc Hsoohw"],
+                    people: ["Temoc Hsoohw C"],
                     notes: "",
                     color: "f46241"
                   },
@@ -224,7 +234,7 @@ class PageTutoring extends BaseElement {
                     endTime: "2018-12-17T11:30:00-06:00",
                     people: ["Temoc Hsoohw"],
                     notes: "",
-                    color: "41f488"
+                    color: "f46241"
                   },
                   {
                     title: "Item 2d",
@@ -262,22 +272,22 @@ class PageTutoring extends BaseElement {
               },
               {
                 day: "Friday",
+                events: []
+              },
+              {
+                day: "Saturday",
                 events: [
                   {
                     title: "Item 3",
                     location: "",
                     locationUrl: "",
-                    startTime: "2018-12-21T15:00:00-06:00",
-                    endTime: "2018-12-21T18:05:00-06:00",
+                    startTime: "2018-12-22T15:00:00-06:00",
+                    endTime: "2018-12-22T18:05:00-06:00",
                     people: ["Temoc Hsoohw"],
                     notes: "",
                     color: "4286f4"
                   }
                 ]
-              },
-              {
-                day: "Saturday",
-                events: []
               }
             ]
           },
