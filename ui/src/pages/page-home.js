@@ -1,7 +1,4 @@
 import { html } from '@polymer/polymer/polymer-element.js';
-import '@polymer/iron-icon/iron-icon.js';
-import '@polymer/paper-button/paper-button.js';
-import '@polymer/app-route/app-route.js';
 
 import { BaseElement } from '../base-element';
 import '../shared-styles.js';

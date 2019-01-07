@@ -8,15 +8,20 @@ import '@polymer/app-layout/app-scroll-effects/app-scroll-effects.js';
 import '@polymer/app-layout/app-toolbar/app-toolbar.js';
 import '@polymer/app-route/app-location.js';
 import '@polymer/app-route/app-route.js';
+import '@polymer/iron-icon/iron-icon.js';
 import '@polymer/iron-image/iron-image.js';
 import '@polymer/iron-pages/iron-pages.js';
 import '@polymer/iron-selector/iron-selector.js';
+import '@polymer/paper-button/paper-button.js';
 import '@polymer/paper-card/paper-card.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
 import '@polymer/paper-progress/paper-progress.js';
+import '@polymer/paper-spinner/paper-spinner-lite.js';
 import '@polymer/paper-tabs/paper-tabs.js';
 import '@polymer/paper-tooltip/paper-tooltip.js';
+
 import 'clipboard-copy-element';
+import '@polymer/iron-a11y-keys/iron-a11y-keys.js';
 
 import './shared-styles.js';
 import './app-icons.js';
@@ -29,6 +34,10 @@ import './elements/app-grid.js';
 import './elements/drawer-item.js';
 import './elements/event-card.js';
 import './elements/loading-block.js';
+
+/* Administration */
+import './elements/form-button.js';
+import './elements/form-input.js';
 
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.
@@ -71,6 +80,8 @@ class AppShell extends BaseElement {
       <div class="main" loading$="[[_loading]]">
         <iron-pages selected="[[_layout]]" attr-for-selected="name" role="main">
           <layout-main name="main"></layout-main>
+          <layout-member-login name="member-login"></layout-member-login>
+          <layout-member-main name="member-main"></layout-member-main>
         </iron-pages>
       </div>
     `;
@@ -102,10 +113,7 @@ class AppShell extends BaseElement {
     this.set("_path", path)
 
     let layout = path[0];
-
-    console.log(path)
-    console.log("loading layout", layout)
-
+    console.log("Path", path)
     if (!layout) return this._loadLayout("main");
 
     switch(layout) {
@@ -118,9 +126,16 @@ class AppShell extends BaseElement {
       case "tutoring":
       case "contact":
         return this._loadLayout("main")
-      case "login":
-      case "forgot-password":
-        return this._loadLayout("login")
+      case "member":
+        if (path.length < 1) return this._layoutLoadFailed();
+        let page = path.length == 1 ? "" : path[1];
+        switch(page) {
+          case "login":
+          case "forgot-password":
+            return this._loadLayout("member-login")
+          default:
+            return this._loadLayout("member-main")
+        }
       default:
         //ohnoes page
         return this._loadLayout("main")
@@ -130,13 +145,20 @@ class AppShell extends BaseElement {
   _loadLayout(layout) {
     this.set("_loading", true)
 
+    console.log("Layout", layout)
+
     switch (layout) {
       case 'main':
-        import('./layouts/layout-main.js').then(this._layoutLoaded.bind(this, layout)).catch(this._layoutLoadFailed.bind(this, layout));
+        import('./layouts/layout-main.js').then(this._layoutLoaded.bind(this, layout)).catch(this._layoutLoadFailed);
         break;
-      case 'login':
-        import('./layouts/layout-login.js').then(this._layoutLoaded.bind(this, layout)).catch(this._layoutLoadFailed.bind(this, layout));
+      case 'member-login':
+        import('./layouts/layout-member-login.js').then(this._layoutLoaded.bind(this, layout)).catch(this._layoutLoadFailed);
         break;
+      case 'member-main':
+        import('./layouts/layout-member-main.js').then(this._layoutLoaded.bind(this, layout)).catch(this._layoutLoadFailed);
+        break;
+      default:
+        console.error("Layout not found")
     }
   }
 
@@ -154,13 +176,13 @@ class AppShell extends BaseElement {
       this.set("_scrollTo", 0);
       this.set("_loading", false)
     })
-    .catch(this._layoutLoadFailed.bind(this))
+    .catch((e) => { console.error(e); this._layoutLoadFailed() })
   }
 
-  _layoutLoadFailed() {
-    console.warn("load failed")
+  _layoutLoadFailed(e) {
+    console.error(e)
     this.set("_loading", false)
-    this._navigate({ detail: "/" })
+    this._navigate({ detail: "/ohnoes" })
   }
 
   _navigate(e) {

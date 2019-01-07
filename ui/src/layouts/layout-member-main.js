@@ -1,7 +1,7 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { BaseElement } from '../base-element.js';
 
-class LayoutMain extends BaseElement {
+class LayoutMemberMain extends BaseElement {
   static get template() {
     return html`
       <style include="shared-styles">
@@ -11,46 +11,32 @@ class LayoutMain extends BaseElement {
 
           --app-drawer-width: 300px;
         }
-        app-drawer-layout:not([narrow]) [drawer-toggle] {
-          display: none;
-        }
-        app-header {
-          color: #fff;
-          background-color: var(--primary-color);
-        }
-        app-header[transparent] {
-          background-color: rgba(0,0,0,0.4);
-        }
-        app-header app-toolbar {
-          @apply --font-head;
-          font-size: 24px;
-        }
-        app-toolbar {
+        app-drawer app-toolbar {
           position: absolute;
           left: 0;
           right: 0;
           padding: 0 8px;
-          background-color: var(--color-background);
+          background-color: var(--primary-color);
           z-index: 10;
         }
-        app-toolbar.light {
+        app-drawer app-toolbar.light {
           background-color: var(--paper-grey-100);
           padding-top: 8px;
         }
-        app-toolbar[transparent] {
+        app-drawer[narrow] app-toolbar {
           background-color: transparent;
         }
-        app-toolbar div {
+        app-drawer app-toolbar div {
           @apply --layout-horizontal;
           @apply --layout-center;
-          @apply --layout-center-justified;
+          @apply --layout-start-justified;
         }
-        app-toolbar span.tab {
+        app-drawer app-toolbar span.tab {
           @apply --layout-vertical;
           @apply --layout-center;
           @apply --layout-center-justified;
         }
-        app-toolbar span.tab > a {
+        app-drawer app-toolbar span.tab > a {
           font-family: "Rubik";
           font-size: 16px;
           font-weight: 700;
@@ -59,25 +45,25 @@ class LayoutMain extends BaseElement {
           margin: 0 16px;
           transition: 0.4s color;
         }
-        app-toolbar span.tab > a[active] {
+        app-drawer app-toolbar span.tab > a[active] {
           color: white;
         }
-        app-toolbar span.tab > a:hover {
+        app-drawer app-toolbar span.tab > a:hover {
           color: var(--paper-grey-100);
         }
-        app-toolbar img {
+        app-drawer app-toolbar img {
           height: 48px;
           width: 48px;
           margin-right: 16px;
           transition: 0.4s width, 0.4s opacity, 0.4s margin-right;
           opacity: 1;
         }
-        app-toolbar img[gone] {
+        app-drawer app-toolbar img[gone] {
           width: 0px;
           opacity: 0;
           margin-right: 0;
         }
-        app-toolbar .drawer-title {
+        app-drawer app-toolbar .drawer-title {
           text-align: center;
           display: block;
           width: 100%;
@@ -85,7 +71,10 @@ class LayoutMain extends BaseElement {
           padding-bottom: 8px;
           border-bottom: 1px solid var(--paper-grey-400);
         }
-        app-toolbar .drawer-title > img {
+        app-drawer[narrow] app-toolbar .drawer-title {
+          border-bottom: 0;
+        }
+        app-drawer app-toolbar .drawer-title > img {
           height: 40px;
           width: auto;
         }
@@ -93,6 +82,11 @@ class LayoutMain extends BaseElement {
           z-index: 500;
           --app-drawer-content-container: {
             background-color: var(--paper-grey-100);
+          };
+        }
+        app-drawer[narrow] {
+          --app-drawer-content-container: {
+            background-color: var(--paper-grey-200);
           };
         }
         app-drawer > app-toolbar > div > h3 {
@@ -164,17 +158,6 @@ class LayoutMain extends BaseElement {
           @apply --layout-vertical;
           padding-bottom: 12px;
         }
-        paper-progress {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          z-index: 1000;
-          width: 100%;
-          --paper-progress-active-color: var(--color-primary);
-          --paper-progress-container-color: var(--color-background);
-          --paper-progress-height: 6px;
-        }
         div.main {
           opacity: 1;
           transition: 0.8s ease-in-out opacity;
@@ -183,83 +166,51 @@ class LayoutMain extends BaseElement {
           opacity: 0.6;
           pointer-events: none!important;
         }
-
-        app-container.narrow-toolbar {
-          padding-left: 16px;
-          @apply --layout-horizontal;
-          @apply --layout-start-justified;
-          @apply --layout-center;
-        }
-        app-container.narrow-toolbar > span {
-          font-size: 14px;
-          font-family: var(--font-head);
-          opacity: 0.5;
-          position: relative;
-          top: -2px;
-        }
-
-        @media (min-width: 768px) {
-          app-drawer.drawer {
-            display: none;
-          }
-          app-container.narrow-toolbar {
-            display: none;
-          }
-        }
-        @media (max-width: 768px) {
-          app-container.wide-toolbar {
-            display: none;
-          }
-        }
       </style>
 
-      <app-drawer class="drawer" swipe-open>
-        <app-toolbar class="light">
-          <div class="drawer-title">
-            <img src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_logo.svg" draggable=false></img>
-          </div>
-        </app-toolbar>
-        <iron-selector
-            selected="[[_page]]"
-            class="drawer-list"
-            role="navigation">
-          <a href="[[rootPath]]" active$="[[_active(_page,'home')]]"><iron-icon icon="mdi:home-outline"></iron-icon><h4>Home</h4></a>
-          <a href="[[rootPath]]about" active$="[[_active(_page,'about')]]"><iron-icon icon="mdi:information-outline"></iron-icon><h4>About</h4></a>
-          <a href="[[rootPath]]tutoring" active$="[[_active(_page,'tutoring')]]"><iron-icon icon="mdi:comment-question-outline"></iron-icon><h4>Tutoring</h4></a>
-          <a href="[[rootPath]]contact" active$="[[_active(_page,'contact')]]"><iron-icon icon="mdi:email-outline"></iron-icon><h4>Contact</h4></a>
-        </iron-selector>
-      </app-drawer>
+      <app-drawer-layout fullbleed force-narrow$="[[!_wideLayout]]" noscroll$="[[modalDialogOpen]]" tall$="[[!shortLayout]]">
+        <app-drawer id="drawer" slot="drawer" opened="{{_mainDrawerOpened}}" narrow$="[[_narrowDrawer]]" wide swipe-open$="[[!_wideLayout]]">
+          <app-toolbar class="light">
+            <div class="drawer-title">
+              <img src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_logo.svg" draggable=false hidden$="[[_narrowDrawer]]"></img>
+              <img src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_logo.svg" draggable=false hidden$="[[!_narrowDrawer]]"></img>
+            </div>
+          </app-toolbar>
+          <iron-selector
+              selected="[[_page]]"
+              class="drawer-list"
+              role="navigation">
 
-      <app-header reveals fixed>
-        <app-toolbar transparent>
+            <template is="dom-repeat" items="[[pages]]" as="it">
+              <a href="[[rootPath]][[it.path]]" active$="[[_active(_page,it.page)]]"><iron-icon icon="[[it.icon]]"></iron-icon><h4>[[it.name]]</h4></a>
+            </template>
+          </iron-selector>
+        </app-drawer>
+      </app-drawer-layout>
+
+      <!--<app-header reveals fixed>
+        <app-toolbar>
           <app-container class="wide-toolbar" style="width: 100%">
             <div>
-              <a href="[[rootPath]]" style="height:48px"><img src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_icon_color_bordered.svg" draggable=false gone$="[[_active(_page,'home')]]"/></a>
-              <span class="tab"><a href="[[rootPath]]" active$="[[_active(_page,'home')]]">Home</a></span>
-              <span class="tab"><a href="[[rootPath]]about" active$="[[_active(_page,'about')]]">About</a></span>
-              <span class="tab"><a href="[[rootPath]]tutoring" active$="[[_active(_page,'tutoring')]]">Tutoring</a></span>
-              <span class="tab"><a href="[[rootPath]]contact" active$="[[_active(_page,'contact')]]">Contact</a></span>
+              <template is="dom-repeat" items="[[pages]]" as="it">
+                <span class="tab"><a href="[[rootPath]][[it.path]]" active$="[[_active(_page,it.page)]]">[[it.name]]</a></span>
+              </template>
             </div>
           </app-container>
           <app-container class="narrow-toolbar">
             <paper-icon-button icon="mdi:menu" on-tap="_openDrawer"></paper-icon-button>
-            <span>IEEEUTD Menu</span>
+            <span>Member Menu</span>
           </app-container>
         </app-toolbar>
-      </app-header>
+      </app-header>-->
 
       <div class="main" loading$="[[_loading]]">
         <iron-pages selected="[[_page]]" attr-for-selected="name" role="main">
-          <page-home name="home"></page-home>
-          <page-about name="about"></page-about>
-          <page-tutoring name="tutoring"></page-tutoring>
-          <page-contact name="contact"></page-contact>
-          <page-announcement name="announcement"></page-announcement>
-          <page-event name="event"></page-event>
-          <page-events name="events"></page-events>
-          <page-ohnoes name="ohnoes"></page-ohnoes>
+          <page-member-dashboard name="dashboard"></page-member-dashboard>
         </iron-pages>
       </div>
+
+      <iron-media-query query="(min-width: 768px)" query-matches="{{_wideLayout}}"></iron-media-query>
     `;
   }
 
@@ -276,7 +227,17 @@ class LayoutMain extends BaseElement {
       subroute: Object,
       _subdrawerOpen: { type: Boolean, value: false },
       _loading: { type: Boolean, value: true },
-      _scrollTo: { type: Number, value: 0 }
+      _scrollTo: { type: Number, value: 0 },
+
+      _wideLayout: { type: Boolean, value: false },
+      _narrowDrawer: { type: Boolean, computed: "_isNarrowDrawer(_page,_wideLayout)" },
+      pages: { type: Array, value: [
+        { path: "member", page: "dashboard", name: "Dashboard", icon: "mdi:compass-outline" },
+        { path: "member/events", page: "events", name: "Members", icon: "mdi:compass-outline" },
+        { path: "member/events", page: "events", name: "Events", icon: "mdi:compass-outline" },
+        { path: "member/events", page: "events", name: "Announcements", icon: "mdi:compass-outline" },
+        { path: "member/events", page: "events", name: "Tutoring Schedules", icon: "mdi:compass-outline" }
+      ]}
     };
   }
 
@@ -286,24 +247,35 @@ class LayoutMain extends BaseElement {
     ];
   }
 
+  _isNarrowDrawer(page, wideLayout) {
+    if (wideLayout && page !== "dashboard") {
+      this.updateStyles({
+        '--app-drawer-width': '72px',
+      });
+    } else {
+      this.updateStyles({
+        '--app-drawer-width': '300px',
+      });
+    }
+    return wideLayout;
+  }
+
   _active(page, expected) {
     return page === expected;
   }
 
   onload(path) {
     return new Promise((resolve, reject) => {
-      var page = path[0];
+      var page = path.length > 1 ? path[1] : "";
 
       this.set("_loading", true)
-      this.set("subroute", path.slice(1))
+      this.set("subroute", path.slice(2))
 
       //change page info
-      if (page === "") page = "home";
-      if (page === "a") page = "announcement";
-      if (page === "e") page = "event";
+      if (page === "") page = "dashboard";
 
       let el = this.$$(`iron-pages [name="${page}"]`);
-      if (!el) page = "ohnoes";
+      if (!el) return reject("Page not found")
 
       this._loadPage(page)
       .then((page) => {
@@ -333,9 +305,9 @@ class LayoutMain extends BaseElement {
         this.set("_scrollTo", 0);
         this.set("_loading", false)
 
-        if (!this.$$('.drawer').persistent) {
+        if (!this.$.drawer.persistent) {
           setTimeout(() => { // otherwise it looks like garbage
-            this.$$('.drawer').close();
+            this.$.drawer.close();
           }, 300);
         }
 
@@ -354,33 +326,14 @@ class LayoutMain extends BaseElement {
   _loadPage(page) {
     return new Promise((resolve, reject) => {
       switch (page) {
-        case 'home':
-          import('../pages/page-home.js').then(resolve.bind(this, page)).catch(reject);
-          break;
-        case 'about':
-          import('../pages/page-about.js').then(resolve.bind(this, page)).catch(reject);
-          break;
-        case 'tutoring':
-          import('../pages/page-tutoring.js').then(resolve.bind(this, page)).catch(reject);
-          break;
-        case 'contact':
-          import('../pages/page-contact.js').then(resolve.bind(this, page)).catch(reject);
-          break;
-        case 'announcement':
-          import('../pages/page-announcement.js').then(resolve.bind(this, page)).catch(reject);
-          break;
-        case 'event':
-          import('../pages/page-event.js').then(resolve.bind(this, page)).catch(reject);
-          break;
-        case 'events':
-          import('../pages/page-events.js').then(resolve.bind(this, page)).catch(reject);
+        case 'dashboard':
+          import('../pages/members/page-member-dashboard.js').then(resolve.bind(this, page)).catch(reject);
           break;
         default:
-          import('../pages/page-ohnoes.js').then(resolve.bind(this, page)).catch(reject);
-          break;
+          this._pageLoadFailed("Page does not exist")
       }
     })
   }
 }
 
-window.customElements.define('layout-main', LayoutMain);
+window.customElements.define('layout-member-main', LayoutMemberMain);
