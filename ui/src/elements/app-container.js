@@ -25,6 +25,10 @@ class AppContainer extends PolymerElement {
             margin: 0 auto;
           }
         }
+
+        ::slotted(div.padding) {
+          padding: 0 24px;
+        }
       </style>
 
       <div class="container">

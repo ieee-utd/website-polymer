@@ -20,7 +20,7 @@ class LayoutMemberMain extends BaseElement {
           z-index: 10;
         }
         app-drawer app-toolbar.light {
-          background-color: var(--paper-grey-100);
+          background-color: var(--paper-grey-200);
           padding-top: 8px;
         }
         app-drawer[narrow] app-toolbar {
@@ -64,27 +64,28 @@ class LayoutMemberMain extends BaseElement {
           margin-right: 0;
         }
         app-drawer app-toolbar .drawer-title {
-          text-align: center;
           display: block;
           width: 100%;
           padding-top: 6px;
           padding-bottom: 8px;
-          border-bottom: 1px solid var(--paper-grey-400);
-        }
-        app-drawer[narrow] app-toolbar .drawer-title {
-          border-bottom: 0;
+          padding-left: 10px;
+          @apply --layout-horizontal;
+          @apply --layout-start-justified;
+          @apply --layout-center;
+          overflow: hidden;
         }
         app-drawer app-toolbar .drawer-title > img {
           height: 40px;
-          width: auto;
+          width: 40px;
+          min-width: 40px;
+          margin-right: 14px;
+        }
+        app-drawer app-toolbar .drawer-title > h3 {
+          user-select: none;
+          color: var(--color-primary-blue);
         }
         app-drawer {
           z-index: 500;
-          --app-drawer-content-container: {
-            background-color: var(--paper-grey-100);
-          };
-        }
-        app-drawer[narrow] {
           --app-drawer-content-container: {
             background-color: var(--paper-grey-200);
           };
@@ -129,7 +130,7 @@ class LayoutMemberMain extends BaseElement {
           display: block;
           margin: 64px 0 0 0;
           padding-top: 16px;
-          padding-left: 4px;
+          padding-left: 8px;
         }
         iron-selector.drawer-list a {
           display: block;
@@ -144,7 +145,10 @@ class LayoutMemberMain extends BaseElement {
         }
         iron-selector.drawer-list a > h4 {
           margin: 0;
-          margin-left: 16px;
+          margin-left: 24px;
+        }
+        app-drawer[narrow] iron-selector.drawer-list a > h4 {
+          display: none;
         }
         iron-selector.drawer-list a[active] {
           color: var(--color-primary-blue);
@@ -166,49 +170,115 @@ class LayoutMemberMain extends BaseElement {
           opacity: 0.6;
           pointer-events: none!important;
         }
+
+        paper-tooltip {
+          border-radius: 4px;
+          overflow: hidden;
+          --paper-tooltip-background: var(--paper-grey-900);
+          --paper-tooltip-text-color: white;
+          --paper-tooltip-delay-in: 100ms;
+          --paper-tooltip-duration-in: 240ms;
+          --paper-tooltip-duration-out: 240ms;
+          --paper-tooltip: {
+            font-size: 14px!important;
+            padding: 8px;
+            white-space: nowrap;
+          };
+        }
+
+        paper-dialog#accountDialog {
+          margin: 0;
+          overflow: hidden;
+          background-color: var(--paper-grey-300);
+          border-radius: 8px;
+          min-width: 280px;
+        }
+        paper-dialog#accountDialog div.account {
+          @apply --layout-horizontal;
+          @apply --layout-justified;
+          @apply --layout-center;
+          margin: 0;
+          padding: 12px 20px;
+        }
+        paper-dialog#accountDialog div.account > img {
+          border-radius: 50%;
+          height: 48px;
+          width: 48px;
+          background-color: var(--paper-grey-200);
+          border: 2px solid var(--paper-grey-400);
+        }
+        paper-dialog#accountDialog div.account > h3 {
+          margin: 0;
+          margin-right: 16px;
+        }
+        paper-dialog#accountDialog div.actions {
+          margin: 0;
+          padding: 12px 0;
+        }
+        paper-dialog#accountDialog div.actions > paper-button {
+          text-transform: none;
+          @apply --layout-horizontal;
+          @apply --layout-start-justified;
+          @apply --layout-center;
+          margin: 0;
+          padding: 8px 20px;
+          color: var(--paper-grey-800);
+          transition: 0.24s background-color;
+        }
+        paper-dialog#accountDialog div.actions > paper-button:hover {
+          background-color: var(--paper-grey-400);
+        }
+        paper-dialog#accountDialog div.actions > paper-button > span {
+          font-family: var(--font-head);
+          font-size: 14px;
+          font-weight: bold;
+          margin-left: 16px;
+        }
       </style>
 
       <app-drawer-layout fullbleed force-narrow$="[[!_wideLayout]]" noscroll$="[[modalDialogOpen]]" tall$="[[!shortLayout]]">
         <app-drawer id="drawer" slot="drawer" opened="{{_mainDrawerOpened}}" narrow$="[[_narrowDrawer]]" wide swipe-open$="[[!_wideLayout]]">
           <app-toolbar class="light">
             <div class="drawer-title">
-              <img src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_logo.svg" draggable=false hidden$="[[_narrowDrawer]]"></img>
-              <img src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_logo.svg" draggable=false hidden$="[[!_narrowDrawer]]"></img>
+              <img src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_icon_color_bordered.svg" draggable=false></img>
+              <h3>IEEEUTD</h3>
             </div>
           </app-toolbar>
           <iron-selector
               selected="[[_page]]"
               class="drawer-list"
               role="navigation">
-
             <template is="dom-repeat" items="[[pages]]" as="it">
-              <a href="[[rootPath]][[it.path]]" active$="[[_active(_page,it.page)]]"><iron-icon icon="[[it.icon]]"></iron-icon><h4>[[it.name]]</h4></a>
+              <a href="[[rootPath]][[it.path]]" id="page-[[it.page]]" active$="[[_active(_page,it.page)]]"><iron-icon icon="[[it.icon]]"></iron-icon><h4>[[it.name]]</h4></a>
+              <paper-tooltip position="right" for="page-[[it.page]]" hidden$="[[!_narrowDrawer]]">[[it.name]]</paper-tooltip>
             </template>
           </iron-selector>
         </app-drawer>
+        <div class="main" loading$="[[_loading]]">
+          <app-container>
+            <page-title title="[[_pageTitle]]" user="[[user]]"></page-title>
+          </app-container>
+          <iron-pages selected="[[_page]]" attr-for-selected="name" role="main">
+            <page-member-dashboard name="dashboard"></page-member-dashboard>
+            <page-member-users name="users"></page-member-users>
+            <page-member-events name="events"></page-member-events>
+            <page-member-announcements name="announcements"></page-member-announcements>
+            <page-member-schedules name="schedules"></page-member-schedules>
+            <page-member-account name="account"></page-member-account>
+          </iron-pages>
+        </div>
       </app-drawer-layout>
 
-      <!--<app-header reveals fixed>
-        <app-toolbar>
-          <app-container class="wide-toolbar" style="width: 100%">
-            <div>
-              <template is="dom-repeat" items="[[pages]]" as="it">
-                <span class="tab"><a href="[[rootPath]][[it.path]]" active$="[[_active(_page,it.page)]]">[[it.name]]</a></span>
-              </template>
-            </div>
-          </app-container>
-          <app-container class="narrow-toolbar">
-            <paper-icon-button icon="mdi:menu" on-tap="_openDrawer"></paper-icon-button>
-            <span>Member Menu</span>
-          </app-container>
-        </app-toolbar>
-      </app-header>-->
-
-      <div class="main" loading$="[[_loading]]">
-        <iron-pages selected="[[_page]]" attr-for-selected="name" role="main">
-          <page-member-dashboard name="dashboard"></page-member-dashboard>
-        </iron-pages>
-      </div>
+      <paper-dialog id="accountDialog" always-on-top with-backdrop horizontal-align="right" vertical-align="top" horizontal-offset=0 vertical-offset=0>
+        <div class="account">
+          <h3>[[user.firstName]] [[user.lastName]]</h3>
+          <img src="[[user.avatar]]" sizing="cover" preload fade></img>
+        </div>
+        <div class="actions">
+          <paper-button on-tap="_openAccountPage"><iron-icon icon="mdi:account-circle"></iron-icon><span>Your Account</span></paper-button>
+          <paper-button on-tap="_logout"><iron-icon icon="mdi:power"></iron-icon><span>Log Out</span></paper-button>
+        </div>
+      </paper-dialog>
 
       <iron-media-query query="(min-width: 768px)" query-matches="{{_wideLayout}}"></iron-media-query>
     `;
@@ -221,6 +291,12 @@ class LayoutMemberMain extends BaseElement {
 
   static get properties() {
     return {
+      user: { type: Object, value: {
+        avatar: "https://s3.amazonaws.com/ieee-utd/officer-avatars/pachachura%2Carthur.jpeg",
+        firstName: "Arthur",
+        lastName: "Pachachura"
+      }},
+
       _page: { type: String },
       toolbarPosition: String,
       routeData: Object,
@@ -228,15 +304,16 @@ class LayoutMemberMain extends BaseElement {
       _subdrawerOpen: { type: Boolean, value: false },
       _loading: { type: Boolean, value: true },
       _scrollTo: { type: Number, value: 0 },
+      _pageTitle: { type: String, value: "Dashboard" },
 
       _wideLayout: { type: Boolean, value: false },
       _narrowDrawer: { type: Boolean, computed: "_isNarrowDrawer(_page,_wideLayout)" },
       pages: { type: Array, value: [
         { path: "member", page: "dashboard", name: "Dashboard", icon: "mdi:compass-outline" },
-        { path: "member/events", page: "events", name: "Members", icon: "mdi:compass-outline" },
-        { path: "member/events", page: "events", name: "Events", icon: "mdi:compass-outline" },
-        { path: "member/events", page: "events", name: "Announcements", icon: "mdi:compass-outline" },
-        { path: "member/events", page: "events", name: "Tutoring Schedules", icon: "mdi:compass-outline" }
+        { path: "member/users", page: "users", name: "Members", icon: "mdi:account-multiple" },
+        { path: "member/events", page: "events", name: "Events", icon: "mdi:calendar-blank" },
+        { path: "member/announcements", page: "announcements", name: "Announcements", icon: "mdi:bullhorn" },
+        { path: "member/schedules", page: "schedules", name: "Tutoring Schedules", icon: "mdi:clock-outline" }
       ]}
     };
   }
@@ -247,21 +324,41 @@ class LayoutMemberMain extends BaseElement {
     ];
   }
 
+  ready() {
+    super.ready();
+    this.addEventListener('open-drawer', () => {
+      this.$.drawer.open();
+    });
+    this.addEventListener('open-account-dialog', () => {
+      this.$.accountDialog.open();
+    })
+  }
+
   _isNarrowDrawer(page, wideLayout) {
     if (wideLayout && page !== "dashboard") {
       this.updateStyles({
         '--app-drawer-width': '72px',
       });
+      return true;
     } else {
       this.updateStyles({
         '--app-drawer-width': '300px',
       });
+      return false;
     }
-    return wideLayout;
   }
 
   _active(page, expected) {
     return page === expected;
+  }
+
+  _openAccountPage() {
+    this._fire("change-page", "/member/account")
+    this.$.accountDialog.close();
+  }
+
+  _logout() {
+    console.log("Log out")
   }
 
   onload(path) {
@@ -299,11 +396,12 @@ class LayoutMemberMain extends BaseElement {
       }
 
       promise.call(el, this.subroute, window.scrollY)
-      .then(() => {
+      .then((titleData) => {
         this.set("_page", page)
         window.scroll(0, this._scrollTo);
         this.set("_scrollTo", 0);
         this.set("_loading", false)
+        this.set("_pageTitle", titleData.page)
 
         if (!this.$.drawer.persistent) {
           setTimeout(() => { // otherwise it looks like garbage
@@ -328,6 +426,21 @@ class LayoutMemberMain extends BaseElement {
       switch (page) {
         case 'dashboard':
           import('../pages/members/page-member-dashboard.js').then(resolve.bind(this, page)).catch(reject);
+          break;
+        case 'users':
+          import('../pages/members/page-member-users.js').then(resolve.bind(this, page)).catch(reject);
+          break;
+        case 'events':
+          import('../pages/members/page-member-events.js').then(resolve.bind(this, page)).catch(reject);
+          break;
+        case 'announcements':
+          import('../pages/members/page-member-announcements.js').then(resolve.bind(this, page)).catch(reject);
+          break;
+        case 'schedules':
+          import('../pages/members/page-member-schedules.js').then(resolve.bind(this, page)).catch(reject);
+          break;
+        case 'account':
+          import('../pages/members/page-member-account.js').then(resolve.bind(this, page)).catch(reject);
           break;
         default:
           this._pageLoadFailed("Page does not exist")

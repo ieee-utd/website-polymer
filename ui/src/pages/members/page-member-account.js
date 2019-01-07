@@ -2,7 +2,7 @@ import { html } from '@polymer/polymer/polymer-element.js';
 import { BaseElement } from '../../base-element.js';
 import '../../shared-styles.js';
 
-class PageMemberDashboard extends BaseElement {
+class PageMemberAccount extends BaseElement {
   static get template() {
     return html`
       <style include="shared-styles">
@@ -16,7 +16,7 @@ class PageMemberDashboard extends BaseElement {
 
       <app-container>
         <div class="padding">
-          <h4>Dashboard</h4>
+          <h4>Your Account</h4>
         </div>
       </app-container>
     `;
@@ -30,9 +30,9 @@ class PageMemberDashboard extends BaseElement {
 
   onload() {
     return new Promise((resolve, reject) => {
-      resolve({ page: "Dashboard" });
+      resolve({ page: "Your Account" });
     })
   }
 }
 
-window.customElements.define('page-member-dashboard', PageMemberDashboard);
+window.customElements.define('page-member-account', PageMemberAccount);

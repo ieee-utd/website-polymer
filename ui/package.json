@@ -26,6 +26,7 @@
     "@polymer/iron-selector": "^3.0.0-pre.15",
     "@polymer/paper-button": "github:PolymerElements/paper-button",
     "@polymer/paper-card": "^3.0.0-pre.21",
+    "@polymer/paper-dialog": "github:PolymerElements/paper-dialog",
     "@polymer/paper-icon-button": "^3.0.0-pre.15",
     "@polymer/paper-progress": "^3.0.0-pre.21",
     "@polymer/paper-spinner": "github:PolymerElements/paper-spinner",
