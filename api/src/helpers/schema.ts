@@ -7,7 +7,7 @@ export let LoginSchema = {
   })
 }
 
-export let CreateOfficerUserSchema = {
+export let CreateMemberUserSchema = {
   body: Joi.object({
     "email": Joi.string().email().trim(),
     "firstName": Joi.string().trim().min(1),
@@ -16,18 +16,18 @@ export let CreateOfficerUserSchema = {
     "memberSince": Joi.number().integer().min(1900).max(2100),
     "bioMarkdown": Joi.string(),
     "position": Joi.string(),
-    "permissionLevel": Joi.number().integer().min(1).max(5).required()
+    "group": Joi.string()
   }).unknown(false)
 }
 
-export let UpdateOfficerUserSchema = {
+export let UpdateMemberUserSchema = {
   body: Joi.object({
     "firstName": Joi.string().trim().min(1),
     "lastName": Joi.string().trim().min(1),
     "bioMarkdown": Joi.string(),
     "position": Joi.string(),
     "memberSince": Joi.number().integer().min(1900).max(2100),
-    "permissionLevel": Joi.number().integer().min(1).max(5)
+    "group": Joi.string()
   }).unknown(false)
 }
 

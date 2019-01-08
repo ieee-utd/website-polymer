@@ -32,6 +32,7 @@
     "@polymer/paper-spinner": "github:PolymerElements/paper-spinner",
     "@polymer/paper-styles": "github:PolymerElements/paper-styles",
     "@polymer/paper-tabs": "^3.0.0-pre.25",
+    "@polymer/paper-toast": "github:PolymerElements/paper-toast",
     "@polymer/paper-tooltip": "^3.0.0-pre.25",
     "@polymer/polymer": "^3.0.0",
     "@vaadin/vaadin-text-field": "^2.1.5",

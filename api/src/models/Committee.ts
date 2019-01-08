@@ -6,7 +6,8 @@ var schema = new mongoose.Schema({
   //members includes both non-leadership officers and other members
   members: [{ type: mongoose.Schema.Types.ObjectId, ref: "Member" }]
 }, {
-  collection: "committees"
+  collection: "committees",
+  id: false
 });
 
 export var Committee = mongoose.model('Committee', schema);

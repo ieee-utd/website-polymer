@@ -95,7 +95,8 @@ class LayoutMemberLogin extends BaseElement {
       _subdrawerOpen: { type: Boolean, value: false },
       _loading: { type: Boolean, value: true },
       _scrollTo: { type: Number, value: 0 },
-      _ready: { type: Boolean, value: false }
+      _ready: { type: Boolean, value: false },
+      _checkedUser: { type: Boolean, value: false }
     };
   }
 
@@ -125,12 +126,28 @@ class LayoutMemberLogin extends BaseElement {
         return reject();
       }
 
-      this._loadPage(page)
-      .then((page) => {
-        return this._pageLoaded(page);
-      })
-      .then(resolve)
-      .catch(reject)
+      var f = () => {
+        this._loadPage(page)
+        .then((page) => {
+          return this._pageLoaded(page);
+        })
+        .then(resolve)
+        .catch(reject)
+      }
+
+      //redirect if logged in
+      if (!this._checkedUser) {
+        this._get("/user", { redirectOn401: false, silent: true })
+        .then(() => {
+          window.location = "/member/dashboard";
+        })
+        .catch((e) => {
+          this.set("_checkedUser", true)
+          f();
+        })
+      } else {
+        f();
+      }
     })
   }
 

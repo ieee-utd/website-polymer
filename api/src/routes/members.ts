@@ -4,28 +4,28 @@ import * as moment from "moment";
 const validate = require('express-validation')
 
 import { cleanUser, cleanAll } from "../helpers/clean";
-import { CreateOfficerUserSchema, UpdateOfficerUserSchema } from "../helpers/schema";
+import { CreateMemberUserSchema, UpdateMemberUserSchema } from "../helpers/schema";
 import { userCan } from "../helpers/verify";
 const EasyPbkdf2 = require('easy-pbkdf2');
 const easyPbkdf2 = new EasyPbkdf2();
 
-import { Officer } from "../models";
+import { Member } from "../models";
 
 export let route = express.Router();
-//list officers (non-privileged)
+//list members (non-privileged)
 route.get('/', async (req: any, res: any, next: any) => {
-  let officers = await Officer.find();
+  let officers = await Member.find();
   res.send(cleanAll(officers, cleanUser));
 })
 
-//list officers (admin)
-route.get('/list', userCan("manageUsers"), async (req: any, res: any, next: any) => {
-  let officers = await Officer.find();
+//list members (admin)
+route.get('/list', userCan("members"), async (req: any, res: any, next: any) => {
+  let officers = await Member.find();
   res.send(cleanAll(officers, cleanUser));
 })
 
-//create officer
-route.post("/", userCan("manageUsers"), validate(CreateOfficerUserSchema), async(req: any, res: any, next: any) => {
+//create member
+route.post("/", userCan("members"), validate(CreateMemberUserSchema), async(req: any, res: any, next: any) => {
   var salt = easyPbkdf2.generateSalt();
   easyPbkdf2.secureHash(req.body.password, salt, async (err: any, hash: any, originalSalt: any) => {
     if (err) return next(err)
@@ -44,7 +44,7 @@ route.post("/", userCan("manageUsers"), validate(CreateOfficerUserSchema), async
       dateCreated: Date.now()
     };
 
-    let userCheck = await Officer.findOne({ email: user.email });
+    let userCheck = await Member.findOne({ email: user.email });
     if (userCheck) {
       return next({
         message: "Email already registered",
@@ -56,7 +56,7 @@ route.post("/", userCan("manageUsers"), validate(CreateOfficerUserSchema), async
     }
 
     try {
-      let newUser = new Officer(user);
+      let newUser = new Member(user);
       let savedUser = await newUser.save();
 
       res.json({
@@ -70,15 +70,13 @@ route.post("/", userCan("manageUsers"), validate(CreateOfficerUserSchema), async
   });
 });
 
-//update officer
-route.put('/:userid', validate(UpdateOfficerUserSchema), userCan("manageUsers"), async (req: any, res: any, next: any) => {
+//update member
+route.put('/:userid', validate(UpdateMemberUserSchema), userCan("members"), async (req: any, res: any, next: any) => {
   try {
-    await Officer.findOneAndUpdate({ _id: req.params.userid }, { $set: req.body });
+    await Member.findOneAndUpdate({ _id: req.params.userid }, { $set: req.body });
 
     res.send({ message: "Successfully updated user" })
   } catch (e) {
     next(e)
   }
 })
-
-//TODO enable, disable officers by converting them to members (or even to tutors)

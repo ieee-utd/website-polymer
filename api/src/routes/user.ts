@@ -9,7 +9,7 @@ import { ensureAuthenticated, ensureUnauthenticated } from "../helpers/verify";
 const EasyPbkdf2 = require('easy-pbkdf2');
 const easyPbkdf2 = new EasyPbkdf2();
 
-import { Officer } from "../models";
+import { Member } from "../models";
 import { db } from "../app";
 
 export let route = express.Router();
@@ -37,7 +37,7 @@ route.post("/login", ensureUnauthenticated, validate(LoginSchema), async(req: an
     req.logIn(userSession, async function(err: any) {
       if (err) return next(err);
 
-      await Officer.findOneAndUpdate({ _id: userSession._id }, { $set: { dateLastLogin: Date.now() }});
+      await Member.findOneAndUpdate({ _id: userSession._id }, { $set: { dateLastLogin: Date.now() }});
 
       res.send({ message: "Successfully logged in" })
     });
@@ -58,7 +58,7 @@ route.post("/logout", async (req: any, res: any, next: any) => {
 route.post("/setInitialPassword", ensureUnauthenticated, validate(SetInitialPasswordSchema), async (req: any, res: any, next: any) => {
 
   //typically one would use 'passport.authenticate' here, but it just didn't work... at all
-  var user: any = await Officer.findOne({ email: req.body.email.toLowerCase().trim() });
+  var user: any = await Member.findOne({ email: req.body.email.toLowerCase().trim() });
 
   if (!user) {
     return next({ status: 401, message: "Account disabled" });
@@ -81,7 +81,7 @@ route.post("/setInitialPassword", ensureUnauthenticated, validate(SetInitialPass
         return next(err)
       }
 
-      await Officer.findOneAndUpdate({ _id: user._id }, { $set: {
+      await Member.findOneAndUpdate({ _id: user._id }, { $set: {
         requirePasswordChange: false,
         passwordSalt: originalSalt,
         passwordHash: hash
@@ -95,7 +95,7 @@ route.post("/setInitialPassword", ensureUnauthenticated, validate(SetInitialPass
 //change your password
 route.post("/changePassword", ensureAuthenticated, validate(ChangePasswordSchema), async (req: any, res: any, next: any) => {
 
-  var user: any = await Officer.findOne({ _id: req.user._id });
+  var user: any = await Member.findOne({ _id: req.user._id });
   if (!user) {
     return next({ status: 401, message: "Account disabled" });
   }
@@ -112,7 +112,7 @@ route.post("/changePassword", ensureAuthenticated, validate(ChangePasswordSchema
     easyPbkdf2.secureHash(req.body.newPassword, salt, async (err: any, hash: any, originalSalt: any) => {
       if (err) return next(err);
 
-      await Officer.findOneAndUpdate({ _id: user._id }, { $set: {
+      await Member.findOneAndUpdate({ _id: user._id }, { $set: {
         passwordSalt: originalSalt,
         passwordHash: hash
       } });

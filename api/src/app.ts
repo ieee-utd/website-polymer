@@ -125,14 +125,17 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 import { Strategy } from "passport-local";
-import { Officer } from "./models";
-passport.use('local', new Strategy( { usernameField: "email", passwordField: "password" }, async (username: any, password: any, done: any) => {
-  let user: any = await Officer.findOne({ email: username.toLowerCase().trim() });
+import { Member } from "./models";
+passport.use('local', new Strategy( { usernameField: "email", passwordField: "password" }, async (email: any, password: any, done: any) => {
+  let user: any = await Member.findOne({ email: email.toLowerCase().trim() })
+  .populate('group');
+
+  console.log(user)
 
   if (user) {
     easyPbkdf2.verify(user.passwordSalt, user.passwordHash, password, (err: any, valid: any) => {
       if (valid) {
-        if (!user.permissionLevel || user.permissionLevel < 2) {
+        if (!user.group || !user.group.permissions || !user.group.permissions.login) {
           return done({
             status: 401,
             message: "Account disabled"
@@ -163,8 +166,9 @@ passport.serializeUser(async (user: any, done: any) => {
 });
 
 passport.deserializeUser(async (serializedUser: any, done: any) => {
-  var user = await Officer.findById(serializedUser._id)
-  .select("firstName lastName email _id permissionLevel");
+  var user = await Member.findById(serializedUser._id)
+  .select("firstName lastName email _id group profileImageUrl position")
+  .populate('group');
 
   done(null, user);
 });

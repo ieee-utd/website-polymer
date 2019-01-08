@@ -1,8 +1,6 @@
 var _ = require("lodash");
 const assert = require('assert')
 
-import { OFFICER_PERMISSION_LEVEL_NAMES } from "../models/members/Officer";
-
 export function cleanAll(o: any, cleaner: any) {
   if (_.isPlainObject(o)) return cleaner(o);
   else if (_.isArray(o)) return _.map(o, cleaner);
@@ -41,7 +39,6 @@ export function cleanUser(user: any, cleanExtra?: boolean) {
   if (!user) return user;
   let u = cleanFromMongo(user);
 
-  u.permissionLevel = OFFICER_PERMISSION_LEVEL_NAMES[user.permissionLevel] + 1;
   delete u.passwordHash;
   delete u.passwordSalt;
   delete u.dateCreated;

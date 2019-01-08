@@ -97,6 +97,7 @@ class LayoutMemberMain extends BaseElement {
         app-drawer > app-toolbar > div > iron-image {
           height: 40px;
           width: 40px;
+          min-width: 40px;
           margin-right: 10px;
         }
         app-drawer > .top {
@@ -192,6 +193,7 @@ class LayoutMemberMain extends BaseElement {
           background-color: var(--paper-grey-300);
           border-radius: 8px;
           min-width: 280px;
+          max-width: 380px;
         }
         paper-dialog#accountDialog div.account {
           @apply --layout-horizontal;
@@ -200,16 +202,28 @@ class LayoutMemberMain extends BaseElement {
           margin: 0;
           padding: 12px 20px;
         }
-        paper-dialog#accountDialog div.account > img {
+        paper-dialog#accountDialog div.account > iron-image,
+        paper-dialog#accountDialog div.account > div.initials {
           border-radius: 50%;
           height: 48px;
           width: 48px;
+          min-width: 48px;
           background-color: var(--paper-grey-200);
           border: 2px solid var(--paper-grey-400);
+        }
+        paper-dialog#accountDialog div.account > div.initials {
+          @apply --layout-horizontal;
+          @apply --layout-center-justified;
+          @apply --layout-center;
+          font-size: 18px;
+          font-weight: 700;
+          font-family: var(--font-head);
+          color: var(--paper-grey-800);
         }
         paper-dialog#accountDialog div.account > h3 {
           margin: 0;
           margin-right: 16px;
+          word-break: break-all;
         }
         paper-dialog#accountDialog div.actions {
           margin: 0;
@@ -272,7 +286,8 @@ class LayoutMemberMain extends BaseElement {
       <paper-dialog id="accountDialog" always-on-top with-backdrop horizontal-align="right" vertical-align="top" horizontal-offset=0 vertical-offset=0>
         <div class="account">
           <h3>[[user.firstName]] [[user.lastName]]</h3>
-          <img src="[[user.avatar]]" sizing="cover" preload fade></img>
+          <iron-image src="[[user.profileImageUrl]]" sizing="cover" preload fade hidden$="[[!user.profileImageUrl]]"></iron-image>
+          <div class="initials" hidden$="[[user.profileImageUrl]]">[[user.initials]]</div>
         </div>
         <div class="actions">
           <paper-button on-tap="_openAccountPage"><iron-icon icon="mdi:account-circle"></iron-icon><span>Your Account</span></paper-button>
@@ -291,11 +306,12 @@ class LayoutMemberMain extends BaseElement {
 
   static get properties() {
     return {
-      user: { type: Object, value: {
-        avatar: "https://s3.amazonaws.com/ieee-utd/officer-avatars/pachachura%2Carthur.jpeg",
-        firstName: "Arthur",
-        lastName: "Pachachura"
-      }},
+      user: { type: Object },
+      //   , value: {
+      //   avatar: "https://s3.amazonaws.com/ieee-utd/officer-avatars/pachachura%2Carthur.jpeg",
+      //   firstName: "Arthur",
+      //   lastName: "Pachachura"
+      // }},
 
       _page: { type: String },
       toolbarPosition: String,
@@ -309,7 +325,7 @@ class LayoutMemberMain extends BaseElement {
       _wideLayout: { type: Boolean, value: false },
       _narrowDrawer: { type: Boolean, computed: "_isNarrowDrawer(_page,_wideLayout)" },
       pages: { type: Array, value: [
-        { path: "member", page: "dashboard", name: "Dashboard", icon: "mdi:compass-outline" },
+        { path: "member/dashboard", page: "dashboard", name: "Dashboard", icon: "mdi:compass-outline" },
         { path: "member/users", page: "users", name: "Members", icon: "mdi:account-multiple" },
         { path: "member/events", page: "events", name: "Events", icon: "mdi:calendar-blank" },
         { path: "member/announcements", page: "announcements", name: "Announcements", icon: "mdi:bullhorn" },
@@ -328,7 +344,7 @@ class LayoutMemberMain extends BaseElement {
     super.ready();
     this.addEventListener('open-drawer', () => {
       this.$.drawer.open();
-    });
+    })
     this.addEventListener('open-account-dialog', () => {
       this.$.accountDialog.open();
     })
@@ -358,7 +374,11 @@ class LayoutMemberMain extends BaseElement {
   }
 
   _logout() {
-    console.log("Log out")
+    this._post("/user/logout")
+    .then(() => {
+      window.location = "/member/login";
+    })
+    .catch(e => this._showToastError(e))
   }
 
   onload(path) {
@@ -374,12 +394,28 @@ class LayoutMemberMain extends BaseElement {
       let el = this.$$(`iron-pages [name="${page}"]`);
       if (!el) return reject("Page not found")
 
-      this._loadPage(page)
-      .then((page) => {
-        return this._pageLoaded(page);
-      })
-      .then(resolve)
-      .catch(reject)
+      var f = () => {
+        this._loadPage(page)
+        .then((page) => {
+          return this._pageLoaded(page);
+        })
+        .then(resolve)
+        .catch(reject)
+      }
+
+      //redirect if not logged in
+      if (!this.user) {
+        this._get("/user", { silent: true })
+        .then((user) => {
+          this.set("user", user)
+          f();
+        })
+        .catch((e) => {
+          window.location = "/member/login";
+        })
+      } else {
+        f();
+      }
     })
   }
 

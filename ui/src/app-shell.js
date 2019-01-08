@@ -19,6 +19,7 @@ import '@polymer/paper-icon-button/paper-icon-button.js';
 import '@polymer/paper-progress/paper-progress.js';
 import '@polymer/paper-spinner/paper-spinner-lite.js';
 import '@polymer/paper-tabs/paper-tabs.js';
+import '@polymer/paper-toast/paper-toast.js';
 import '@polymer/paper-tooltip/paper-tooltip.js';
 
 import 'clipboard-copy-element';
@@ -69,6 +70,38 @@ class AppShell extends BaseElement {
           --paper-progress-container-color: var(--color-background);
           --paper-progress-height: 6px;
         }
+
+        paper-toast {
+          width: 100%;
+          max-width: 500px;
+          z-index: 5000!important;
+          @apply --layout-horizontal;
+          @apply --layout-justified;
+          @apply --layout-center;
+          font-size: 16px;
+          position: absolute;
+        }
+        paper-toast paper-icon-button {
+          margin-right: -9px;
+        }
+        paper-toast[type="error"] {
+          background-color: var(--paper-red-600);
+        }
+        paper-toast:not([type="error"]) paper-icon-button {
+          display: none;
+        }
+        paper-toast div {
+          @apply --layout-horizontal;
+          @apply --layout-right-justified;
+          @apply --layout-center;
+        }
+        paper-toast paper-button {
+          border: 1px solid rgba(255,255,255,0.7);
+          @apply --layout-horizontal;
+          @apply --layout-center-justified;
+          @apply --layout-center;
+          margin-right: 8px;
+        }
       </style>
 
       <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
@@ -86,13 +119,14 @@ class AppShell extends BaseElement {
           <layout-member-main name="member-main"></layout-member-main>
         </iron-pages>
       </div>
-    `;
-  }
 
-  ready() {
-    super.ready();
-    this.addEventListener('change-page', this._navigate);
-    this.addEventListener('go-back', this._goBack);
+      <paper-toast id="toast" duration="15000">
+        <div>
+          <!--<form-button on-tap="_openDetails" style="width:60px" hidden$="[[!_have(_errorDetails)]]">Details</form-button>-->
+          <paper-icon-button on-tap="_closeToast" icon="mdi:close"></paper-icon-button>
+        </div>
+      </paper-toast>
+    `;
   }
 
   static get properties() {
@@ -100,7 +134,8 @@ class AppShell extends BaseElement {
       _layout: { type: String },
       _loading: { type: Boolean, value: true },
       _scrollTo: { type: Number, value: 0 },
-      _path: { type: Array }
+      _path: { type: Array },
+      // _errorDetails: { type: String, value: "" }
     };
   }
 
@@ -110,12 +145,46 @@ class AppShell extends BaseElement {
     ];
   }
 
+  ready() {
+    super.ready();
+    this.addEventListener('change-page', this._navigate);
+    this.addEventListener('go-back', this._goBack);
+    this.addEventListener('show-toast', this._showToast);
+  }
+
+  _showToast(e) {
+    console.log("Display toast")
+    var text = e.detail.text;
+    var type = e.detail.type || "";
+    var toast = this.$.toast;
+    var persistent = e.detail.persistent;
+
+    var show = () => {
+      // this.set("_errorDetails", e.detail.detail || "");
+      toast.text = text;
+      toast.setAttribute("duration", type == "error" || persistent ? TOAST_ERROR_DURATION : TOAST_INFO_DURATION);
+      toast.setAttribute("type", type);
+      toast.show();
+    }
+
+    if (toast.opened) {
+      toast.hide();
+      setTimeout(show, 100);
+    } else {
+      show();
+    }
+  }
+
+  _closeToast() {
+    this.$.toast.hide();
+  }
+
   _pathChanged(_path) {
     let path = _path.split("/").slice(1);
     this.set("_path", path)
 
     let layout = path[0];
-    console.log("Path", path)
+    console.log("Navigating to", _path)
     if (!layout) return this._loadLayout("main");
 
     switch(layout) {
@@ -147,17 +216,15 @@ class AppShell extends BaseElement {
   _loadLayout(layout) {
     this.set("_loading", true)
 
-    console.log("Layout", layout)
-
     switch (layout) {
       case 'main':
-        import('./layouts/layout-main.js').then(this._layoutLoaded.bind(this, layout)).catch(this._layoutLoadFailed);
+        import('./layouts/layout-main.js').then(this._layoutLoaded.bind(this, layout)).catch(this._layoutLoadFailed.bind(this));
         break;
       case 'member-login':
-        import('./layouts/layout-member-login.js').then(this._layoutLoaded.bind(this, layout)).catch(this._layoutLoadFailed);
+        import('./layouts/layout-member-login.js').then(this._layoutLoaded.bind(this, layout)).catch(this._layoutLoadFailed.bind(this));
         break;
       case 'member-main':
-        import('./layouts/layout-member-main.js').then(this._layoutLoaded.bind(this, layout)).catch(this._layoutLoadFailed);
+        import('./layouts/layout-member-main.js').then(this._layoutLoaded.bind(this, layout)).catch(this._layoutLoadFailed.bind(this));
         break;
       default:
         console.error("Layout not found")

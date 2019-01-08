@@ -96,7 +96,7 @@ class FormInput extends BaseElement {
 
   _valueChanged(value) {
     if (!this.autoValidate) {
-      this._errorChanged(null);
+      this.set("error", null)
     } else {
       var input = this.$$("#input");
       if (input) input.validate();

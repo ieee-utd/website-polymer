@@ -6,6 +6,7 @@ const uglifyes = require('uglify-es');
 const composer = require('gulp-uglify/composer');
 const minify = composer(uglifyes, console);
 const gutil = require('gulp-util')
+const run = require('gulp-run');
 
 var tsProject = ts.createProject('tsconfig.json');
 

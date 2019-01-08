@@ -4,6 +4,8 @@ import { AnnouncementBase } from "./AnnouncementBase";
 var schema = new mongoose.Schema({
   visibleFrom: { type: Date, required: true },
   visibleUntil: { type: Date, required: true },
+}, {
+  id: false
 });
 
 schema.index({ __t: 1, link: 1 });

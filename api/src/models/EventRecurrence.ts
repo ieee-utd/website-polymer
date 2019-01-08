@@ -8,7 +8,8 @@ var schema = new mongoose.Schema({
   linkpart: { type: String, required: true },
   hidden: { type: Boolean, default: false }
 }, {
-  collection: "eventRecurrences"
+  collection: "eventRecurrences",
+  id: false
 });
 
 schema.statics = {

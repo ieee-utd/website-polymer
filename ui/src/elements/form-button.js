@@ -10,7 +10,6 @@ class FormButton extends BaseElement {
         }
         paper-button {
           display: block;
-          text-align: center;
           margin: 0;
           background-color: var(--color-primary-blue);
           color: white;
@@ -28,17 +27,34 @@ class FormButton extends BaseElement {
         }
         paper-button[disabled] {
           color: var(--paper-grey-700)!important;
-          background-color: var(--paper-grey-400)!important;
+          background-color: var(--paper-grey-300)!important;
           pointer-events: none;
         }
         paper-button[grey] {
           color: var(--color-primary-blue);
           background-color: var(--paper-grey-200);
         }
+        paper-spinner-lite {
+          display: block;
+          --paper-spinner-color: var(--paper-grey-700);
+          --paper-spinner-stroke-width: 2px;
+          height: 16px;
+          width: 16px;
+          line-height: 0;
+          padding: 4px 0;
+        }
+        paper-button > div {
+          @apply --layout-horizontal;
+          @apply --layout-center-justified;
+          @apply --layout-center;
+        }
       </style>
 
       <paper-button disabled$="[[_or(disabled,loading)]]" grey$="[[grey]]">
-        <span hidden$="[[loading]]">[[label]]</span>
+        <div>
+          <span hidden$="[[loading]]">[[label]]</span>
+          <paper-spinner-lite active hidden$="[[!loading]]"></paper-spinner-lite>
+        </div>
       </paper-button>
     `;
   }

@@ -33,12 +33,23 @@ class PageTitle extends BaseElement {
           margin-left: 8px;
         }
 
-        div.title > div iron-image {
+        div.title > div iron-image,
+        div.title > div div.initials {
           border-radius: 50%;
           height: 48px;
           width: 48px;
+          min-width: 48px;
           background-color: var(--paper-grey-200);
           border: 2px solid var(--paper-grey-400);
+        }
+        div.title > div div.initials {
+          @apply --layout-horizontal;
+          @apply --layout-center-justified;
+          @apply --layout-center;
+          font-size: 18px;
+          font-weight: 700;
+          font-family: var(--font-head);
+          color: var(--paper-grey-800);
         }
         div.title > div h4 {
           margin-right: 16px;
@@ -78,7 +89,8 @@ class PageTitle extends BaseElement {
           <app-context>
             <paper-button on-tap="_openAccount" noink>
               <h4>[[user.firstName]] [[user.lastName]]</h4>
-              <iron-image src="[[user.avatar]]" sizing="cover" preload fade></iron-image>
+              <iron-image src="[[user.profileImageUrl]]" sizing="cover" preload fade hidden$="[[!user.profileImageUrl]]"></iron-image>
+              <div class="initials" hidden$="[[user.profileImageUrl]]">[[user.initials]]</div>
             </paper-button>
           </app-context>
         </div>

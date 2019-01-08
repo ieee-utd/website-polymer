@@ -1,6 +1,6 @@
 //members
-export { Member } from './members/Member';
-export { Officer } from './members/Officer';
+export { Member } from './Member';
+export { Group } from './Group';
 
 //committees
 export { Committee } from './Committee';

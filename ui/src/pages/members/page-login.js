@@ -24,17 +24,31 @@ class PageLogin extends BaseElement {
       <h2>Member login</h2>
       <p>This page is for IEEEUTD officers, tutors, and other authorized users only.</p>
 
-      <form-input label="Email" type="email" placeholder="you@utdallas.edu"></form-input>
-      <form-input label="Password" type="password"></form-input>
-      <a href="/member/forgot-password">Forgot password?</a>
-      <form-button on-click="_login" label="Login"></form-button>
+      <form-input label="Email" value="{{login.email}}" type="email" error="{{_loginError}}" placeholder="you@utdallas.edu" disabled$="[[_loading]]"></form-input>
+      <form-input label="Password" value="{{login.password}}" type="password" disabled$="[[_loading]]"></form-input>
+      <a href="/member/forgot-password" disabled$="[[_loading]]">Forgot password?</a>
+      <form-button on-click="_login" label="Login" loading$="[[_loading]]"></form-button>
     `;
   }
 
   static get properties() {
     return {
-
+      _loading: { type: Boolean, value: false },
+      login: { type: Object, value: { }},
+      _loginError: { type: String, value: "" }
     }
+  }
+
+  _login() {
+    this.set("_loading", true)
+    this._post("/user/login", this.login, { redirectOn401: false, silent: true })
+    .then((user) => {
+      window.location = "/member/dashboard";
+    })
+    .catch((e) => {
+      this.set("_loginError", e.message === "Some fields are incorrect" ? "Username and password are required" : e.message)
+      this.set("_loading", false)
+    })
   }
 
   onload() {
