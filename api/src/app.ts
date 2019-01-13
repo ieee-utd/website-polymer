@@ -41,20 +41,27 @@ rejectionEmitter.on("unhandledRejection", (error: any, promise: any) => {
 //Prepare connection details
 const dbPath = (process.env.NODE_ENV === "test") ? "/ieeeutd-test" : "/ieeeutd";
 const DATABASE_URI = "mongodb://" + process.env.DATABASE_PORT_27017_TCP_ADDR + ":27017" + dbPath;
-console.log(chalk.green("Database: ", DATABASE_URI));
 import { REDIS_HOST } from "./helpers/cache";
-console.log(chalk.green("Cache   : ", REDIS_HOST));
+
+if (process.env.NODE_ENV !== "script") {
+  console.log(chalk.green("Database: ", DATABASE_URI));
+  console.log(chalk.green("Cache   : ", REDIS_HOST));
+} else {
+  console.log(chalk.yellow("Not connecting to database or cache in script mode"))
+}
 
 //Connect to database
 export const db = mongoose.connection;
-mongoose.connect(DATABASE_URI, { config: { autoIndex: true }, useNewUrlParser: true })
-.then(async () => {
-  //perform one-time database init here
-})
-.catch((err: any) => {
-  console.error(err);
-  process.exit(1);
-})
+if (process.env.NODE_ENV !== "script") {
+  mongoose.connect(DATABASE_URI, { config: { autoIndex: true }, useNewUrlParser: true })
+  .then(async () => {
+    //perform one-time database init here
+  })
+  .catch((err: any) => {
+    console.error(err);
+    process.exit(1);
+  })
+}
 
 //prepare timezone
 export const TIMEZONE = "America/Chicago";
@@ -175,7 +182,9 @@ passport.deserializeUser(async (serializedUser: any, done: any) => {
 
 //load api routes
 import { routes } from "./routes/index";
-app.use('/api', routes);
+if (process.env.NODE_ENV !== "script") {
+  app.use('/api', routes);
+}
 
 // Handle validation errors
 const validate = require('express-validation');
@@ -252,47 +261,49 @@ app.use(function (req: any, res: any, next: any) {
 })
 
 //open server
-app.listen(process.env.PORT || 3000, () => {
-  console.log(chalk.green.bold("RUNNING on port " + (process.env.PORT || 3000)))
+if (process.env.NODE_ENV !== "script") {
+  app.listen(process.env.PORT || 3000, () => {
+    console.log(chalk.green.bold("RUNNING on port " + (process.env.PORT || 3000)))
 
-  console.log(chalk.gray("==========================================="));
+    console.log(chalk.gray("==========================================="));
 
-  //rewrite log statements to include file and line numbers
-  ['log', 'warn', 'error', 'trace'].forEach((methodName: any) => {
-    const originalMethod: any = (console as any)[methodName];
-    (console as any)[methodName] = (...args: any[]) => {
-      let initiator = 'unknown';
-      try {
-        throw new Error();
-      } catch (e) {
-        if (typeof e.stack === 'string') {
-          let isFirst = true;
-          for (const line of e.stack.split('\n')) {
-            const matches = line.match(/^\s+at\s+(.*)/);
-            if (matches) {
-              if (!isFirst) { // first line - current function
-                              // second line - caller (what we are looking for)
-                initiator = matches[1];
-                initiator = initiator.split('/')[0] + _.join(initiator.split('/').splice(3), '/');
-                break;
+    //rewrite log statements to include file and line numbers
+    ['log', 'warn', 'error', 'trace'].forEach((methodName: any) => {
+      const originalMethod: any = (console as any)[methodName];
+      (console as any)[methodName] = (...args: any[]) => {
+        let initiator = 'unknown';
+        try {
+          throw new Error();
+        } catch (e) {
+          if (typeof e.stack === 'string') {
+            let isFirst = true;
+            for (const line of e.stack.split('\n')) {
+              const matches = line.match(/^\s+at\s+(.*)/);
+              if (matches) {
+                if (!isFirst) { // first line - current function
+                                // second line - caller (what we are looking for)
+                  initiator = matches[1];
+                  initiator = initiator.split('/')[0] + _.join(initiator.split('/').splice(3), '/');
+                  break;
+                }
+                isFirst = false;
               }
-              isFirst = false;
             }
           }
         }
-      }
-      var color = (a: any) => { return a };
-      if (methodName == "warn") color = chalk.yellow;
-      if (methodName == "error") color = chalk.red;
-      for (var i=0; i<args.length; i++) {
-        if (_.isPlainObject(args[i]))
-          args[i] = JSON.stringify(args[i], null, 2)
-        else if (!_.isString(args[i]))
-          args[i] = util.inspect(args[i]);
+        var color = (a: any) => { return a };
+        if (methodName == "warn") color = chalk.yellow;
+        if (methodName == "error") color = chalk.red;
+        for (var i=0; i<args.length; i++) {
+          if (_.isPlainObject(args[i]))
+            args[i] = JSON.stringify(args[i], null, 2)
+          else if (!_.isString(args[i]))
+            args[i] = util.inspect(args[i]);
 
-        args[i] = color(args[i]);
-      }
-      originalMethod.apply(console, [...args, chalk.gray(`at ${initiator}`)]);
-    };
+          args[i] = color(args[i]);
+        }
+        originalMethod.apply(console, [...args, chalk.gray(`at ${initiator}`)]);
+      };
+    });
   });
-});
+}
