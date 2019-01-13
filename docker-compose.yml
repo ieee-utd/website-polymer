@@ -40,3 +40,5 @@ nginx:
 database:
   container_name: ieeeutd_db
   image: mongo:4.0
+  ports:
+    - "27000:27017"
