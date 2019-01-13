@@ -15,6 +15,10 @@ export class BaseElement extends PolymerElement {
     return this.shadowRoot.querySelectorAll(selector)
   }
 
+  _navigateTo(page) {
+    this._fire("change-page", { route: page })
+  }
+
   //get object at path (e.g. object at "data[0].magic")
   _path(object, path) {
     var pathArr = _.toPath(path);

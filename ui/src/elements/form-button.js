@@ -18,6 +18,8 @@ class FormButton extends BaseElement {
           text-transform: none;
           transition: 0.24s background-color, 0.24s box-shadow;
           @apply --shadow-elevation-2dp;
+          padding: 8px 12px;
+          font-size: 16px;
         }
         paper-button:hover,
         paper-button:active,

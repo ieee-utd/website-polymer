@@ -12,20 +12,18 @@ const easyPbkdf2 = new EasyPbkdf2();
 import { Member } from "../models";
 
 export let route = express.Router();
-//list members (non-privileged)
-route.get('/', async (req: any, res: any, next: any) => {
-  let officers = await Member.find();
-  res.send(cleanAll(officers, cleanUser));
-})
+
+//user must be able to access members list
+route.use(userCan("members"));
 
 //list members (admin)
-route.get('/list', userCan("members"), async (req: any, res: any, next: any) => {
-  let officers = await Member.find();
-  res.send(cleanAll(officers, cleanUser));
+route.get('/', async (req: any, res: any, next: any) => {
+  let members = await Member.find();
+  res.send(cleanAll(members, cleanUser));
 })
 
 //create member
-route.post("/", userCan("members"), validate(CreateMemberUserSchema), async(req: any, res: any, next: any) => {
+route.post("/", validate(CreateMemberUserSchema), async(req: any, res: any, next: any) => {
   var salt = easyPbkdf2.generateSalt();
   easyPbkdf2.secureHash(req.body.password, salt, async (err: any, hash: any, originalSalt: any) => {
     if (err) return next(err)
@@ -70,8 +68,23 @@ route.post("/", userCan("members"), validate(CreateMemberUserSchema), async(req:
   });
 });
 
+route.param('userid', async (req: any, res: any, next: any, id: any) => {
+  try {
+    req.member = await Member.findOne({ _id: id });
+    if (!req.member) return next({ status: 404, message: "Member not found" })
+    next();
+  } catch (e) {
+    next(e)
+  }
+})
+
+//get member details
+route.get('/:userid', async (req: any, res: any, next: any) => {
+  res.send(cleanUser(req.member));
+})
+
 //update member
-route.put('/:userid', validate(UpdateMemberUserSchema), userCan("members"), async (req: any, res: any, next: any) => {
+route.put('/:userid', validate(UpdateMemberUserSchema), async (req: any, res: any, next: any) => {
   try {
     await Member.findOneAndUpdate({ _id: req.params.userid }, { $set: req.body });
 

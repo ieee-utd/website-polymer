@@ -21,6 +21,8 @@ import '@polymer/paper-spinner/paper-spinner-lite.js';
 import '@polymer/paper-tabs/paper-tabs.js';
 import '@polymer/paper-toast/paper-toast.js';
 import '@polymer/paper-tooltip/paper-tooltip.js';
+import '@vaadin/vaadin-grid/vaadin-grid.js';
+import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
 
 import 'clipboard-copy-element';
 import '@polymer/iron-a11y-keys/iron-a11y-keys.js';

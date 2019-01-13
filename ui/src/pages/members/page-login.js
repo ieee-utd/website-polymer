@@ -27,7 +27,7 @@ class PageLogin extends BaseElement {
       <form-input label="Email" value="{{login.email}}" type="email" error="{{_loginError}}" placeholder="you@utdallas.edu" disabled$="[[_loading]]"></form-input>
       <form-input label="Password" value="{{login.password}}" type="password" disabled$="[[_loading]]"></form-input>
       <a href="/member/forgot-password" disabled$="[[_loading]]">Forgot password?</a>
-      <form-button on-click="_login" label="Login" loading$="[[_loading]]"></form-button>
+      <form-button on-click="_login" label="Login" loading$="[[_loading]]" large></form-button>
     `;
   }
 

@@ -25,8 +25,8 @@ class PageForgotPassword extends BaseElement {
       <p>Enter your UTD email. If an account matching the email you enter exists, we will send an email to this address with password reset instructions.</p>
 
       <form-input label="Email" type="email" placeholder="you@utdallas.edu"></form-input>
-      <form-button on-click="_forgotPassword" label="Request reset"></form-button>
-      <form-button grey on-click="_cancel" label="Cancel" style="margin-top: 12px"></form-button>
+      <form-button on-click="_forgotPassword" label="Request reset" large></form-button>
+      <form-button grey on-click="_cancel" label="Cancel" style="margin-top: 12px" large></form-button>
     `;
   }
 
