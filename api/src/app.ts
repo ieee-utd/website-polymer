@@ -47,7 +47,7 @@ if (process.env.NODE_ENV !== "script") {
   console.log(chalk.green("Database: ", DATABASE_URI));
   console.log(chalk.green("Cache   : ", REDIS_HOST));
 } else {
-  console.log(chalk.yellow("Not connecting to database or cache in script mode"))
+  console.log(chalk.yellow("Not connecting to database in script mode"))
 }
 
 //Connect to database
