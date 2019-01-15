@@ -35,11 +35,14 @@
     "@polymer/paper-toast": "github:PolymerElements/paper-toast",
     "@polymer/paper-tooltip": "^3.0.0-pre.25",
     "@polymer/polymer": "^3.0.0",
+    "@vaadin/vaadin-checkbox": "^2.2.6",
+    "@vaadin/vaadin-combo-box": "^4.2.2",
     "@vaadin/vaadin-grid": "^5.2.5",
     "@vaadin/vaadin-text-field": "^2.1.5",
     "@webcomponents/webcomponentsjs": "^2.0.0",
     "clipboard-copy-element": "^0.5.0",
     "jquery": "^3.3.1",
+    "lodash": "^4.17.11",
     "moment": "^2.22.2"
   },
   "devDependencies": {

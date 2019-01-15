@@ -18,7 +18,7 @@ route.use(userCan("members"));
 
 //list members (admin)
 route.get('/', async (req: any, res: any, next: any) => {
-  let members = await Member.find();
+  let members = await Member.find().populate('group');
   res.send(cleanAll(members, cleanUser));
 })
 
@@ -70,7 +70,9 @@ route.post("/", validate(CreateMemberUserSchema), async(req: any, res: any, next
 
 route.param('userid', async (req: any, res: any, next: any, id: any) => {
   try {
-    req.member = await Member.findOne({ _id: id });
+    req.member = await Member.findOne({ _id: id })
+    .populate('group');
+
     if (!req.member) return next({ status: 404, message: "Member not found" })
     next();
   } catch (e) {

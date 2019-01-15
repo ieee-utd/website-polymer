@@ -55,6 +55,10 @@ class PageMemberUsers extends BaseElement {
               <template class="header">Last Name</template>
               <template>[[item.lastName]]</template>
             </vaadin-grid-sort-column>
+            <vaadin-grid-sort-column path="group.name" header="Group">
+              <template class="header">Group</template>
+              <template>[[item.group.name]]</template>
+            </vaadin-grid-sort-column>
             <vaadin-grid-sort-column path="memberSince">
               <template class="header">Member Since</template>
               <template>[[item.memberSince]]</template>

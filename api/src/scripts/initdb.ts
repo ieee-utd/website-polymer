@@ -86,7 +86,7 @@ if (process.argv.length < 5) {
   console.log("Missing some command line arguments")
   console.log("node initdb.js [databaseAddress] [adminFirstName] [adminLastName] [adminEmail] [adminUserPassword]")
   console.log();
-  console.log("databaseAddress    Copy from the part after 'Database: ' as returned from Mongo. e.g. 'mongodb://127.x.x.x/trustedworld'")
+  console.log("databaseAddress    Use 'mongodb://localhost:27000/ieeeutd' for most circumstances.")
   process.exit(1);
 }
 

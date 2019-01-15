@@ -166,6 +166,7 @@ class LayoutMemberMain extends BaseElement {
         div.main {
           opacity: 1;
           transition: 0.8s ease-in-out opacity;
+          background-color: var(--paper-grey-100);
         }
         div.main[loading] {
           opacity: 0.6;
@@ -281,6 +282,7 @@ class LayoutMemberMain extends BaseElement {
             <page-member-schedules name="schedules"></page-member-schedules>
             <page-member-account name="account"></page-member-account>
           </iron-pages>
+          <app-copyright></app-copyright>
         </div>
       </app-drawer-layout>
 

@@ -31,6 +31,7 @@ class FormButton extends BaseElement {
           color: var(--paper-grey-700)!important;
           background-color: var(--paper-grey-300)!important;
           pointer-events: none;
+          box-shadow: none;
         }
         paper-button[grey] {
           color: var(--color-primary-blue);

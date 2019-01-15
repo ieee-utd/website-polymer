@@ -21,6 +21,8 @@ import '@polymer/paper-spinner/paper-spinner-lite.js';
 import '@polymer/paper-tabs/paper-tabs.js';
 import '@polymer/paper-toast/paper-toast.js';
 import '@polymer/paper-tooltip/paper-tooltip.js';
+import '@vaadin/vaadin-checkbox/vaadin-checkbox.js';
+import '@vaadin/vaadin-combo-box/vaadin-combo-box.js';
 import '@vaadin/vaadin-grid/vaadin-grid.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
 
@@ -43,6 +45,11 @@ import './elements/page-title.js';
 /* Administration */
 import './elements/form-button.js';
 import './elements/form-input.js';
+import './elements/form-edit-controls.js';
+import './elements/form-group-permissions.js';
+import './elements/form-textarea.js';
+import './elements/app-form.js';
+import './elements/app-copyright.js';
 
 // Gesture events like tap and track generated from touch will not be
 // preventable, allowing for better scrolling performance.

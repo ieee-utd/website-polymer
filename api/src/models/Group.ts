@@ -7,6 +7,7 @@ var schema = new mongoose.Schema({
   permissions: {
     login: { type: Boolean, default: false },
     visible: { type: Boolean, default: false },
+    members: { type: Boolean, default: false },
     editOwnProfile: { type: Boolean, default: false },
     schedules: { type: String, enum: [ null, "own", "section", "all" ], default: null },
     events: { type: String, enum: [ null, "own", "all" ], default: null }, //own allows creating, but not viewing others'

@@ -24,6 +24,9 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         font-weight: 700;
         font-family: var(--font-head);
       }
+      h4 {
+        margin: 0;
+      }
       p {
         font-family: var(--font-main);
       }

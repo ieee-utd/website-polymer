@@ -14,7 +14,7 @@ export let CreateMemberUserSchema = {
     "lastName": Joi.string().trim().min(1),
     "password": Joi.string().min(8).required(),
     "memberSince": Joi.number().integer().min(1900).max(2100),
-    "bioMarkdown": Joi.string(),
+    "bioMarkdown": Joi.string().trim().allow(""),
     "position": Joi.string(),
     "group": Joi.string()
   }).unknown(false)
@@ -24,7 +24,7 @@ export let UpdateMemberUserSchema = {
   body: Joi.object({
     "firstName": Joi.string().trim().min(1),
     "lastName": Joi.string().trim().min(1),
-    "bioMarkdown": Joi.string(),
+    "bioMarkdown": Joi.string().trim().allow(""),
     "position": Joi.string(),
     "memberSince": Joi.number().integer().min(1900).max(2100),
     "group": Joi.string()
