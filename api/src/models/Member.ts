@@ -14,6 +14,7 @@ var schema = new mongoose.Schema({
   //security
   passwordHash: { type: String },
   passwordSalt: { type: String },
+  confirmationToken: { type: String },
   requirePasswordChange: { type: Boolean, value: false },
   group: { type: mongoose.Schema.Types.ObjectId, ref: "Group", required: true },
 

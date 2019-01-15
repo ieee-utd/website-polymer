@@ -36,7 +36,7 @@ class PageMemberUsers extends BaseElement {
       <app-container>
         <div class="padding">
 
-          <form-button label="Add new member" style="display: inline-block; margin-bottom: 16px"></form-button>
+          <form-button label="Add new member" style="display: inline-block; margin-bottom: 16px" on-tap="_createUser"></form-button>
 
           <vaadin-grid items="[[members]]" height-by-rows on-active-item-changed="_activeItemChanged">
             <vaadin-grid-column width="64px" flex-grow=0>
@@ -73,6 +73,10 @@ class PageMemberUsers extends BaseElement {
     return {
       members: { type: Array, value: [ ]}
     }
+  }
+
+  _createUser() {
+    this._navigateTo("/member/user/create");
   }
 
   _activeItemChanged(e) {

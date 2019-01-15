@@ -1,15 +1,17 @@
 import * as express from "express";
-import * as moment from "moment";
 
-const validate = require('express-validation')
+const crypto = require('crypto');
+const validate = require('express-validation');
+// const EasyPbkdf2 = require('easy-pbkdf2');
+// const easyPbkdf2 = new EasyPbkdf2();
+// const randomize = require('randomize');
+const base64url = require('base64url');
 
 import { cleanUser, cleanAll } from "../helpers/clean";
-import { CreateMemberUserSchema, UpdateMemberUserSchema } from "../helpers/schema";
 import { userCan } from "../helpers/verify";
-const EasyPbkdf2 = require('easy-pbkdf2');
-const easyPbkdf2 = new EasyPbkdf2();
-
-import { Member } from "../models";
+import { sendConfirmAccountEmail } from "../helpers/mail";
+import { CreateMemberUserSchema, UpdateMemberUserSchema } from "../helpers/schema";
+import { Member, Group } from "../models";
 
 export let route = express.Router();
 
@@ -24,24 +26,47 @@ route.get('/', async (req: any, res: any, next: any) => {
 
 //create member
 route.post("/", validate(CreateMemberUserSchema), async(req: any, res: any, next: any) => {
-  var salt = easyPbkdf2.generateSalt();
-  easyPbkdf2.secureHash(req.body.password, salt, async (err: any, hash: any, originalSalt: any) => {
-    if (err) return next(err)
+
+  // const generatedPass = randomize('a0', 12);
+  // const password = `${generatedPass.substring(0,5)}-${generatedPass.substring(5,3)}-${generatedPass.substring(8,4)}`;
+  // console.log("Generated password", password);
+  //
+  // var salt = easyPbkdf2.generateSalt();
+  // easyPbkdf2.secureHash(password, salt, async (err: any, hash: any, originalSalt: any) => {
+  //   if (err) return next(err)
+
+  try {
+
+    //check group validity
+    const group: any = await Group.findOne({ _id: req.body.group });
+    if (!group || !group.permissions) {
+      return next({
+        message: "Invalid group",
+        errors: {
+          group: "Invalid group",
+        },
+        status: 400
+      })
+    }
+    const shouldSendConfirmationEmail = group.permissions.login;
+
     let user: any = {
       firstName: req.body.firstName as string,
       lastName: req.body.lastName as string,
       email: req.body.email.toLowerCase().trim(),
-      passwordHash: hash,
-      passwordSalt: originalSalt,
+      // passwordHash: hash,
+      // passwordSalt: originalSalt,
+      confirmationToken: shouldSendConfirmationEmail ? base64url(crypto.randomBytes(16)) : undefined,
       requirePasswordChange: true,
-      permissionLevel: req.body.permissionLevel,
+      group: req.body.group,
 
-      memberSince: req.body.memberSince || moment().year(),
-      bioMarkdown: req.body.bioMarkdown || undefined,
-      position: req.body.position || undefined,
+      memberSince: req.body.memberSince,
+      bioMarkdown: req.body.bioMarkdown,
+      position: req.body.position,
       dateCreated: Date.now()
     };
 
+    //ensure that no duplicate user has registered
     let userCheck = await Member.findOne({ email: user.email });
     if (userCheck) {
       return next({
@@ -53,19 +78,24 @@ route.post("/", validate(CreateMemberUserSchema), async(req: any, res: any, next
       })
     }
 
-    try {
-      let newUser = new Member(user);
-      let savedUser = await newUser.save();
+    let newUser = new Member(user);
+    let savedUser = await newUser.save();
 
-      res.json({
-        "message": "User successfully registered",
-        id: savedUser._id
-      });
-
-    } catch (e) {
-      next(e)
+    if (shouldSendConfirmationEmail) {
+      console.log(user.email)
+      await sendConfirmAccountEmail(user.email, user.confirmationToken, user.firstName, user.lastName);
     }
-  });
+
+    console.log("User registration token", user.confirmationToken)
+
+    res.json({
+      "message": "User successfully registered",
+      id: savedUser._id
+    });
+
+  } catch (e) {
+    next(e)
+  }
 });
 
 route.param('userid', async (req: any, res: any, next: any, id: any) => {
@@ -88,6 +118,8 @@ route.get('/:userid', async (req: any, res: any, next: any) => {
 //update member
 route.put('/:userid', validate(UpdateMemberUserSchema), async (req: any, res: any, next: any) => {
   try {
+
+
     await Member.findOneAndUpdate({ _id: req.params.userid }, { $set: req.body });
 
     res.send({ message: "Successfully updated user" })

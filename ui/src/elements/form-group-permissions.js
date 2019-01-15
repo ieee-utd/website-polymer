@@ -30,18 +30,23 @@ class FormGroupPermissions extends BaseElement {
         }
       </style>
 
+      <app-grid>
+        <app-grid-item width=6>
+          <vaadin-combo-box items="[[allowedPerms.roles]]" label="Role" value="{{role}}" readonly$="[[readonly]]"></vaadin-combo-box>
+        </app-grid-item>
+      </app-grid>
       <div class="permissions">
         <div class="permission">
           <span><b>Login</b>: user can login to the system and change or reset their password</span>
-          <vaadin-checkbox disabled$="[[readonly]]" checked="{{permissions.login}}"></vaadin-checkbox>
+          <vaadin-checkbox readonly$="[[readonly]]" checked="{{permissions.login}}"></vaadin-checkbox>
         </div>
         <div class="permission">
           <span><b>Profile</b>: user can edit own profile</span>
-          <vaadin-checkbox disabled$="[[readonly]]" checked="{{permissions.editOwnProfile}}"></vaadin-checkbox>
+          <vaadin-checkbox readonly$="[[readonly]]" checked="{{permissions.editOwnProfile}}"></vaadin-checkbox>
         </div>
         <div class="permission">
           <span><b>Members</b>: user can see and manage members</span>
-          <vaadin-checkbox disabled$="[[readonly]]" checked="{{permissions.members}}"></vaadin-checkbox>
+          <vaadin-checkbox readonly$="[[readonly]]" checked="{{permissions.members}}"></vaadin-checkbox>
         </div>
         <div class="permission">
           <span><b>Events</b>: user can create and edit events</span>
@@ -57,7 +62,7 @@ class FormGroupPermissions extends BaseElement {
         </div>
         <div class="permission">
           <span><b>Admin</b>: allows user full access to the system and API</span>
-          <vaadin-checkbox disabled$="[[readonly]]" checked="{{permissions.admin}}"></vaadin-checkbox>
+          <vaadin-checkbox readonly$="[[readonly]]" checked="{{permissions.admin}}"></vaadin-checkbox>
         </div>
       </div>
     `;
@@ -67,22 +72,31 @@ class FormGroupPermissions extends BaseElement {
     return {
       readonly: { type: Boolean, value: false },
       permissions: { type: Object, notify: true },
+      role: { type: String, notify: true },
       allowedPerms: { type: Object, value: {
         schedules: [
-          { v: "", l: "No access" },
+          { v: null, l: "No access" },
           { v: "own", l: "Only own schedule" },
           { v: "section", l: "Own section" },
           { v: "all", l: "Full access" }
         ],
         events: [
-          { v: "", l: "No access" },
+          { v: null, l: "No access" },
           { v: "own", l: "Create and edit own" },
           { v: "all", l: "Full access" }
         ],
         announcements: [
-          { v: "", l: "No access" },
+          { v: null, l: "No access" },
           { v: "own", l: "Create and edit own" },
           { v: "all", l: "Full access" }
+        ],
+        roles: [
+          "Member",
+          "Tutor",
+          "Officer",
+          "Leader",
+          "Advisor",
+          "Alumnus"
         ]
       }}
     }

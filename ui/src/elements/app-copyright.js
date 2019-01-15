@@ -16,10 +16,13 @@ class AppCopyright extends BaseElement {
           padding-bottom: 16px;
           font-size: 12px;
         }
+        span.hide {
+          color: var(--paper-grey-100);
+        }
       </style>
 
       <div>
-        <span>Copyright &copy; [[currentYear]] IEEEUTD<br><span style="color: var(--paper-grey-100)">Made with \<3 by your overlords.</span></span>
+        <span>Copyright &copy; [[currentYear]] IEEEUTD<br><span class="hide">Made with \<3 by your IT overlords.</span></span>
       </div>
     `;
   }

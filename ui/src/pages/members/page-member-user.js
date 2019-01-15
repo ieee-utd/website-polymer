@@ -19,28 +19,33 @@ class PageMemberUser extends BaseElement {
           <h4>Member Info</h4>
           <app-form id="formToFocus" disabled$="[[_andNot(editing,_editingBasic)]]">
             <app-grid-item width=6 slot="field">
-              <form-input readonly value="[[member.email]]" label="Email" autofocus></form-input>
+              <form-input readonly$="[[editing]]" value="{{member.email}}" error="{{errors.email}}" label="Email" autofocus required></form-input>
             </app-grid-item>
             <app-grid-item width=6 slot="field"></app-grid-item>
             <app-grid-item width=6 slot="field">
-              <form-input value="{{member.firstName}}" label="First Name" auto-readonly></form-input>
+              <form-input value="{{member.firstName}}" error="{{errors.firstName}}" label="First Name" auto-readonly required></form-input>
             </app-grid-item>
             <app-grid-item width=6 slot="field">
-              <form-input value="{{member.lastName}}" label="Last Name" auto-readonly></form-input>
+              <form-input value="{{member.lastName}}" error="{{errors.lastName}}" label="Last Name" auto-readonly required></form-input>
             </app-grid-item>
             <app-grid-item width=6 slot="field">
-              <form-input value="{{member.position}}" label="Position" auto-readonly></form-input>
+              <form-input value="{{member.position}}" error="{{errors.position}}" label="Position" auto-readonly></form-input>
             </app-grid-item>
             <app-grid-item width=6 slot="field">
-              <form-input value="{{member.memberSince}}" label="Member Since" auto-readonly></form-input>
+              <form-input value="{{member.memberSince}}" error="{{errors.memberSince}}" label="Member Since" auto-readonly required></form-input>
             </app-grid-item>
             <app-grid-item width=12 slot="field">
-              <form-textarea value="{{member.bioMarkdown}}" label="Bio" auto-readonly></form-textarea>
+              <form-textarea value="{{member.bioMarkdown}}" error="{{errors.bioMarkdown}}" label="Bio" auto-readonly></form-textarea>
             </app-grid-item>
           </app-form>
-          <form-edit-controls id="editControlsBasic" object="{{member}}" errors="{{errors}}" fields='["firstName","lastName","position","memberSince","bioMarkdown"]'  editing="{{_editingBasic}}" on-save="_saveData" ></form-edit-controls>
+          <form-edit-controls id="editControlsBasic" object="{{member}}" errors="{{errors}}" fields='["firstName","lastName","position","memberSince","bioMarkdown"]'  editing="{{_editingBasic}}" on-save="_saveData" hidden$="[[!editing]]"></form-edit-controls>
 
-          <h4>Group and Permissions</h4>
+          <div hidden$="[[editing]]">
+            <h4>Password</h4>
+            <p>We will send an email to the user above to activate their account and set their password.</p><br>
+          </div>
+
+          <h4>Group</h4>
           <p>Select this member's group. The member's role and permissions are based on the selected group.</p>
           <app-form disabled$="[[_andNot(editing,_editingGroup)]]">
             <app-grid-item width=6 slot="field">
@@ -48,8 +53,11 @@ class PageMemberUser extends BaseElement {
             </app-grid-item>
             <app-grid-item width=6 slot="field"></app-grid-item>
           </app-form>
-          <form-group-permissions readonly permissions="[[_selectedGroup.permissions]]"></form-group-permissions>
-          <form-edit-controls id="editControlsGroup" object="{{member}}" errors="{{errors}}" fields='["group"]' editing="{{_editingGroup}}" on-save="_saveData"></form-edit-controls>
+          <form-edit-controls id="editControlsGroup" object="{{member}}" errors="{{errors}}" fields='["group"]' editing="{{_editingGroup}}" on-save="_saveData" hidden$="[[!editing]]"></form-edit-controls>
+          <h4>Resulting Permissions</h4>
+          <form-group-permissions readonly permissions="[[_selectedGroup.permissions]]" role="[[_selectedGroup.role]]"></form-group-permissions>
+
+          <form-button label="Create Member" hidden$="[[editing]]" on-tap="_create" id="confirm" style="display: inline-block; min-width: 140px; margin-top: 16px"></form-button>
         </div>
       </app-container>
     `;
@@ -63,23 +71,33 @@ class PageMemberUser extends BaseElement {
       editing: { type: Boolean, value: false },
       _editingBasic: { type: Boolean, value: false },
       _editingGroup: { type: Boolean, value: false },
-      _selectedGroup: { type: Object, observer: "_selectedGroupChanged" }
+      _selectedGroup: { type: Object }
     }
   }
 
-  _selectedGroupChanged(group) {
-    console.log(group)
+  _create() {
+    this.$.confirm.loading = true;
+    this._post(`/members`, this.member)
+    .then((data) => {
+      this._navigateTo(`/member/user/${data.id}`);
+      this.$.confirm.loading = false;
+    })
+    .catch((e) => {
+      this.set("errors", e.errors)
+      this.$.confirm.loading = false;
+    })
   }
 
   _saveData(e) {
+    var element = e.currentTarget;
     var member = e.detail;
     this._put(`/members/${this.member._id}`, member)
     .then((member) => {
       this._showToast("Member info updated")
-      this.$.editControlsBasic.done();
+      element.done();
     })
     .catch(() => {
-      this.$.editControlsBasic.fail();
+      element.fail();
     })
   }
 

@@ -12,6 +12,7 @@ api:
   environment:
     - SESSION_SECRET=aASKF4AFjas52wFSAF
     - CACHE_HOST=cache
+    - MAIL_HOSTNAME=http://dev.ieeeutd.org
   ports:
     - "8000:3000"
   links:
