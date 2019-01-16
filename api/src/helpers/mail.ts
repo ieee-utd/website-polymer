@@ -47,6 +47,16 @@ export function sendConfirmAccountEmail(email: string, token: string, firstName:
   <b>Your IEEEUTD Member account has been created and needs your activation.</b><br><br>
   Please go to <a href="${process.env.MAIL_HOSTNAME}/member/confirm/${token}">${process.env.MAIL_HOSTNAME}/member/confirm/${token}</a> to complete registration.
   `
-  
+
   return sendEmail("IEEEUTD Member Account - ACTION REQUIRED", html, email, "Your IEEEUTD Member account has been created and needs your activation.");
+}
+export function sendResetPasswordEmail(email: string, token: string, firstName: string, lastName: string)
+{
+  var html = `Hello ${firstName} ${lastName},
+  <br><br>
+  <b>You recently requested a password reset.</b><br><br>
+  Please go to <a href="${process.env.MAIL_HOSTNAME}/member/reset-password/${token}">${process.env.MAIL_HOSTNAME}/member/reset-password/${token}</a> to complete registration.
+  `
+
+  return sendEmail("IEEEUTD Member Account - Password Reset", html, email, "Your IEEEUTD Member account has been created and needs your activation.");
 }

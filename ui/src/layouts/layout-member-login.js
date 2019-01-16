@@ -79,6 +79,8 @@ class LayoutMemberLogin extends BaseElement {
             <iron-pages selected="[[_page]]" attr-for-selected="name">
               <page-login name="login"></page-login>
               <page-forgot-password name="forgot-password"></page-forgot-password>
+              <page-reset-password name="reset-password"></page-reset-password>
+              <page-confirm name="confirm"></page-confirm>
             </iron-pages>
           </div>
         </div>
@@ -123,7 +125,7 @@ class LayoutMemberLogin extends BaseElement {
 
       let el = this.$$(`iron-pages [name="${page}"]`);
       if (!el) {
-        return reject();
+        return reject("Page not defined");
       }
 
       var f = () => {
@@ -187,13 +189,18 @@ class LayoutMemberLogin extends BaseElement {
 
   _loadPage(page) {
     return new Promise((resolve, reject) => {
-      console.log("Load page", page)
       switch (page) {
         case 'login':
           import('../pages/members/page-login.js').then(resolve.bind(this, page)).catch(reject);
           break;
         case 'forgot-password':
           import('../pages/members/page-forgot-password.js').then(resolve.bind(this, page)).catch(reject);
+          break;
+        case 'reset-password':
+          import('../pages/members/page-reset-password.js').then(resolve.bind(this, page)).catch(reject);
+          break;
+        case 'confirm':
+          import('../pages/members/page-confirm.js').then(resolve.bind(this, page)).catch(reject);
           break;
       }
     })

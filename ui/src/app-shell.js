@@ -162,7 +162,6 @@ class AppShell extends BaseElement {
   }
 
   _showToast(e) {
-    console.log("Display toast")
     var text = e.detail.text;
     var type = e.detail.type || "";
     var toast = this.$.toast;
@@ -212,6 +211,8 @@ class AppShell extends BaseElement {
         switch(page) {
           case "login":
           case "forgot-password":
+          case "reset-password":
+          case "confirm":
             return this._loadLayout("member-login")
           default:
             return this._loadLayout("member-main")

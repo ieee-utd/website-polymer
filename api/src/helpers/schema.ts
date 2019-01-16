@@ -33,8 +33,13 @@ export let UpdateMemberUserSchema = {
 export let SetInitialPasswordSchema = {
   body: Joi.object({
     "email": Joi.string().lowercase().email().trim().required(),
-    "password": Joi.string().required(),
-    "newPassword": Joi.string().min(8).required()
+    "password": Joi.string().min(8).required()
+  }).unknown(false)
+}
+
+export let RequestPasswordResetSchema = {
+  body: Joi.object({
+    "email": Joi.string().lowercase().email().trim().required()
   }).unknown(false)
 }
 

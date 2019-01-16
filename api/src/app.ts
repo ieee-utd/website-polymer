@@ -147,6 +147,11 @@ passport.use('local', new Strategy( { usernameField: "email", passwordField: "pa
             status: 401,
             message: "Account disabled"
           })
+        } else if (!user.passwordHash || !user.passwordSalt) {
+          return done({
+            status: 401,
+            message: "Please check your email to verify your account",
+          });
         } else if (user.requirePasswordChange) {
           return done({
             status: 401,

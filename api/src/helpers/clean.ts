@@ -41,13 +41,12 @@ export function cleanUser(user: any, cleanExtra?: boolean) {
 
   delete u.passwordHash;
   delete u.passwordSalt;
-  delete u.dateCreated;
 
   if (cleanExtra) {
     delete u.requirePasswordChange;
     delete u.permissionLevel;
     delete u.dateLastLogin;
-    delete u.id;
+    delete u.dateCreated;
   }
 
   return u;
