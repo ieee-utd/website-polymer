@@ -10,6 +10,8 @@ var schema = new mongoose.Schema({
   reservationUrl: { type: String },
   reservationRequired: { type: Boolean, default: false },
   recurrenceRule: { type: String, default: null }
+}, {
+  id: false
 });
 
 schema.statics = {

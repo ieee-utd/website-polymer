@@ -15,6 +15,10 @@ export class BaseElement extends PolymerElement {
     return this.shadowRoot.querySelectorAll(selector)
   }
 
+  _navigateTo(page) {
+    this._fire("change-page", { route: page })
+  }
+
   //get object at path (e.g. object at "data[0].magic")
   _path(object, path) {
     var pathArr = _.toPath(path);
@@ -131,7 +135,6 @@ export class BaseElement extends PolymerElement {
     var contentType = options.contentType || 'application/json; charset=utf-8';
     var responseType = options.responseType || "json";
     var redirectOn401 = typeof options.redirectOn401 !== 'undefined' ? options.redirectOn401 : true;
-    var redirectOn303 = typeof options.redirectOn303 !== 'undefined' ? options.redirectOn303 : true;
     var forceRespondWithText = !!options.forceRespondWithText;
 
     var self = this;
@@ -154,26 +157,13 @@ export class BaseElement extends PolymerElement {
             result = xhr.responseJSON || (xhr.statusText == "OK" ? "An error occured" : "") || (xhr.statusText != "error" ? xhr.statusText : "") || "An error occured";
           }
 
-          if (xhr.status === 501) //NOT IMPLEMENTED
-          {
-            self._showToast("Method not implemented", "error", `${method} ${url} is not yet implemented`);
-            resolve(result);
-            return;
-          } else if (xhr.status === 502 || xhr.status === 504) {
-            reject({ message: "Lost connection to Dynamo - refresh the page and try again", detail: xhr.statusText })
+          if (xhr.status === 502 || xhr.status === 504) {
+            reject({ message: "Lost connection - refresh the page and try again", detail: xhr.statusText })
             return;
           } else if (xhr.status === 401 && redirectOn401) {
             window.localStorage.setItem("loggedOut", 1)
-            window.location = "/login";
+            window.location = "/member/login";
             return;
-          } else if (xhr.status === 303 && redirectOn303) {
-            if (window.location.pathname !== "/updating") {
-              window.location = "/updating";
-              return;
-            } else {
-              reject(result);
-              return;
-            }
           }
 
           if (debug) console.log(xhr.responseJSON, xhr.statusText, textStatus);
@@ -182,6 +172,9 @@ export class BaseElement extends PolymerElement {
           if (detail.length > 0) detail = `Error at ${method} ${url} on ${moment().format("MMMM DD, YYYY HH:MM:SS Z")}: ` + detail;
           if (!showDetail) detail = "";
           if (!silent) self._showToast(message, "error", detail);
+          if (typeof result === "object") {
+            result.status = xhr.status;
+          }
           reject(result);
         }
       };

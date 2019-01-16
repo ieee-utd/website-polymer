@@ -12,7 +12,8 @@ var schema = new mongoose.Schema({
   lastUpdated: { type: Date },
   tags: [{ type: String }]
 }, {
-  collection: "announcements"
+  collection: "announcements",
+  id: false
 });
 
 schema.index({ link: 1 });

@@ -248,8 +248,6 @@ class LayoutMain extends BaseElement {
         </app-toolbar>
       </app-header>
 
-      <paper-progress indeterminate hidden$="[[!_loading]]"></paper-progress>
-
       <div class="main" loading$="[[_loading]]">
         <iron-pages selected="[[_page]]" attr-for-selected="name" role="main">
           <page-home name="home"></page-home>

@@ -7,6 +7,7 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
       :host {
         --color-primary: #C75B12;
         --color-primary-blue: #0072A6;
+        --color-primary-blue-lighter: #007BB3;
         --color-orange-complement: #E88F0C;
         --color-background: var(--paper-grey-900);
         --color-secondary: var(--paper-grey-800);
@@ -23,11 +24,17 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         font-weight: 700;
         font-family: var(--font-head);
       }
+      h4 {
+        margin: 0;
+      }
       p {
         font-family: var(--font-main);
       }
       [hidden] {
         display: none!important;
+      }
+      a {
+        color: var(--color-primary);
       }
 
       /** HEADER IMAGE **/

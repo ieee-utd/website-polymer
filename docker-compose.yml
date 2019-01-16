@@ -12,6 +12,7 @@ api:
   environment:
     - SESSION_SECRET=aASKF4AFjas52wFSAF
     - CACHE_HOST=cache
+    - MAIL_HOSTNAME=http://dev.ieeeutd.org
   ports:
     - "8000:3000"
   links:
@@ -40,3 +41,5 @@ nginx:
 database:
   container_name: ieeeutd_db
   image: mongo:4.0
+  ports:
+    - "27000:27017"

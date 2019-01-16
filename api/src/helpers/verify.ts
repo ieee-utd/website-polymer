@@ -1,5 +1,3 @@
-const assert = require('assert');
-
 export function ensureAuthenticated(req: any, res : any, next : any) {
   userCan("login")(req, res, next);
 }
@@ -15,30 +13,15 @@ export function ensureUnauthenticated (req: any, res: any, next: any) {
   }
 }
 
-//minimum level for actions
-export const USER_ACTIONS: any = {
-  "login": 2,
-  "view": 2,
-  "create": 3,
-  "edit": 3,
-  "approve": 4,
-  "delete": 4,
-  "manageUsers": 5,
-  "admin": 5
-}
-
 export function userCan(action: string) {
-  let minLevel = USER_ACTIONS[action];
-  assert(typeof minLevel !== 'undefined', `Invalid user action ${action}`);
-
   return function(req: any, res: any, next: any) {
-    console.log(req.user)
+    // console.log(req.user)
     if (!req.isAuthenticated || !req.isAuthenticated()) {
       next({
         status: 401,
         message: "Must be logged in"
       });
-    } else if (!req.user.permissionLevel || req.user.permissionLevel < minLevel) {
+    } else if (!req.user.group.permissions || ((!req.user.group.permissions["login"] || !req.user.group.permissions[action]) && !req.user.group.permissions.admin)) {
       next({
         status: 403,
         message: "Not allowed to access this request"

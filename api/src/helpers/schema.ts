@@ -7,35 +7,39 @@ export let LoginSchema = {
   })
 }
 
-export let CreateOfficerUserSchema = {
+export let CreateMemberUserSchema = {
   body: Joi.object({
-    "email": Joi.string().email().trim(),
-    "firstName": Joi.string().trim().min(1),
-    "lastName": Joi.string().trim().min(1),
-    "password": Joi.string().min(8).required(),
-    "memberSince": Joi.number().integer().min(1900).max(2100),
-    "bioMarkdown": Joi.string(),
-    "position": Joi.string(),
-    "permissionLevel": Joi.number().integer().min(1).max(5).required()
+    "email": Joi.string().email().trim().lowercase().required(),
+    "firstName": Joi.string().trim().min(1).required(),
+    "lastName": Joi.string().trim().min(1).required(),
+    "memberSince": Joi.number().integer().min(1900).max(2100).required(),
+    "bioMarkdown": Joi.string().trim().allow(""),
+    "position": Joi.string().allow(""),
+    "group": Joi.string().required()
   }).unknown(false)
 }
 
-export let UpdateOfficerUserSchema = {
+export let UpdateMemberUserSchema = {
   body: Joi.object({
     "firstName": Joi.string().trim().min(1),
     "lastName": Joi.string().trim().min(1),
-    "bioMarkdown": Joi.string(),
-    "position": Joi.string(),
+    "bioMarkdown": Joi.string().trim().allow(""),
+    "position": Joi.string().trim().allow(""),
     "memberSince": Joi.number().integer().min(1900).max(2100),
-    "permissionLevel": Joi.number().integer().min(1).max(5)
+    "group": Joi.string()
   }).unknown(false)
 }
 
 export let SetInitialPasswordSchema = {
   body: Joi.object({
-    "email": Joi.string().email().trim().required(),
-    "password": Joi.string().required(),
-    "newPassword": Joi.string().min(8).required()
+    "email": Joi.string().lowercase().email().trim().required(),
+    "password": Joi.string().min(8).required()
+  }).unknown(false)
+}
+
+export let RequestPasswordResetSchema = {
+  body: Joi.object({
+    "email": Joi.string().lowercase().email().trim().required()
   }).unknown(false)
 }
 
