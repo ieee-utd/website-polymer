@@ -310,11 +310,6 @@ class LayoutMemberMain extends BaseElement {
   static get properties() {
     return {
       user: { type: Object },
-      //   , value: {
-      //   avatar: "https://s3.amazonaws.com/ieee-utd/officer-avatars/pachachura%2Carthur.jpeg",
-      //   firstName: "Arthur",
-      //   lastName: "Pachachura"
-      // }},
 
       _page: { type: String },
       toolbarPosition: String,
@@ -328,11 +323,7 @@ class LayoutMemberMain extends BaseElement {
       _wideLayout: { type: Boolean, value: false },
       _narrowDrawer: { type: Boolean, computed: "_isNarrowDrawer(_page,_wideLayout)" },
       pages: { type: Array, value: [
-        { path: "member/dashboard", page: "dashboard", name: "Dashboard", icon: "mdi:compass-outline" },
-        { path: "member/users", page: "users", name: "Members", icon: "mdi:account-multiple" },
-        { path: "member/events", page: "events", name: "Events", icon: "mdi:calendar-blank" },
-        { path: "member/announcements", page: "announcements", name: "Announcements", icon: "mdi:bullhorn" },
-        { path: "member/schedules", page: "schedules", name: "Tutoring Schedules", icon: "mdi:clock-outline" }
+
       ]}
     };
   }
@@ -411,6 +402,23 @@ class LayoutMemberMain extends BaseElement {
         this._get("/user", { silent: true })
         .then((user) => {
           this.set("user", user)
+
+          var pages = [{ path: "member/dashboard", page: "dashboard", name: "Dashboard", icon: "mdi:compass-outline" }];
+
+          if (user.group.permissions.admin || user.group.permissions.members) {
+            pages.push({ path: "member/users", page: "users", name: "Members", icon: "mdi:account-multiple" })
+          }
+          if (user.group.permissions.admin || user.group.permissions.events) {
+            pages.push({ path: "member/events", page: "events", name: "Events", icon: "mdi:calendar-blank" })
+          }
+          if (user.group.permissions.admin || user.group.permissions.announcements) {
+            pages.push({ path: "member/announcements", page: "announcements", name: "Announcements", icon: "mdi:bullhorn" })
+          }
+          if (user.group.permissions.admin || user.group.permissions.schedules) {
+            pages.push({ path: "member/schedules", page: "schedules", name: "Tutoring Schedules", icon: "mdi:clock-outline" })
+          }
+          this.set("pages", pages)
+
           f();
         })
         .catch((e) => {

@@ -44,7 +44,6 @@ class PageResetPassword extends BaseElement {
   }
 
   _generateConfirmError(a, b) {
-    console.log(a, b)
     if (a && !b) return "Please confirm the password";
     return a && a !== b ? "Passwords do not match" : "";
   }
