@@ -81,7 +81,7 @@ class PageAbout extends PolymerElement {
           </iframe>
         </div>
 
-        <h2>Our team</h2>
+        <h2 id="team">Our team</h2>
         <p>Our officers are dedicated to helping the engineering community grow through our diverse backgrounds and interests!</p>
         <div class="officers-container">
           <div class="officer-item">
@@ -174,8 +174,8 @@ class PageAbout extends PolymerElement {
 
         <!-- <h2>Committees</h2>
         <p>Committees at IEEE UTD allow students to collaborate with peers who share their interests. The smaller sizes of committees allow students to work closely to accomplish engineering-related goals. We are currently accepting <a href="https://goo.gl/forms/F95iMbny5StOXn8i2" target="_blank">applications</a>!</p>
-        <div class="filler">More information will be added soon.</div>
-      </app-container> -->
+        <div class="filler">More information will be added soon.</div> -->
+      </app-container>
     `;
   }
 

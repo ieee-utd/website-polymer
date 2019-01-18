@@ -137,6 +137,11 @@ class AppShell extends BaseElement {
           <paper-icon-button on-tap="_closeToast" icon="mdi:close"></paper-icon-button>
         </div>
       </paper-toast>
+      <paper-toast id="updateToast" duration="0" text="Update available!">
+        <div>
+          <form-button on-tap="_reload">Reload to Update</form-button>
+        </div>
+      </paper-toast>
     `;
   }
 
@@ -161,6 +166,11 @@ class AppShell extends BaseElement {
     this.addEventListener('change-page', this._navigate);
     this.addEventListener('go-back', this._goBack);
     this.addEventListener('show-toast', this._showToast);
+    this.addEventListener('sw-update-ready', this._showUpdateToast);
+  }
+
+  _showUpdateToast() {
+    this.$.updateToast.show();
   }
 
   _showToast(e) {
@@ -187,6 +197,10 @@ class AppShell extends BaseElement {
 
   _closeToast() {
     this.$.toast.hide();
+  }
+
+  _reload() {
+    window.location.reload(true);
   }
 
   _pathChanged(_path) {
