@@ -39,7 +39,7 @@ class PageApply extends BaseElement {
         <h2>Recruiting officers and tutors!</h2>
         <p>We are looking to fill several officer positions for Spring 2019 and later semesters. To join our team, please fill out the <b>officer application below</b>. Check out the <a href="/about#team">Officer List</a> to learn more about our team.</p>
         <p>Intersted in tutoring students in classes such as Digital System, ENA, and Signals and Systems? For those interested, please fill out the <b>tutor application below</b>.</p>
-        <p><i>You can apply for both a tutoring and officer position - some of our officers are tutors as well.</i></p>
+        <p><i>You can apply for both tutoring and officer positions - some of our officers are tutors as well.</i></p>
 
         <form-button label="Officer Application" style="display: inline-block; min-width: 140px" on-tap="_applyForOfficer"></form-button>
         <form-button label="Tutor Application" style="display: inline-block; min-width: 140px" on-tap="_applyForTutor"></form-button>
