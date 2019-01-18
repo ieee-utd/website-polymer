@@ -6,7 +6,8 @@
     "fonts/**/*",
     "fonts.css",
     "node_modules/lodash*/**/*",
-    "node_modules/jquery/dist/jquery.min.js"
+    "node_modules/jquery/dist/jquery.min.js",
+    "sw-registration.js"
   ],
   "extraDependencies": [
     "manifest.json",
