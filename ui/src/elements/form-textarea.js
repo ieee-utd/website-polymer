@@ -20,9 +20,7 @@ class FormTextarea extends BaseElement {
       </style>
 
       <span invalid$="[[invalid]]">
-        <vaadin-text-area id="input" always-float-label label="[[label]][[_requiredStar(required)]]" required$="[[required]]" placeholder="[[placeholder]]" autofocus$="[[autofocus]]" disabled$="[[disabled]]" required$="[[required]]"
-        readonly$="[[readonly]]"
-        max-length="[[maxLength]]" invalid="{{invalid}}" error-message="[[_errorMessage]]" auto-validate rows="[[rows]]" max-rows="[[maxRows]]" value="{{value}}"></vaadin-text-area>
+        <vaadin-text-area id="input" always-float-label label="[[label]][[_requiredStar(required)]]" placeholder="[[placeholder]]" autofocus$="[[autofocus]]" disabled$="[[disabled]]" readonly$="[[readonly]]" max-length="[[maxLength]]" invalid="{{invalid}}" error-message="[[_errorMessage]]" auto-validate rows="[[rows]]" max-rows="[[maxRows]]" value="{{value}}"></vaadin-text-area>
       </span>
     `
   }

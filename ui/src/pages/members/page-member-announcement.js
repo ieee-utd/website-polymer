@@ -20,7 +20,7 @@ class PageMemberAnnouncement extends BaseElement {
       <app-container>
         <div class="padding">
           <h4>Announcement</h4>
-          
+
           <app-form id="formToFocus" disabled$="[[_andNot(editing,_editingFields)]]">
             <app-grid-item width=6 slot="field">
               <form-input value="{{announcement.title}}" error="{{errors.title}}" label="Title" auto-readonly autofocus required></form-input>
@@ -30,27 +30,27 @@ class PageMemberAnnouncement extends BaseElement {
               <form-textarea value="{{announcement.content}}" error="{{errors.content}}" label="Content" auto-readonly required></form-textarea>
             </app-grid-item>
             <app-grid-item width=3 slot="field">
-              <vaadin-date-picker placeholder="Pick a date" value="{{announcement.visibleFromDate}}" error="{{errors.visibleFromDate}}" label="Visible from" auto-readonly></vaadin-date-picker>
+              <vaadin-date-picker placeholder="Pick a date" value="{{announcement.visibleFromDate}}" error-message="{{errors.visibleFrom}}" invalid$="{{errors.visibleFrom}}" label="Visible from" auto-readonly></vaadin-date-picker>
             </app-grid-item>
             <app-grid-item width=3 slot="field">
-              <vaadin-time-picker class="time-picker" placeholder="(hh:mm)" value="{{announcement.visibleFromTime}}" error="{{errors.visibleFromTime}}" auto-readonly></vaadin-time-picker>
+              <vaadin-time-picker class="time-picker" placeholder="hh:mm" value="{{announcement.visibleFromTime}}" invalid$="{{errors.visibleFrom}}" auto-readonly></vaadin-time-picker>
             </app-grid-item>
             <app-grid-item width=6 slot="field"></app-grid-item>
             <app-grid-item width=3 slot="field">
-              <vaadin-date-picker placeholder="Pick a date" value="{{announcement.visibleUntilDate}}" error="{{errors.visibleUntilDate}}" label="Visible until" auto-readonly></vaadin-date-picker>
+              <vaadin-date-picker placeholder="Pick a date" value="{{announcement.visibleUntilDate}}" error-message="{{errors.visibleUntil}}" invalid$="{{errors.visibleUntil}}" label="Visible until" auto-readonly></vaadin-date-picker>
             </app-grid-item>
             <app-grid-item width=3 slot="field">
-              <vaadin-time-picker class="time-picker" placeholder="(hh:mm)" value="{{announcement.visibleUntilTime}}" error="{{errors.visibleUntilTime}}" auto-readonly></vaadin-time-picker>
+              <vaadin-time-picker class="time-picker" placeholder="hh:mm" value="{{announcement.visibleUntilTime}}" invalid$="{{errors.visibleUntil}}" auto-readonly></vaadin-time-picker>
             </app-grid-item>
             <app-grid-item width=6 slot="field"></app-grid-item>
             <app-grid-item width=6 slot="field">
               <form-input value="{{announcement.tags}}" error="{{errors.tags}}" placeholder="Enter your comma-separated tags" label="Tags" auto-readonly></form-input>
             </app-grid-item>
           </app-form>
-          
+
           <form-edit-controls hidden$="[[!editing]]" id="editControls" object="{{announcement}}" errors="{{errors}}" fields='["title","content","visibleFromDate","visibleFromTime","visibleUntilDate", "visibleUntilTime", "tags"]'  editing="{{_editingFields}}" on-save="_saveData" hidden$="[[!editing]]"></form-edit-controls>
-          <form-button label="Delete Announcement" hidden$="[[!editing]]" on-tap="_deleteAnnouncement" id="delete" style="display: inline-block; min-width: 140px; margin-top: 16px;" color="#FF4139"></form-button>
-          
+          <form-button label="Delete Announcement" hidden$="[[!editing]]" on-tap="_deleteAnnouncement" id="delete" style="display: inline-block; min-width: 140px; margin-top: 16px;" red></form-button>
+
           <form-button label="Create Announcement" hidden$="[[editing]]" on-tap="_create" id="confirm" style="display: inline-block; min-width: 140px; margin-top: 16px;"></form-button>
         </div>
       </app-container>
@@ -76,7 +76,12 @@ class PageMemberAnnouncement extends BaseElement {
 
       if (id === "create") {
         this.set("editing", false);
-        this.set("announcement", {});
+        this.set("announcement", {
+          visibleFromDate: this._prettyDate(moment().startOf('hour')),
+          visibleFromTime: this._prettyTime(moment().startOf('hour')),
+          visibleUntilDate: this._prettyDate(moment().add(14, 'days').startOf('hour')),
+          visibleUntilTime: this._prettyTime(moment().add(14, 'days').startOf('hour')),
+        });
         this._finishLoading();
         return resolve({ page: "Create Announcement" });
       }
@@ -119,6 +124,7 @@ class PageMemberAnnouncement extends BaseElement {
     this._post(`/announcements`, _announcement)
     .then((data) => {
       this._navigateTo(`/member/announcement/${data.link}`);
+      this._showToast("Announcement created!")
       this.$.confirm.loading = false;
     })
     .catch((e) => {
@@ -143,7 +149,8 @@ class PageMemberAnnouncement extends BaseElement {
       this._showToast("Announcement updated");
       element.done();
     })
-    .catch(() => {
+    .catch((e) => {
+      this.set("errors", e.errors)
       element.fail();
     });
   }
@@ -165,7 +172,7 @@ class PageMemberAnnouncement extends BaseElement {
   }
 
   _prettyTime(isoString) {
-    return moment(isoString).format('hh:mm');
+    return moment(isoString).format('HH:mm');
   }
 
   _prettyTags(tags) {
@@ -179,7 +186,7 @@ class PageMemberAnnouncement extends BaseElement {
 
   _isoDatetime(prettyDate, prettyTime) {
     if (!moment(prettyDate + ' ' + prettyTime).isValid()) {
-      console.error('invalid datetime');
+      return undefined; //it's OK if the time is invalid, just don't send it
     }
     return moment(prettyDate + ' ' + prettyTime).format();
   }
