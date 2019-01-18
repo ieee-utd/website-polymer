@@ -19,6 +19,11 @@ export class BaseElement extends PolymerElement {
     this._fire("change-page", { route: page })
   }
 
+  _openNewTab(url) {
+    var win = window.open(url, '_blank');
+    win.focus();
+  }
+
   //get object at path (e.g. object at "data[0].magic")
   _path(object, path) {
     var pathArr = _.toPath(path);

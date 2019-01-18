@@ -1,9 +1,10 @@
-import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import { html } from '@polymer/polymer/polymer-element.js';
+import { BaseElement } from '../base-element';
 import '@polymer/iron-image/iron-image';
 import '@polymer/iron-icons/communication-icons.js';
 import '../shared-styles.js';
 
-class PageApply extends PolymerElement {
+class PageApply extends BaseElement {
   static get template() {
     return html`
       <style include="shared-styles">
@@ -50,6 +51,14 @@ class PageApply extends PolymerElement {
     return {
 
     }
+  }
+
+  _applyForOfficer() {
+    this._openNewTab("https://ieeeutd1.typeform.com/to/f5EQRG")
+  }
+
+  _applyForTutor() {
+    this._showToast("Tutor application coming soon")
   }
 }
 
