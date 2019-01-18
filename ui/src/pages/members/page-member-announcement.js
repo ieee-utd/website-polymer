@@ -26,8 +26,9 @@ class PageMemberAnnouncement extends BaseElement {
               <form-input value="{{announcement.title}}" error="{{errors.title}}" label="Title" auto-readonly autofocus required></form-input>
             </app-grid-item>
             <app-grid-item width=6 slot="field"></app-grid-item>
-            <app-grid-item width=12 slot="field">
+            <app-grid-item width=12 slot="field" vertical>
               <form-textarea value="{{announcement.content}}" error="{{errors.content}}" label="Content" auto-readonly required></form-textarea>
+              <span style="font-size: 12px">This field supports most features of <a href="https://s3.amazonaws.com/ieee-utd/resources/markdown-cheatsheet.pdf" target="_blank">Github Flavored Markdown</a>. We do not support @mentions or issue references.</span>
             </app-grid-item>
             <app-grid-item width=3 slot="field">
               <vaadin-date-picker placeholder="Pick a date" value="{{announcement.visibleFromDate}}" error-message="{{errors.visibleFrom}}" invalid$="{{errors.visibleFrom}}" label="Visible from" auto-readonly></vaadin-date-picker>
