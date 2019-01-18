@@ -139,7 +139,7 @@ class AppShell extends BaseElement {
       </paper-toast>
       <paper-toast id="updateToast" duration="0" text="Update available!">
         <div>
-          <form-button on-tap="_reload">Reload to Update</form-button>
+          <form-button on-tap="_reload" label="Reload to Update"></form-button>
         </div>
       </paper-toast>
     `;
@@ -211,7 +211,7 @@ class AppShell extends BaseElement {
     this.set("_path", path)
 
     if (this._swDirty) {
-      this._reload(); 
+      this._reload();
       return;
     }
 
