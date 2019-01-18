@@ -15,6 +15,34 @@ class PageMemberAnnouncement extends BaseElement {
         .time-picker {
           margin-top: 33px;
         }
+        paper-dialog {
+          overflow: hidden;
+          background-color: var(--paper-grey-100);
+          border-radius: 8px;
+          min-width: 280px;
+          max-width: 380px;
+        }
+        p.dialog-content {
+          font-size: 16px;
+        }
+        div.button-container {
+          margin: 42px 16px 16px 16px;
+        }
+        paper-button {
+          color: #fff;
+          font-family: "Rubik";
+          font-size: 16px;
+          font-weight: 600;
+          border-radius: 3px;
+          padding: 8px;
+        }
+        paper-button.confirm {
+          background: #FF4139;
+          margin-right: 32px;
+        }
+        paper-button.cancel {
+          background: #0072A6;
+        }
       </style>
 
       <app-container>
@@ -52,6 +80,15 @@ class PageMemberAnnouncement extends BaseElement {
           <form-button label="Delete Announcement" hidden$="[[!editing]]" on-tap="_deleteAnnouncement" id="delete" style="display: inline-block; min-width: 140px; margin-top: 16px;" red></form-button>
 
           <form-button label="Create Announcement" hidden$="[[editing]]" on-tap="_create" id="confirm" style="display: inline-block; min-width: 140px; margin-top: 16px;"></form-button>
+
+          <paper-dialog id="confirmationDialog" always-on-top>
+            <h2>Confirm Delete</h2>
+            <p class="dialog-content">Are you sure you want to delete this announcement? This cannot be undone.</p>
+            <div class="button-container">
+              <paper-button class="confirm" on-tap="_confirmDelete">Yes</paper-button>
+              <paper-button class="cancel" on-tap="_cancelDelete">No</paper-button>
+            </div>
+          </paper-dialog>
         </div>
       </app-container>
     `;
@@ -156,7 +193,15 @@ class PageMemberAnnouncement extends BaseElement {
   }
 
   _deleteAnnouncement() {
-    console.log(this.announcement.id);
+    this.$.confirmationDialog.open();
+  }
+
+  _cancelDelete() {
+    this.$.confirmationDialog.close();
+  }
+
+  _confirmDelete() {
+    this.$.confirmationDialog.close();
     this._delete(`/announcements/${this.announcement.id}`, undefined)
     .then((data) => {
       this._navigateTo(`/member/announcements`);

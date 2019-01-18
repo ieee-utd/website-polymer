@@ -38,6 +38,7 @@
     "@vaadin/vaadin-checkbox": "^2.2.6",
     "@vaadin/vaadin-combo-box": "^4.2.2",
     "@vaadin/vaadin-date-picker": "^3.3.2",
+    "@vaadin/vaadin-dialog": "^2.2.1",
     "@vaadin/vaadin-grid": "^5.2.5",
     "@vaadin/vaadin-text-field": "^2.1.5",
     "@vaadin/vaadin-time-picker": "^1.1.1",
