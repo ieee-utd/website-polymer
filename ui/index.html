@@ -68,15 +68,6 @@
       */
       window.AppGlobals = { rootPath: '/' };
 
-      // Load and register pre-caching Service Worker
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('service-worker.js', {
-            scope: AppGlobals.rootPath
-          });
-        });
-      }
-
       const API_URL = window.location.origin + "/api";
       const TOAST_INFO_DURATION = 5000;
       const TOAST_ERROR_DURATION = 0;
