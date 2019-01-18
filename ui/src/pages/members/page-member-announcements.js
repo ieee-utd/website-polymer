@@ -16,7 +16,31 @@ class PageMemberAnnouncements extends BaseElement {
 
       <app-container>
         <div class="padding">
-          <h4>Announcements</h4>
+          
+          <form-button label="Create announcement" style="display: inline-block; margin-bottom: 16px" on-tap="_createAnnouncement"></form-button>
+
+          <vaadin-grid items="[[announcements]]" height-by-rows on-active-item-changed="_activeItemChanged">
+            <vaadin-grid-column>
+              <template class="header">Title</template>
+              <template>[[item.title]]</template>
+            </vaadin-grid-column>
+            <vaadin-grid-column>
+              <template class="header">Content</template>
+              <template>[[item.content]]</template>
+            </vaadin-grid-column>
+            <vaadin-grid-column>
+              <template class="header">Visible from</template>
+              <template>[[_prettyDate(item.visibleFrom)]]</template>
+            </vaadin-grid-column>
+            <vaadin-grid-column>
+              <template class="header">Visible until</template>
+              <template>[[_prettyDate(item.visibleUntil)]]</template>
+            </vaadin-grid-column>
+            <vaadin-grid-column>
+              <template class="header">Tags</template>
+              <template>[[item.tags]]</template>
+            </vaadin-grid-column>
+          </vaadin-grid>
         </div>
       </app-container>
     `;
@@ -24,14 +48,39 @@ class PageMemberAnnouncements extends BaseElement {
 
   static get properties() {
     return {
-
+      schedules: { type: Array, value: [] }
     }
   }
 
   onload() {
     return new Promise((resolve, reject) => {
-      resolve({ page: "Announcements" });
-    })
+      this._get("/announcements")
+      .then((announcements) => {
+        this.set("announcements", announcements)
+        resolve({ page: "Announcements" });
+      })
+      .catch((e) => {
+        reject(e);
+      });
+    });
+  }
+
+  _createAnnouncement() {
+    this._navigateTo("/member/announcement/create");
+  }
+
+  _activeItemChanged(e) {
+    var value = e.detail.value;
+    if (!value && this._previouslySelectedItem) {
+      this._navigateTo(`/member/announcement/${value.link}`);
+    } else if (value) {
+      this._previouslySelectedItem = value;
+      this._navigateTo(`/member/announcement/${value.link}`);
+    }
+  }
+
+  _prettyDate(isoDate) {
+    return moment(isoDate).format('D/M/YY H:mma');
   }
 }
 
