@@ -16,7 +16,7 @@ class PageMemberSchedules extends BaseElement {
 
       <app-container>
         <div class="padding">
-          <h4>Schedules</h4>
+          <p><i>Work in progress</i></p>
         </div>
       </app-container>
     `;

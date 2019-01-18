@@ -16,7 +16,7 @@ class PageMemberAccount extends BaseElement {
 
       <app-container>
         <div class="padding">
-          <h4>Your Account</h4>
+          <p><i>Work in progress</i></p>
         </div>
       </app-container>
     `;

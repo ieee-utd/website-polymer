@@ -16,7 +16,7 @@ class PageMemberEvents extends BaseElement {
 
       <app-container>
         <div class="padding">
-          <h4>Events</h4>
+          <p><i>Work in progress</i></p>
         </div>
       </app-container>
     `;
