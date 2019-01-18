@@ -151,6 +151,7 @@ class AppShell extends BaseElement {
       _loading: { type: Boolean, value: true },
       _scrollTo: { type: Number, value: 0 },
       _path: { type: Array },
+      _swDirty: { type: Boolean, value: false },
       // _errorDetails: { type: String, value: "" }
     };
   }
@@ -166,10 +167,12 @@ class AppShell extends BaseElement {
     this.addEventListener('change-page', this._navigate);
     this.addEventListener('go-back', this._goBack);
     this.addEventListener('show-toast', this._showToast);
-    this.addEventListener('sw-update-ready', this._showUpdateToast);
+    document.addEventListener('sw-update-ready', () => { this._showUpdateToast() });
   }
 
   _showUpdateToast() {
+    console.log("[sw] Update ready")
+    this.set("_swDirty", true)
     this.$.updateToast.show();
   }
 
@@ -206,6 +209,11 @@ class AppShell extends BaseElement {
   _pathChanged(_path) {
     let path = _path.split("/").slice(1);
     this.set("_path", path)
+
+    if (this._swDirty) {
+      this._reload(); 
+      return;
+    }
 
     let layout = path[0];
     console.log("Navigating to", _path)
