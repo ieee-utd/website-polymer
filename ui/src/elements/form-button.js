@@ -37,6 +37,10 @@ class FormButton extends BaseElement {
           color: var(--color-primary-blue);
           background-color: var(--paper-grey-200);
         }
+        paper-button[red] {
+          color: white;
+          background-color: var(--paper-red-600);
+        }
         paper-spinner-lite {
           display: block;
           --paper-spinner-color: var(--paper-grey-700);
@@ -53,7 +57,7 @@ class FormButton extends BaseElement {
         }
       </style>
 
-      <paper-button disabled$="[[_or(disabled,loading)]]" grey$="[[grey]]">
+      <paper-button disabled$="[[_or(disabled,loading)]]" grey$="[[grey]]" red$="[[red]]">
         <div>
           <span hidden$="[[loading]]">[[label]]</span>
           <paper-spinner-lite active hidden$="[[!loading]]"></paper-spinner-lite>
@@ -67,7 +71,8 @@ class FormButton extends BaseElement {
       label: String,
       disabled: { type: Boolean, value: false },
       loading: { type: Boolean, value: false },
-      grey: { type: Boolean, value: false }
+      grey: { type: Boolean, value: false },
+      red: { type: Boolean, value: false }
     }
   }
 }

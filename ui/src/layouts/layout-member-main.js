@@ -279,6 +279,7 @@ class LayoutMemberMain extends BaseElement {
             <page-member-user name="user"></page-member-user>
             <page-member-events name="events"></page-member-events>
             <page-member-announcements name="announcements"></page-member-announcements>
+            <page-member-announcement name="announcement"></page-member-announcement>
             <page-member-schedules name="schedules"></page-member-schedules>
             <page-member-account name="account"></page-member-account>
           </iron-pages>
@@ -485,6 +486,9 @@ class LayoutMemberMain extends BaseElement {
           break;
         case 'announcements':
           import('../pages/members/page-member-announcements.js').then(resolve.bind(this, page)).catch(reject);
+          break;
+        case 'announcement':
+          import('../pages/members/page-member-announcement.js').then(resolve.bind(this, page)).catch(reject);
           break;
         case 'schedules':
           import('../pages/members/page-member-schedules.js').then(resolve.bind(this, page)).catch(reject);

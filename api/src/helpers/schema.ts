@@ -53,20 +53,20 @@ export let ChangePasswordSchema = {
 export let CreateAnnouncementSchema = {
   body: Joi.object({
     "title": Joi.string().required().min(1).max(64),
-    "content": Joi.string(),
+    "content": Joi.string().trim().min(1).required(),
     "visibleUntil": Joi.date().required(),
     "visibleFrom": Joi.date().required(),
-    "tags": Joi.array().items(Joi.string().min(1)).required()
+    "tags": Joi.array().items(Joi.string().min(1).lowercase()).required()
   }).unknown(false)
 }
 
 export let UpdateAnnouncementSchema = {
   body: Joi.object({
     "title": Joi.string().min(1).max(64),
-    "content": Joi.string(),
+    "content": Joi.string().trim().min(1),
     "visibleUntil": Joi.date(),
     "visibleFrom": Joi.date(),
-    "tags": Joi.array().items(Joi.string().min(1))
+    "tags": Joi.array().items(Joi.string().min(1).lowercase())
   }).unknown(false)
 }
 
