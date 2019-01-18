@@ -21,7 +21,7 @@ class PageMemberAnnouncement extends BaseElement {
         <div class="padding">
           <app-form id="formToFocus" disabled$="[[_andNot(editing,_editingFields)]]">
             <app-grid-item width=6 slot="field" hidden$="[[!editing]]" vertical>
-              <form-input value="ieeeutd.org/a/[[announcement.link]]" label="Permalink" readonly></form-input>
+              <form-input value="[[_getPermalink(announcement.link)]]" label="Permalink" readonly></form-input>
               <a href="/a/[[announcement.link]]" target="_blank">View published announcement</a>
             </app-grid-item>
             <app-grid-item width=6 slot="field" hidden$="[[!editing]]" vertical></app-grid-item>
@@ -69,6 +69,10 @@ class PageMemberAnnouncement extends BaseElement {
       editing: { type: Boolean, value: false },
       _editingFields: { type: Boolean, value: false },
     }
+  }
+
+  _getPermalink(link) {
+    return window.location.hostname + "/a/" + link;
   }
 
   onload(path) {
