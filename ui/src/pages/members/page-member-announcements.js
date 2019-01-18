@@ -80,7 +80,7 @@ class PageMemberAnnouncements extends BaseElement {
   }
 
   _prettyDate(isoDate) {
-    return moment(isoDate).format('D/M/YY H:mma');
+    return moment(isoDate).format('MMM D, YYYY hh:mma');
   }
 }
 
