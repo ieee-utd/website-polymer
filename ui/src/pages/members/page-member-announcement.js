@@ -1,5 +1,6 @@
-import { html } from '@polymer/polymer/polymer-element.js';
+import { html, PolymerElement } from '@polymer/polymer/polymer-element.js';
 import { BaseElement } from '../../base-element.js';
+import '../../elements/confirmation-dialog.js';
 import '../../shared-styles.js';
 
 class PageMemberAnnouncement extends BaseElement {
@@ -14,34 +15,6 @@ class PageMemberAnnouncement extends BaseElement {
         }
         .time-picker {
           margin-top: 33px;
-        }
-        paper-dialog {
-          overflow: hidden;
-          background-color: var(--paper-grey-100);
-          border-radius: 8px;
-          min-width: 280px;
-          max-width: 380px;
-        }
-        p.dialog-content {
-          font-size: 16px;
-        }
-        div.button-container {
-          margin: 42px 16px 16px 16px;
-        }
-        paper-button {
-          color: #fff;
-          font-family: "Rubik";
-          font-size: 16px;
-          font-weight: 600;
-          border-radius: 3px;
-          padding: 8px;
-        }
-        paper-button.confirm {
-          background: #FF4139;
-          margin-right: 32px;
-        }
-        paper-button.cancel {
-          background: #0072A6;
         }
       </style>
 
@@ -81,14 +54,24 @@ class PageMemberAnnouncement extends BaseElement {
 
           <form-button label="Create Announcement" hidden$="[[editing]]" on-tap="_create" id="confirm" style="display: inline-block; min-width: 140px; margin-top: 16px;"></form-button>
 
-          <paper-dialog id="confirmationDialog" always-on-top>
+          <confirmation-dialog id="dialog" tabindex="-1" with-backdrop style="max-width: 320px;">
+            <h2 style='font-family: "Rubik";'>Confirm Delete</h2>
+            <p>Are you sure you want to delete this announcement? This cannot be undone.</p>
+            <div>
+              <paper-button class="confirm" on-tap="_confirmDelete" style="color: #FF4139;">Yes</paper-button>
+              <paper-button class="cancel" on-tap="_cancelDelete">No</paper-button>
+            </div>
+          </confirmation-dialog>
+          
+          <!-- <paper-dialog id="confirmationDialog" always-on-top with-backdrop>
             <h2>Confirm Delete</h2>
-            <p class="dialog-content">Are you sure you want to delete this announcement? This cannot be undone.</p>
-            <div class="button-container">
+            <p>Are you sure you want to delete this announcement? This cannot be undone.</p>
+            <div style="">
               <paper-button class="confirm" on-tap="_confirmDelete">Yes</paper-button>
               <paper-button class="cancel" on-tap="_cancelDelete">No</paper-button>
             </div>
-          </paper-dialog>
+          </paper-dialog> -->
+
         </div>
       </app-container>
     `;
@@ -193,15 +176,15 @@ class PageMemberAnnouncement extends BaseElement {
   }
 
   _deleteAnnouncement() {
-    this.$.confirmationDialog.open();
+    this.$.dialog.openDialog();
   }
 
   _cancelDelete() {
-    this.$.confirmationDialog.close();
+    this.$.dialog.closeDialog();
   }
 
   _confirmDelete() {
-    this.$.confirmationDialog.close();
+    this.$.dialog.closeDialog();
     this._delete(`/announcements/${this.announcement.id}`, undefined)
     .then((data) => {
       this._navigateTo(`/member/announcements`);
