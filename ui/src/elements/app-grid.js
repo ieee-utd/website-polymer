@@ -33,6 +33,11 @@ class AppGrid extends PolymerElement {
           @apply --layout-justified;
           @apply --grid-item;
         }
+        ::slotted(app-grid-item[vertical]) {
+          @apply --layout-start-justified;
+          @apply --layout-vertical;
+          @apply --layout-start;
+        }
         @media (min-width: 779px) {
           ::slotted(app-grid-item[width="1"]) {
             width: 8.3333333%;
@@ -69,11 +74,6 @@ class AppGrid extends PolymerElement {
           }
           ::slotted(app-grid-item[width="12"]) {
             width: 100%;
-          }
-          ::slotted(app-grid-item[vertical]) {
-            @apply --layout-start-justified;
-            @apply --layout-vertical;
-            @apply --layout-start;
           }
           ::slotted(app-grid-item[left]) {
             @apply --layout-horizontal;
