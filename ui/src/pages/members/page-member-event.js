@@ -79,31 +79,31 @@ class PageMemberEvent extends BaseElement {
               <vaadin-time-picker placeholder="hh:mm" value="{{event.untilTime}}" invalid$="{{errors.untilTime}}" label="Repeat until time" auto-readonly></vaadin-time-picker>
             </app-grid-item>
             <app-grid-item width=3 slot="field" hidden$="[[!event.repeat]]"></app-grid-item>
-            <app-grid-item style="border-bottom: 0;" width=12 slot="field" hidden$="[[!event.repeat]]">
+            <app-grid-item style="border-bottom: 0;" width=12 slot="field" hidden$="[[_notWeekly(event.frequency,event.repeat)]]">
               <span style="font-size: 14px; color: #576372;">Repeat on</span>
             </app-grid-item>
-            <app-grid-item style="border-top: 0;" width=1 slot="field" hidden$="[[!event.repeat]]">
+            <app-grid-item style="border-top: 0;" width=1 slot="field" hidden$="[[_notWeekly(event.frequency,event.repeat)]]">
               <vaadin-checkbox checked="{{event.byMO}}" error-message="{{errors.byDay}}" invalid$="{{errors.byDay}}" auto-disable>MO</vaadin-checkbox>
             </app-grid-item>
-            <app-grid-item style="border-top: 0;" width=1 slot="field" hidden$="[[!event.repeat]]">
+            <app-grid-item style="border-top: 0;" width=1 slot="field" hidden$="[[_notWeekly(event.frequency,event.repeat)]]">
               <vaadin-checkbox checked="{{event.byTU}}" auto-disable>TU</vaadin-checkbox>
             </app-grid-item>
-            <app-grid-item style="border-top: 0;" width=1 slot="field" hidden$="[[!event.repeat]]">
+            <app-grid-item style="border-top: 0;" width=1 slot="field" hidden$="[[_notWeekly(event.frequency,event.repeat)]]">
               <vaadin-checkbox checked="{{event.byWE}}" auto-disable>WE</vaadin-checkbox>
             </app-grid-item>
-            <app-grid-item style="border-top: 0;" width=1 slot="field" hidden$="[[!event.repeat]]">
+            <app-grid-item style="border-top: 0;" width=1 slot="field" hidden$="[[_notWeekly(event.frequency,event.repeat)]]">
               <vaadin-checkbox checked="{{event.byTH}}" auto-disable>TH</vaadin-checkbox>
             </app-grid-item>
-            <app-grid-item style="border-top: 0;" width=1 slot="field" hidden$="[[!event.repeat]]">
+            <app-grid-item style="border-top: 0;" width=1 slot="field" hidden$="[[_notWeekly(event.frequency,event.repeat)]]">
               <vaadin-checkbox checked="{{event.byFR}}" auto-disable>FR</vaadin-checkbox>
             </app-grid-item>
-            <app-grid-item style="border-top: 0;" width=1 slot="field" hidden$="[[!event.repeat]]">
+            <app-grid-item style="border-top: 0;" width=1 slot="field" hidden$="[[_notWeekly(event.frequency,event.repeat)]]">
               <vaadin-checkbox checked="{{event.bySA}}" auto-disable>SA</vaadin-checkbox>
             </app-grid-item>
-            <app-grid-item style="border-top: 0;" width=1 slot="field" hidden$="[[!event.repeat]]">
+            <app-grid-item style="border-top: 0;" width=1 slot="field" hidden$="[[_notWeekly(event.frequency,event.repeat)]]">
               <vaadin-checkbox checked="{{event.bySU}}" auto-disable>SU</vaadin-checkbox>
             </app-grid-item>
-            <app-grid-item width=5 slot="field" hidden$="[[!event.repeat]]"></app-grid-item>
+            <app-grid-item width=5 slot="field" hidden$="[[_notWeekly(event.frequency,event.repeat)]]"></app-grid-item>
             <app-grid-item style="border-top: 16px solid rgba(255, 255, 255, 0);" width=6 slot="field">
               <vaadin-checkbox checked="{{event.reservationRequired}}" auto-disable>Reservation required</vaadin-checkbox>
             </app-grid-item>
@@ -284,6 +284,10 @@ class PageMemberEvent extends BaseElement {
       this.set("errors", e.errors)
       element.fail();
     });
+  }
+
+  _notWeekly(freq, repeat) {
+    return (freq !== "Weekly" || !repeat);
   }
 
   _getUntilDate(rules) {
