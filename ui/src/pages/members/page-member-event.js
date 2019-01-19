@@ -34,7 +34,7 @@ class PageMemberEvent extends BaseElement {
               <form-input value="{{event.locationName}}" error="{{errors.title}}" label="Location" auto-readonly required></form-input>
             </app-grid-item>
             <app-grid-item width=6 slot="field">
-              <form-input value="{{event.locationUrl}}" error="{{errors.title}}" label="Location Link" auto-readonly required></form-input>
+              <form-input value="{{event.locationUrl}}" error="{{errors.locationUrl}}" label="Location Url" auto-readonly></form-input>
             </app-grid-item>
             <app-grid-item width=3 slot="field">
               <vaadin-date-picker placeholder="Pick a date" value="{{event.startDate}}" error-message="{{errors.startDate}}" invalid$="{{errors.startDate}}" label="Start date" auto-readonly></vaadin-date-picker>
@@ -51,7 +51,7 @@ class PageMemberEvent extends BaseElement {
             </app-grid-item>
             <app-grid-item width=6 slot="field"></app-grid-item>
             <app-grid-item width=6 slot="field">
-              <vaadin-checkbox id="checkbox" checked="{{event.reservationRequired}}">Reservation required</vaadin-checkbox>
+              <vaadin-checkbox id="checkbox" checked="{{event.reservationRequired}}" auto-disable>Reservation required</vaadin-checkbox>
             </app-grid-item>
             <app-grid-item width=6 slot="field"></app-grid-item>
             <app-grid-item width=6 slot="field">
@@ -59,7 +59,7 @@ class PageMemberEvent extends BaseElement {
             </app-grid-item>
           </app-form>
 
-          <form-edit-controls hidden$="[[!editing]]" id="editControls" object="{{event}}" errors="{{errors}}" fields='["title","content","visibleFromDate","visibleFromTime","visibleUntilDate", "visibleUntilTime", "tags"]'  editing="{{_editingFields}}" on-save="_saveData" hidden$="[[!editing]]"></form-edit-controls>
+          <form-edit-controls hidden$="[[!editing]]" id="editControls" object="{{event}}" errors="{{errors}}" fields='["title","locationUrl","content","visibleFromDate","visibleFromTime","visibleUntilDate", "visibleUntilTime", "tags", "reservationRequired"]'  editing="{{_editingFields}}" on-save="_saveData" hidden$="[[!editing]]"></form-edit-controls>
 
           <form-button label="Delete Event" hidden$="[[!editing]]" on-tap="_deleteEvent" id="delete" style="display: inline-block; min-width: 140px; margin-top: 16px;" red></form-button>
 
@@ -146,11 +146,11 @@ class PageMemberEvent extends BaseElement {
   }
 
   _create() {
-    
+
   }
 
   _saveData(e) {
-    
+
   }
 
   _prettyDate(isoString) {
@@ -185,7 +185,7 @@ class PageMemberEvent extends BaseElement {
     }
     return tags;
   }
-    
+
 }
 
 window.customElements.define('page-member-event', PageMemberEvent);
