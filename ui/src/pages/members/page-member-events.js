@@ -30,11 +30,11 @@ class PageMemberEvents extends BaseElement {
             </vaadin-grid-column>
             <vaadin-grid-column>
               <template class="header">Start time</template>
-              <template>[[item.startTime]]</template>
+              <template>[[_prettyDate(item.startTime)]]</template>
             </vaadin-grid-column>
             <vaadin-grid-column>
               <template class="header">End time</template>
-              <template>[[item.endTime]]</template>
+              <template>[[_prettyDate(item.endTime)]]</template>
             </vaadin-grid-column>
             <vaadin-grid-column>
               <template class="header">Tags</template>
@@ -61,7 +61,6 @@ class PageMemberEvents extends BaseElement {
     return new Promise((resolve, reject) => {
       this._get("/events/editable")
       .then((events) => {
-        console.log(events);
         this.set("events", events)
         resolve({ page: "Events" });
       })
@@ -83,6 +82,10 @@ class PageMemberEvents extends BaseElement {
       this._previouslySelectedItem = value;
       this._navigateTo(`/member/event/${value.link}`);
     }
+  }
+
+  _prettyDate(isoDate) {
+    return moment(isoDate).format('MMM D, YYYY hh:mma');
   }
 }
 

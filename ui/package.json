@@ -40,6 +40,7 @@
     "@vaadin/vaadin-date-picker": "^3.3.2",
     "@vaadin/vaadin-dialog": "^2.2.1",
     "@vaadin/vaadin-grid": "^5.2.5",
+    "@vaadin/vaadin-select": "^2.0.2",
     "@vaadin/vaadin-text-field": "^2.1.5",
     "@vaadin/vaadin-time-picker": "^1.1.1",
     "@webcomponents/webcomponentsjs": "^2.0.0",
