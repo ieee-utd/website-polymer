@@ -302,6 +302,9 @@ route.put('/:link', userCan("events"), validate(UpdateEventSchema), async (req: 
       req.body.recurrenceExceptions = [ ];
 
       await Event.findOneAndUpdate({ _id: req.event._id }, { $set: req.body })
+
+      //hide all occurances of event - keep in case a user bookmarked the link
+      await EventRecurrence.remove({ event: req.event._id })
     }
 
     res.send({ message: "Event updated" })

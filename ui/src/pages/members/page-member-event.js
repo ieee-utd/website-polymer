@@ -253,7 +253,13 @@ class PageMemberEvent extends BaseElement {
     };
 
     if (event.repeat) {
-      _event.recurrenceRule = this._createRRule(event.frequency, event.untilDate, event.untilTime, { mo:event.byMO, tu:event.byTU, we:event.byWE, th:event.byTH, fr:event.byFR, sa:event.bySA, su:event.bySU });
+      try {
+        _event.recurrenceRule = this._createRRule(event.frequency, event.untilDate, event.untilTime, { mo:event.byMO, tu:event.byTU, we:event.byWE, th:event.byTH, fr:event.byFR, sa:event.bySA, su:event.bySU });
+      } catch (e) {
+        this._showToastError("Please check all event recurrence fields. Some fields may be invalid.")
+        element.fail();
+        return;
+      }
     } else {
       this.event.frequency = "";
       this.event.untilDate = "";
@@ -265,6 +271,8 @@ class PageMemberEvent extends BaseElement {
       this.event.byFR = false;
       this.event.bySA = false;
       this.event.bySU = false;
+
+      _event.recurrenceRule = null;
     }
 
     this._put(`/events/${this.event.id}`, _event)
