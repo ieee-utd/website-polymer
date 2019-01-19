@@ -12,7 +12,7 @@ import { TIMEZONE } from "../app";
 const validate = require('express-validation');
 const crypto = require('crypto');
 const base64url = require('base64url');
-import { RRule, RRuleSet } from 'rrule';
+import { RRule, RRuleSet, rrulestr } from 'rrule';
 
 const PAGINATION_DAYS = 30;
 const MAX_GENERATED_RECURRENCES = 60;
@@ -158,6 +158,42 @@ route.get('/', async (req: any, res: any, next: any) => {
   }
 });
 
+//Get list of events this user can edit
+route.get('/editable', userCan("events"), async (req: any, res: any, next: any) => {
+  try {
+    const auth = req.user.group.permissions.admin ? "all" : req.user.group.permissions.events;
+
+    var query;
+    if (auth === "own") {
+      query = { createdBy: req.user._id };
+    } else if (auth === "all") {
+      query = { };
+    } else {
+      return next({ status: 500, message: "Invalid value for user events access"});
+    }
+
+    var events = await Event
+    .aggregate()
+    .match(query)
+    .project({
+      content: 0,
+      __v: 0,
+      _id: 0
+    })
+    .sort({ startDate: 1 });
+
+    events = _.map(events, (event: any) => {
+      if (!event.recurrenceRule) return event;
+      event.recurrenceRulePretty = rrulestr(event.recurrenceRule).toText();
+      return event;
+    })
+
+    res.send(cleanAll(events, cleanAnnouncement));
+  } catch (e) {
+    next(e)
+  }
+})
+
 //Get full details about a specific event
 route.get('/:link', async (req: any, res: any, next: any) => {
   try {
@@ -187,7 +223,7 @@ route.get('/:link', async (req: any, res: any, next: any) => {
 });
 
 //Create new event
-route.post('/', userCan("create"), validate(CreateEventSchema), async (req: any, res: any, next: any) => {
+route.post('/', userCan("events"), validate(CreateEventSchema), async (req: any, res: any, next: any) => {
   try {
     let event = req.body;
     event.link = base64url(crypto.randomBytes(4));
@@ -227,7 +263,8 @@ route.post('/', userCan("create"), validate(CreateEventSchema), async (req: any,
 });
 
 //Update event
-route.put('/:link', userCan("edit"), validate(UpdateEventSchema), async (req: any, res: any, next: any) => {
+//TODO harden access
+route.put('/:link', userCan("events"), validate(UpdateEventSchema), async (req: any, res: any, next: any) => {
   try {
     req.body.lastUpdated = Date.now();
     req.body.updatedBy = req.user._id;
@@ -268,7 +305,8 @@ route.put('/:link', userCan("edit"), validate(UpdateEventSchema), async (req: an
 });
 
 //Delete event
-route.delete('/:link', userCan("delete"), async (req: any, res: any, next: any) => {
+//TODO harden access
+route.delete('/:link', userCan("events"), async (req: any, res: any, next: any) => {
   try {
     //remove all occurances of event
     await EventRecurrence.remove({ event: req.event._id })

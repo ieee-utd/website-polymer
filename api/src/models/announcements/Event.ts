@@ -9,7 +9,7 @@ var schema = new mongoose.Schema({
   locationUrl: { type: String },
   reservationUrl: { type: String },
   reservationRequired: { type: Boolean, default: false },
-  recurrenceRule: { type: String, default: null }
+  recurrenceRule: { type: String, default: null },
 }, {
   id: false
 });

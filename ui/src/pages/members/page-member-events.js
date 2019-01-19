@@ -29,10 +29,6 @@ class PageMemberEvents extends BaseElement {
               <template>[[item.locationName]]</template>
             </vaadin-grid-column>
             <vaadin-grid-column>
-              <template class="header">Location URL</template>
-              <template>[[item.locationUrl]]</template>
-            </vaadin-grid-column>
-            <vaadin-grid-column>
               <template class="header">Start time</template>
               <template>[[item.startTime]]</template>
             </vaadin-grid-column>
@@ -41,16 +37,12 @@ class PageMemberEvents extends BaseElement {
               <template>[[item.endTime]]</template>
             </vaadin-grid-column>
             <vaadin-grid-column>
-              <template class="header">Recurrence</template>
-              <template>[[item.recurrenceRule]]</template>
-            </vaadin-grid-column>
-            <vaadin-grid-column>
-              <template class="header">Reservation URL</template>
-              <template>[[item.reservationUrl]]</template>
-            </vaadin-grid-column>
-            <vaadin-grid-column>
               <template class="header">Tags</template>
               <template>[[item.tags]]</template>
+            </vaadin-grid-column>
+            <vaadin-grid-column>
+              <template class="header">Recurrence</template>
+              <template>[[item.recurrenceRulePretty]]</template>
             </vaadin-grid-column>
           </vaadin-grid>
 
@@ -67,9 +59,10 @@ class PageMemberEvents extends BaseElement {
 
   onload() {
     return new Promise((resolve, reject) => {
-      this._get("/events")
+      this._get("/events/editable")
       .then((events) => {
         console.log(events);
+        this.set("events", events)
         resolve({ page: "Events" });
       })
       .catch((e) => {
