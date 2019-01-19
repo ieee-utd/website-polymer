@@ -133,7 +133,7 @@ class PageMemberAnnouncement extends BaseElement {
   }
 
   _create() {
-    // this.$.confirm.loading = true;
+    this.$.confirm.loading = true;
     const _announcement = {
       title: this.announcement.title,
       content: this.announcement.content,

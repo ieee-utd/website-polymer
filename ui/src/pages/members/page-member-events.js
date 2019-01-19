@@ -69,13 +69,27 @@ class PageMemberEvents extends BaseElement {
     return new Promise((resolve, reject) => {
       this._get("/events")
       .then((events) => {
-        this.set("events", events.dates[0].events);
-        resolve({ page: "Announcements" });
+        console.log(events);
+        resolve({ page: "Events" });
       })
       .catch((e) => {
         reject(e);
       });
     });
+  }
+
+  _createEvent() {
+    this._navigateTo("/member/event/create");
+  }
+
+  _activeItemChanged(e) {
+    var value = e.detail.value;
+    if (!value && this._previouslySelectedItem) {
+      this._navigateTo(`/member/event/${value.link}`);
+    } else if (value) {
+      this._previouslySelectedItem = value;
+      this._navigateTo(`/member/event/${value.link}`);
+    }
   }
 }
 
