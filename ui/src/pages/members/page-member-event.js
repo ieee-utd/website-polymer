@@ -256,7 +256,18 @@ class PageMemberEvent extends BaseElement {
 
     if (event.repeat) {
       _event.recurrenceRule = this._createRRule(event.frequency, event.untilDate, event.untilTime, { mo:event.byMO, tu:event.byTU, we:event.byWE, th:event.byTH, fr:event.byFR, sa:event.bySA, su:event.bySU });
-    } 
+    } else {
+      this.event.frequency = "";
+      this.event.untilDate = "";
+      this.event.untilTime = "";
+      this.event.byMO = false;
+      this.event.byTU = false;
+      this.event.byWE = false;
+      this.event.byTH = false;
+      this.event.byFR = false;
+      this.event.bySA = false;
+      this.event.bySU = false;
+    }
 
     this._put(`/events/${this.event.id}`, _event)
     .then((event) => {
