@@ -38,15 +38,15 @@ class FormGroupPermissions extends BaseElement {
       <div class="permissions">
         <div class="permission">
           <span><b>Login</b>: user can login to the system and change or reset their password</span>
-          <vaadin-checkbox readonly$="[[readonly]]" checked="{{permissions.login}}"></vaadin-checkbox>
+          <vaadin-checkbox disabled$="[[readonly]]" checked="{{permissions.login}}"></vaadin-checkbox>
         </div>
         <div class="permission">
           <span><b>Profile</b>: user can edit own profile</span>
-          <vaadin-checkbox readonly$="[[readonly]]" checked="{{permissions.editOwnProfile}}"></vaadin-checkbox>
+          <vaadin-checkbox disabled$="[[readonly]]" checked="{{permissions.editOwnProfile}}"></vaadin-checkbox>
         </div>
         <div class="permission">
           <span><b>Members</b>: user can see and manage members</span>
-          <vaadin-checkbox readonly$="[[readonly]]" checked="{{permissions.members}}"></vaadin-checkbox>
+          <vaadin-checkbox disabled$="[[readonly]]" checked="{{permissions.members}}"></vaadin-checkbox>
         </div>
         <div class="permission">
           <span><b>Events</b>: user can create and edit events</span>
@@ -62,7 +62,7 @@ class FormGroupPermissions extends BaseElement {
         </div>
         <div class="permission">
           <span><b>Admin</b>: allows user full access to the system and API</span>
-          <vaadin-checkbox readonly$="[[readonly]]" checked="{{permissions.admin}}"></vaadin-checkbox>
+          <vaadin-checkbox disabled$="[[readonly]]" checked="{{permissions.admin}}"></vaadin-checkbox>
         </div>
       </div>
     `;
