@@ -67,15 +67,6 @@ class PageMemberAnnouncement extends BaseElement {
               <paper-button class="cancel" on-tap="_cancelDelete">No</paper-button>
             </div>
           </confirmation-dialog>
-          
-          <!-- <paper-dialog id="confirmationDialog" always-on-top with-backdrop>
-            <h2>Confirm Delete</h2>
-            <p>Are you sure you want to delete this announcement? This cannot be undone.</p>
-            <div style="">
-              <paper-button class="confirm" on-tap="_confirmDelete">Yes</paper-button>
-              <paper-button class="cancel" on-tap="_cancelDelete">No</paper-button>
-            </div>
-          </paper-dialog> -->
 
         </div>
       </app-container>
