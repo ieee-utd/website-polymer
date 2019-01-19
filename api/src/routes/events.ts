@@ -263,9 +263,15 @@ route.post('/', userCan("events"), validate(CreateEventSchema), async (req: any,
 });
 
 //Update event
-//TODO harden access
 route.put('/:link', userCan("events"), validate(UpdateEventSchema), async (req: any, res: any, next: any) => {
   try {
+    //Verify that user can edit the event
+    const auth = req.user.group.permissions.admin ? "all" : req.user.group.permissions.events;
+    if (auth === "own") {
+      if (req.event.createdBy._id !== req.user._id)
+        return next({ status: 403, message: "Access denied" })
+    }
+
     req.body.lastUpdated = Date.now();
     req.body.updatedBy = req.user._id;
 
@@ -305,9 +311,15 @@ route.put('/:link', userCan("events"), validate(UpdateEventSchema), async (req: 
 });
 
 //Delete event
-//TODO harden access
 route.delete('/:link', userCan("events"), async (req: any, res: any, next: any) => {
   try {
+    //Verify that user can delete the event
+    const auth = req.user.group.permissions.admin ? "all" : req.user.group.permissions.events;
+    if (auth === "own") {
+      if (req.event.createdBy._id !== req.user._id)
+        return next({ status: 403, message: "Access denied" })
+    }
+
     //remove all occurances of event
     await EventRecurrence.remove({ event: req.event._id })
 
