@@ -11,7 +11,8 @@ var schema = new mongoose.Schema({
   reservationRequired: { type: Boolean, default: false },
   recurrenceRule: { type: String, default: null },
 }, {
-  id: false
+  id: false,
+  collection: "events"
 });
 
 schema.statics = {
