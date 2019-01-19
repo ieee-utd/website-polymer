@@ -76,12 +76,12 @@ export let CreateEventSchema = {
     "content": Joi.string(),
     "startTime": Joi.date().required(),
     "endTime": Joi.date().required(),
-    "locationName": Joi.string(),
-    "locationUrl": Joi.string(),
-    "reservationUrl": Joi.string(),
+    "locationName": Joi.string().allow(""),
+    "locationUrl": Joi.string().allow(""),
+    "reservationUrl": Joi.string().allow(""),
     "reservationRequired": Joi.boolean().required(),
     "tags": Joi.array().items(Joi.string().min(1)).required(),
-    "recurrenceRule": Joi.string(),
+    "recurrenceRule": Joi.string().allow(null),
     "recurrenceExceptions": Joi.array().items(Joi.date())
   }).unknown(false)
 }
@@ -92,12 +92,12 @@ export let UpdateEventSchema = {
     "content": Joi.string(),
     "startTime": Joi.date(),
     "endTime": Joi.date(),
-    "locationName": Joi.string(),
-    "locationUrl": Joi.string(),
-    "reservationUrl": Joi.string(),
+    "locationName": Joi.string().allow(""),
+    "locationUrl": Joi.string().allow(""),
+    "reservationUrl": Joi.string().allow(""),
     "reservationRequired": Joi.boolean(),
     "tags": Joi.array().items(Joi.string().min(1)),
-    "recurrenceRule": Joi.string(),
+    "recurrenceRule": Joi.string().allow(null),
     "recurrenceExceptions": Joi.array().items(Joi.date())
   }).unknown(false)
 }
