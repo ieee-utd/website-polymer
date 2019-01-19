@@ -16,7 +16,7 @@ class PageMemberEvents extends BaseElement {
 
       <app-container>
         <div class="padding">
-          
+
           <form-button label="Create event" style="display: inline-block; margin-bottom: 16px" on-tap="_createEvent"></form-button>
 
           <vaadin-grid items="[[events]]" height-by-rows on-active-item-changed="_activeItemChanged">

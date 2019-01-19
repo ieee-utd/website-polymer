@@ -16,7 +16,7 @@ class PageMemberAnnouncements extends BaseElement {
 
       <app-container>
         <div class="padding">
-          
+
           <form-button label="Create announcement" style="display: inline-block; margin-bottom: 16px" on-tap="_createAnnouncement"></form-button>
 
           <vaadin-grid items="[[announcements]]" height-by-rows on-active-item-changed="_activeItemChanged">
@@ -54,7 +54,7 @@ class PageMemberAnnouncements extends BaseElement {
 
   onload() {
     return new Promise((resolve, reject) => {
-      this._get("/announcements")
+      this._get("/announcements/all")
       .then((announcements) => {
         this.set("announcements", announcements)
         resolve({ page: "Announcements" });
@@ -80,7 +80,7 @@ class PageMemberAnnouncements extends BaseElement {
   }
 
   _prettyDate(isoDate) {
-    return moment(isoDate).format('D/M/YY H:mma');
+    return moment(isoDate).format('MMM D, YYYY hh:mma');
   }
 }
 

@@ -227,6 +227,7 @@ class LayoutMain extends BaseElement {
           <a href="[[rootPath]]about" active$="[[_active(_page,'about')]]"><iron-icon icon="mdi:information-outline"></iron-icon><h4>About</h4></a>
           <a href="[[rootPath]]tutoring" active$="[[_active(_page,'tutoring')]]"><iron-icon icon="mdi:comment-question-outline"></iron-icon><h4>Tutoring</h4></a>
           <a href="[[rootPath]]contact" active$="[[_active(_page,'contact')]]"><iron-icon icon="mdi:email-outline"></iron-icon><h4>Contact</h4></a>
+          <a href="[[rootPath]]join" active$="[[_active(_page,'apply')]]"><iron-icon icon="mdi:account-heart"></iron-icon><h4>Join Us</h4></a>
         </iron-selector>
       </app-drawer>
 
@@ -239,6 +240,7 @@ class LayoutMain extends BaseElement {
               <span class="tab"><a href="[[rootPath]]about" active$="[[_active(_page,'about')]]">About</a></span>
               <span class="tab"><a href="[[rootPath]]tutoring" active$="[[_active(_page,'tutoring')]]">Tutoring</a></span>
               <span class="tab"><a href="[[rootPath]]contact" active$="[[_active(_page,'contact')]]">Contact</a></span>
+              <span class="tab"><a href="[[rootPath]]join" active$="[[_active(_page,'apply')]]">Join Us</a></span>
             </div>
           </app-container>
           <app-container class="narrow-toolbar">
@@ -252,6 +254,7 @@ class LayoutMain extends BaseElement {
         <iron-pages selected="[[_page]]" attr-for-selected="name" role="main">
           <page-home name="home"></page-home>
           <page-about name="about"></page-about>
+          <page-apply name="apply"></page-apply>
           <page-tutoring name="tutoring"></page-tutoring>
           <page-contact name="contact"></page-contact>
           <page-announcement name="announcement"></page-announcement>
@@ -301,6 +304,7 @@ class LayoutMain extends BaseElement {
       if (page === "") page = "home";
       if (page === "a") page = "announcement";
       if (page === "e") page = "event";
+      if (page === "join" || page === "joinus" || page === "join-us") page = "apply";
 
       let el = this.$$(`iron-pages [name="${page}"]`);
       if (!el) page = "ohnoes";
@@ -359,6 +363,9 @@ class LayoutMain extends BaseElement {
           break;
         case 'about':
           import('../pages/page-about.js').then(resolve.bind(this, page)).catch(reject);
+          break;
+        case 'apply':
+          import('../pages/page-apply.js').then(resolve.bind(this, page)).catch(reject);
           break;
         case 'tutoring':
           import('../pages/page-tutoring.js').then(resolve.bind(this, page)).catch(reject);

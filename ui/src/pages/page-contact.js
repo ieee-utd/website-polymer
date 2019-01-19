@@ -1,7 +1,8 @@
-import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import { html } from '@polymer/polymer/polymer-element.js';
+import { BaseElement } from '../base-element';
 import '../shared-styles.js';
 
-class PageContact extends PolymerElement {
+class PageContact extends BaseElement {
   static get template() {
     return html`
       <style include="shared-styles">

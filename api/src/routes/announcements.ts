@@ -40,6 +40,18 @@ route.get('/', async (req: any, res: any, next: any) => {
   }
 });
 
+//List all announcements (admin only)
+route.get('/all', userCan("announcements"), async (req: any, res: any, next: any) => {
+  try {
+    let _announcements = await Announcement.find()
+    .sort({ visibleFrom: -1 });
+
+    res.send(cleanAll(_announcements, cleanAnnouncement));
+  } catch (e) {
+    next(e)
+  }
+});
+
 //Get full text about a specific announcement
 route.get('/:link', async (req: any, res: any, next: any) => {
   try {

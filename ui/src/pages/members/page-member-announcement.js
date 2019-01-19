@@ -20,15 +20,19 @@ class PageMemberAnnouncement extends BaseElement {
 
       <app-container>
         <div class="padding">
-          <h4>Announcement</h4>
-
           <app-form id="formToFocus" disabled$="[[_andNot(editing,_editingFields)]]">
+            <app-grid-item width=6 slot="field" hidden$="[[!editing]]" vertical>
+              <form-input value="[[_getPermalink(announcement.link)]]" label="Permalink" readonly></form-input>
+              <a href="/a/[[announcement.link]]" target="_blank">View published announcement</a>
+            </app-grid-item>
+            <app-grid-item width=6 slot="field" hidden$="[[!editing]]" vertical></app-grid-item>
             <app-grid-item width=6 slot="field">
               <form-input value="{{announcement.title}}" error="{{errors.title}}" label="Title" auto-readonly autofocus required></form-input>
             </app-grid-item>
             <app-grid-item width=6 slot="field"></app-grid-item>
-            <app-grid-item width=12 slot="field">
+            <app-grid-item width=12 slot="field" vertical>
               <form-textarea value="{{announcement.content}}" error="{{errors.content}}" label="Content" auto-readonly required></form-textarea>
+              <span style="font-size: 12px; color: var(--paper-grey-700)">This field supports most features of <a href="https://s3.amazonaws.com/ieee-utd/resources/markdown-cheatsheet.pdf" target="_blank">Github Flavored Markdown</a>. We do NOT support @mentions or issue references. We DO support emojis. :wink:</span>
             </app-grid-item>
             <app-grid-item width=3 slot="field">
               <vaadin-date-picker placeholder="Pick a date" value="{{announcement.visibleFromDate}}" error-message="{{errors.visibleFrom}}" invalid$="{{errors.visibleFrom}}" label="Visible from" auto-readonly></vaadin-date-picker>
@@ -50,6 +54,7 @@ class PageMemberAnnouncement extends BaseElement {
           </app-form>
 
           <form-edit-controls hidden$="[[!editing]]" id="editControls" object="{{announcement}}" errors="{{errors}}" fields='["title","content","visibleFromDate","visibleFromTime","visibleUntilDate", "visibleUntilTime", "tags"]'  editing="{{_editingFields}}" on-save="_saveData" hidden$="[[!editing]]"></form-edit-controls>
+
           <form-button label="Delete Announcement" hidden$="[[!editing]]" on-tap="_deleteAnnouncement" id="delete" style="display: inline-block; min-width: 140px; margin-top: 16px;" red></form-button>
 
           <form-button label="Create Announcement" hidden$="[[editing]]" on-tap="_create" id="confirm" style="display: inline-block; min-width: 140px; margin-top: 16px;"></form-button>
@@ -86,6 +91,10 @@ class PageMemberAnnouncement extends BaseElement {
     }
   }
 
+  _getPermalink(link) {
+    return window.location.hostname + "/a/" + link;
+  }
+
   onload(path) {
     return new Promise((resolve, reject) => {
       if (path.length == 0) {
@@ -116,7 +125,8 @@ class PageMemberAnnouncement extends BaseElement {
           visibleFromTime: this._prettyTime(announcement.visibleFrom),
           visibleUntilDate: this._prettyDate(announcement.visibleUntil),
           visibleUntilTime: this._prettyTime(announcement.visibleUntil),
-          tags: this._prettyTags(announcement.tags)
+          tags: this._prettyTags(announcement.tags),
+          link: announcement.link
         };
         this.set("editing", true);
         this.set("announcement", _announcement);
