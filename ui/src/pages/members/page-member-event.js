@@ -169,10 +169,7 @@ class PageMemberEvent extends BaseElement {
           endTime: this._prettyTime(moment().add(14, 'days').startOf('hour')),
           untilDate: this._prettyDate(moment().add(21, 'days').startOf('hour')),
           untilTime: this._prettyTime(moment().add(21, 'days').startOf('hour')),
-<<<<<<< HEAD
-          reservationRequired: false,
-=======
->>>>>>> f911c06dfa6ada3aace8ccdac15fbcbb973cfaf3
+          reservationRequired: false
         });
         this._finishLoading();
         return resolve({ page: "Create Event" });
