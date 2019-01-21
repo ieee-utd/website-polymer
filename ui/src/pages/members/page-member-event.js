@@ -169,6 +169,10 @@ class PageMemberEvent extends BaseElement {
           endTime: this._prettyTime(moment().add(14, 'days').startOf('hour')),
           untilDate: this._prettyDate(moment().add(21, 'days').startOf('hour')),
           untilTime: this._prettyTime(moment().add(21, 'days').startOf('hour')),
+<<<<<<< HEAD
+          reservationRequired: false,
+=======
+>>>>>>> f911c06dfa6ada3aace8ccdac15fbcbb973cfaf3
         });
         this._finishLoading();
         return resolve({ page: "Create Event" });
@@ -230,14 +234,55 @@ class PageMemberEvent extends BaseElement {
   }
 
   _create() {
+    this.$.confirm.loading = true;
+    const _event = {
+      title: this.event.title,
+      content: this.event.content,
+      startTime: this._isoDatetime(this.event.startDate, this.event.startTime),
+      endTime: this._isoDatetime(this.event.endDate, this.event.endTime),
+      locationName: this.event.locationName,
+      locationUrl: this.event.locationUrl,
+      reservationRequired: this.event.reservationRequired,
+      tags: this._arrayTags(this.event.tags)
+    };
 
+    if (this.event.repeat) {
+      try {
+        _event.recurrenceRule = this._createRRule(this.event.frequency, this.event.untilDate, this.event.untilTime, { mo:this.event.byMO, tu:this.event.byTU, we:this.event.byWE, th:this.event.byTH, fr:this.event.byFR, sa:this.event.bySA, su:this.event.bySU });
+      } catch (e) {
+        this._showToastError("Please check all event recurrence fields. Some fields may be invalid.")
+        return;
+      }
+    } else {
+      this.event.frequency = "";
+      this.event.untilDate = "";
+      this.event.untilTime = "";
+      this.event.byMO = false;
+      this.event.byTU = false;
+      this.event.byWE = false;
+      this.event.byTH = false;
+      this.event.byFR = false;
+      this.event.bySA = false;
+      this.event.bySU = false;
+
+      _event.recurrenceRule = null;
+    }
+
+    this._post(`/events`, _event)
+    .then((data) => {
+      this._navigateTo(`/member/event/${data.link}`);
+      this._showToast("Event created!")
+      this.$.confirm.loading = false;
+    })
+    .catch((e) => {
+      this.set("errors", e.errors);
+      this.$.confirm.loading = false;
+    });
   }
 
   _saveData(e) {
     var element = e.currentTarget;
     var event = e.detail;
-
-    console.log(event);
 
     const _event = {
       title: event.title,
@@ -282,6 +327,26 @@ class PageMemberEvent extends BaseElement {
     .catch((e) => {
       this.set("errors", e.errors)
       element.fail();
+    });
+  }
+
+  _deleteEvent() {
+    this.$.dialog.openDialog();
+  }
+
+  _cancelDelete() {
+    this.$.dialog.closeDialog();
+  }
+
+  _confirmDelete() {
+    this.$.dialog.closeDialog();
+    this._delete(`/events/${this.event.id}`, undefined)
+    .then((data) => {
+      this._navigateTo(`/member/events`);
+      this._showToast("Event deleted");
+    })
+    .catch((e) => {
+      console.error(e);
     });
   }
 
