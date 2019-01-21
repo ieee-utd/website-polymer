@@ -35,27 +35,27 @@ class PageMemberEvent extends BaseElement {
             </app-grid-item>
             <app-grid-item width=6 slot="field"></app-grid-item>
             <app-grid-item width=12 slot="field" vertical>
-              <form-textarea value="{{event.content}}" error="{{errors.content}}" label="Content" auto-readonly required></form-textarea>
+              <form-textarea value="{{event.content}}" error="{{errors.content}}" label="Description" auto-readonly required></form-textarea>
               <span style="font-size: 12px; color: var(--paper-grey-700)">This field supports most features of <a href="https://s3.amazonaws.com/ieee-utd/resources/markdown-cheatsheet.pdf" target="_blank">Github Flavored Markdown</a>. We do NOT support @mentions or issue references. We DO support emojis. :wink:</span>
             </app-grid-item>
             <app-grid-item width=6 slot="field">
-              <form-input value="{{event.locationName}}" error="{{errors.title}}" label="Location" auto-readonly required></form-input>
+              <form-input value="{{event.locationName}}" error="{{errors.locationName}}" label="Location" auto-readonly required></form-input>
             </app-grid-item>
             <app-grid-item width=6 slot="field">
-              <form-input value="{{event.locationUrl}}" error="{{errors.locationUrl}}" label="Location Url" auto-readonly></form-input>
+              <form-input value="{{event.locationUrl}}" error="{{errors.locationUrl}}" label="Location URL" auto-readonly></form-input>
             </app-grid-item>
             <app-grid-item width=3 slot="field">
-              <vaadin-date-picker placeholder="Pick a date" value="{{event.startDate}}" error-message="{{errors.startDate}}" invalid$="{{errors.startDate}}" label="Start date" auto-readonly></vaadin-date-picker>
+              <vaadin-date-picker placeholder="Pick a date" value="{{event.startDate}}" error-message="{{errors.startTime}}" invalid$="{{errors.startTime}}" label="Start date *" auto-readonly></vaadin-date-picker>
             </app-grid-item>
             <app-grid-item width=3 slot="field">
-              <vaadin-time-picker placeholder="hh:mm" value="{{event.startTime}}" invalid$="{{errors.startTime}}" label="Start time" auto-readonly></vaadin-time-picker>
+              <vaadin-time-picker placeholder="hh:mm" value="{{event.startTime}}" invalid$="{{errors.startTime}}" label="Start time *" auto-readonly></vaadin-time-picker>
             </app-grid-item>
             <app-grid-item width=6 slot="field"></app-grid-item>
             <app-grid-item width=3 slot="field">
-              <vaadin-date-picker placeholder="Pick a date" value="{{event.endDate}}" error-message="{{errors.endDate}}" invalid$="{{errors.endDate}}" label="End date" auto-readonly></vaadin-date-picker>
+              <vaadin-date-picker placeholder="Pick a date" value="{{event.endDate}}" error-message="{{errors.endTime}}" invalid$="{{errors.endTime}}" label="End date *" auto-readonly></vaadin-date-picker>
             </app-grid-item>
             <app-grid-item width=3 slot="field">
-              <vaadin-time-picker placeholder="hh:mm" value="{{event.endTime}}" invalid$="{{errors.endTime}}" label="End time" auto-readonly></vaadin-time-picker>
+              <vaadin-time-picker placeholder="hh:mm" value="{{event.endTime}}" invalid$="{{errors.endTime}}" label="End time *" auto-readonly></vaadin-time-picker>
             </app-grid-item>
             <app-grid-item width=6 slot="field"></app-grid-item>
             <app-grid-item width=6 slot="field">
@@ -63,7 +63,7 @@ class PageMemberEvent extends BaseElement {
             </app-grid-item>
             <app-grid-item width=6 slot="field"></app-grid-item>
             <app-grid-item width=3 slot="field" hidden$="[[!event.repeat]]">
-              <vaadin-select label="Frequency" value="{{event.frequency}}" auto-readonly>
+              <vaadin-select label="Frequency *" value="{{event.frequency}}" auto-readonly error-message="{{errors.recurrence}}" invalid$="{{errors.recurrence}}">
                 <template>
                   <vaadin-list-box>
                     <vaadin-item>Weekly</vaadin-item>
@@ -73,17 +73,17 @@ class PageMemberEvent extends BaseElement {
               </vaadin-select>
             </app-grid-item>
             <app-grid-item width=3 slot="field" hidden$="[[!event.repeat]]">
-              <vaadin-date-picker placeholder="Pick a date" value="{{event.untilDate}}" error-message="{{errors.untilDate}}" invalid$="{{errors.untilDate}}" label="Repeat until date" auto-readonly></vaadin-date-picker>
+              <vaadin-date-picker placeholder="Pick a date" value="{{event.untilDate}}" error-message="{{errors.recurrence}}" invalid$="{{errors.recurrence}}" label="Repeat until date *" auto-readonly></vaadin-date-picker>
             </app-grid-item>
             <app-grid-item width=3 slot="field" hidden$="[[!event.repeat]]">
-              <vaadin-time-picker placeholder="hh:mm" value="{{event.untilTime}}" invalid$="{{errors.untilTime}}" label="Repeat until time" auto-readonly></vaadin-time-picker>
+              <vaadin-time-picker placeholder="hh:mm" value="{{event.untilTime}}" error-message="{{errors.recurrence}}" invalid$="{{errors.recurrence}}" label="Repeat until time *" auto-readonly></vaadin-time-picker>
             </app-grid-item>
             <app-grid-item width=3 slot="field" hidden$="[[!event.repeat]]"></app-grid-item>
             <app-grid-item style="border-bottom: 0;" width=12 slot="field" hidden$="[[_notWeekly(event.frequency,event.repeat)]]">
               <span style="font-size: 14px; color: #576372;">Repeat on</span>
             </app-grid-item>
             <app-grid-item style="border-top: 0;" width=1 slot="field" hidden$="[[_notWeekly(event.frequency,event.repeat)]]">
-              <vaadin-checkbox checked="{{event.byMO}}" error-message="{{errors.byDay}}" invalid$="{{errors.byDay}}" auto-disable>MO</vaadin-checkbox>
+              <vaadin-checkbox checked="{{event.byMO}}" error-message="{{errors.recurrence}}" invalid$="{{errors.recurrence}}" auto-disable>MO</vaadin-checkbox>
             </app-grid-item>
             <app-grid-item style="border-top: 0;" width=1 slot="field" hidden$="[[_notWeekly(event.frequency,event.repeat)]]">
               <vaadin-checkbox checked="{{event.byTU}}" auto-disable>TU</vaadin-checkbox>
@@ -104,7 +104,7 @@ class PageMemberEvent extends BaseElement {
               <vaadin-checkbox checked="{{event.bySU}}" auto-disable>SU</vaadin-checkbox>
             </app-grid-item>
             <app-grid-item width=5 slot="field" hidden$="[[_notWeekly(event.frequency,event.repeat)]]"></app-grid-item>
-            <app-grid-item style="border-top: 16px solid rgba(255, 255, 255, 0);" width=6 slot="field">
+            <!--<app-grid-item style="border-top: 16px solid rgba(255, 255, 255, 0);" width=6 slot="field">
               <vaadin-checkbox checked="{{event.reservationRequired}}" auto-disable>Reservation required</vaadin-checkbox>
             </app-grid-item>
             <app-grid-item width=6 slot="field"></app-grid-item>
@@ -113,7 +113,7 @@ class PageMemberEvent extends BaseElement {
                 <form-input value="{{event.reservationUrl}}" error="{{errors.reservationUrl}}" label="Reservation link" auto-readonly readonly$="{{editing}}" required></form-input>
               </template>
             </app-grid-item>
-            <app-grid-item width=6 slot="field"></app-grid-item>
+            <app-grid-item width=6 slot="field"></app-grid-item>-->
             <app-grid-item width=6 slot="field">
               <form-input value="{{event.tags}}" error="{{errors.tags}}" placeholder="Enter your comma-separated tags" label="Tags" auto-readonly></form-input>
             </app-grid-item>
@@ -163,12 +163,6 @@ class PageMemberEvent extends BaseElement {
       if (id === "create") {
         this.set("editing", false);
         this.set("event", {
-          startDate: this._prettyDate(moment().startOf('hour')),
-          startTime: this._prettyTime(moment().startOf('hour')),
-          endDate: this._prettyDate(moment().add(14, 'days').startOf('hour')),
-          endTime: this._prettyTime(moment().add(14, 'days').startOf('hour')),
-          untilDate: this._prettyDate(moment().add(21, 'days').startOf('hour')),
-          untilTime: this._prettyTime(moment().add(21, 'days').startOf('hour')),
           reservationRequired: false
         });
         this._finishLoading();
@@ -180,14 +174,14 @@ class PageMemberEvent extends BaseElement {
 
         var _freq = "";
         var _untilDate = "";
-        var _untileTime = "";
+        var _untilTime = "";
         var repeatWeekdays = {  mo: false, tu: false, we: false, th: false, fr: false, sa: false, su: false };
         if (event.recurrenceRule !== null) {
           const rules = rrulestr(event.recurrenceRule);
           repeatWeekdays = this._getRepeatWeekdays(rules);
           _freq = this._getFrequency(rules);
           _untilDate = this._getUntilDate(rules);
-          _untileTime = this._getUntilTime(rules);
+          _untilTime = this._getUntilTime(rules);
         }
 
         const _event = {
@@ -205,7 +199,7 @@ class PageMemberEvent extends BaseElement {
           repeat: event.recurrenceRule !== null,
           frequency: _freq,
           untilDate: _untilDate,
-          untilTime: _untileTime,
+          untilTime: _untilTime,
           byMO: repeatWeekdays.mo,
           byTU: repeatWeekdays.tu,
           byWE: repeatWeekdays.we,
@@ -245,9 +239,14 @@ class PageMemberEvent extends BaseElement {
 
     if (this.event.repeat) {
       try {
+        if (!this.event.frequency || !this.event.untilDate || !this.event.untilTime) throw new Error("All recurrence fields are required");
+
         _event.recurrenceRule = this._createRRule(this.event.frequency, this.event.untilDate, this.event.untilTime, { mo:this.event.byMO, tu:this.event.byTU, we:this.event.byWE, th:this.event.byTH, fr:this.event.byFR, sa:this.event.bySA, su:this.event.bySU });
       } catch (e) {
+        console.warn(e)
         this._showToastError("Please check all event recurrence fields. Some fields may be invalid.")
+        this.set("errors", { recurrence: "Please check value" })
+        this.$.confirm.loading = false;
         return;
       }
     } else {

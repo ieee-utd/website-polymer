@@ -73,10 +73,10 @@ export let UpdateAnnouncementSchema = {
 export let CreateEventSchema = {
   body: Joi.object({
     "title": Joi.string().required().min(1).max(64),
-    "content": Joi.string(),
+    "content": Joi.string().required(),
     "startTime": Joi.date().required(),
     "endTime": Joi.date().required(),
-    "locationName": Joi.string().allow(""),
+    "locationName": Joi.string().required(),
     "locationUrl": Joi.string().allow(""),
     "reservationUrl": Joi.string().allow(""),
     "reservationRequired": Joi.boolean().required(),
@@ -92,7 +92,7 @@ export let UpdateEventSchema = {
     "content": Joi.string(),
     "startTime": Joi.date(),
     "endTime": Joi.date(),
-    "locationName": Joi.string().allow(""),
+    "locationName": Joi.string(),
     "locationUrl": Joi.string().allow(""),
     "reservationUrl": Joi.string().allow(""),
     "reservationRequired": Joi.boolean(),
