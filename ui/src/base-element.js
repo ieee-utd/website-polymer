@@ -109,6 +109,7 @@ export class BaseElement extends PolymerElement {
   }
 
   _prettifyDateToNow(date, removePrefix) {
+    if (!date) return "";
     var time = moment(date);
     if (moment().diff(time, 'hours') < -0.75) {
       return time.format("h:mm a");

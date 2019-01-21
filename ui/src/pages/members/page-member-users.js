@@ -59,6 +59,10 @@ class PageMemberUsers extends BaseElement {
               <template class="header">Group</template>
               <template>[[item.group.name]]</template>
             </vaadin-grid-sort-column>
+            <vaadin-grid-sort-column path="dateLastLogin">
+              <template class="header">Last Login</template>
+              <template>[[_prettifyDateToNow(item.dateLastLogin)]]</template>
+            </vaadin-grid-sort-column>
             <vaadin-grid-sort-column path="memberSince">
               <template class="header">Member Since</template>
               <template>[[item.memberSince]]</template>
