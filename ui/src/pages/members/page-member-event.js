@@ -169,7 +169,6 @@ class PageMemberEvent extends BaseElement {
           endTime: this._prettyTime(moment().add(14, 'days').startOf('hour')),
           untilDate: this._prettyDate(moment().add(21, 'days').startOf('hour')),
           untilTime: this._prettyTime(moment().add(21, 'days').startOf('hour')),
-
         });
         this._finishLoading();
         return resolve({ page: "Create Event" });
