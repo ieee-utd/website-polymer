@@ -245,7 +245,7 @@ route.post('/', userCan("events"), validate(CreateEventSchema), async (req: any,
 
       for (var recurrence of recurrencesToGenerate) {
         recurrence.event = savedEvent._id;
-        recurrence.linkpart = base64url(crypto.randomBytes(2));
+        recurrence.linkpart = base64url(crypto.randomBytes(3));
         let r = new EventRecurrence(recurrence);
         await r.save();
       }
@@ -280,11 +280,13 @@ route.put('/:link', userCan("events"), validate(UpdateEventSchema), async (req: 
     let updatedEvent = Object.assign(req.event, req.body);
 
     if (updatedEvent.recurrenceRule && recurrenceRulesChanged) {
+      console.warn("Recurrence rules changing")
+
       let recurrencesToGenerate: any = await calculateEventRecurrence(updatedEvent.recurrenceRule, updatedEvent.recurrenceExceptions, updatedEvent.startTime, updatedEvent.endTime);
       console.log(recurrencesToGenerate);
 
-      //hide all occurances of event - keep in case a user bookmarked the link
-      await EventRecurrence.updateMany({ event: req.event._id }, { $set: { hidden: true }})
+      //delete all occurances of event
+      await EventRecurrence.remove({ event: req.event._id })
 
       //reinsert event recurrences
       for (var recurrence of recurrencesToGenerate) {
@@ -302,6 +304,9 @@ route.put('/:link', userCan("events"), validate(UpdateEventSchema), async (req: 
       req.body.recurrenceExceptions = [ ];
 
       await Event.findOneAndUpdate({ _id: req.event._id }, { $set: req.body })
+
+      //remove all occurances of event
+      await EventRecurrence.remove({ event: req.event._id })
     }
 
     res.send({ message: "Event updated" })

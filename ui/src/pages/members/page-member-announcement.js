@@ -59,23 +59,14 @@ class PageMemberAnnouncement extends BaseElement {
 
           <form-button label="Create Announcement" hidden$="[[editing]]" on-tap="_create" id="confirm" style="display: inline-block; min-width: 140px; margin-top: 16px;"></form-button>
 
-          <confirmation-dialog id="dialog" tabindex="-1" with-backdrop style="max-width: 320px;">
-            <h2 style='font-family: "Rubik";'>Confirm Delete</h2>
-            <p>Are you sure you want to delete this announcement? This cannot be undone.</p>
-            <div>
-              <paper-button class="confirm" on-tap="_confirmDelete" style="color: #FF4139;">Yes</paper-button>
-              <paper-button class="cancel" on-tap="_cancelDelete">No</paper-button>
+          <confirmation-dialog id="dialog" tabindex="-1" with-backdrop>
+            <h2 style='font-family: "Rubik"; margin-top: 0'>Confirm Delete</h2>
+            <p>Are you sure you want to permanently delete this announcement?<br>This cannot be undone.</p>
+            <div style="text-align: right">
+              <form-button class="confirm" on-tap="_confirmDelete" red label="Delete" style="display: inline-block"></form-button>
+              <form-button class="cancel" on-tap="_cancelDelete" grey label="Cancel" style="display: inline-block"></form-button>
             </div>
           </confirmation-dialog>
-          
-          <!-- <paper-dialog id="confirmationDialog" always-on-top with-backdrop>
-            <h2>Confirm Delete</h2>
-            <p>Are you sure you want to delete this announcement? This cannot be undone.</p>
-            <div style="">
-              <paper-button class="confirm" on-tap="_confirmDelete">Yes</paper-button>
-              <paper-button class="cancel" on-tap="_cancelDelete">No</paper-button>
-            </div>
-          </paper-dialog> -->
 
         </div>
       </app-container>

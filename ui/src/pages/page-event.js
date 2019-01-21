@@ -162,8 +162,8 @@ class PageEvent extends BaseElement {
             </div>
             <div class="info-row">
               <iron-icon icon="mdi:map-marker"></iron-icon>
-              <a hidden$="[[!event.locationUrl]]" href="[[event.locationUrl]]" target="_blank">[[event.locationName]]</a>
-              <span hidden$="[[event.locationUrl]]">[[event.locationName]]</span>
+              <a hidden$="[[!_have(event.locationUrl)]]" href="[[event.locationUrl]]" target="_blank">[[event.locationName]]</a>
+              <span hidden$="[[_have(event.locationUrl)]]">[[event.locationName]]</span>
             </div>
             <div class="info-row">
               <iron-icon icon="mdi:calendar-clock"></iron-icon>

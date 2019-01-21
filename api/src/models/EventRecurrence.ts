@@ -5,8 +5,7 @@ var schema = new mongoose.Schema({
   event: { type: mongoose.Schema.Types.ObjectId, ref: "Event", required: true },
   startTime: { type: Date, required: true },
   endTime: { type: Date, required: true },
-  linkpart: { type: String, required: true },
-  hidden: { type: Boolean, default: false }
+  linkpart: { type: String, required: true }
 }, {
   collection: "eventRecurrences",
   id: false

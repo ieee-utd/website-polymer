@@ -13,23 +13,25 @@ class ConfirmationDialog extends mixinBehaviors([IronOverlayBehavior], BaseEleme
         .dialog {
           background: var(--paper-grey-100);
           border-radius: 8px;
-          min-width: 280px;
+          min-width: 360px;
+          width: calc(100%);
+          max-width: 600px;
           min-height: 100px;
           padding: 16px;
-          box-shadow: rgba(0, 0, 0, 0.24) -2px 5px 12px 0px, rgba(0, 0, 0, 0.12) 0px 0px 12px 0px;
+          @apply --shadow-elevation-16dp;
         }
-        
+
       </style>
 
       <paper-card class="dialog">
-        <slot ></slot>
+        <slot></slot>
       </paper-card>
     `;
   }
 
   static get properties() {
     return {
-      
+
     }
   }
 

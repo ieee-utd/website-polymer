@@ -58,7 +58,7 @@ class PageApply extends BaseElement {
   }
 
   _applyForTutor() {
-    this._showToast("Tutor application coming soon")
+    this._openNewTab("https://ieeeutd1.typeform.com/to/PziUX0")
   }
 }
 
