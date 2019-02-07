@@ -119,7 +119,7 @@ class PageMemberEvent extends BaseElement {
             </app-grid-item>
           </app-form>
 
-          <form-edit-controls hidden$="[[!editing]]" id="editControls" object="{{event}}" errors="{{errors}}" fields='["title","content","location","locationUrl","startDate","startTime","endDate","endTime","reservationRequired","reservationUrl","repeat","frequency","untilDate","untilTime","byMO","byTU","byWE","byTH","byFR","bySA","bySU","tags"]'  editing="{{_editingFields}}" on-save="_saveData" hidden$="[[!editing]]"></form-edit-controls>
+          <form-edit-controls hidden$="[[!editing]]" id="editControls" object="{{event}}" errors="{{errors}}" fields='["title","content","locationName","locationUrl","startDate","startTime","endDate","endTime","reservationRequired","reservationUrl","repeat","frequency","untilDate","untilTime","byMO","byTU","byWE","byTH","byFR","bySA","bySU","tags"]'  editing="{{_editingFields}}" on-save="_saveData" hidden$="[[!editing]]"></form-edit-controls>
 
           <form-button label="Delete Event" hidden$="[[!editing]]" on-tap="_deleteEvent" id="delete" style="display: inline-block; min-width: 140px; margin-top: 16px;" red></form-button>
 
