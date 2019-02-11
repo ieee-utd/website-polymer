@@ -10,29 +10,12 @@ if (!process.env.SENDGRID_API_KEY)
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-function sendEmail(subject: string, bodyHtml: string, toEmail: string, summary: string) {
+export function sendEmailMsg(msg: any) {
   return new Promise((resolve, reject) => {
     if (!process.env.SENDGRID_API_KEY) {
       return resolve();
       //Mail system did not send anything, but we quitely ignore the error
     }
-
-    const msg = {
-      to: toEmail,
-      from: {
-        email: 'noreply@ieeeutd.org',
-        name: "IEEEUTD Member Portal"
-      },
-      subject: subject,
-      templateId: 'd-f696f336b80340d797d355dc94bbed33',
-      dynamic_template_data: {
-        origin: process.env.MAIL_HOSTNAME,
-        emailto: toEmail,
-        body: bodyHtml,
-        subject: subject,
-        summary: summary
-      },
-    };
 
     sgMail.send(msg)
     .then(() => { resolve() })
@@ -40,6 +23,32 @@ function sendEmail(subject: string, bodyHtml: string, toEmail: string, summary: 
   })
 }
 
+export async function sendEmail(subject: string, bodyHtml: string, toEmail: string, summary: string, fromName?: string) {
+  const msg = {
+    to: toEmail,
+    from: {
+      email: 'noreply@ieeeutd.org',
+      name: fromName || "IEEEUTD Member Portal"
+    },
+    subject: subject,
+    templateId: 'd-f696f336b80340d797d355dc94bbed33',
+    dynamic_template_data: {
+      origin: process.env.MAIL_HOSTNAME,
+      emailto: toEmail,
+      body: bodyHtml,
+      subject: subject,
+      summary: summary
+    },
+  };
+  await sendEmailMsg(msg);
+}
+
+export function sendSigninCompleteEmail(email: string, firstName: string, lastName: string, eventTitle: string, eventLocation: string)
+{
+  var html = ``
+
+  return sendEmail("IEEEUTD Member Account - ACTION REQUIRED", html, email, "Your IEEEUTD Member account has been created and needs your activation.", "IEEEUTD Team");
+}
 export function sendConfirmAccountEmail(email: string, token: string, firstName: string, lastName: string)
 {
   var html = `Hello ${firstName} ${lastName},
