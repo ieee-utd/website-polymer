@@ -33,7 +33,6 @@ const bccEmails = [
   "Ptg170030@utdallas.edu",
   "ncp170130@utdallas.edu",
   "jeg170330@utdallas.edu",
-  "Kharimanning@utdallas.edu",
   "Adwaithmoothezhath@gmail.com",
   "Jmr180004@utdallas.edu",
   "jxt170630@utdallas.edu",
@@ -56,7 +55,9 @@ const bccEmails = [
   "sxd170630@utdallas.edu",
   "Ntm180000@utdallas.edu",
   "pom170030@utdallas.edu",
-  "pachachura.arthur@gmail.com"
+  "jtb170930@utdallas.edu",
+  "jxl180015@utdallas.edu",
+  "kem170000@utdallas.edu"
 ]
 
 const fromEmail = {
