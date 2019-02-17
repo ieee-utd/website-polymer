@@ -104,6 +104,10 @@ class PageMemberEvent extends BaseElement {
               <vaadin-checkbox checked="{{event.bySU}}" auto-disable>SU</vaadin-checkbox>
             </app-grid-item>
             <app-grid-item width=5 slot="field" hidden$="[[_notWeekly(event.frequency,event.repeat)]]"></app-grid-item>
+            <app-grid-item style="border-top: 0;" width=3 slot="field" hidden$="[[_notWeekly(event.frequency,event.repeat)]]">
+              <vaadin-number-field min="1" max="5" value="{{event.weeklyRepeat}}" label="Repeat every [[event.weeklyRepeat]] week(s)" has-controls auto-readonly></vaadin-number-field>
+            </app-grid-item>
+            <app-grid-item width=9 slot="field" hidden$="[[_notWeekly(event.frequency,event.repeat)]]"></app-grid-item>
             <!--<app-grid-item style="border-top: 16px solid rgba(255, 255, 255, 0);" width=6 slot="field">
               <vaadin-checkbox checked="{{event.reservationRequired}}" auto-disable>Reservation required</vaadin-checkbox>
             </app-grid-item>
@@ -119,7 +123,7 @@ class PageMemberEvent extends BaseElement {
             </app-grid-item>
           </app-form>
 
-          <form-edit-controls hidden$="[[!editing]]" id="editControls" object="{{event}}" errors="{{errors}}" fields='["title","content","locationName","locationUrl","startDate","startTime","endDate","endTime","reservationRequired","reservationUrl","repeat","frequency","untilDate","untilTime","byMO","byTU","byWE","byTH","byFR","bySA","bySU","tags"]'  editing="{{_editingFields}}" on-save="_saveData" hidden$="[[!editing]]"></form-edit-controls>
+          <form-edit-controls hidden$="[[!editing]]" id="editControls" object="{{event}}" errors="{{errors}}" fields='["title","content","locationName","locationUrl","startDate","startTime","endDate","endTime","reservationRequired","reservationUrl","repeat","frequency","untilDate","untilTime","byMO","byTU","byWE","byTH","byFR","bySA","bySU", "weeklyRepeat", "tags"]'  editing="{{_editingFields}}" on-save="_saveData" hidden$="[[!editing]]"></form-edit-controls>
 
           <form-button label="Delete Event" hidden$="[[!editing]]" on-tap="_deleteEvent" id="delete" style="display: inline-block; min-width: 140px; margin-top: 16px;" red></form-button>
 
@@ -163,6 +167,7 @@ class PageMemberEvent extends BaseElement {
       if (id === "create") {
         this.set("editing", false);
         this.set("event", {
+          weeklyRepeat: 1,
           reservationRequired: false
         });
         this._finishLoading();
@@ -207,6 +212,7 @@ class PageMemberEvent extends BaseElement {
           byFR: repeatWeekdays.fr,
           bySA: repeatWeekdays.sa,
           bySU: repeatWeekdays.su,
+          weeklyRepeat: event.weeklyRepeat,
           tags: this._prettyTags(event.tags),
           link: event.link
         };
@@ -234,14 +240,14 @@ class PageMemberEvent extends BaseElement {
       locationName: this.event.locationName,
       locationUrl: this.event.locationUrl,
       reservationRequired: this.event.reservationRequired,
+      weeklyRepeat: this.event.weeklyRepeat,
       tags: this._arrayTags(this.event.tags)
     };
 
     if (this.event.repeat) {
       try {
         if (!this.event.frequency || !this.event.untilDate || !this.event.untilTime) throw new Error("All recurrence fields are required");
-
-        _event.recurrenceRule = this._createRRule(this.event.frequency, this.event.untilDate, this.event.untilTime, { mo:this.event.byMO, tu:this.event.byTU, we:this.event.byWE, th:this.event.byTH, fr:this.event.byFR, sa:this.event.bySA, su:this.event.bySU });
+        _event.recurrenceRule = this._createRRule(this.event.frequency, this.event.untilDate, this.event.untilTime, this.event.weeklyRepeat, { mo:this.event.byMO, tu:this.event.byTU, we:this.event.byWE, th:this.event.byTH, fr:this.event.byFR, sa:this.event.bySA, su:this.event.bySU });
       } catch (e) {
         console.warn(e)
         this._showToastError("Please check all event recurrence fields. Some fields may be invalid.")
@@ -263,6 +269,8 @@ class PageMemberEvent extends BaseElement {
 
       _event.recurrenceRule = null;
     }
+
+    console.log(_event);
 
     this._post(`/events`, _event)
     .then((data) => {
@@ -294,7 +302,7 @@ class PageMemberEvent extends BaseElement {
 
     if (event.repeat) {
       try {
-        _event.recurrenceRule = this._createRRule(event.frequency, event.untilDate, event.untilTime, { mo:event.byMO, tu:event.byTU, we:event.byWE, th:event.byTH, fr:event.byFR, sa:event.bySA, su:event.bySU });
+        _event.recurrenceRule = this._createRRule(event.frequency, event.untilDate, event.untilTime, event.weeklyRepeat, { mo:event.byMO, tu:event.byTU, we:event.byWE, th:event.byTH, fr:event.byFR, sa:event.bySA, su:event.bySU });
       } catch (e) {
         this._showToastError("Please check all event recurrence fields. Some fields may be invalid.")
         element.fail();
@@ -379,7 +387,7 @@ class PageMemberEvent extends BaseElement {
     return repeatWeekdays;
   }
 
-  _createRRule(freq, untilDate, untilTime, repeatDays) {
+  _createRRule(freq, untilDate, untilTime, interval, repeatDays) {
     var _freq = "";
     if (freq === 'Weekly') _freq = RRule.WEEKLY;
     else if (freq === 'Monthly') _freq = RRule.MONTHLY;
@@ -397,6 +405,7 @@ class PageMemberEvent extends BaseElement {
       freq: _freq,
       byweekday: _byweekday,
       until: moment(untilDate + ' ' + untilTime).format(),
+      interval: interval,
       wkst: RRule.MO
     })
 
