@@ -20,7 +20,7 @@ class PageMemberEvents extends BaseElement {
           <form-button label="Create event" style="display: inline-block; margin-bottom: 16px" on-tap="_createEvent"></form-button>
 
           <vaadin-grid items="[[events]]" height-by-rows on-active-item-changed="_activeItemChanged">
-            <vaadin-grid-sort-column path="title" width="160px">
+            <vaadin-grid-sort-column path="title" width="220px">
               <template class="header">Title</template>
               <template>[[item.title]]</template>
             </vaadin-grid-sort-column>

@@ -20,7 +20,7 @@ class PageMemberAnnouncements extends BaseElement {
           <form-button label="Create announcement" style="display: inline-block; margin-bottom: 16px" on-tap="_createAnnouncement"></form-button>
 
           <vaadin-grid items="[[announcements]]" height-by-rows on-active-item-changed="_activeItemChanged">
-            <vaadin-grid-sort-column width="200px" path="title">
+            <vaadin-grid-sort-column width="220px" path="title">
               <template class="header">Title</template>
               <template>[[item.title]]</template>
             </vaadin-grid-sort-column>
