@@ -125,7 +125,7 @@ class PageMemberEvent extends BaseElement {
 
           <form-edit-controls hidden$="[[!editing]]" id="editControls" object="{{event}}" errors="{{errors}}" fields='["title","content","locationName","locationUrl","startDate","startTime","endDate","endTime","reservationRequired","reservationUrl","repeat","frequency","untilDate","untilTime","byMO","byTU","byWE","byTH","byFR","bySA","bySU", "weeklyRepeat", "tags"]'  editing="{{_editingFields}}" on-save="_saveData" hidden$="[[!editing]]"></form-edit-controls>
 
-          <app-form hidden$="[[!editing]]" title="All Recurrences">
+          <app-form hidden$="[[!editing]]" title="Future Recurrences">
             <app-grid-item width=12 slot="field" vertical>
               <p>After saving the data above, the below table will contain a link to each recurrence of this event. Please note that the links to each recurrence may change if the recurrence rule above changes.</p>
               <vaadin-grid items="[[event.recurrences]]" height-by-rows on-active-item-changed="_recurrencesActiveItemChanged">

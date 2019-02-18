@@ -1,5 +1,6 @@
 import * as express from "express";
 import * as moment from "moment";
+import * as _ from "lodash";
 export let route = express.Router();
 
 import { cleanAll, cleanAnnouncement } from "../helpers/clean";
@@ -43,10 +44,19 @@ route.get('/', async (req: any, res: any, next: any) => {
 //List all announcements (admin only)
 route.get('/all', userCan("announcements"), async (req: any, res: any, next: any) => {
   try {
-    let _announcements = await Announcement.find()
+    const _announcements = await Announcement.find()
     .sort({ visibleFrom: -1 });
+    let announcements = JSON.parse(JSON.stringify(_announcements));
 
-    res.send(cleanAll(_announcements, cleanAnnouncement));
+    announcements = _.map(announcements, (announcement: any) => {
+      announcement.active = moment(announcement.visibleFrom).isSameOrBefore(moment()) && moment(announcement.visibleUntil).isSameOrAfter(moment())
+
+      return announcement;
+    })
+
+    console.log(announcements)
+
+    res.send(cleanAll(announcements, cleanAnnouncement));
   } catch (e) {
     next(e)
   }

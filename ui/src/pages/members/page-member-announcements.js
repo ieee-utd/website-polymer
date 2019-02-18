@@ -20,25 +20,32 @@ class PageMemberAnnouncements extends BaseElement {
           <form-button label="Create announcement" style="display: inline-block; margin-bottom: 16px" on-tap="_createAnnouncement"></form-button>
 
           <vaadin-grid items="[[announcements]]" height-by-rows on-active-item-changed="_activeItemChanged">
-            <vaadin-grid-column>
+            <vaadin-grid-sort-column width="200px" path="title">
               <template class="header">Title</template>
               <template>[[item.title]]</template>
-            </vaadin-grid-column>
-            <vaadin-grid-column>
-              <template class="header">Content</template>
-              <template>[[item.content]]</template>
-            </vaadin-grid-column>
-            <vaadin-grid-column>
+            </vaadin-grid-sort-column>
+            <vaadin-grid-sort-column width="200px" direction="asc" path="visibleFrom">
               <template class="header">Visible from</template>
               <template>[[_prettyDate(item.visibleFrom)]]</template>
-            </vaadin-grid-column>
-            <vaadin-grid-column>
+            </vaadin-grid-sort-column>
+            <vaadin-grid-sort-column width="200px" path="visibleUntil">
               <template class="header">Visible until</template>
               <template>[[_prettyDate(item.visibleUntil)]]</template>
-            </vaadin-grid-column>
-            <vaadin-grid-column>
+            </vaadin-grid-sort-column>
+            <vaadin-grid-sort-column path="active" header="Status" width="140px">
+              <template class="header">Status</template>
+              <template>
+                <span style="color: var(--paper-red-600);" hidden$="[[item.active]]">Inactive</span>
+                <span style="color: var(--paper-green-600);" hidden$="[[!item.active]]">Active</span>
+              </template>
+            </vaadin-grid-sort-column>
+            <vaadin-grid-column width="160px">
               <template class="header">Tags</template>
-              <template>[[item.tags]]</template>
+              <template>
+                <template is="dom-repeat" items="[[item.tags]]" as="tag">
+                  <span style="margin-right:4px; background-color: var(--paper-grey-200); padding: 2px 4px; font-style: italic">[[tag]]</span>
+                </template>
+              </template>
             </vaadin-grid-column>
           </vaadin-grid>
         </div>

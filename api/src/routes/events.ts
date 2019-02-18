@@ -158,6 +158,28 @@ route.get('/', async (req: any, res: any, next: any) => {
   }
 });
 
+async function checkEventActiveStatus(event: any) {
+  if (moment(event.endTime).isSameOrAfter(moment())) {
+    return true;
+  }
+  if (!event.recurrenceRule) return false;
+
+  console.log("Event", event)
+
+  //check recurrences
+  let latestOccurance: any = await EventRecurrence
+  .find({ event: event._id, hidden: { $ne: true }})
+  .sort({ endTime: -1 })
+  .limit(1);
+
+  console.log("Latest occurance", latestOccurance);
+
+  if (moment(latestOccurance.endTime).isSameOrAfter(moment())) {
+    return true;
+  }
+  return false;
+}
+
 //Get list of events this user can edit
 route.get('/editable', userCan("events"), async (req: any, res: any, next: any) => {
   try {
@@ -182,11 +204,16 @@ route.get('/editable', userCan("events"), async (req: any, res: any, next: any) 
     })
     .sort({ startDate: 1 });
 
-    events = _.map(events, (event: any) => {
-      if (!event.recurrenceRule) return event;
-      event.recurrenceRulePretty = rrulestr(event.recurrenceRule).toText();
-      return event;
-    })
+    for (var event of events) {
+      if (event.recurrenceRule) {
+        event.recurrenceRulePretty = rrulestr(event.recurrenceRule).toText();
+      }
+
+      //check if event is "active", that is an event that has not yet ended,
+      //or have at least one occurrance that has not yet ended
+
+      event.active = await checkEventActiveStatus(event);
+    }
 
     res.send(cleanAll(events, cleanAnnouncement));
   } catch (e) {
