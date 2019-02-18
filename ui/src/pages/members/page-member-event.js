@@ -125,6 +125,22 @@ class PageMemberEvent extends BaseElement {
 
           <form-edit-controls hidden$="[[!editing]]" id="editControls" object="{{event}}" errors="{{errors}}" fields='["title","content","locationName","locationUrl","startDate","startTime","endDate","endTime","reservationRequired","reservationUrl","repeat","frequency","untilDate","untilTime","byMO","byTU","byWE","byTH","byFR","bySA","bySU", "weeklyRepeat", "tags"]'  editing="{{_editingFields}}" on-save="_saveData" hidden$="[[!editing]]"></form-edit-controls>
 
+          <app-form hidden$="[[!editing]]" title="All Recurrences">
+            <app-grid-item width=12 slot="field" vertical>
+              <p>After saving the data above, the below table will contain a link to each recurrence of this event. Please note that the links to each recurrence may change if the recurrence rule above changes.</p>
+              <vaadin-grid items="[[event.recurrences]]" height-by-rows on-active-item-changed="_recurrencesActiveItemChanged">
+                <vaadin-grid-column>
+                  <template class="header">Date</template>
+                  <template>[[_parseEventDate(item.startTime, item.endTime)]]</template>
+                </vaadin-grid-column>
+                <vaadin-grid-column>
+                  <template class="header">Link</template>
+                  <template>[[_getPermalink(event.link)]]/[[item.linkpart]]</template>
+                </vaadin-grid-column>
+              </vaadin-grid>
+            </app-grid-item>
+          </app-form>
+
           <form-button label="Delete Event" hidden$="[[!editing]]" on-tap="_deleteEvent" id="delete" style="display: inline-block; min-width: 140px; margin-top: 16px;" red></form-button>
 
           <form-button label="Create Event" hidden$="[[editing]]" on-tap="_create" id="confirm" style="display: inline-block; min-width: 140px; margin-top: 16px;"></form-button>
@@ -152,6 +168,16 @@ class PageMemberEvent extends BaseElement {
     }
   }
 
+  _recurrencesActiveItemChanged(e) {
+    var value = e.detail.value;
+    if (!value && this._previouslySelectedItem) {
+      this._openNewTab(`/e/${this.event.link}${value.linkpart ? "/" + value.linkpart : ""}`)
+    } else if (value) {
+      this._previouslySelectedItem = value;
+      this._openNewTab(`/e/${this.event.link}${value.linkpart ? "/" + value.linkpart : ""}`)
+    }
+  }
+
   _getPermalink(link) {
     return window.location.hostname + "/e/" + link;
   }
@@ -174,12 +200,21 @@ class PageMemberEvent extends BaseElement {
         return resolve({ page: "Create Event" });
       }
 
+      this._loadEvent(id)
+      .then(resolve)
+      .catch(reject)
+    });
+  }
+
+  _loadEvent(id) {
+    return new Promise((resolve, reject) => {
       this._get(`/events/${id}`)
       .then((event) => {
 
         var _freq = "";
         var _untilDate = "";
         var _untilTime = "";
+        var _weeklyRepeatInterval = 1;
         var repeatWeekdays = {  mo: false, tu: false, we: false, th: false, fr: false, sa: false, su: false };
         if (event.recurrenceRule !== null) {
           const rules = rrulestr(event.recurrenceRule);
@@ -187,6 +222,7 @@ class PageMemberEvent extends BaseElement {
           _freq = this._getFrequency(rules);
           _untilDate = this._getUntilDate(rules);
           _untilTime = this._getUntilTime(rules);
+          _weeklyRepeatInterval = this._getWeeklyRepeatInterval(rules);
         }
 
         const _event = {
@@ -212,9 +248,10 @@ class PageMemberEvent extends BaseElement {
           byFR: repeatWeekdays.fr,
           bySA: repeatWeekdays.sa,
           bySU: repeatWeekdays.su,
-          weeklyRepeat: event.weeklyRepeat,
+          weeklyRepeat: _weeklyRepeatInterval,
           tags: this._prettyTags(event.tags),
-          link: event.link
+          link: event.link,
+          recurrences: event.recurrences
         };
         this.set("editing", true);
         this.set("event", _event);
@@ -222,7 +259,7 @@ class PageMemberEvent extends BaseElement {
         resolve({ page: "Update Event" });
       })
       .catch(reject);
-    });
+    })
   }
 
   _finishLoading() {
@@ -240,7 +277,6 @@ class PageMemberEvent extends BaseElement {
       locationName: this.event.locationName,
       locationUrl: this.event.locationUrl,
       reservationRequired: this.event.reservationRequired,
-      weeklyRepeat: this.event.weeklyRepeat,
       tags: this._arrayTags(this.event.tags)
     };
 
@@ -325,6 +361,9 @@ class PageMemberEvent extends BaseElement {
 
     this._put(`/events/${this.event.id}`, _event)
     .then((event) => {
+      return this._loadEvent(this.event.id)
+    })
+    .then(() => {
       this._showToast("Event updated");
       element.done();
     })
@@ -385,6 +424,11 @@ class PageMemberEvent extends BaseElement {
       if (weekday == RRule.SU.weekday) repeatWeekdays.su = true;
     });
     return repeatWeekdays;
+  }
+
+  _getWeeklyRepeatInterval(rules) {
+    if (rules.options.freq != RRule.WEEKLY) return 1;
+    return rules.options.interval;
   }
 
   _createRRule(freq, untilDate, untilTime, interval, repeatDays) {

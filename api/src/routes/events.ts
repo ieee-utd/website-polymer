@@ -199,6 +199,24 @@ route.get('/:link', async (req: any, res: any, next: any) => {
   try {
     let recurrenceId = req.query.r;
     let event = JSON.parse(JSON.stringify(req.event))
+
+    //get all recurrences
+    let allRecurrences = await EventRecurrence
+    .find({ event: req.event._id, hidden: { $ne: true }});
+    allRecurrences.unshift(event); //insert current event as first item
+
+    event.recurrences = _(allRecurrences)
+    .map((recurrence: any) => {
+      return {
+        startTime: recurrence.startTime,
+        endTime: recurrence.endTime,
+        linkpart: recurrence.linkpart
+      }
+    })
+    .sortBy('startTime')
+    .value();
+
+    //get specific recurrence date/time data
     if (recurrenceId) {
       let recurrence: any = await EventRecurrence
       .findOne({ event: req.event._id, linkpart: recurrenceId, hidden: { $ne: true }})
@@ -210,6 +228,7 @@ route.get('/:link', async (req: any, res: any, next: any) => {
           startTime: recurrence.startTime,
           endTime: recurrence.endTime
         })
+
         res.send(cleanAnnouncement(updatedEvent, true))
         return;
       }
@@ -296,18 +315,17 @@ route.put('/:link', userCan("events"), validate(UpdateEventSchema), async (req: 
         await r.save();
       }
 
-      //update event
-      await Event.findOneAndUpdate({ _id: req.event._id }, { $set: req.body })
+    }
 
-    } else {
+    if (!updatedEvent.recurrenceRule) {
       req.body.recurrenceRule = null;
       req.body.recurrenceExceptions = [ ];
 
-      await Event.findOneAndUpdate({ _id: req.event._id }, { $set: req.body })
-
-      //remove all occurances of event
       await EventRecurrence.remove({ event: req.event._id })
     }
+
+    //update event
+    await Event.findOneAndUpdate({ _id: req.event._id }, { $set: req.body })
 
     res.send({ message: "Event updated" })
   } catch (e) {

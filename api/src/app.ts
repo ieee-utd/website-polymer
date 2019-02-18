@@ -205,6 +205,7 @@ app.use((err : any, req : any, res : any, next : any) => {
     console.error(err);
     if (err.errors) {
       //using Camo
+      console.error(err.errors)
       res.status(400).json({
         "message": "Some fields are incorrect",
         "errors": getErrorForm(err.errors)

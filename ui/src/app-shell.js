@@ -26,9 +26,9 @@ import '@vaadin/vaadin-combo-box/vaadin-combo-box.js';
 import '@vaadin/vaadin-grid/vaadin-grid.js';
 import '@vaadin/vaadin-grid/vaadin-grid-sort-column.js';
 import '@vaadin/vaadin-date-picker/vaadin-date-picker.js';
+import '@vaadin/vaadin-text-field/vaadin-number-field.js';
 import '@vaadin/vaadin-time-picker/vaadin-time-picker.js';
 import '@vaadin/vaadin-select/vaadin-select.js';
-import '@vaadin/vaadin-text-field/vaadin-number-field.js';
 
 import 'clipboard-copy-element';
 import '@polymer/iron-a11y-keys/iron-a11y-keys.js';
