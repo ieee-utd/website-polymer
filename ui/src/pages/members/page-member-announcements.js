@@ -61,7 +61,7 @@ class PageMemberAnnouncements extends BaseElement {
 
   onload() {
     return new Promise((resolve, reject) => {
-      this._get("/announcements/all")
+      this._get("/announcements/editable")
       .then((announcements) => {
         this.set("announcements", announcements)
         resolve({ page: "Announcements" });

@@ -143,7 +143,6 @@ route.get('/', async (req: any, res: any, next: any) => {
     events = _.sortBy(events, '_id.day');
 
     result.dates = _.map(events, (day: any) => {
-      console.log(day.events)
       day.events = cleanAll(day.events, cleanAnnouncement);
       day.date = moment(day._id.day, "Y-M-D");
       day.day = moment.utc(day.date).format("D");
@@ -164,15 +163,11 @@ async function checkEventActiveStatus(event: any) {
   }
   if (!event.recurrenceRule) return false;
 
-  console.log("Event", event)
-
   //check recurrences
   let latestOccurance: any = await EventRecurrence
   .find({ event: event._id, hidden: { $ne: true }})
   .sort({ endTime: -1 })
   .limit(1);
-
-  console.log("Latest occurance", latestOccurance);
 
   if (moment(latestOccurance.endTime).isSameOrAfter(moment())) {
     return true;
@@ -343,7 +338,6 @@ route.put('/:link', userCan("events"), validate(UpdateEventSchema), async (req: 
       console.warn("Recurrence rules changing")
 
       let recurrencesToGenerate: any = await calculateEventRecurrence(updatedEvent.recurrenceRule, updatedEvent.recurrenceExceptions, updatedEvent.startTime, updatedEvent.endTime);
-      console.log(recurrencesToGenerate);
 
       //delete all occurances of event
       await EventRecurrence.remove({ event: req.event._id })

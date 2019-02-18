@@ -110,7 +110,7 @@ const developmentFormatLine: any = function(tokens: any, req: any, res: any) {
 };
 morgan.format('devtime', developmentFormatLine);
 
-app.use(morgan('devtime'));
+app.use(morgan('dev'));
 app.use(compression());
 app.use(bodyParser.json());
 app.use(session({
@@ -137,7 +137,7 @@ passport.use('local', new Strategy( { usernameField: "email", passwordField: "pa
   let user: any = await Member.findOne({ email: email.toLowerCase().trim() })
   .populate('group');
 
-  console.log(user)
+  console.log("Logging in as: " + user.email);
 
   if (user) {
     easyPbkdf2.verify(user.passwordSalt, user.passwordHash, password, (err: any, valid: any) => {
@@ -178,9 +178,11 @@ passport.serializeUser(async (user: any, done: any) => {
 });
 
 passport.deserializeUser(async (serializedUser: any, done: any) => {
-  var user = await Member.findById(serializedUser._id)
+  var user: any = await Member.findById(serializedUser._id)
   .select("firstName lastName email _id group profileImageUrl position")
   .populate('group');
+
+  console.log("Acting as: " + user.email);
 
   done(null, user);
 });
