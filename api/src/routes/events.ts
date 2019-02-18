@@ -143,7 +143,6 @@ route.get('/', async (req: any, res: any, next: any) => {
     events = _.sortBy(events, '_id.day');
 
     result.dates = _.map(events, (day: any) => {
-      console.log(day.events)
       day.events = cleanAll(day.events, cleanAnnouncement);
       day.date = moment(day._id.day, "Y-M-D");
       day.day = moment.utc(day.date).format("D");
@@ -157,6 +156,24 @@ route.get('/', async (req: any, res: any, next: any) => {
     next(e)
   }
 });
+
+async function checkEventActiveStatus(event: any) {
+  if (moment(event.endTime).isSameOrAfter(moment())) {
+    return true;
+  }
+  if (!event.recurrenceRule) return false;
+
+  //check recurrences
+  let latestOccurance: any = await EventRecurrence
+  .find({ event: event._id, hidden: { $ne: true }})
+  .sort({ endTime: -1 })
+  .limit(1);
+
+  if (moment(latestOccurance.endTime).isSameOrAfter(moment())) {
+    return true;
+  }
+  return false;
+}
 
 //Get list of events this user can edit
 route.get('/editable', userCan("events"), async (req: any, res: any, next: any) => {
@@ -182,11 +199,16 @@ route.get('/editable', userCan("events"), async (req: any, res: any, next: any) 
     })
     .sort({ startDate: 1 });
 
-    events = _.map(events, (event: any) => {
-      if (!event.recurrenceRule) return event;
-      event.recurrenceRulePretty = rrulestr(event.recurrenceRule).toText();
-      return event;
-    })
+    for (var event of events) {
+      if (event.recurrenceRule) {
+        event.recurrenceRulePretty = rrulestr(event.recurrenceRule).toText();
+      }
+
+      //check if event is "active", that is an event that has not yet ended,
+      //or have at least one occurrance that has not yet ended
+
+      event.active = await checkEventActiveStatus(event);
+    }
 
     res.send(cleanAll(events, cleanAnnouncement));
   } catch (e) {
@@ -199,6 +221,27 @@ route.get('/:link', async (req: any, res: any, next: any) => {
   try {
     let recurrenceId = req.query.r;
     let event = JSON.parse(JSON.stringify(req.event))
+
+    //get all recurrences
+    let allRecurrences = await EventRecurrence
+    .find({ event: req.event._id, hidden: { $ne: true }});
+    allRecurrences.unshift(event); //insert current event as first item
+
+    event.recurrences = _(allRecurrences)
+    .map((recurrence: any) => {
+      return {
+        startTime: recurrence.startTime,
+        endTime: recurrence.endTime,
+        linkpart: recurrence.linkpart
+      }
+    })
+    .filter((recurrence: any) => {
+      return moment(recurrence.endTime).isAfter(moment())
+    })
+    .sortBy('startTime')
+    .value();
+
+    //get specific recurrence date/time data
     if (recurrenceId) {
       let recurrence: any = await EventRecurrence
       .findOne({ event: req.event._id, linkpart: recurrenceId, hidden: { $ne: true }})
@@ -210,6 +253,7 @@ route.get('/:link', async (req: any, res: any, next: any) => {
           startTime: recurrence.startTime,
           endTime: recurrence.endTime
         })
+
         res.send(cleanAnnouncement(updatedEvent, true))
         return;
       }
@@ -279,11 +323,21 @@ route.put('/:link', userCan("events"), validate(UpdateEventSchema), async (req: 
 
     let updatedEvent = Object.assign(req.event, req.body);
 
+    if (moment(updatedEvent.endTime).isBefore(moment(updatedEvent.startTime))) {
+      return next({
+        status: 400,
+        message: "Event end time must not be before event start time",
+        errors: {
+          startTime: "Invalid value",
+          endTime: "Invalid value"
+        }
+      })
+    }
+
     if (updatedEvent.recurrenceRule && recurrenceRulesChanged) {
       console.warn("Recurrence rules changing")
 
       let recurrencesToGenerate: any = await calculateEventRecurrence(updatedEvent.recurrenceRule, updatedEvent.recurrenceExceptions, updatedEvent.startTime, updatedEvent.endTime);
-      console.log(recurrencesToGenerate);
 
       //delete all occurances of event
       await EventRecurrence.remove({ event: req.event._id })
@@ -296,18 +350,17 @@ route.put('/:link', userCan("events"), validate(UpdateEventSchema), async (req: 
         await r.save();
       }
 
-      //update event
-      await Event.findOneAndUpdate({ _id: req.event._id }, { $set: req.body })
+    }
 
-    } else {
+    if (!updatedEvent.recurrenceRule) {
       req.body.recurrenceRule = null;
       req.body.recurrenceExceptions = [ ];
 
-      await Event.findOneAndUpdate({ _id: req.event._id }, { $set: req.body })
-
-      //remove all occurances of event
       await EventRecurrence.remove({ event: req.event._id })
     }
+
+    //update event
+    await Event.findOneAndUpdate({ _id: req.event._id }, { $set: req.body })
 
     res.send({ message: "Event updated" })
   } catch (e) {

@@ -315,6 +315,9 @@ export class BaseElement extends PolymerElement {
     return picked;
   }
 
+  _not(a) {
+    return !a;
+  }
   _or(a, b) {
     return a || b;
   }

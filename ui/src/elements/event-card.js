@@ -70,6 +70,9 @@ class EventCard extends BaseElement {
           @apply --layout-start-justified;
           @apply --layout-center;
         }
+        div.action[recurrence] {
+          margin-top: 0;
+        }
         div.action > div {
           width: 100%;
           margin-right: 16px;
@@ -125,28 +128,27 @@ class EventCard extends BaseElement {
       </style>
 
       <paper-card on-click="_navigate">
-        <h3>[[announcement.title]]</h3>
-        <div class="tags">
+        <h3 hidden$="[[isRecurrence]]">[[announcement.title]]</h3>
+        <div class="tags" hidden$="[[isRecurrence]]">
           <dom-repeat items="[[announcement.tags]]">
             <template>
               <a href="#">#[[item]]</a>
             </template>
           </dom-repeat>
         </div>
-        <div hidden$="[[isEvent]]" id="content"></div>
-        <div hidden$="[[isEvent]]" class="content-mask"></div>
-        <div hidden$="[[!isEvent]]" class="action">
+        <div hidden$="[[_or(isEvent,isRecurrence)]]" id="content"></div>
+        <div hidden$="[[_or(isEvent,isRecurrence)]]" class="content-mask"></div>
+        <div hidden$="[[!isEvent]]" class="action" recurrence$="[[isRecurrence]]">
           <div hidden$="[[!announcement.locationName]]">
             <iron-icon class="card-action-icon" icon="mdi:map-marker-outline"></iron-icon><span><b>[[announcement.locationName]]</b></span>
           </div>
           <div>
-            <iron-icon class="card-action-icon" icon="mdi:clock-outline"></iron-icon><span><b>[[_parseEventDate(announcement.startTime,announcement.endTime,1)]]</b></span>
+            <iron-icon class="card-action-icon" icon="mdi:clock-outline"></iron-icon><span><b>[[_parseEventDate(announcement.startTime,announcement.endTime,_isNotRecurrence)]]</b></span>
           </div>
         </div>
         <div class="more">
           View more
         </div>
-
       </paper-card>
     `;
   }
@@ -155,7 +157,10 @@ class EventCard extends BaseElement {
     return {
       announcement: {type: Object, observer: '_announcementChanged'},
       isEvent: { type: Boolean, value: false },
-      from: { type: String, value: "" }
+      isRecurrence: { type: Boolean, value: false },
+      recurrenceLink: { type: String },
+      from: { type: String, value: "" },
+      _isNotRecurrence: { type: Boolean, computed: "_not(isRecurrence)" }
     }
   }
 
@@ -164,7 +169,11 @@ class EventCard extends BaseElement {
   }
 
   _navigate() {
-    this._fire('change-page', `/${this.isEvent ? 'event' : 'announcement'}/${this.announcement.link}${this.from ? "?f=" + this.from : ""}`);
+    if (this.isRecurrence) {
+      this._fire('change-page', `/event/${this.recurrenceLink}${this.announcement.linkpart ? "/" + this.announcement.linkpart : ""}`);
+    } else {
+      this._fire('change-page', `/${this.isEvent ? 'event' : 'announcement'}/${this.announcement.link}${this.from ? "?f=" + this.from : ""}`);
+    }
   }
 }
 

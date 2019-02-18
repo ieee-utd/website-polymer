@@ -20,27 +20,38 @@ class PageMemberEvents extends BaseElement {
           <form-button label="Create event" style="display: inline-block; margin-bottom: 16px" on-tap="_createEvent"></form-button>
 
           <vaadin-grid items="[[events]]" height-by-rows on-active-item-changed="_activeItemChanged">
-            <vaadin-grid-column>
+            <vaadin-grid-sort-column path="title" width="160px">
               <template class="header">Title</template>
               <template>[[item.title]]</template>
-            </vaadin-grid-column>
-            <vaadin-grid-column>
+            </vaadin-grid-sort-column>
+            <vaadin-grid-sort-column path="locationName" width="160px">
               <template class="header">Location</template>
               <template>[[item.locationName]]</template>
-            </vaadin-grid-column>
-            <vaadin-grid-column>
+            </vaadin-grid-sort-column>
+            <vaadin-grid-sort-column path="startTime" direction="asc" width="200px">
               <template class="header">Start time</template>
               <template>[[_prettyDate(item.startTime)]]</template>
-            </vaadin-grid-column>
-            <vaadin-grid-column>
+            </vaadin-grid-sort-column>
+            <vaadin-grid-sort-column path="endTime" width="200px">
               <template class="header">End time</template>
               <template>[[_prettyDate(item.endTime)]]</template>
-            </vaadin-grid-column>
-            <vaadin-grid-column>
+            </vaadin-grid-sort-column>
+            <vaadin-grid-sort-column path="active" header="Status" width="140px">
+              <template class="header">Status</template>
+              <template>
+                <span style="color: var(--paper-red-600);" hidden$="[[item.active]]">Inactive</span>
+                <span style="color: var(--paper-green-600);" hidden$="[[!item.active]]">Active</span>
+              </template>
+            </vaadin-grid-sort-column>
+            <vaadin-grid-column width="160px">
               <template class="header">Tags</template>
-              <template>[[item.tags]]</template>
+              <template>
+                <template is="dom-repeat" items="[[item.tags]]" as="tag">
+                  <span style="margin-right:4px; background-color: var(--paper-grey-200); padding: 2px 4px; font-style: italic">[[tag]]</span>
+                </template>
+              </template>
             </vaadin-grid-column>
-            <vaadin-grid-column>
+            <vaadin-grid-column width="360px">
               <template class="header">Recurrence</template>
               <template>[[item.recurrenceRulePretty]]</template>
             </vaadin-grid-column>
@@ -55,6 +66,11 @@ class PageMemberEvents extends BaseElement {
     return {
       events: { Type: Array, value: [] }
     }
+  }
+
+  _eventActive(startTime, endTime) {
+    if (moment(endTime).isBefore(moment())) return false;
+    return true;
   }
 
   onload() {

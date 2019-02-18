@@ -151,6 +151,10 @@ class PageEvent extends BaseElement {
           border-radius: 8px;
           overflow: hidden;
         }
+
+        event-card {
+          color: white;
+        }
       </style>
 
       <app-container class="content">
@@ -194,6 +198,19 @@ class PageEvent extends BaseElement {
               </dom-repeat>
             </div>
             <div id="content"></div>
+            <div class="recurrence-container" hidden$="[[!_haveMultiple(event.recurrences)]]" style="margin-top: 48px">
+              <hr>
+              <app-form>
+                <app-grid-item width=12 slot="field">
+                  <p style="margin-top: 0">This event occurs on all of the following dates:</p>
+                </app-grid-item>
+                <template is="dom-repeat" items="[[event.recurrences]]" as="recurrence">
+                  <app-grid-item width=6 slot="field">
+                    <event-card announcement="[[recurrence]]" is-event is-recurrence recurrence-link="[[_getEventLink(event.link)]]"></event-card>
+                  </app-grid-item>
+                </template>
+              </app-form>
+            </div>
             <div class="avatar-container">
               <div class="user-avatar">
                 <span style="margin-right:8px">Posted [[_parseAnnouncementDate(event.createdOn)]] by </span>
@@ -219,6 +236,15 @@ class PageEvent extends BaseElement {
       },
       _savedScroll: { type: Number, value: 0 }
     }
+  }
+
+  _haveMultiple(a) {
+    return this._have(a) && a.length > 1;
+  }
+
+  _getEventLink(link) {
+    if (!link) return "";
+    return link.split("/")[0];
   }
 
   _copyEventLink() {

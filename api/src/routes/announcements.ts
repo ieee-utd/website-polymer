@@ -1,5 +1,6 @@
 import * as express from "express";
 import * as moment from "moment";
+import * as _ from "lodash";
 export let route = express.Router();
 
 import { cleanAll, cleanAnnouncement } from "../helpers/clean";
@@ -41,12 +42,32 @@ route.get('/', async (req: any, res: any, next: any) => {
 });
 
 //List all announcements (admin only)
-route.get('/all', userCan("announcements"), async (req: any, res: any, next: any) => {
+route.get('/editable', userCan("announcements"), async (req: any, res: any, next: any) => {
   try {
-    let _announcements = await Announcement.find()
-    .sort({ visibleFrom: -1 });
 
-    res.send(cleanAll(_announcements, cleanAnnouncement));
+    const auth = req.user.group.permissions.admin ? "all" : req.user.group.permissions.announcements;
+
+    var query;
+    if (auth === "own") {
+      query = { createdBy: req.user._id };
+    } else if (auth === "all") {
+      query = { };
+    } else {
+      return next({ status: 500, message: "Invalid value for user announcements access"});
+    }
+
+    const _announcements = await Announcement
+    .find(query)
+    .sort({ visibleFrom: -1 });
+    let announcements = JSON.parse(JSON.stringify(_announcements));
+
+    announcements = _.map(announcements, (announcement: any) => {
+      announcement.active = moment(announcement.visibleFrom).isSameOrBefore(moment()) && moment(announcement.visibleUntil).isSameOrAfter(moment())
+
+      return announcement;
+    })
+
+    res.send(cleanAll(announcements, cleanAnnouncement));
   } catch (e) {
     next(e)
   }
@@ -62,7 +83,7 @@ route.get('/:link', async (req: any, res: any, next: any) => {
 });
 
 //Create new announcement
-route.post('/', userCan("create"), validate(CreateAnnouncementSchema), async (req: any, res: any, next: any) => {
+route.post('/', userCan("announcements"), validate(CreateAnnouncementSchema), async (req: any, res: any, next: any) => {
   try {
     let announcement = req.body;
     announcement.link = base64url(crypto.randomBytes(4));
@@ -89,8 +110,15 @@ route.post('/', userCan("create"), validate(CreateAnnouncementSchema), async (re
 });
 
 //Update announcement
-route.put('/:link', userCan("edit"), validate(UpdateAnnouncementSchema), async (req: any, res: any, next: any) => {
+route.put('/:link', userCan("announcements"), validate(UpdateAnnouncementSchema), async (req: any, res: any, next: any) => {
   try {
+    //Verify that user can edit the announcement
+    const auth = req.user.group.permissions.admin ? "all" : req.user.group.permissions.announcements;
+    if (auth === "own") {
+      if (req.announcement.createdBy._id.toString() !== req.user._id.toString())
+        return next({ status: 403, message: "Access denied" })
+    }
+
     req.body.lastUpdated = Date.now();
     req.body.updatedBy = req.user._id;
 
@@ -103,8 +131,15 @@ route.put('/:link', userCan("edit"), validate(UpdateAnnouncementSchema), async (
 });
 
 //Delete announcement
-route.delete('/:link', userCan("delete"), async (req: any, res: any, next: any) => {
+route.delete('/:link', userCan("announcements"), async (req: any, res: any, next: any) => {
   try {
+    //Verify that user can delete the announcement
+    const auth = req.user.group.permissions.admin ? "all" : req.user.group.permissions.announcements;
+    if (auth === "own") {
+      if (req.announcement.createdBy._id.toString() !== req.user._id.toString())
+        return next({ status: 403, message: "Access denied" })
+    }
+
     await Announcement.remove({ _id: req.announcement._id });
 
     res.send({ message: "Announcement deleted" })

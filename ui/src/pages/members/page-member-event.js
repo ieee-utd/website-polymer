@@ -104,6 +104,10 @@ class PageMemberEvent extends BaseElement {
               <vaadin-checkbox checked="{{event.bySU}}" auto-disable>SU</vaadin-checkbox>
             </app-grid-item>
             <app-grid-item width=5 slot="field" hidden$="[[_notWeekly(event.frequency,event.repeat)]]"></app-grid-item>
+            <app-grid-item style="border-top: 0;" width=3 slot="field" hidden$="[[_notWeekly(event.frequency,event.repeat)]]">
+              <vaadin-number-field min="1" max="5" value="{{event.weeklyRepeat}}" label="Repeat every [[event.weeklyRepeat]] week(s)" has-controls auto-readonly></vaadin-number-field>
+            </app-grid-item>
+            <app-grid-item width=9 slot="field" hidden$="[[_notWeekly(event.frequency,event.repeat)]]"></app-grid-item>
             <!--<app-grid-item style="border-top: 16px solid rgba(255, 255, 255, 0);" width=6 slot="field">
               <vaadin-checkbox checked="{{event.reservationRequired}}" auto-disable>Reservation required</vaadin-checkbox>
             </app-grid-item>
@@ -119,7 +123,23 @@ class PageMemberEvent extends BaseElement {
             </app-grid-item>
           </app-form>
 
-          <form-edit-controls hidden$="[[!editing]]" id="editControls" object="{{event}}" errors="{{errors}}" fields='["title","content","locationName","locationUrl","startDate","startTime","endDate","endTime","reservationRequired","reservationUrl","repeat","frequency","untilDate","untilTime","byMO","byTU","byWE","byTH","byFR","bySA","bySU","tags"]'  editing="{{_editingFields}}" on-save="_saveData" hidden$="[[!editing]]"></form-edit-controls>
+          <form-edit-controls hidden$="[[!editing]]" id="editControls" object="{{event}}" errors="{{errors}}" fields='["title","content","locationName","locationUrl","startDate","startTime","endDate","endTime","reservationRequired","reservationUrl","repeat","frequency","untilDate","untilTime","byMO","byTU","byWE","byTH","byFR","bySA","bySU", "weeklyRepeat", "tags"]'  editing="{{_editingFields}}" on-save="_saveData" hidden$="[[!editing]]"></form-edit-controls>
+
+          <app-form hidden$="[[!editing]]" title="Future Recurrences">
+            <app-grid-item width=12 slot="field" vertical>
+              <p>After saving the data above, the below table will contain a link to each recurrence of this event. Please note that the links to each recurrence may change if the recurrence rule above changes.</p>
+              <vaadin-grid items="[[event.recurrences]]" height-by-rows on-active-item-changed="_recurrencesActiveItemChanged">
+                <vaadin-grid-column>
+                  <template class="header">Date</template>
+                  <template>[[_parseEventDate(item.startTime, item.endTime)]]</template>
+                </vaadin-grid-column>
+                <vaadin-grid-column>
+                  <template class="header">Link</template>
+                  <template>[[_getPermalink(event.link)]]/[[item.linkpart]]</template>
+                </vaadin-grid-column>
+              </vaadin-grid>
+            </app-grid-item>
+          </app-form>
 
           <form-button label="Delete Event" hidden$="[[!editing]]" on-tap="_deleteEvent" id="delete" style="display: inline-block; min-width: 140px; margin-top: 16px;" red></form-button>
 
@@ -148,6 +168,16 @@ class PageMemberEvent extends BaseElement {
     }
   }
 
+  _recurrencesActiveItemChanged(e) {
+    var value = e.detail.value;
+    if (!value && this._previouslySelectedItem) {
+      this._openNewTab(`/e/${this.event.link}${value.linkpart ? "/" + value.linkpart : ""}`)
+    } else if (value) {
+      this._previouslySelectedItem = value;
+      this._openNewTab(`/e/${this.event.link}${value.linkpart ? "/" + value.linkpart : ""}`)
+    }
+  }
+
   _getPermalink(link) {
     return window.location.hostname + "/e/" + link;
   }
@@ -163,18 +193,28 @@ class PageMemberEvent extends BaseElement {
       if (id === "create") {
         this.set("editing", false);
         this.set("event", {
+          weeklyRepeat: 1,
           reservationRequired: false
         });
         this._finishLoading();
         return resolve({ page: "Create Event" });
       }
 
+      this._loadEvent(id)
+      .then(resolve)
+      .catch(reject)
+    });
+  }
+
+  _loadEvent(id) {
+    return new Promise((resolve, reject) => {
       this._get(`/events/${id}`)
       .then((event) => {
 
         var _freq = "";
         var _untilDate = "";
         var _untilTime = "";
+        var _weeklyRepeatInterval = 1;
         var repeatWeekdays = {  mo: false, tu: false, we: false, th: false, fr: false, sa: false, su: false };
         if (event.recurrenceRule !== null) {
           const rules = rrulestr(event.recurrenceRule);
@@ -182,6 +222,7 @@ class PageMemberEvent extends BaseElement {
           _freq = this._getFrequency(rules);
           _untilDate = this._getUntilDate(rules);
           _untilTime = this._getUntilTime(rules);
+          _weeklyRepeatInterval = this._getWeeklyRepeatInterval(rules);
         }
 
         const _event = {
@@ -207,8 +248,10 @@ class PageMemberEvent extends BaseElement {
           byFR: repeatWeekdays.fr,
           bySA: repeatWeekdays.sa,
           bySU: repeatWeekdays.su,
+          weeklyRepeat: _weeklyRepeatInterval,
           tags: this._prettyTags(event.tags),
-          link: event.link
+          link: event.link,
+          recurrences: event.recurrences
         };
         this.set("editing", true);
         this.set("event", _event);
@@ -216,7 +259,7 @@ class PageMemberEvent extends BaseElement {
         resolve({ page: "Update Event" });
       })
       .catch(reject);
-    });
+    })
   }
 
   _finishLoading() {
@@ -240,8 +283,7 @@ class PageMemberEvent extends BaseElement {
     if (this.event.repeat) {
       try {
         if (!this.event.frequency || !this.event.untilDate || !this.event.untilTime) throw new Error("All recurrence fields are required");
-
-        _event.recurrenceRule = this._createRRule(this.event.frequency, this.event.untilDate, this.event.untilTime, { mo:this.event.byMO, tu:this.event.byTU, we:this.event.byWE, th:this.event.byTH, fr:this.event.byFR, sa:this.event.bySA, su:this.event.bySU });
+        _event.recurrenceRule = this._createRRule(this.event.frequency, this.event.untilDate, this.event.untilTime, this.event.weeklyRepeat, { mo:this.event.byMO, tu:this.event.byTU, we:this.event.byWE, th:this.event.byTH, fr:this.event.byFR, sa:this.event.bySA, su:this.event.bySU });
       } catch (e) {
         console.warn(e)
         this._showToastError("Please check all event recurrence fields. Some fields may be invalid.")
@@ -263,6 +305,8 @@ class PageMemberEvent extends BaseElement {
 
       _event.recurrenceRule = null;
     }
+
+    console.log(_event);
 
     this._post(`/events`, _event)
     .then((data) => {
@@ -294,7 +338,7 @@ class PageMemberEvent extends BaseElement {
 
     if (event.repeat) {
       try {
-        _event.recurrenceRule = this._createRRule(event.frequency, event.untilDate, event.untilTime, { mo:event.byMO, tu:event.byTU, we:event.byWE, th:event.byTH, fr:event.byFR, sa:event.bySA, su:event.bySU });
+        _event.recurrenceRule = this._createRRule(event.frequency, event.untilDate, event.untilTime, event.weeklyRepeat, { mo:event.byMO, tu:event.byTU, we:event.byWE, th:event.byTH, fr:event.byFR, sa:event.bySA, su:event.bySU });
       } catch (e) {
         this._showToastError("Please check all event recurrence fields. Some fields may be invalid.")
         element.fail();
@@ -317,6 +361,9 @@ class PageMemberEvent extends BaseElement {
 
     this._put(`/events/${this.event.id}`, _event)
     .then((event) => {
+      return this._loadEvent(this.event.id)
+    })
+    .then(() => {
       this._showToast("Event updated");
       element.done();
     })
@@ -379,7 +426,12 @@ class PageMemberEvent extends BaseElement {
     return repeatWeekdays;
   }
 
-  _createRRule(freq, untilDate, untilTime, repeatDays) {
+  _getWeeklyRepeatInterval(rules) {
+    if (rules.options.freq != RRule.WEEKLY) return 1;
+    return rules.options.interval;
+  }
+
+  _createRRule(freq, untilDate, untilTime, interval, repeatDays) {
     var _freq = "";
     if (freq === 'Weekly') _freq = RRule.WEEKLY;
     else if (freq === 'Monthly') _freq = RRule.MONTHLY;
@@ -397,6 +449,7 @@ class PageMemberEvent extends BaseElement {
       freq: _freq,
       byweekday: _byweekday,
       until: moment(untilDate + ' ' + untilTime).format(),
+      interval: interval,
       wkst: RRule.MO
     })
 
