@@ -75,11 +75,11 @@ const replyTo = fromEmail;
 const subject = "IEEEUTD IT Committee First Meeting";
 
 const bodyHtml = `<p>Hello everyone!<br><br>
-Thank you for expressing your interest in the IEEEUTD IT Committee at the recent General Meeting. Our team designs and develops the IEEEUTD website using the latest open-source technologies.<br><br>
+We have now closed the poll for our first meeting date. Thank you to those that participated!<br><br>
 
-If you would like to join the committee (and learn web development, security, and server technologies!), please <b>let us know when you can make it next week by filling out the Doodle poll here: </b><a href="https://doodle.com/poll/tp5duwtq7mu2yt28">https://doodle.com/poll/tp5duwtq7mu2yt28</a>.<br><br>
+If you would like to join the committee (and learn web development, security, and server technologies!), please <b>attend our first meeting at SPN 2.220 (also known as the Makerspace) at 7:30p this Thursday.</b><br><br>
 
-Thank you for your interest! Please email us back if you have any questions.`
+Please email us back if you have any questions or cannot make it anymore. Thank you!`
 
 async function run() {
   try {
