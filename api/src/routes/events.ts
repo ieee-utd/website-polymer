@@ -213,6 +213,9 @@ route.get('/:link', async (req: any, res: any, next: any) => {
         linkpart: recurrence.linkpart
       }
     })
+    .filter((recurrence: any) => {
+      return moment(recurrence.endTime).isAfter(moment())
+    })
     .sortBy('startTime')
     .value();
 
@@ -297,6 +300,17 @@ route.put('/:link', userCan("events"), validate(UpdateEventSchema), async (req: 
     let recurrenceRulesChanged = (req.event.recurrenceRule !== req.body.recurrenceRule) || (JSON.stringify(req.event.recurrenceExceptions || [ ]) !== JSON.stringify(req.body.recurrenceExceptions || [ ]));
 
     let updatedEvent = Object.assign(req.event, req.body);
+
+    if (moment(updatedEvent.endTime).isBefore(moment(updatedEvent.startTime))) {
+      return next({
+        status: 400,
+        message: "Event end time must not be before event start time",
+        errors: {
+          startTime: "Invalid value",
+          endTime: "Invalid value"
+        }
+      })
+    }
 
     if (updatedEvent.recurrenceRule && recurrenceRulesChanged) {
       console.warn("Recurrence rules changing")
