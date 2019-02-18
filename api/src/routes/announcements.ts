@@ -62,7 +62,7 @@ route.get('/:link', async (req: any, res: any, next: any) => {
 });
 
 //Create new announcement
-route.post('/', userCan("create"), validate(CreateAnnouncementSchema), async (req: any, res: any, next: any) => {
+route.post('/', userCan("announcements"), validate(CreateAnnouncementSchema), async (req: any, res: any, next: any) => {
   try {
     let announcement = req.body;
     announcement.link = base64url(crypto.randomBytes(4));
@@ -89,7 +89,7 @@ route.post('/', userCan("create"), validate(CreateAnnouncementSchema), async (re
 });
 
 //Update announcement
-route.put('/:link', userCan("edit"), validate(UpdateAnnouncementSchema), async (req: any, res: any, next: any) => {
+route.put('/:link', userCan("announcements"), validate(UpdateAnnouncementSchema), async (req: any, res: any, next: any) => {
   try {
     req.body.lastUpdated = Date.now();
     req.body.updatedBy = req.user._id;
@@ -103,7 +103,7 @@ route.put('/:link', userCan("edit"), validate(UpdateAnnouncementSchema), async (
 });
 
 //Delete announcement
-route.delete('/:link', userCan("delete"), async (req: any, res: any, next: any) => {
+route.delete('/:link', userCan("announcements"), async (req: any, res: any, next: any) => {
   try {
     await Announcement.remove({ _id: req.announcement._id });
 
