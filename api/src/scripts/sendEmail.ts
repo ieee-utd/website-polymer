@@ -81,6 +81,8 @@ If you would like to join the committee (and learn web development, security, an
 
 Please email us back if you have any questions or cannot make it anymore. Thank you!`
 
+const summary = "";
+
 async function run() {
   try {
     await sendEmailMsg({
@@ -95,7 +97,7 @@ async function run() {
         origin: process.env.MAIL_HOSTNAME,
         body: bodyHtml,
         subject: subject,
-        summary: "Please let us know when you can make it next week to the IEEEUTD IT Tech Committee meeting."
+        summary: summary
       },
     })
 
