@@ -143,10 +143,12 @@ class PageTutoring extends BaseElement {
 
         <h2>Tutor Schedules</h2>
         <paper-tabs selected="{{selected}}">
+          
           <paper-tab>DC</paper-tab>
           <paper-tab>DS</paper-tab>
           <paper-tab>ENA</paper-tab>
           <paper-tab>S&amp;S</paper-tab>
+          <paper-tab>Intro CS/EE II</paper-tab>
         </paper-tabs>
         <iron-pages selected="{{selected}}">
           <div>
@@ -180,6 +182,17 @@ class PageTutoring extends BaseElement {
               frameborder="0" style="border:0"
               src="https://schedulebuilder.org/?r4zb960a">
             </iframe>
+          </div>
+          <div>
+            <!-- <iframe
+              width="100%"
+              height="480"
+              frameborder="0" style="border:0"
+              src="https://schedulebuilder.org/?s=vut7qc8r">
+            </iframe> -->
+            <div style="width:100%;background:#A4A4A4;display:flex;justify-content:center;">
+              <img style="max-width:940px;width:100%;height:100%;object-fit:contain;" src="https://s3.amazonaws.com/ieee-utd/resources/intro_ce_ee_ii.png" alt="intro_ce_ee_ii" />
+            </div>
           </div>
         </iron-pages>
 
