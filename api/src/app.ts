@@ -137,9 +137,9 @@ passport.use('local', new Strategy( { usernameField: "email", passwordField: "pa
   let user: any = await Member.findOne({ email: email.toLowerCase().trim() })
   .populate('group');
 
-  console.log("Logging in as: " + user.email);
-
   if (user) {
+    console.log("Logging in as: " + user.email);
+
     easyPbkdf2.verify(user.passwordSalt, user.passwordHash, password, (err: any, valid: any) => {
       if (valid) {
         if (!user.group || !user.group.permissions || !user.group.permissions.login) {
