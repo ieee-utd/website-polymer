@@ -228,6 +228,7 @@ class AppShell extends BaseElement {
       case "event":
       case "":
       case "about":
+      case "hkn":
       case "tutoring":
       case "contact":
         return this._loadLayout("main")

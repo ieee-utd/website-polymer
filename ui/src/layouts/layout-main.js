@@ -226,6 +226,7 @@ class LayoutMain extends BaseElement {
           <a href="[[rootPath]]" active$="[[_active(_page,'home')]]"><iron-icon icon="mdi:home-outline"></iron-icon><h4>Home</h4></a>
           <a href="[[rootPath]]about" active$="[[_active(_page,'about')]]"><iron-icon icon="mdi:information-outline"></iron-icon><h4>About</h4></a>
           <a href="[[rootPath]]tutoring" active$="[[_active(_page,'tutoring')]]"><iron-icon icon="mdi:comment-question-outline"></iron-icon><h4>Tutoring</h4></a>
+          <a href="[[rootPath]]hkn" active$="[[_active(_page,'hkn')]]"><iron-icon icon="mdi:account-group-outline"></iron-icon><h4>HKN</h4></a>
           <a href="[[rootPath]]contact" active$="[[_active(_page,'contact')]]"><iron-icon icon="mdi:email-outline"></iron-icon><h4>Contact</h4></a>
           <a href="[[rootPath]]join" active$="[[_active(_page,'apply')]]"><iron-icon icon="mdi:account-heart"></iron-icon><h4>Join Us</h4></a>
         </iron-selector>
@@ -239,6 +240,7 @@ class LayoutMain extends BaseElement {
               <span class="tab"><a href="[[rootPath]]" active$="[[_active(_page,'home')]]">Home</a></span>
               <span class="tab"><a href="[[rootPath]]about" active$="[[_active(_page,'about')]]">About</a></span>
               <span class="tab"><a href="[[rootPath]]tutoring" active$="[[_active(_page,'tutoring')]]">Tutoring</a></span>
+              <span class="tab"><a href="[[rootPath]]hkn" active$="[[_active(_page,'hkn')]]">HKN</a></span>
               <span class="tab"><a href="[[rootPath]]contact" active$="[[_active(_page,'contact')]]">Contact</a></span>
               <span class="tab"><a href="[[rootPath]]join" active$="[[_active(_page,'apply')]]">Join Us</a></span>
             </div>
@@ -256,6 +258,7 @@ class LayoutMain extends BaseElement {
           <page-about name="about"></page-about>
           <page-apply name="apply"></page-apply>
           <page-tutoring name="tutoring"></page-tutoring>
+          <page-hkn name="hkn"></page-hkn>
           <page-contact name="contact"></page-contact>
           <page-announcement name="announcement"></page-announcement>
           <page-event name="event"></page-event>
@@ -370,7 +373,10 @@ class LayoutMain extends BaseElement {
         case 'tutoring':
           import('../pages/page-tutoring.js').then(resolve.bind(this, page)).catch(reject);
           break;
-        case 'contact':
+        case 'hkn':
+          import('../pages/page-hkn.js').then(resolve.bind(this, page)).catch(reject);
+          break;
+          case 'contact':
           import('../pages/page-contact.js').then(resolve.bind(this, page)).catch(reject);
           break;
         case 'announcement':
