@@ -42,7 +42,7 @@ class PageHKN extends BaseElement {
         <p>Eta Kappa Nu (HKN) is the honor society of IEEE, promoting professional accomplishment, service, and development for students and professionals in electrical engineering, computer engineering, and other IEEE fields of interest.</p>
 
         <h2>Requirements</h2>
-        <p>Below are the requirements Fall 2018 ECS majors with the cumulative GPA (Summer 2019) at the appropriate 1/5th, 1/4th, and 1/3rd point for HKN.</p>
+        <p>Below are the requirements Fall 2018 ECS majors with the cumulative GPA (Summer 2018) at the appropriate 1/5th, 1/4th, and 1/3rd point for HKN.</p>
         <vaadin-grid items="[[requirements]]" height-by-rows>
           <vaadin-grid-column width="160px">
             <template class="header"><span class="header-text">ECS Major</span></template>
