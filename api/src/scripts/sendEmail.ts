@@ -72,14 +72,13 @@ const ccEmail = {
 
 const replyTo = fromEmail;
 
-const subject = "IEEEUTD IT Committee First Meeting";
+const subject = "IEEEUTD IT Committee - Workshop Series Starts March 28th";
 
 const bodyHtml = `<p>Hello everyone!<br><br>
-We have now closed the poll for our first meeting date. Thank you to those that participated!<br><br>
-
-If you would like to join the committee (and learn web development, security, and server technologies!), please <b>attend our first meeting at SPN 2.220 (also known as the Makerspace) at 7:30p this Thursday.</b><br><br>
-
-Please email us back if you have any questions or cannot make it anymore. Thank you!`
+We will be starting the <b>first part of our workshop series<br> on <b>March 28th</b>! (For those of you that cannot make it, we may schedule a second meeting.)<br><br>
+We apologize for the delay as we are currently looking into additional (awesome) projects that you all can work on, including a potential collaboration between IEEEUTD and an official branch of UTD. We will keep you all posted!<br><br>
+Meanwhile, please go to <a href="https://ieeeutd.org/event/JLM1xg">https://ieeeutd.org/event/JLM1xg</a> and click the link to join our Slack, where we will continue to communicate with you all.<br><br>
+Please email us (or Slack us) back if you have any questions. Thank you!</p>`
 
 const summary = "";
 
