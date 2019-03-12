@@ -376,7 +376,7 @@ class LayoutMain extends BaseElement {
         case 'hkn':
           import('../pages/page-hkn.js').then(resolve.bind(this, page)).catch(reject);
           break;
-          case 'contact':
+        case 'contact':
           import('../pages/page-contact.js').then(resolve.bind(this, page)).catch(reject);
           break;
         case 'announcement':
