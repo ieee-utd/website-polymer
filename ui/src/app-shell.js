@@ -41,6 +41,7 @@ import { BaseElement } from './base-element.js';
 import './elements/app-container.js';
 import './elements/app-grid-item.js';
 import './elements/app-grid.js';
+import './elements/app-schedule.js';
 import './elements/drawer-item.js';
 import './elements/event-card.js';
 import './elements/loading-block.js';
