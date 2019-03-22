@@ -148,7 +148,7 @@ class PageTutoring extends BaseElement {
           <paper-tab>DS</paper-tab>
           <paper-tab>ENA</paper-tab>
           <paper-tab>S&amp;S</paper-tab>
-          <paper-tab>Intro CS/EE II</paper-tab>
+          <paper-tab>Intro CE/EE II</paper-tab>
         </paper-tabs>
         <iron-pages selected="{{selected}}">
           <div>
