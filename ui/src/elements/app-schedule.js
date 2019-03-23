@@ -121,16 +121,29 @@ class AppSchedule extends PolymerElement {
           margin: 0;
           padding: 16px;
           position: absolute;
-          z-index: 1;
+          z-index: 5;
           border-radius: 8px;
           @apply --shadow-elevation-8dp;
         }
         paper-card:focus {
           outline: none;
         }
-        paper-card > h2 {
+        .top-part-dialog {
+          margin: 0;
+          @apply --layout-horizontal;
+          @apply --layout-justified;
+          @apply --layout-start;
+        }
+        .top-part-dialog > h2 {
           font-size: 14pt;
-          margin: 0 0 6px 0;
+          margin: 0;
+        }
+        .dialog-close {
+          min-width: 30px;
+          width: 30px;
+          height: 30px;
+          padding: 4px;
+          margin-left: 8px;
         }
         paper-card > p {
           font-size: 11pt;
@@ -168,10 +181,11 @@ class AppSchedule extends PolymerElement {
         paper-dialog {
           width: 280px;
           padding: 16px 0;
+          border-radius: 8px;
         }
         paper-dialog > h2 {
           font-size: 14pt;
-          margin: 0 0 6px 0;
+          margin: 0;
         }
         paper-dialog > p {
           font-size: 11pt;
@@ -203,10 +217,13 @@ class AppSchedule extends PolymerElement {
             <div class="week">
               <template is="dom-if" if="[[wideScreen]]">
               <paper-card elevation="3" hidden$="[[dialogData.hidden]]" style$="top:[[dialogData.top]]px;left:[[dialogData.left]]px;">
-                <h2>[[dialogData.title]]</h2>
+                <div class="top-part-dialog">
+                  <h2>[[dialogData.title]]</h2>
+                  <paper-icon-button class="dialog-close" icon="close" on-click="__closeDialog"></paper-icon-button>
+                </div>
                 <p><iron-icon icon="device:access-time"></iron-icon> [[dialogData.time]]</p>
                 <template is="dom-if" if="[[dialogData.hasNotes]]">
-                  <p><iron-icon icon="notification:event-note"></iron-icon> [[dialogData.notes]]</p>
+                  <p><iron-icon icon="mdi:text"></iron-icon> [[dialogData.notes]]</p>
                 </template>
               </paper-card>
                 <dom-repeat items="{{processedData}}">
@@ -238,8 +255,12 @@ class AppSchedule extends PolymerElement {
               </template>
               <template is="dom-if" if="[[!wideScreen]]">
                 <!-- TODO: dialog backdrop -->
-                <paper-dialog id="altDialog">
-                  <h2>[[dialogData.title]]</h2>
+                <paper-dialog id="altDialog" with-backdrop on-iron-overlay-closed="_closeAltDialog">
+                  <div class="top-part-dialog">
+                    <h2>[[dialogData.title]]</h2>
+                    <paper-icon-button class="dialog-close" icon="close" on-click="_closeAltDialog"></paper-icon-button>
+                  </div>
+                  <div style="height:8px;width:100%;margin:0;"></div>
                   <p><iron-icon icon="device:access-time"></iron-icon> [[dialogData.time]]</p>
                   <template is="dom-if" if="[[dialogData.hasNotes]]">
                     <p><iron-icon icon="notification:event-note"></iron-icon> [[dialogData.notes]]</p>
@@ -443,9 +464,13 @@ class AppSchedule extends PolymerElement {
   }
 
   _closeDialog(e) {
-    if (e.path[0].className !== 'event-inner-cover' && e.path[0].className !== '') {
+    if (e.path[0].className !== 'event-inner-cover' && e.path[0].className !== ''  && e.path[0].className !== 'top-part-dialog') {
       this.dialogData = { hidden: true };
     }
+  }
+
+  __closeDialog(e) {
+    this.dialogData = { hidden: true };
   }
 
   _openAltDialog(e) {
@@ -458,7 +483,14 @@ class AppSchedule extends PolymerElement {
       notes: item.notes
     };
 
+    document.body.style.overflow = 'hidden';
     altDialog.open();
+  }
+
+  _closeAltDialog(e) {
+    const altDialog = this.shadowRoot.getElementById('altDialog');
+    document.body.style.overflow = '';
+    altDialog.close();
   }
 }
 
