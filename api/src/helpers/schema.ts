@@ -101,3 +101,17 @@ export let UpdateEventSchema = {
     "recurrenceExceptions": Joi.array().items(Joi.date())
   }).unknown(false)
 }
+
+export let CreateScheduleSchema = {
+  body: Joi.object({
+    "name": Joi.string().required(),
+    "shortName": Joi.string().required().min(1).max(3)
+  })
+}
+
+export let UpdateScheduleSchema = {
+  body: Joi.object({
+    "name": Joi.string(),
+    "shortName": Joi.string().min(1).max(3)
+  })
+}

@@ -1,3 +1,5 @@
+import * as assert from "assert";
+
 export function ensureAuthenticated(req: any, res : any, next : any) {
   userCan("login")(req, res, next);
 }
@@ -29,5 +31,35 @@ export function userCan(action: string) {
     } else {
       next();
     }
+  }
+}
+
+const SCHEDULES_PERM_LEVELS: any = {
+  null: 0,
+  "own": 1,
+  "section": 2,
+  "all": 3,
+  "admin": 4
+}
+
+export function userCanSchedules(level: string) {
+  let levelInt = SCHEDULES_PERM_LEVELS[level];
+  assert(typeof levelInt === 'number');
+
+  return function(req: any, res: any, next: any) {
+    userCan("schedules")(req, res, (e: any) => {
+      if (e) return next(e);
+
+      const auth = req.user.group.permissions.schedules
+      const authInt = SCHEDULES_PERM_LEVELS[auth];
+      if (typeof authInt !== 'number') {
+        return next({
+          status: 500,
+          mesasge: "Invalid auth level for schedule permission: " + auth
+        })
+      }
+
+      next();
+    })
   }
 }

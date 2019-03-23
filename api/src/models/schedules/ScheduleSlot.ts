@@ -1,16 +1,21 @@
 import * as mongoose from "mongoose";
 
-
 var schema = new mongoose.Schema({
   //basic
   link: { type: String, required: true },
-  title: { type: String, required: true }, //defaults to user's name
+  title: { type: String, required: true }, //title is automatically computed during creation (based on member names)
   notes: { type: String },
+  location: { type: String },
+  color: { type: String, required: true }, //auto-generated
 
-  //first day and recurrence rule
-  startTime: { type: Date, required: true },
-  endTime: { type: Date, required: true },
-  recurrenceRule: { type: String, default: null },
+  //list of dates/times that a person attends
+  instances: [{
+    //first day and recurrence rule
+
+    startTime: { type: Date, required: true },
+    endTime: { type: Date, required: true },
+    recurrenceRules: { type: String, default: null }, //each rule is a set of dates that the
+  }],
 
   //schedule
   schedule: { type: mongoose.Schema.Types.ObjectId, ref: "Schedule", required: true },
