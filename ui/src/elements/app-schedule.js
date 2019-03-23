@@ -14,16 +14,23 @@ import moment from 'moment';
 class AppSchedule extends PolymerElement {
   static get template() {
     return html`
-      <style>
+      <style include="shared-styles">
         :host {
           display: block;
-          margin: 16px 0;
+          /* margin: 16px 0; */
+          padding: 16px 8px;
+          background-color: var(--lighter-color);
+
+          --lighter-color: var(--paper-grey-100);
+          --darker-color: var(--paper-grey-200);
         }
         /* Schedule layout */
         .schedule-container {
           min-width: 260px;
           display: flex;
           flex-direction: row;
+          background-color: var(--lighter-color);
+          /* border-radius: 16px; */
         }
         .time-ticks {
           width: 50px;
@@ -46,13 +53,16 @@ class AppSchedule extends PolymerElement {
         .weekday {
           flex: 1 1 0;
           text-align: center;
+          padding: 0 4px;
+          /* border-left: 2px solid var(--darker-color); */
         }
         .weekday:nth-child(2n+1) {
-          background: #e8e8e8;
+          background: var(--darker-color);
+          border-radius: 16px;
         }
         .day-text {
           height: 48px;
-          width: 100px;
+          /* width: 100px; */
           line-height: 48px;
           font-size: 12pt;
           font-weight: 600;
@@ -109,9 +119,11 @@ class AppSchedule extends PolymerElement {
         paper-card {
           width: 250px;
           margin: 0;
-          padding: 5px 9px;
+          padding: 16px;
           position: absolute;
           z-index: 1;
+          border-radius: 8px;
+          @apply --shadow-elevation-8dp;
         }
         paper-card:focus {
           outline: none;
@@ -204,13 +216,13 @@ class AppSchedule extends PolymerElement {
                       <div class="weekday-container" style$="height:[[scheduleHeight]]px;">
                         <dom-repeat items="{{item.processedEvents}}">
                           <template>
-                            <div 
-                              class="event" 
+                            <div
+                              class="event"
                               style$="height:[[item.height]]px;width:[[item.width]]%;top:[[item.top]]px;left:[[item.left]]%;">
-                              <div 
-                                class="event-inner" 
+                              <div
+                                class="event-inner"
                                 style$="background:#[[item.color]];">
-                                <div 
+                                <div
                                   class="event-inner-cover"
                                   on-click="_openDialog"
                                   data-item$="[[item]]"></div>
@@ -245,13 +257,13 @@ class AppSchedule extends PolymerElement {
                     <!-- TODO: iron-pages -->
                     <dom-repeat items="{{selectedDay.processedEvents}}">
                       <template>
-                        <div 
-                          class="event" 
+                        <div
+                          class="event"
                           style$="height:[[item.height]]px;width:[[item.width]]%;top:[[item.top]]px;left:[[item.left]]%;">
-                          <div 
-                            class="event-inner" 
+                          <div
+                            class="event-inner"
                             style$="background:#[[item.color]];">
-                            <div 
+                            <div
                               class="event-inner-cover"
                               on-click="_openAltDialog"
                               data-item$="[[item]]"></div>
@@ -280,7 +292,7 @@ class AppSchedule extends PolymerElement {
 
   // process and validate data
   _dataChanged(data) {
-    
+
     var firstStart = 2401; // earliest start time
     var lastEnd = -1; // latest end time
 
@@ -423,7 +435,7 @@ class AppSchedule extends PolymerElement {
       hidden: false,
       top: eventBounds.top-containerBounds.top,
       left: (eventBounds.right-containerBounds.left+254 < containerBounds.right-containerBounds.left) ? eventBounds.right-containerBounds.left+4 : eventBounds.left-containerBounds.left-254,
-      title: item.people, // TODO: title or people
+      title: item.people.join(', '), // TODO: title or people
       time: moment(item.startTime).format('h:mma') + ' to ' + moment(item.endTime).format('h:mma'),
       hasNotes: item.notes && item.notes.length > 0,
       notes: item.notes
@@ -440,7 +452,7 @@ class AppSchedule extends PolymerElement {
     const item = e.model.item;
     const altDialog = this.shadowRoot.getElementById('altDialog');
     this.dialogData = {
-      title: item.people, // TODO: title or people
+      title: item.people.join(', '), // TODO: title or people
       time: moment(item.startTime).format('h:mma') + ' to ' + moment(item.endTime).format('h:mma'),
       hasNotes: item.notes && item.notes.length > 0,
       notes: item.notes

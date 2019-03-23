@@ -18,6 +18,9 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         --font-head: "Rubik";
         --font-main: "Roboto", sans-serif;
         --font-mono: "Roboto Mono", monospace;
+
+        --shadow-6px: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+        --shadow-12px: 0 6px 12px 0 rgba(0, 0, 0, 0.32);
       }
 
       h1, h2, h3, h4, h5, h6 {

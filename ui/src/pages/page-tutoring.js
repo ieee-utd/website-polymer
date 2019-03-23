@@ -29,25 +29,29 @@ class PageTutoring extends BaseElement {
           -webkit-font-smoothing: antialiased;
           width: 100%;
           text-transform: uppercase;
-          --paper-tab-ink: var(--color-secondary-active);
-          --paper-tabs-selection-bar-color: var(--color-orange-complement);
+          --paper-tab-ink: var(--color-primary);
+          --paper-tabs-selection-bar-color: transparent;
         }
         paper-tab {
           min-width: 80px;
           max-width: 120px;
           transition: 0.2s color, 0.2s background-color;
+          border-top-left-radius: 8px;
+          border-top-right-radius: 8px;
+          font-family: var(--font-head);
         }
         paper-tab:hover {
-          background-color: var(--paper-grey-300);
+          background-color: var(--paper-grey-200);
         }
         paper-tab.iron-selected {
           font-weight: 600;
-          background-color: var(--color-primary);
           color: white;
+          background-color: var(--color-primary);
         }
         iron-pages {
-          background-color: var(--paper-grey-300);
+          background-color: var(--paper-grey-200);
           min-height: 480px;
+          border: 3px solid var(--color-primary);
         }
 
         div.day-container {
@@ -141,10 +145,9 @@ class PageTutoring extends BaseElement {
             </template>
           </dom-repeat>
         </div>
-      </div>
-
 
         <h2>Tutor Schedules</h2>
+        <p>Click on a tile to see tutor information and available times.</p>
         <paper-tabs selected="{{selected}}" scrollable>
           <paper-tab>DC</paper-tab>
           <paper-tab>DS</paper-tab>
@@ -203,7 +206,7 @@ class PageTutoring extends BaseElement {
     return {
       selected: { type: Number, value: 0 },
       eventDates: { type: Array, value: [ ] },
-      scheduleData: { type: Object, value: 
+      scheduleData: { type: Object, value:
         {
           dc: {
             week: [
@@ -326,10 +329,10 @@ class PageTutoring extends BaseElement {
           ena: {
             someKey: 'this is not the expected format'
           },
-          sns: { 
+          sns: {
             someKey: 'this is not the expected format'
           }
-        } 
+        }
       }
     }
   }

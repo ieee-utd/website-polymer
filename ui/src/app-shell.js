@@ -176,7 +176,8 @@ class AppShell extends BaseElement {
   _showUpdateToast() {
     console.log("[sw] Update ready")
     this.set("_swDirty", true)
-    this.$.updateToast.show();
+    window.location.reload(true)
+    // this.$.updateToast.show();
   }
 
   _showToast(e) {
