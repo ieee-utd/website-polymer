@@ -1,7 +1,7 @@
 import * as mongoose from "mongoose";
 
 var schema = new mongoose.Schema({
-  // schedule: { type: mongoose.Schema.Types.ObjectId, ref: "Schedule", required: true },
+  schedule: { type: mongoose.Schema.Types.ObjectId, ref: "Schedule", required: true },
   slot: { type: mongoose.Schema.Types.ObjectId, ref: "ScheduleSlot", required: true },
 
   startTime: { type: Date, required: true },

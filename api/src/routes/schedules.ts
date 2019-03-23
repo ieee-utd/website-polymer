@@ -1,7 +1,7 @@
 import * as express from "express";
 export let route = express.Router();
 
-import { Schedule } from "../models";
+import { Schedule, ScheduleSlot, ScheduleSlotRecurrence } from "../models";
 import {
   CreateScheduleSchema,
   UpdateScheduleSchema
@@ -10,6 +10,20 @@ import {
 import { userCanSchedules } from "../helpers/verify";
 
 const validate = require('express-validation');
+
+route.param('scheduleId', async function (req : any, res, next, scheduleId) {
+  var schedule = await Schedule.findOne({ _id: scheduleId });
+
+  if (!schedule) {
+    return next({
+      status: 404,
+      message: "Schedule not found"
+    })
+  }
+
+  req.schedule = schedule;
+  next();
+});
 
 //list all schedules (name, id)
 route.get('/', async (req: any, res: any, next: any) => {
@@ -56,9 +70,13 @@ route.post('/',  validate(CreateScheduleSchema), async (req: any, res: any, next
 })
 
 //update schedule
-route.put('/', userCanSchedules("admin"), validate(UpdateScheduleSchema), async (req: any, res: any, next: any) => {
+route.put('/:scheduleId', userCanSchedules("admin"), validate(UpdateScheduleSchema), async (req: any, res: any, next: any) => {
   try {
+    req.body.lastUpdated = Date.now();
 
+    await Schedule.findOneAndUpdate({ _id: req.schedule._id }, { $set: req.body });
+
+    res.send({ message: "Schedule updated" })
   } catch (e) {
     next(e)
   }
@@ -66,5 +84,18 @@ route.put('/', userCanSchedules("admin"), validate(UpdateScheduleSchema), async 
 
 //delete schedule
 route.delete('/:scheduleId', userCanSchedules("admin"), async (req: any, res: any, next: any) => {
+  try {
+    //delete all slot recurrences
+    await ScheduleSlotRecurrence.deleteMany({ schedule: req.schedule._id })
 
+    //delete all slots
+    await ScheduleSlot.deleteMany({ schedule: req.schedule._id })
+
+    //delete schedule
+    await Schedule.deleteOne({ _id: req.schedule._id })
+
+    res.send({ message: "Schedule deleted" })
+  } catch (e) {
+    next(e)
+  }
 })

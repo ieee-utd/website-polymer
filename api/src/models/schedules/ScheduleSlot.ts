@@ -2,7 +2,7 @@ import * as mongoose from "mongoose";
 
 var schema = new mongoose.Schema({
   //basic
-  link: { type: String, required: true },
+  // link: { type: String, required: true },
   title: { type: String, required: true }, //title is automatically computed during creation (based on member names)
   notes: { type: String },
   location: { type: String },
