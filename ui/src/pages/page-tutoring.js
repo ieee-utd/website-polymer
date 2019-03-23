@@ -33,7 +33,7 @@ class PageTutoring extends BaseElement {
           --paper-tabs-selection-bar-color: var(--color-orange-complement);
         }
         paper-tab {
-          min-width: 30px;
+          min-width: 80px;
           max-width: 120px;
           transition: 0.2s color, 0.2s background-color;
         }
@@ -96,6 +96,9 @@ class PageTutoring extends BaseElement {
             margin-right: 8px;
             display: inline-block;
           }
+          paper-tab {
+            min-width: 30px;
+          }
         }
       </style>
 
@@ -142,8 +145,7 @@ class PageTutoring extends BaseElement {
 
 
         <h2>Tutor Schedules</h2>
-        <paper-tabs selected="{{selected}}">
-          
+        <paper-tabs selected="{{selected}}" scrollable>
           <paper-tab>DC</paper-tab>
           <paper-tab>DS</paper-tab>
           <paper-tab>ENA</paper-tab>
@@ -152,36 +154,31 @@ class PageTutoring extends BaseElement {
         </paper-tabs>
         <iron-pages selected="{{selected}}">
           <div>
-            <iframe
-              width="100%"
-              height="480"
-              frameborder="0" style="border:0"
-              src="https://schedulebuilder.org/?despy2k9">
-            </iframe>
+            <app-schedule data="[[scheduleData.dc]]"></app-schedule>
           </div>
           <div>
-            <iframe
+            <!-- <iframe
               width="100%"
               height="480"
               frameborder="0" style="border:0"
               src="https://schedulebuilder.org/?bleuappk">
-            </iframe>
+            </iframe> -->
           </div>
           <div>
-            <iframe
+            <!-- <iframe
               width="100%"
               height="480"
               frameborder="0" style="border:0"
               src="https://schedulebuilder.org/?djnj5jo4">
-            </iframe>
+            </iframe> -->
           </div>
           <div>
-            <iframe
+            <!-- <iframe
               width="100%"
               height="480"
               frameborder="0" style="border:0"
               src="https://schedulebuilder.org/?r4zb960a">
-            </iframe>
+            </iframe> -->
           </div>
           <div>
             <!-- <iframe
@@ -190,9 +187,9 @@ class PageTutoring extends BaseElement {
               frameborder="0" style="border:0"
               src="https://schedulebuilder.org/?s=vut7qc8r">
             </iframe> -->
-            <div style="width:100%;background:#A4A4A4;display:flex;justify-content:center;">
+            <!-- <div style="width:100%;background:#A4A4A4;display:flex;justify-content:center;">
               <img style="max-width:940px;width:100%;height:100%;object-fit:contain;" src="https://s3.amazonaws.com/ieee-utd/resources/intro_ce_ee_ii.png" alt="intro_ce_ee_ii" />
-            </div>
+            </div> -->
           </div>
         </iron-pages>
 
@@ -205,7 +202,135 @@ class PageTutoring extends BaseElement {
   static get properties() {
     return {
       selected: { type: Number, value: 0 },
-      eventDates: { type: Array, value: [ ] }
+      eventDates: { type: Array, value: [ ] },
+      scheduleData: { type: Object, value: 
+        {
+          dc: {
+            week: [
+              {
+                day: "Sunday",
+                events: [
+                  {
+                    title: "Item 1a",
+                    location: "",
+                    locationUrl: "",
+                    startTime: "2018-12-16T07:30:00-06:00",
+                    endTime: "2018-12-16T10:00:00-06:00",
+                    people: ["Temoc Hsoohw", "Gib Enarc", "And someoneelse"],
+                    notes: "Hello world!",
+                    color: "4286f4"
+                  },
+                  {
+                    title: "Item 1b",
+                    location: "",
+                    locationUrl: "",
+                    startTime: "2018-12-16T08:00:00-06:00",
+                    endTime: "2018-12-16T08:30:00-06:00",
+                    people: ["Temoc Hsoohw", "Gib Enarc"],
+                    notes: "Hello world!",
+                    color: "4286f4"
+                  }
+                ]
+              },
+              {
+                day: "Monday",
+                events: [
+                  {
+                    title: "Item 2a",
+                    location: "",
+                    locationUrl: "",
+                    startTime: "2018-12-17T08:00:00-06:00",
+                    endTime: "2018-12-17T10:00:00-06:00",
+                    people: ["Temoc Hsoohw C"],
+                    notes: "",
+                    color: "f46241"
+                  },
+                  {
+                    title: "Item 2b",
+                    location: "Building C",
+                    locationUrl: "",
+                    startTime: "2018-12-17T09:00:00-06:00",
+                    endTime: "2018-12-17T11:30:00-06:00",
+                    people: ["Temoc Hsoohw"],
+                    notes: "",
+                    color: "41f488"
+                  },
+                  {
+                    title: "Item 2c",
+                    location: "Building C",
+                    locationUrl: "",
+                    startTime: "2018-12-17T09:00:00-06:00",
+                    endTime: "2018-12-17T11:30:00-06:00",
+                    people: ["Temoc Hsoohw"],
+                    notes: "",
+                    color: "f46241"
+                  },
+                  {
+                    title: "Item 2d",
+                    location: "Building C",
+                    locationUrl: "",
+                    startTime: "2018-12-17T11:00:00-06:00",
+                    endTime: "2018-12-17T13:00:00-06:00",
+                    people: ["Temoc Hsoohw"],
+                    notes: "",
+                    color: "41f488"
+                  },
+                  {
+                    title: "Item 2e",
+                    location: "Building C",
+                    locationUrl: "",
+                    startTime: "2018-12-17T12:00:00-06:00",
+                    endTime: "2018-12-17T14:00:00-06:00",
+                    people: ["Temoc Hsoohw"],
+                    notes: "",
+                    color: "41f488"
+                  }
+                ]
+              },
+              {
+                day: "Tuesday",
+                events: []
+              },
+              {
+                day: "Wednesday",
+                events: []
+              },
+              {
+                day: "Thursday",
+                events: []
+              },
+              {
+                day: "Friday",
+                events: []
+              },
+              {
+                day: "Saturday",
+                events: [
+                  {
+                    title: "Item 3",
+                    location: "",
+                    locationUrl: "",
+                    startTime: "2018-12-22T15:00:00-06:00",
+                    endTime: "2018-12-22T18:15:00-06:00",
+                    people: ["Temoc Hsoohw"],
+                    notes: "",
+                    color: "4286f4"
+                  }
+                ]
+              }
+            ]
+          },
+          ds: {
+            someKey: 'this is not the expected format'
+          },
+          ena: {
+            someKey: 'this is not the expected format'
+          },
+          sns: { 
+            someKey: 'this is not the expected format'
+          }
+        } 
+      }
     }
   }
 
