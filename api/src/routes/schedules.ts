@@ -42,7 +42,8 @@ route.get('/editable', userCanSchedules(), async (req: any, res: any, next: any)
   try {
     if (req.schedulesLevel >= SCHEDULES_PERM_LEVELS["all"]) {
       //show all schedules
-      let schedules = await Schedule.find();
+      let schedules = await Schedule.find()
+      .sort({ name: 1 });
       return res.send(schedules)
     } else if (req.schedulesLevel >= SCHEDULES_PERM_LEVELS["own"]) {
       //show only schedules that the user belongs to
@@ -51,13 +52,14 @@ route.get('/editable', userCanSchedules(), async (req: any, res: any, next: any)
         { $match: { members: req.user._id }},
         { $group: { _id: "$schedule" }},
         { $lookup: { from: "schedules", localField: "_id", foreignField: "_id", as: "schedule" }},
+        { $sort: { name: 1 }}
       ])
 
       return res.send(_.map(schedules, (s: any) => {
         return s.schedule
       }))
     } else {
-      return next({ status: 500, message: "" })
+      return next({ status: 500, message: "Invalid schedules level" })
     }
   } catch (e) {
     next(e)
@@ -66,7 +68,15 @@ route.get('/editable', userCanSchedules(), async (req: any, res: any, next: any)
 
 //list editable slots
 route.get('/:scheduleId/slots/editable', userCanSchedules(), async (req: any, res: any, next: any) => {
+  if (req.schedulesLevel >= SCHEDULES_PERM_LEVELS["all"]) {
+    //return all slots
+    let slots = await ScheduleSlot.find({ schedule: req.schedule._id })
+    .sort({ title: 1 })
+    res.send(slots)
+  } else if (req.schedulesLevel >= SCHEDULES_PERM_LEVELS["own"]) {
+    //show only slots this user is in
 
+  }
 })
 
 //get schedule for week (list of all occurances)
