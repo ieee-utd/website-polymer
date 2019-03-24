@@ -5,7 +5,7 @@ import { route as announcementsRoute } from "./announcements"
 import { route as membersRoute } from "./members";
 import { route as eventsRoute } from "./events";
 import { route as groupsRoute } from "./groups";
-import { route as schedulesRoute } from "./groups";
+import { route as schedulesRoute } from "./schedules";
 import { cache, cacheMiddleware } from "../helpers/cache";
 
 export let routes = express.Router();

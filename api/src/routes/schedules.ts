@@ -1,6 +1,8 @@
 import * as express from "express";
 export let route = express.Router();
 
+// import * as _ from "lodash";
+
 import { Schedule, ScheduleSlot, ScheduleSlotRecurrence } from "../models";
 import {
   CreateScheduleSchema,
@@ -43,8 +45,9 @@ route.get('/editable', userCanSchedules(), async (req: any, res: any, next: any)
       let schedules = await Schedule.find();
       return res.send(schedules)
     } else if (req.schedulesLevel >= SCHEDULES_PERM_LEVELS["own"]) {
-      //TODO show only schedules that the user belongs to
-
+      //show only schedules that the user belongs to
+      //i.e. user must have a slot in the schedule
+      // let allUserSlots = await ScheduleSlot.find({ members: req.user._id });
     } else {
       return next({ status: 500, message: "" })
     }
