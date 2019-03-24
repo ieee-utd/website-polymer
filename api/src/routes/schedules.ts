@@ -1,7 +1,7 @@
 import * as express from "express";
 export let route = express.Router();
 
-// import * as _ from "lodash";
+import * as _ from "lodash";
 
 import { Schedule, ScheduleSlot, ScheduleSlotRecurrence } from "../models";
 import {
@@ -47,14 +47,21 @@ route.get('/editable', userCanSchedules(), async (req: any, res: any, next: any)
     } else if (req.schedulesLevel >= SCHEDULES_PERM_LEVELS["own"]) {
       //show only schedules that the user belongs to
       //i.e. user must have a slot in the schedule
-      // let allUserSlots = await ScheduleSlot.find({ members: req.user._id });
+      let schedules = await ScheduleSlot.aggregate([
+        { $match: { members: req.user._id }},
+        { $group: { _id: "$schedule" }},
+        { $lookup: { from: "schedules", localField: "_id", foreignField: "_id", as: "schedule" }},
+      ])
+
+      return res.send(_.map(schedules, (s: any) => {
+        return s.schedule
+      }))
     } else {
       return next({ status: 500, message: "" })
     }
   } catch (e) {
     next(e)
   }
-
 })
 
 //list editable slots
