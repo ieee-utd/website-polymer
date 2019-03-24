@@ -39,7 +39,7 @@ class PageMemberScheduleSlot extends BaseElement {
 
   static get properties() {
     return {
-      slot: { type: Object, value: {} },
+      _slot: { type: Object, value: {} },
       errors: { type: Object, value: {} },
       editing: { type: Boolean, value: false },
       _editingFields: { type: Boolean, value: false },
@@ -58,22 +58,7 @@ class PageMemberScheduleSlot extends BaseElement {
 
   onload(path) {
     return new Promise((resolve, reject) => {
-      if (path.length == 0) {
-        return reject("Invalid slot id")
-      }
-
-      var id = path[0];
-
-      if (id === "create") {
-        this.set("editing", false);
-        this.set("slot", {});
-        this._finishLoading();
-        return resolve({ page: "Create Schedule Slot" });
-      }
-
-      this._loadSlot(id)
-      .then(resolve)
-      .catch(reject)
+      resolve({ page: "Update Schedule Slot" });
     });
   }
 
