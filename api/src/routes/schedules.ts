@@ -42,12 +42,12 @@ route.get('/', async (req: any, res: any, next: any) => {
 //list editable schedules
 route.get('/editable', userCanSchedules(), async (req: any, res: any, next: any) => {
   try {
-    if (req.schedulesLevel >= SCHEDULES_PERM_LEVELS["all"]) {
+    if (req.schedulesLevelInt >= SCHEDULES_PERM_LEVELS["all"]) {
       //show all schedules
       let schedules = await Schedule.find()
       .sort({ name: 1 });
       return res.send(schedules)
-    } else if (req.schedulesLevel >= SCHEDULES_PERM_LEVELS["own"]) {
+    } else if (req.schedulesLevelInt >= SCHEDULES_PERM_LEVELS["own"]) {
       //show only schedules that the user belongs to
       //i.e. user must have a slot in the schedule
       let schedules = await ScheduleSlot.aggregate([
@@ -76,13 +76,13 @@ route.get('/:scheduleId/slots', async (req: any, res: any, next: any) => {
 //list editable slots
 route.get('/:scheduleId/slots/editable', userCanSchedules(), async (req: any, res: any, next: any) => {
   try {
-    if (req.schedulesLevel >= SCHEDULES_PERM_LEVELS["all"]) {
+    if (req.schedulesLevelInt >= SCHEDULES_PERM_LEVELS["all"]) {
       //return all slots
       let slots = await ScheduleSlot.find({ schedule: req.schedule._id })
       .sort({ title: 1 })
 
       return res.send(slots)
-    } else if (req.schedulesLevel >= SCHEDULES_PERM_LEVELS["own"]) {
+    } else if (req.schedulesLevelInt >= SCHEDULES_PERM_LEVELS["own"]) {
       //show only slots this user is in
       let slots = await ScheduleSlot.find({
         schedule: req.schedule._id,
