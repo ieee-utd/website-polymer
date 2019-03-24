@@ -79,7 +79,8 @@ class PageMemberSchedules extends BaseElement {
 
   static get properties() {
     return {
-      schedules: { type: Array, value: [] }
+      schedules: { type: Array, value: [] },
+      slots: { type: Array, value: [] }
     }
   }
 
@@ -102,6 +103,7 @@ class PageMemberSchedules extends BaseElement {
         this.set("schedules", schedules)
         if (schedules.length > 0) {
           this.set("_currentScheduleId", schedules[0]._id);
+          this._getSlots(schedules[0]._id);
         }
         resolve({ page: "Schedules" });
       })
@@ -109,6 +111,16 @@ class PageMemberSchedules extends BaseElement {
         reject(e);
       });
     });
+  }
+
+  _getSlots(id) {
+    this._get(`/schedules/${id}/slots/editable`)
+      .then((slots) => {
+        this.set("slots", slots);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   }
 }
 

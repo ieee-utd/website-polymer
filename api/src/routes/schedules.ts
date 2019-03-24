@@ -69,13 +69,13 @@ route.get('/editable', userCanSchedules(), async (req: any, res: any, next: any)
 //list editable slots
 route.get('/:scheduleId/slots/editable', userCanSchedules(), async (req: any, res: any, next: any) => {
   try {
-    if (req.schedulesLevel >= SCHEDULES_PERM_LEVELS["all"]) {
+    if (req.schedulesLevelInt >= SCHEDULES_PERM_LEVELS["all"]) {
       //return all slots
       let slots = await ScheduleSlot.find({ schedule: req.schedule._id })
       .sort({ title: 1 })
 
       return res.send(slots)
-    } else if (req.schedulesLevel >= SCHEDULES_PERM_LEVELS["own"]) {
+    } else if (req.schedulesLevelInt >= SCHEDULES_PERM_LEVELS["own"]) {
       //show only slots this user is in
       let slots = await ScheduleSlot.find({
         schedule: req.schedule._id,
