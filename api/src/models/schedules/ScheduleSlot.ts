@@ -5,9 +5,10 @@ var schema = new mongoose.Schema({
   // link: { type: String, required: true },
   title: { type: String, required: true }, //title is automatically computed during creation (based on member names)
   notes: { type: String },
-  location: { type: String },
-  locationUrl: { type: String },
   color: { type: String, required: true }, //auto-generated
+
+  //members added to this slot
+  members: [{ type: mongoose.Schema.Types.ObjectId, ref: "Member" }],
 
   //list of dates/times that a person attends
   instances: [{
@@ -21,9 +22,6 @@ var schema = new mongoose.Schema({
 
   //schedule
   schedule: { type: mongoose.Schema.Types.ObjectId, ref: "Schedule", required: true },
-
-  //members added to this slot
-  members: [{ type: mongoose.Schema.Types.ObjectId, ref: "Member" }],
 
   //timestamps
   dateCreated: { type: Date, required: true },

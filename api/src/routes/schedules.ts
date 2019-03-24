@@ -6,7 +6,9 @@ import * as _ from "lodash";
 import { Schedule, ScheduleSlot, ScheduleSlotRecurrence } from "../models";
 import {
   CreateScheduleSchema,
-  UpdateScheduleSchema
+  UpdateScheduleSchema,
+  CreateScheduleSlotSchema,
+  UpdateScheduleSlotSchema
 } from "../helpers/schema";
 
 import { userCanSchedules, SCHEDULES_PERM_LEVELS } from "../helpers/verify";
@@ -66,6 +68,11 @@ route.get('/editable', userCanSchedules(), async (req: any, res: any, next: any)
   }
 })
 
+//TODO list all user-visible slots (people and dates/times list)
+route.get('/:scheduleId/slots', async (req: any, res: any, next: any) => {
+
+})
+
 //list editable slots
 route.get('/:scheduleId/slots/editable', userCanSchedules(), async (req: any, res: any, next: any) => {
   try {
@@ -92,13 +99,8 @@ route.get('/:scheduleId/slots/editable', userCanSchedules(), async (req: any, re
   }
 })
 
-//get schedule for week (list of all occurances)
+//TODO get schedule for week (list of all occurances)
 route.get('/:scheduleId/occurances/week/:week', async (req: any, res: any, next: any) => {
-
-})
-
-//list tutor schedules for week
-route.get('/:scheduleId/slots/week/:week', async (req: any, res: any, next: any) => {
 
 })
 
@@ -157,17 +159,41 @@ route.delete('/:scheduleId', userCanSchedules("admin"), async (req: any, res: an
   }
 })
 
-//create schedule slot
-route.post('/:scheduleId/slot', userCanSchedules(), async (req: any, res: any, next: any) => {
-  
+route.param('slotId', async function (req: any, res, next, slotId) {
+  const slot: any = await ScheduleSlot.findOne({ _id: slotId });
+
+  if (!slot) {
+    return next({
+      status: 404,
+      message: "Slot not found"
+    })
+  }
+
+  if (slot.schedule !== req.params.scheduleId) {
+    return next({
+      status: 404,
+      message: "Slot not in schedule"
+    })
+  }
+
+  req.slot = slot;
+  next();
+});
+
+//TODO create schedule slot
+route.post('/:scheduleId/slot', userCanSchedules("all"), validate(CreateScheduleSlotSchema), async (req: any, res: any, next: any) => {
+  let slot = req.body;
+  slot.dateCreated = Date.now();
+
+
 })
 
-//update schedule slot
-route.put('/:scheduleId/slot/:slotId', async (req: any, res: any, next: any) => {
+//TODO update schedule slot
+route.put('/:scheduleId/slot/:slotId', userCanSchedules("own"), validate(UpdateScheduleSlotSchema), async (req: any, res: any, next: any) => {
 
 })
 
-//delete schedule slot
-route.delete('/:scheduleId/slot/:slotId', async (req: any, res: any, next: any) => {
+//TODO delete schedule slot
+route.delete('/:scheduleId/slot/:slotId', userCanSchedules("all"), async (req: any, res: any, next: any) => {
 
 })
