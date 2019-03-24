@@ -32,7 +32,8 @@ class PageMemberSchedules extends BaseElement {
               </vaadin-list-box>
             </template>
           </vaadin-select>
-          <form-button label="Create schedule" style="display: inline-block; margin-bottom: 16px" on-tap="_createSchedule"></form-button>
+          <form-button label="Create schedule" style="display: inline-block; margin-bottom: 16px; margin-right: 8px;" on-tap="_createSchedule"></form-button>
+          <form-button label="Edit schedule" style="display: inline-block; margin-bottom: 16px;" on-tap="_editSchedule"></form-button>
 
           <h3>Slots</h3>
 
@@ -78,30 +79,7 @@ class PageMemberSchedules extends BaseElement {
 
   static get properties() {
     return {
-      schedules: { type: Array, value: [
-        {
-          name: "Digital Systems",
-          shortName: "DS",
-          _id: "123"
-        }
-      ]},
-      _currentScheduleId: { type: String, observer: "_scheduleSelectionChanged" },
-      _scheduleSlots: { type: Array, value: [
-        {
-          title: "Caleb Fung",
-          notes: "Hello world!",
-          location: "",
-          locationUrl: "",
-          color: "#4286f4",
-          instances: [{
-            //7:30-10a
-            startTime: "2019-03-23T07:30:00-06:00",
-            endTime: "2019-03-23T10:00:00-06:00",
-            recurrenceRule: "FREQ=DAILY;INTERVAL=2;COUNT=4",
-            recurrenceRulePretty: "Every Sunday" //not from API
-          }]
-        }
-      ] }
+      schedules: { type: Array, value: [] }
     }
   }
 
@@ -109,10 +87,28 @@ class PageMemberSchedules extends BaseElement {
 
   }
 
+  _createSchedule() {
+    this._navigateTo("/member/schedule/create");
+  }
+
+  _editSchedule() {
+    this._navigateTo("/member/schedule/edit");
+  }
+
   onload() {
     return new Promise((resolve, reject) => {
-      resolve({ page: "Tutoring Schedules" });
-    })
+      this._get("/schedules/editable")
+      .then((schedules) => {
+        this.set("schedules", schedules)
+        if (schedules.length > 0) {
+          this.set("_currentScheduleId", schedules[0]._id);
+        }
+        resolve({ page: "Schedules" });
+      })
+      .catch((e) => {
+        reject(e);
+      });
+    });
   }
 }
 
