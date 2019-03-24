@@ -7,7 +7,7 @@ import {
   UpdateScheduleSchema
 } from "../helpers/schema";
 
-import { userCanSchedules } from "../helpers/verify";
+import { userCanSchedules, SCHEDULES_PERM_LEVELS } from "../helpers/verify";
 
 const validate = require('express-validation');
 
@@ -33,6 +33,30 @@ route.get('/', async (req: any, res: any, next: any) => {
   } catch (e) {
     next(e)
   }
+})
+
+//list editable schedules
+route.get('/editable', userCanSchedules(), async (req: any, res: any, next: any) => {
+  try {
+    if (req.schedulesLevel >= SCHEDULES_PERM_LEVELS["all"]) {
+      //show all schedules
+      let schedules = await Schedule.find();
+      return res.send(schedules)
+    } else if (req.schedulesLevel >= SCHEDULES_PERM_LEVELS["own"]) {
+      //TODO show only schedules that the user belongs to
+
+    } else {
+      return next({ status: 500, message: "" })
+    }
+  } catch (e) {
+    next(e)
+  }
+
+})
+
+//list editable slots
+route.get('/:scheduleId/slots/editable', userCanSchedules(), async (req: any, res: any, next: any) => {
+
 })
 
 //get schedule for week (list of all occurances)
@@ -98,4 +122,19 @@ route.delete('/:scheduleId', userCanSchedules("admin"), async (req: any, res: an
   } catch (e) {
     next(e)
   }
+})
+
+//create schedule slot
+route.post('/:scheduleId', userCanSchedules(), async (req: any, res: any, next: any) => {
+
+})
+
+//update schedule slot
+route.put('/:scheduleId/slot/:slotId', async (req: any, res: any, next: any) => {
+
+})
+
+//delete schedule slot
+route.delete('/:scheduleId/slot/:slotId', async (req: any, res: any, next: any) => {
+
 })

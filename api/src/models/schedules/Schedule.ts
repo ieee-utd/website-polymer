@@ -9,7 +9,7 @@ var schema = new mongoose.Schema({
   shortName: { type: String, required: true }, //e.g. "ENA"
 
   //public
-  public: { type: Boolean, default: true, required: true }, //is visible to everyone?
+  // public: { type: Boolean, default: true, required: true }, //is visible to everyone?
 
   //timestamps
   dateCreated: { type: Date, required: true },

@@ -12,11 +12,10 @@ var schema = new mongoose.Schema({
     /*
     null = no access
     own = edit own only (no create)
-    section = create and edit slots any in single schedule
     all = create and edit slots in any schedule
     admin = all + create, edit, and delete schedules
     */
-    schedules: { type: String, enum: [ null, "own", "section", "all", "admin" ], default: null },
+    schedules: { type: String, enum: [ null, "own", "all", "admin" ], default: null },
     events: { type: String, enum: [ null, "own", "all" ], default: null }, //own allows creating, but not viewing others'
     announcements: { type: String, enum: [ null, "own", "all" ], default: null }, //own allows creating, but not viewing others'
     admin: { type: Boolean, default: false }

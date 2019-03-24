@@ -82,7 +82,7 @@ export let CreateEventSchema = {
     "reservationRequired": Joi.boolean().required(),
     "tags": Joi.array().items(Joi.string().min(1)).required(),
     "recurrenceRule": Joi.string().allow(null),
-    "recurrenceExceptions": Joi.array().items(Joi.date())
+    "recurrenceExceptions": Joi.array().items(Joi.date().required())
   }).unknown(false)
 }
 
@@ -105,13 +105,43 @@ export let UpdateEventSchema = {
 export let CreateScheduleSchema = {
   body: Joi.object({
     "name": Joi.string().required(),
-    "shortName": Joi.string().required().min(1).max(3)
+    "shortName": Joi.string().required()
   })
 }
 
 export let UpdateScheduleSchema = {
   body: Joi.object({
     "name": Joi.string(),
-    "shortName": Joi.string().min(1).max(3)
+    "shortName": Joi.string()
   })
+}
+
+export let CreateScheduleSlotSchema = {
+  body: Joi.object({
+    "title": Joi.string().required().min(1).max(64),
+    "notes": Joi.string().max(140),
+    "location": Joi.string().max(40),
+    "locationUrl": Joi.string().max(240),
+    "instances": Joi.array().items(Joi.object({
+      "startTime": Joi.date().required(),
+      "endTime": Joi.date().required(),
+      "recurrenceRule": Joi.string().allow(null)
+    }).unknown(false)).required(),
+    "instanceExceptions": Joi.array().items(Joi.date().required()).required()
+  }).unknown(false)
+}
+
+export let UpdateScheduleSlotSchema = {
+  body: Joi.object({
+    "title": Joi.string().min(1).max(64),
+    "notes": Joi.string().max(140),
+    "location": Joi.string().max(40),
+    "locationUrl": Joi.string().max(240),
+    "instances": Joi.array().items(Joi.object({
+      "startTime": Joi.date().required(),
+      "endTime": Joi.date().required(),
+      "recurrenceRule": Joi.string().allow(null)
+    }).unknown(false)),
+    "instanceExceptions": Joi.array().items(Joi.date().required())
+  }).unknown(false)
 }

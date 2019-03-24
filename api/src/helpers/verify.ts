@@ -34,15 +34,15 @@ export function userCan(action: string) {
   }
 }
 
-const SCHEDULES_PERM_LEVELS: any = {
-  null: 0,
-  "own": 1,
-  "section": 2,
-  "all": 3,
-  "admin": 4
+export const SCHEDULES_PERM_LEVELS: any = {
+  null: 0,        //no access
+  "own": 1,       //edit own only (no create)
+  "all": 2,       //create and edit slots in all schedules
+  "admin": 3      //all + create, edit, and delete schedules
 }
 
-export function userCanSchedules(level: string) {
+export function userCanSchedules(level?: string) {
+  if (!level) { level = "own" }
   let levelInt = SCHEDULES_PERM_LEVELS[level];
   assert(typeof levelInt === 'number');
 
@@ -50,8 +50,10 @@ export function userCanSchedules(level: string) {
     userCan("schedules")(req, res, (e: any) => {
       if (e) return next(e);
 
-      const auth = req.user.group.permissions.schedules
+      const auth = req.user.group.permissions.schedules;
       const authInt = SCHEDULES_PERM_LEVELS[auth];
+      req.schedulesLevel = auth;
+      req.schedulesLevelInt = authInt;
       if (typeof authInt !== 'number') {
         return next({
           status: 500,

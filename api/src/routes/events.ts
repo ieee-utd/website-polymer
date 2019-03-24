@@ -17,7 +17,7 @@ import { RRule, RRuleSet, rrulestr } from 'rrule';
 const PAGINATION_DAYS = 30;
 const MAX_GENERATED_RECURRENCES = 60;
 
-function calculateEventRecurrence(recurrenceRule: string, recurrenceExceptions: any, startTime: string | Date, endTime: string | Date) {
+export function calculateEventRecurrence(recurrenceRule: string, recurrenceExceptions: any, startTime: string | Date, endTime: string | Date) {
   try {
 
     let originalRule = RRule.fromString(recurrenceRule);
