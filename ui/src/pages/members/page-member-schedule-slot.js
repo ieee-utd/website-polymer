@@ -105,19 +105,19 @@ class PageMemberScheduleSlot extends BaseElement {
   }
 
   _saveData(e) {
-    
+
   }
 
   _deleteSlot() {
-    
+
   }
 
   _cancelDelete() {
-    
+
   }
 
   _confirmDelete() {
-    
+
   }
 
 }
