@@ -50,7 +50,7 @@ export function userCanSchedules(level?: string) {
     userCan("schedules")(req, res, (e: any) => {
       if (e) return next(e);
 
-      const auth = req.user.group.permissions.admin  ? "admin" : req.user.group.permissions.schedules;
+      const auth = req.user.group.permissions.admin ? "admin" : req.user.group.permissions.schedules;
       const authInt = SCHEDULES_PERM_LEVELS[auth];
       req.schedulesLevel = auth;
       req.schedulesLevelInt = authInt;
@@ -58,6 +58,13 @@ export function userCanSchedules(level?: string) {
         return next({
           status: 500,
           mesasge: "Invalid auth level for schedule permission: " + auth
+        })
+      }
+
+      if (authInt < levelInt) {
+        return next({
+          status: 403,
+          message: "Not allowed to access this request"
         })
       }
 
