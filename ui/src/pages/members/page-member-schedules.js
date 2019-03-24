@@ -96,6 +96,10 @@ class PageMemberSchedules extends BaseElement {
     this._navigateTo("/member/schedule/edit");
   }
 
+  _createScheduleSlot() {
+    this._navigateTo("/member/schedule-slot/create");
+  }
+
   onload() {
     return new Promise((resolve, reject) => {
       this._get("/schedules/editable")
