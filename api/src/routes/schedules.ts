@@ -158,8 +158,8 @@ route.delete('/:scheduleId', userCanSchedules("admin"), async (req: any, res: an
 })
 
 //create schedule slot
-route.post('/:scheduleId', userCanSchedules(), async (req: any, res: any, next: any) => {
-
+route.post('/:scheduleId/slot', userCanSchedules(), async (req: any, res: any, next: any) => {
+  
 })
 
 //update schedule slot
