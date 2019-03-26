@@ -72,12 +72,11 @@ const ccEmail = {
 
 const replyTo = fromEmail;
 
-const subject = "IEEEUTD IT Committee - Workshop Series Starts March 28th";
+const subject = "IEEEUTD IT Committee - Workshop Reminder";
 
 const bodyHtml = `<p>Hello everyone!<br><br>
-We will be starting the <b>first part of our workshop series<br> on <b>March 28th</b>! (For those of you that cannot make it, we may schedule a second meeting.)<br><br>
-We apologize for the delay as we are currently looking into additional (awesome) projects that you all can work on, including a potential collaboration between IEEEUTD and an official branch of UTD. We will keep you all posted!<br><br>
-Meanwhile, please go to <a href="https://ieeeutd.org/event/JLM1xg">https://ieeeutd.org/event/JLM1xg</a> and click the link to join our Slack, where we will continue to communicate with you all.<br><br>
+Hope you all had a great spring break. This Thursday 7-9p, we will be running a workshop on NodeJS, a server platform great for web development. For details, please visit <a href="https://ieeeutd.org/e/JLM1xg">ieeeutd.org/e/JLM1xg</a>. We hope to see you all there!<br><br>
+Before you come, please <a href="https://join.slack.com/t/ieee-utd/shared_invite/enQtNTg5NDc2MTIwMTMzLWNjYzZkZDI1NDBjNmFhYWNkZDM0Y2VhMWZmNjNlODBkYmE2YjA1ODk3ZDllNTUzZGU3YTNkMTI2MTk0ZGFkNzc">sign up for our Slack</a> so we can stay in touch and <a href="https://nodejs.org/en/download/">install NodeJS 10.x</a> on the laptop you plan to bring to the event.<br><br>
 Please email us (or Slack us) back if you have any questions. Thank you!</p>`
 
 const summary = "";
