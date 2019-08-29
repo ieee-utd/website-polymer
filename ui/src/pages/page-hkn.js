@@ -39,7 +39,7 @@ class PageHKN extends BaseElement {
       </div>
 
       <app-container class="content" style="padding-top:0">
-        <p>Eta Kappa Nu (HKN) is the honor society of IEEE, promoting professional accomplishment, service, and development for students and professionals in electrical engineering, computer engineering, and other IEEE fields of interest.</p>
+        <p>Eta Kappa Nu (HKN) is the honor society of IEEE, promoting professional accomplishment, service, and development for students and professionals in electrical engineering, computer engineering, and other IEEE fields of interest. More information regarding the 2019-2020 cutoffs are coming soon.</p>
 
         <h2>Requirements</h2>
         <p>Below are the requirements Fall 2018 ECS majors with the cumulative GPA (Summer 2018) at the appropriate 1/5th, 1/4th, and 1/3rd point for HKN.</p>
