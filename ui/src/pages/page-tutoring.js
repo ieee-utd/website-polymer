@@ -112,7 +112,7 @@ class PageTutoring extends BaseElement {
         <p style="margin-top:0">
           We offer tutoring at Jonsson School Student Enrichment Center (JSSEC), Synergy Park North (SPN) 2.220. We offer tutoring for Electrical Network Analysis, Signals and Systems, and more! Below, you can find up to date tutoring announcements, events, and schedules.
         </p>
-        <p><b>Tutor schedules</b> and <b>tutoring events</b> are below.</p>
+        <p><b>Tutor schedules</b> and <b>tutoring events</b> are COMING SOON.</p>
 
         <div class="main-card" hidden$="[[!_have(eventDates)]]">
           <h2>Events</h2>
@@ -138,10 +138,8 @@ class PageTutoring extends BaseElement {
             </template>
           </dom-repeat>
         </div>
-      </div>
 
-
-        <h2>Tutor Schedules</h2>
+        <!-- <h2>Tutor Schedules</h2>
         <paper-tabs selected="{{selected}}">
           
           <paper-tab>DC</paper-tab>
@@ -184,17 +182,11 @@ class PageTutoring extends BaseElement {
             </iframe>
           </div>
           <div>
-            <!-- <iframe
-              width="100%"
-              height="480"
-              frameborder="0" style="border:0"
-              src="https://schedulebuilder.org/?s=vut7qc8r">
-            </iframe> -->
             <div style="width:100%;background:#A4A4A4;display:flex;justify-content:center;">
               <img style="max-width:940px;width:100%;height:100%;object-fit:contain;" src="https://s3.amazonaws.com/ieee-utd/resources/intro_ce_ee_ii.png" alt="intro_ce_ee_ii" />
             </div>
           </div>
-        </iron-pages>
+        </iron-pages> -->
 
         <!-- TODO -->
         <!-- <h2>Tutors</h2> -->
