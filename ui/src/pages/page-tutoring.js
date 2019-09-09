@@ -110,7 +110,7 @@ class PageTutoring extends BaseElement {
 
       <app-container class="content" style="padding-top:0">
         <p style="margin-top:0">
-          We offer tutoring at Jonsson School Student Enrichment Center (JSSEC), Synergy Park North (SPN) 2.220. We offer tutoring for Electrical Network Analysis, Signals and Systems, and more! Below, you can find up to date tutoring announcements, events, and schedules.
+          We offer tutoring at <b>ECSN 2.318 (new location!)</b>. We offer tutoring for Electrical Network Analysis, Signals and Systems, and more! Below, you can find up to date tutoring announcements, events, and schedules.
         </p>
         <!-- <p><b>Tutor schedules</b> and <b>tutoring events</b> are below!</p> -->
 
