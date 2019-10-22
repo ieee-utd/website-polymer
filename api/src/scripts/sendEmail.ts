@@ -3,61 +3,11 @@ require('dotenv').config();
 process.env.NODE_ENV = "script";
 
 import { sendEmailMsg } from "../helpers/mail";
+import * as _ from 'lodash';
 
 const bccEmails = [
-  "ajv170001@utdallas.edu",
-  "yxl170011@utdallas.edu",
-  "aak170002@utdallas.edu",
-  "gxk180007@utdallas.edu",
-  "utsabbhattarai26@gmail.com",
-  "gtm180000@utdallas.edu",
-  "axb175430@utdallas.edu",
-  "jkb150230@utdallas.edu",
-  "emh170030@utdallas.edu",
-  "mjs150930@utdallas.edu",
-  "jxk180021@utdallas.edu",
-  "Afk160330@utdallas.edu",
-  "Wsr160030@utdallas.edu",
-  "Aqb170000@utdallas.edu",
-  "mxk174030@utdallas.edu",
-  "kxs171530@utdallas.edu",
-  "ljp160130@utdallas.edu",
-  "Mac170930@utdallas.edu",
-  "Lu.Matthew.Y@gmail.com",
-  "ams170002@utdallas.edu",
-  "msj170000@utdallas.edu",
-  "spl170030@utdallas.edu",
-  "rreshmiranjith@gmail.com",
-  "ZAR170000@utdallas.edu",
-  "atn170001@utdallas.edu",
-  "Ptg170030@utdallas.edu",
-  "ncp170130@utdallas.edu",
-  "jeg170330@utdallas.edu",
-  "Adwaithmoothezhath@gmail.com",
-  "Jmr180004@utdallas.edu",
-  "jxt170630@utdallas.edu",
-  "jas172430@utdallas.edu",
-  "axa172532@utdallas.edu",
-  "amv170330@utdallas.edu",
-  "jpt170000@utdallas.edu",
-  "axb175430@utdallas.com",
-  "nithin.ksk94@gmail.com",
-  "Asa170130@utdallas.edu",
-  "henry.anderson523@gmail.com",
-  "sxx150830@utdallas.edu",
-  "Kxd170011@utdallas.edu",
-  "rxb180021@utdallas.edu",
-  "crc170001@utdallas.edu",
-  "Bad180003@utdallas.edu",
-  "mxv170830@utdallas.edu",
-  "Sxs170027@utdallas.edu",
-  "Kxd170004@utdallas.edu",
-  "sxd170630@utdallas.edu",
-  "Ntm180000@utdallas.edu",
-  "pom170030@utdallas.edu",
-  "jtb170930@utdallas.edu",
-  "jxl180015@utdallas.edu",
-  "kem170000@utdallas.edu"
+  "pachachura.arthur@gmail.com",
+  "vedanshpatel9@gmail.com"
 ]
 
 const fromEmail = {
@@ -65,30 +15,41 @@ const fromEmail = {
   name: "Arthur Pachachura"
 }
 
-const ccEmail = {
-  email: "caleb.fung@utdallas.edu",
-  name: "Caleb Fung"
-}
+const ccEmails = [{
+  email: "vxp170009@utdallas.edu",
+  name: "Vedansh Patel"
+}, {
+  email: "ces160130@utdallas.edu",
+  name: "Cameron Steele"
+}]
 
 const replyTo = fromEmail;
 
-const subject = "IEEEUTD IT Committee - Workshop Series Starts March 28th";
+const subject = "IEEEUTD IT Committee - Sign up for IEEEUTD/Makerspace Project Beta";
 
-const bodyHtml = `<p>Hello everyone!<br><br>
-We will be starting the <b>first part of our workshop series<br> on <b>March 28th</b>! (For those of you that cannot make it, we may schedule a second meeting.)<br><br>
-We apologize for the delay as we are currently looking into additional (awesome) projects that you all can work on, including a potential collaboration between IEEEUTD and an official branch of UTD. We will keep you all posted!<br><br>
-Meanwhile, please go to <a href="https://ieeeutd.org/event/JLM1xg">https://ieeeutd.org/event/JLM1xg</a> and click the link to join our Slack, where we will continue to communicate with you all.<br><br>
-Please email us (or Slack us) back if you have any questions. Thank you!</p>`
+const bodyHtml = `<p>Hello!</p><br>
+
+<p>You are receiving this email because you signed up for IEEEUTD IT committee emails either this or last semester. IEEEUTD and Makerspace are proud to announce <b>IEEEUTD/Makerspace Projects</b>, a new cooperation between the two organizations where students build software and hardware that will be used by students like you.</p><br>
+
+<p>Starting two weeks from today, we will be running a Beta project for 4 weeks: <b>building a digital, interactive events board for the UTD Makerspace</b> (located in SPN 2.220). We are looking for a team of about 6 people in any major and with any interest, including web development, creative design, project management, software development, data science, and more. <b>If you are interested, please take 10 minutes to sign up and add your resume at <a href="https://forms.gle/4zpbcknCNvMh7N5j9">https://forms.gle/4zpbcknCNvMh7N5j9</a>.</b></p><br>
+
+<p>Please email us back if you have any questions about the project - we would be happy to provide additional details. Thank you!</p>`
 
 const summary = "";
 
 async function run() {
   try {
+
+    let bccEmailsUnique = _(bccEmails)
+    .map(email => email.toLowerCase().trim())
+    .uniq()
+    .value();
+
     await sendEmailMsg({
       to: replyTo,
       from: fromEmail,
-      cc: ccEmail,
-      bcc: bccEmails,
+      cc: ccEmails,
+      bcc: bccEmailsUnique,
       replyTo: replyTo,
       subject: subject,
       templateId: 'd-f696f336b80340d797d355dc94bbed33',
