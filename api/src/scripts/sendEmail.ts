@@ -127,7 +127,8 @@ const bccEmails = [
   "Prl180000@utdallas.edu",
   "knk190001@utdallas.edu",
   "saaket.poray@utdallas.edu",
-  "harshasrikara@gmail.com"
+  "harshasrikara@gmail.com",
+  "rxr180027@utdallas.edu"
 ]
 
 const fromEmail = {
