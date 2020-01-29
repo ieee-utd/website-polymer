@@ -2,7 +2,7 @@ import { html } from '@polymer/polymer/polymer-element.js';
 import { BaseElement } from '../base-element';
 import '../shared-styles.js';
 
-class PageTutoring extends BaseElement {
+class PageForge extends BaseElement {
   static get template() {
     return html`
       <style include="shared-styles">
@@ -102,7 +102,7 @@ class PageTutoring extends BaseElement {
       <div class="hero-image">
         <div class="bg-overlay">
           <app-container>
-            <h1 style="color:white;">Tutoring</h1>
+            <h1 style="color:white;">The Forge</h1>
           </app-container>
         </div>
         <iron-image class="bg" sizing="cover" src="/img/tutoring.png" preload fade></iron-image>
@@ -110,92 +110,37 @@ class PageTutoring extends BaseElement {
 
       <app-container class="content" style="padding-top:0">
         <p style="margin-top:0">
-          We offer tutoring at <b>ECSN 2.318 (new location!)</b>. We offer tutoring for Electrical Network Analysis, Signals and Systems, and more! Below, you can find up to date tutoring announcements, events, and schedules.
+          The Forge is a multidisciplinary project-focused innovation hub focusing on developing the
+          next generation of creative and technical leaders while solving engineering challenges in
+          the community. All our projects are made by UTD students for UTD students.
+          <br><br>
+          Students are placed in interdisciplinary teams of 4-6 and challenged to complete 10-week projects.
+          Past projects integrated web development with prototyping and electrical engineering skills to build devices for the UTDallas Makerspace.
         </p>
-        <!-- <p><b>Tutor schedules</b> and <b>tutoring events</b> are below!</p> -->
-
-        <div class="main-card" hidden$="[[!_have(eventDates)]]">
-          <h2>Events</h2>
-          <dom-repeat items="[[eventDates]]" as="day">
-            <template>
-              <div class="row day-container">
-                <div class="day">
-                  <span>[[day.month]]</span>
-                  <h2>[[day.day]]</h2>
-                </div>
-                <div class="right">
-                  <app-grid>
-                    <dom-repeat items="[[day.events]]" as="event">
-                      <template>
-                        <app-grid-item width=6>
-                          <event-card announcement="[[event]]" is-event from="t"></event-card>
-                        </app-grid-item>
-                      </template>
-                    </dom-repeat>
-                  </app-grid>
-                </div>
-              </div>
-            </template>
-          </dom-repeat>
-        </div>
-
-        <h2>Tutor Schedules</h2>
-        <p>Typical tutoring schedules are listed below.</p>
-        <iframe width="100%" height="800" src="https://outlook.office365.com/owa/calendar/b291b0396ebb4083b5f5838f910b0ea4@utdallas.edu/12d9ffd59bb740998b2c3393df08b1837462845731696272955/calendar.html" frameborder="0" allowfullscreen>
-        </iframe>
-        
-
-        <!-- <h2>Tutor Schedules</h2>
-        <paper-tabs selected="{{selected}}">
-          
-          <paper-tab>DC</paper-tab>
-          <paper-tab>DS</paper-tab>
-          <paper-tab>ENA</paper-tab>
-          <paper-tab>S&amp;S</paper-tab>
-          <paper-tab>Intro CE/EE II</paper-tab>
-        </paper-tabs>
-        <iron-pages selected="{{selected}}">
-          <div>
-            <iframe
-              width="100%"
-              height="480"
-              frameborder="0" style="border:0"
-              src="https://schedulebuilder.org/?despy2k9">
-            </iframe>
-          </div>
-          <div>
-            <iframe
-              width="100%"
-              height="480"
-              frameborder="0" style="border:0"
-              src="https://schedulebuilder.org/?bleuappk">
-            </iframe>
-          </div>
-          <div>
-            <iframe
-              width="100%"
-              height="480"
-              frameborder="0" style="border:0"
-              src="https://schedulebuilder.org/?djnj5jo4">
-            </iframe>
-          </div>
-          <div>
-            <iframe
-              width="100%"
-              height="480"
-              frameborder="0" style="border:0"
-              src="https://schedulebuilder.org/?r4zb960a">
-            </iframe>
-          </div>
-          <div>
-            <div style="width:100%;background:#A4A4A4;display:flex;justify-content:center;">
-              <img style="max-width:940px;width:100%;height:100%;object-fit:contain;" src="https://s3.amazonaws.com/ieee-utd/resources/intro_ce_ee_ii.png" alt="intro_ce_ee_ii" />
-            </div>
-          </div>
-        </iron-pages> -->
-
-        <!-- TODO -->
-        <!-- <h2>Tutors</h2> -->
+        <h2>The Selection Process</h2>
+        <p>
+          Many projects require no/little initial experience so students are encouraged to apply regardless of experience and skillset.
+          majors and experience. If you don't have any experience this is a great opportunity to get some!
+          <br><br>
+          There is an inital screening process students where students upload resumes and select projects they would like to work on.
+          Afterwards, there will be interviews to best determine project fit based on majors, skills and interests.
+        </p>
+        <h2>FAQ</h2>
+        <p>
+          <h4>I'm a beginner, can I still join?</h4>
+          Of course! We have several beginner friendly projects and each team is assigned a mentor who can help in the learning process.
+          <br><br>
+          <h4>What is the time commitment?</h4>
+          It varies from project to project but most are within a 4-6 hour range. Teams are also expected to attend weekly meetings with
+          project mentors and/or sponsors. You only have 10-weeks so the projects do have to move relatively fast.
+          <h4>I have a project idea! Can Forge do it?</h4>
+          If your idea solves an engineering challenge within a community, we would love to hear about it. 
+          Please reach out to us with a 2-4 sentence elevator speech.
+        </p>
+        <h2>Contact Us</h2>
+        <p>
+          Have questions, ideas, or just want to learn more? You can contact us at <a src="forge@ieeeutd.org">forge@ieeeutd.org</a>
+        </p>
       </app-container>
     `;
   }
@@ -228,4 +173,4 @@ class PageTutoring extends BaseElement {
   }
 }
 
-window.customElements.define('page-tutoring', PageTutoring);
+window.customElements.define('page-forge', PageForge);

@@ -69,12 +69,12 @@ class PageHKN extends BaseElement {
   static get properties() {
     return {
       requirements: { type: Array, value: [
-        {ecsMajor: "BMEN", so: 3.825, jr: 3.539, sr: 3.571},
-        {ecsMajor: "CE", so: 3.654, jr: 3.628, sr: 3.460},
-        {ecsMajor: "CS", so: 3.753, jr: 3.717, sr: 3.567},
-        {ecsMajor: "EE", so: 3.484, jr: 3.667, sr: 3.418},
-        {ecsMajor: "MECH", so: 3.655, jr: 3.600, sr: 3.401},
-        {ecsMajor: "SE", so: 3.677, jr: 3.499, sr: 3.351},
+        {ecsMajor: "BMEN", so: 3.881, jr: 3.801, sr: 3.529},
+        {ecsMajor: "CE", so: 3.690, jr: 3.442, sr: 3.442},
+        {ecsMajor: "CS", so: 3.845, jr: 3.738, sr: 3.553},
+        {ecsMajor: "EE", so: 3.750, jr: 3.584, sr: 3.484},
+        {ecsMajor: "MECH", so: 3.704, jr: 3.484, sr: 3.375},
+        {ecsMajor: "SE", so: 3.651, jr: 3.625, sr: 3.413}
       ]},
     }
   }

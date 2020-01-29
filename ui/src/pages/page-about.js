@@ -90,19 +90,34 @@ class PageAbout extends PolymerElement {
             <p class="officer-position">President</p>
           </div>
           <div class="officer-item">
-            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/gore%2Cshubham.jpg"></iron-image>
-            <h2>Shubham Gore</h2>
-            <p class="officer-position">Vice President of Internal Affairs</p>
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/jambusaria%2Cmira.jpg"></iron-image>
+            <h2>Mira Jambusaria</h2>
+            <p class="officer-position">Co-Vice President</p>
           </div>
           <div class="officer-item">
-            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/banh%2Csabrina.jpeg"></iron-image>
-            <h2>Sabrina Banh</h2>
-            <p class="officer-position">Vice President of External Affairs</p>
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/klavon%2Cjarod.jpg"></iron-image>
+            <h2>Jarod Klavon</h2>
+            <p class="officer-position">Co-Vice President</p>
           </div>
           <div class="officer-item">
-            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/waye%2Cjason.jpeg"></iron-image>
-            <h2>Jason Waye</h2>
-            <p class="officer-position">Sr. Advisor and Secretary</p>
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/pachachura%2Carthur.jpg"></iron-image>
+            <h2>Arthur Pachachura</h2>
+            <p class="officer-position">Head of The Forge</p>
+          </div>
+          <div class="officer-item">
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/patel%2Cvedansh.jpg"></iron-image>
+            <h2>Vedansh Patel</h2>
+            <p class="officer-position">Head of The Forge</p>
+          </div>
+          <div class="officer-item">
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/yogananthan%2Ckeerthana.jpg"></iron-image>
+            <h2>Keerthana Yogananthan</h2>
+            <p class="officer-position">Director of Tutoring</p>
+          </div>
+          <div class="officer-item">
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/chopada%2Cpranav.jpg"></iron-image>
+            <h2>Pranav Chopada</h2>
+            <p class="officer-position">Director of Tutoring</p>
           </div>
           <div class="officer-item">
             <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/thomas%2Calisa.jpg"></iron-image>
@@ -110,44 +125,35 @@ class PageAbout extends PolymerElement {
             <p class="officer-position">Director of Operations</p>
           </div>
           <div class="officer-item">
-            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/salinas%2Cjoshua.jpg"></iron-image>
-            <h2>Joshua Salinas</h2>
-            <p class="officer-position">Director of Tutoring</p>
-          </div>
-          <div class="officer-item">
-            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/hu%2Ctiancheng.jpg"></iron-image>
-            <h2>Tiancheng Hu</h2>
-            <p class="officer-position">Assistant Director of Tutoring</p>
-          </div>
-          <div class="officer-item">
             <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/nair%2Crishab.jpg"></iron-image>
             <h2>Rishab Nair</h2>
-            <p class="officer-position">Public Relations</p>
+            <p class="officer-position">Co-Director of Public Relations</p>
+          </div>
+          <div class="officer-item">
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/khaleque%2Cmuntasir.jpg"></iron-image>
+            <h2>Muntasir Khaleque</h2>
+            <p class="officer-position">Co-Director of Public Relations</p>
           </div>
           <div class="officer-item">
             <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/liao%2Calan.jpg"></iron-image>
             <h2>Alan Liao</h2>
-            <p class="officer-position">Technical Director</p>
+            <p class="officer-position">Director of Technology</p>
           </div>
           <div class="officer-item">
-            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/pachachura%2Carthur.jpeg"></iron-image>
-            <h2>Arthur Pachachura</h2>
-            <p class="officer-position">Director of Information Technology</p>
-          </div>
-          <div class="officer-item">
-            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/fung%2Ccaleb.jpg"></iron-image>
-            <h2>Caleb Fung</h2>
-            <p class="officer-position">Director of Information Technology</p>
-          </div>
-          <div class="officer-item">
-            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/raisa%2Cantara.jpg"></iron-image>
-            <h2>Antara Raisa</h2>
-            <p class="officer-position">Director of HKN</p>
-          </div>
-          <div class="officer-item">
-            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/soni%2Cashima.png"></iron-image>
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/soni%2Cashima.jpg"></iron-image>
             <h2>Ashima Soni</h2>
-            <p class="officer-position">IEEE YP Liason</p>
+            <p class="officer-position">Secretary</p>
+          </div>
+          <div class="officer-item">
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/smith%2Cjulie.jpg"></iron-image>
+            <h2>Julie Smith</h2>
+            <p class="officer-position">Treasurer</p>
+          </div>
+          <!-- TODO verify who Director is and get a photo -->
+          <div class="officer-item">
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/hkn_maxine.jpg"></iron-image>
+            <h2>Maxine Cabrasawan</h2>
+            <p class="officer-position">President of HKN</p>
           </div>
           <div class="officer-item">
             <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/dr_fumagalli.jpg"></iron-image>

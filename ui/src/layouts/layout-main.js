@@ -225,6 +225,7 @@ class LayoutMain extends BaseElement {
             role="navigation">
           <a href="[[rootPath]]" active$="[[_active(_page,'home')]]"><iron-icon icon="mdi:home-outline"></iron-icon><h4>Home</h4></a>
           <a href="[[rootPath]]about" active$="[[_active(_page,'about')]]"><iron-icon icon="mdi:information-outline"></iron-icon><h4>About</h4></a>
+          <a href="[[rootPath]]forge" active$="[[_active(_page,'forge')]]"><iron-icon icon="mdi:hammer"></iron-icon><h4>The Forge</h4></a>
           <a href="[[rootPath]]tutoring" active$="[[_active(_page,'tutoring')]]"><iron-icon icon="mdi:comment-question-outline"></iron-icon><h4>Tutoring</h4></a>
           <a href="[[rootPath]]hkn" active$="[[_active(_page,'hkn')]]"><iron-icon icon="mdi:account-group-outline"></iron-icon><h4>HKN</h4></a>
           <a href="[[rootPath]]contact" active$="[[_active(_page,'contact')]]"><iron-icon icon="mdi:email-outline"></iron-icon><h4>Contact</h4></a>
@@ -239,6 +240,7 @@ class LayoutMain extends BaseElement {
               <a href="[[rootPath]]" style="height:48px"><img src="https://s3.amazonaws.com/ieee-utd/branding/ieeeutd_icon_color_bordered.svg" draggable=false gone$="[[_active(_page,'home')]]"/></a>
               <span class="tab"><a href="[[rootPath]]" active$="[[_active(_page,'home')]]">Home</a></span>
               <span class="tab"><a href="[[rootPath]]about" active$="[[_active(_page,'about')]]">About</a></span>
+              <span class="tab"><a href="[[rootPath]]forge" active$="[[_active(_page,'forge')]]">The Forge</a></span>
               <span class="tab"><a href="[[rootPath]]tutoring" active$="[[_active(_page,'tutoring')]]">Tutoring</a></span>
               <span class="tab"><a href="[[rootPath]]hkn" active$="[[_active(_page,'hkn')]]">HKN</a></span>
               <span class="tab"><a href="[[rootPath]]contact" active$="[[_active(_page,'contact')]]">Contact</a></span>
@@ -257,6 +259,7 @@ class LayoutMain extends BaseElement {
           <page-home name="home"></page-home>
           <page-about name="about"></page-about>
           <page-apply name="apply"></page-apply>
+          <page-forge name="forge"></page-forge>
           <page-tutoring name="tutoring"></page-tutoring>
           <page-hkn name="hkn"></page-hkn>
           <page-contact name="contact"></page-contact>
@@ -369,6 +372,9 @@ class LayoutMain extends BaseElement {
           break;
         case 'apply':
           import('../pages/page-apply.js').then(resolve.bind(this, page)).catch(reject);
+          break;
+        case 'forge':
+          import('../pages/page-forge.js').then(resolve.bind(this, page)).catch(reject);
           break;
         case 'tutoring':
           import('../pages/page-tutoring.js').then(resolve.bind(this, page)).catch(reject);
