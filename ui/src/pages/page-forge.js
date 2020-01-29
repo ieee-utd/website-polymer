@@ -105,7 +105,7 @@ class PageForge extends BaseElement {
             <h1 style="color:white;">The Forge</h1>
           </app-container>
         </div>
-        <iron-image class="bg" sizing="cover" src="/img/tutoring.png" preload fade></iron-image>
+        <iron-image class="bg" sizing="cover" src="/img/forge-background.jpg" preload fade></iron-image>
       </div>
 
       <app-container class="content" style="padding-top:0">
@@ -124,6 +124,8 @@ class PageForge extends BaseElement {
           <br><br>
           There is an inital screening process students where students upload resumes and select projects they would like to work on.
           Afterwards, there will be interviews to best determine project fit based on majors, skills and interests.
+          <br><br>
+          If you are interested in joining The Forge you can start the process by filling out this form: <a href="https://bit.ly/ieeeutd-app-s20">bit.ly/ieeeutd-app-s20</a>
         </p>
         <h2>FAQ</h2>
         <p>
@@ -139,7 +141,7 @@ class PageForge extends BaseElement {
         </p>
         <h2>Contact Us</h2>
         <p>
-          Have questions, ideas, or just want to learn more? You can contact us at <a src="forge@ieeeutd.org">forge@ieeeutd.org</a>
+          Have questions, ideas, or just want to learn more? You can contact us at <a href="mailto:forge@ieeeutd.org">forge@ieeeutd.org</a>
         </p>
       </app-container>
     `;

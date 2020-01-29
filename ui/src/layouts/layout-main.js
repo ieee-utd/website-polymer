@@ -229,7 +229,7 @@ class LayoutMain extends BaseElement {
           <a href="[[rootPath]]tutoring" active$="[[_active(_page,'tutoring')]]"><iron-icon icon="mdi:comment-question-outline"></iron-icon><h4>Tutoring</h4></a>
           <a href="[[rootPath]]hkn" active$="[[_active(_page,'hkn')]]"><iron-icon icon="mdi:account-group-outline"></iron-icon><h4>HKN</h4></a>
           <a href="[[rootPath]]contact" active$="[[_active(_page,'contact')]]"><iron-icon icon="mdi:email-outline"></iron-icon><h4>Contact</h4></a>
-          <a href="[[rootPath]]join" active$="[[_active(_page,'apply')]]"><iron-icon icon="mdi:account-heart"></iron-icon><h4>Join Us</h4></a>
+          <!-- <a href="[[rootPath]]join" active$="[[_active(_page,'apply')]]"><iron-icon icon="mdi:account-heart"></iron-icon><h4>Join Us</h4></a> -->
         </iron-selector>
       </app-drawer>
 
@@ -244,7 +244,7 @@ class LayoutMain extends BaseElement {
               <span class="tab"><a href="[[rootPath]]tutoring" active$="[[_active(_page,'tutoring')]]">Tutoring</a></span>
               <span class="tab"><a href="[[rootPath]]hkn" active$="[[_active(_page,'hkn')]]">HKN</a></span>
               <span class="tab"><a href="[[rootPath]]contact" active$="[[_active(_page,'contact')]]">Contact</a></span>
-              <span class="tab"><a href="[[rootPath]]join" active$="[[_active(_page,'apply')]]">Join Us</a></span>
+              <!-- <span class="tab"><a href="[[rootPath]]join" active$="[[_active(_page,'apply')]]">Join Us</a></span> -->
             </div>
           </app-container>
           <app-container class="narrow-toolbar">
