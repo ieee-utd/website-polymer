@@ -30,6 +30,7 @@
     "chalk": "^2.4.1",
     "compression": "^1.7.3",
     "connect-mongo": "^2.0.1",
+    "csv-parse": "^4.8.5",
     "dotenv": "^6.0.0",
     "easy-pbkdf2": "^0.1.2",
     "express": "^4.16.3",
