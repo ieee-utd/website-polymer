@@ -61,7 +61,9 @@ class PageHKN extends BaseElement {
             <template>[[item.sr]]</template>
           </vaadin-grid-column>
         </vaadin-grid>
-        <p>In addition, applicants will need to have completed 15 hours of volunteer service in STEM-related fields.</p>
+        <p>In addition, applicants will need to have completed 15 hours of volunteer service in STEM-related fields.
+        <br>Fill out this <a href="https://forms.gle/9FGH7Y96SB85u21fA">interest form</a> to learn more about HKN.
+        </p>
       </app-container>
     `;
   }
