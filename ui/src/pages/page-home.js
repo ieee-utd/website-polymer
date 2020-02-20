@@ -225,7 +225,7 @@ class PageHome extends BaseElement {
           <div class="blurb">
             <p>We are the student chapter of the Institute of Electrical and Electronics Engineers (IEEE) at The University of Texas at Dallas (UTD).</p>
             <div>
-              <a class="button-link" href="http://groups.google.com/group/ieee-utd-fall-2017--present/boxsubscribe" target="_blank"><paper-button class="large">Join our mailing list</paper-button></a>
+              <a class="button-link" href="http://groups.google.com/group/ieee-utdallas--present/boxsubscribe" target="_blank"><paper-button class="large">Join our mailing list</paper-button></a>
               <paper-button class="large" on-tap="_navigate" url="/about">Learn more</paper-button>
             </div>
           </div>
