@@ -70,7 +70,7 @@ class PageAbout extends PolymerElement {
           By leveraging both IEEE and UTD resources, we help students to enforce engineering knowledge they learn and develop connections with other engineers within their fields of interest.
         </p>
 
-        <h2>Location</h2>
+        <!-- <h2>Location</h2>
         <p>We are located at<br/><a href="https://www.google.com/maps/place/Synergy+Park+North+Building+-+UT+Dallas/@32.9939073,-96.7545257,17z/data=!3m1!4b1!4m5!3m4!1s0x864c2206e04feeb9:0x54e35d04c429ba8a!8m2!3d32.9939073!4d-96.752337" target="_blank">Synergy Park North 2.220<br/>3000 Waterview Pkwy,<br/>Richardson, TX 75080</a></p>
         <div class="map">
           <iframe
@@ -79,7 +79,7 @@ class PageAbout extends PolymerElement {
             frameborder="0" style="border:0"
             src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAfPLw0W2oEPGS_GaXsJhCpaZw0zTXAxOI&q=Synergy+Park+North+Building+-+UT+Dallas,Richardson,TX" allowfullscreen>
           </iframe>
-        </div>
+        </div> -->
 
         <h2 id="team">Our team</h2>
         <p>Our officers are dedicated to helping the engineering community grow through our diverse backgrounds and interests!</p>
