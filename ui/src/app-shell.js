@@ -45,6 +45,8 @@ import './elements/drawer-item.js';
 import './elements/event-card.js';
 import './elements/loading-block.js';
 import './elements/page-title.js';
+import './elements/app-sponsors.js';
+
 
 /* Administration */
 import './elements/form-button.js';

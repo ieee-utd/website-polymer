@@ -268,6 +268,7 @@ class LayoutMain extends BaseElement {
           <page-events name="events"></page-events>
           <page-ohnoes name="ohnoes"></page-ohnoes>
         </iron-pages>
+      <app-sponsors></app-sponsors>
       </div>
     `;
   }
