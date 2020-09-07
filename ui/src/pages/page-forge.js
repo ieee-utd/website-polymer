@@ -125,7 +125,7 @@ class PageForge extends BaseElement {
           There is an inital screening process students where students upload resumes and select projects they would like to work on.
           Afterwards, there will be interviews to best determine project fit based on majors, skills and interests.
           <br><br>
-          If you are interested in joining The Forge you can start the process by filling out this form: <a href="https://bit.ly/forge-s20-interest">bit.ly/forge-s20-interest</a>
+          If you are interested in joining The Forge you can start the process by filling out this form: <a href="https://bit.ly/forge-interest-f20">bit.ly/forge-s20-interest</a>
         </p>
         <h2>FAQ</h2>
         <p>
