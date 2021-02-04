@@ -1,5 +1,5 @@
-import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
-import { BaseElement } from '../base-element.js';
+import { PolymerElement, html } from "@polymer/polymer/polymer-element.js";
+import { BaseElement } from "../base-element.js";
 
 class LayoutMain extends BaseElement {
   static get template() {
@@ -226,6 +226,7 @@ class LayoutMain extends BaseElement {
           <a href="[[rootPath]]" active$="[[_active(_page,'home')]]"><iron-icon icon="mdi:home-outline"></iron-icon><h4>Home</h4></a>
           <a href="[[rootPath]]about" active$="[[_active(_page,'about')]]"><iron-icon icon="mdi:information-outline"></iron-icon><h4>About</h4></a>
           <a href="[[rootPath]]forge" active$="[[_active(_page,'forge')]]"><iron-icon icon="mdi:hammer"></iron-icon><h4>The Forge</h4></a>
+          <a href="[[rootPath]]tech" active$="[[_active(_page,'tech')]]"><iron-icon icon="mdi:hammer"></iron-icon><h4>Tech Committee</h4></a>
           <a href="[[rootPath]]tutoring" active$="[[_active(_page,'tutoring')]]"><iron-icon icon="mdi:comment-question-outline"></iron-icon><h4>Tutoring</h4></a>
           <a href="[[rootPath]]hkn" active$="[[_active(_page,'hkn')]]"><iron-icon icon="mdi:account-group-outline"></iron-icon><h4>HKN</h4></a>
           <a href="[[rootPath]]contact" active$="[[_active(_page,'contact')]]"><iron-icon icon="mdi:email-outline"></iron-icon><h4>Contact</h4></a>
@@ -241,6 +242,7 @@ class LayoutMain extends BaseElement {
               <span class="tab"><a href="[[rootPath]]" active$="[[_active(_page,'home')]]">Home</a></span>
               <span class="tab"><a href="[[rootPath]]about" active$="[[_active(_page,'about')]]">About</a></span>
               <span class="tab"><a href="[[rootPath]]forge" active$="[[_active(_page,'forge')]]">The Forge</a></span>
+              <span class="tab"><a href="[[rootPath]]tech" active$="[[_active(_page,'tech')]]">Tech Committee</a></span>
               <span class="tab"><a href="[[rootPath]]tutoring" active$="[[_active(_page,'tutoring')]]">Tutoring</a></span>
               <span class="tab"><a href="[[rootPath]]hkn" active$="[[_active(_page,'hkn')]]">HKN</a></span>
               <span class="tab"><a href="[[rootPath]]contact" active$="[[_active(_page,'contact')]]">Contact</a></span>
@@ -260,6 +262,7 @@ class LayoutMain extends BaseElement {
           <page-about name="about"></page-about>
           <page-apply name="apply"></page-apply>
           <page-forge name="forge"></page-forge>
+          <page-tech name="tech"></page-tech>
           <page-tutoring name="tutoring"></page-tutoring>
           <page-hkn name="hkn"></page-hkn>
           <page-contact name="contact"></page-contact>
@@ -275,7 +278,7 @@ class LayoutMain extends BaseElement {
 
   ready() {
     super.ready();
-    this.drawer = this.$$('.drawer');
+    this.drawer = this.$$(".drawer");
   }
 
   static get properties() {
@@ -286,14 +289,12 @@ class LayoutMain extends BaseElement {
       subroute: Object,
       _subdrawerOpen: { type: Boolean, value: false },
       _loading: { type: Boolean, value: true },
-      _scrollTo: { type: Number, value: 0 }
+      _scrollTo: { type: Number, value: 0 },
     };
   }
 
   static get observers() {
-    return [
-
-    ];
+    return [];
   }
 
   _active(page, expected) {
@@ -304,103 +305,135 @@ class LayoutMain extends BaseElement {
     return new Promise((resolve, reject) => {
       var page = path[0];
 
-      this.set("_loading", true)
-      this.set("subroute", path.slice(1))
+      this.set("_loading", true);
+      this.set("subroute", path.slice(1));
 
       //change page info
       if (page === "") page = "home";
       if (page === "a") page = "announcement";
       if (page === "e") page = "event";
-      if (page === "join" || page === "joinus" || page === "join-us") page = "apply";
+      if (page === "join" || page === "joinus" || page === "join-us")
+        page = "apply";
 
       let el = this.$$(`iron-pages [name="${page}"]`);
       if (!el) page = "ohnoes";
 
       this._loadPage(page)
-      .then((page) => {
-        return this._pageLoaded(page);
-      })
-      .then(resolve)
-      .catch(reject)
-    })
+        .then((page) => {
+          return this._pageLoaded(page);
+        })
+        .then(resolve)
+        .catch(reject);
+    });
   }
 
   _openDrawer() {
-    this.$$('.drawer').open();
+    this.$$(".drawer").open();
   }
 
   _pageLoaded(page) {
     return new Promise((resolve, reject) => {
       let el = this.$$(`iron-pages [name="${page}"]`);
-      var promise = () => { return Promise.resolve(); }
-      if (typeof el.onload === 'function') {
+      var promise = () => {
+        return Promise.resolve();
+      };
+      if (typeof el.onload === "function") {
         promise = el.onload;
       }
 
-      promise.call(el, this.subroute, window.scrollY)
-      .then(() => {
-        this.set("_page", page)
-        window.scroll(0, this._scrollTo);
-        this.set("_scrollTo", 0);
-        this.set("_loading", false)
+      promise
+        .call(el, this.subroute, window.scrollY)
+        .then(() => {
+          this.set("_page", page);
+          window.scroll(0, this._scrollTo);
+          this.set("_scrollTo", 0);
+          this.set("_loading", false);
 
-        if (!this.$$('.drawer').persistent) {
-          setTimeout(() => { // otherwise it looks like garbage
-            this.$$('.drawer').close();
-          }, 300);
-        }
+          if (!this.$$(".drawer").persistent) {
+            setTimeout(() => {
+              // otherwise it looks like garbage
+              this.$$(".drawer").close();
+            }, 300);
+          }
 
-        resolve();
-      })
-      .catch(this._pageLoadFailed.bind(this))
-    })
+          resolve();
+        })
+        .catch(this._pageLoadFailed.bind(this));
+    });
   }
 
   _pageLoadFailed(e) {
-    console.error(e)
-    this.set("_loading", false)
-    this._fire("change-page", "/")
+    console.error(e);
+    this.set("_loading", false);
+    this._fire("change-page", "/");
   }
 
   _loadPage(page) {
     return new Promise((resolve, reject) => {
       switch (page) {
-        case 'home':
-          import('../pages/page-home.js').then(resolve.bind(this, page)).catch(reject);
+        case "home":
+          import("../pages/page-home.js")
+            .then(resolve.bind(this, page))
+            .catch(reject);
           break;
-        case 'about':
-          import('../pages/page-about.js').then(resolve.bind(this, page)).catch(reject);
+        case "about":
+          import("../pages/page-about.js")
+            .then(resolve.bind(this, page))
+            .catch(reject);
           break;
-        case 'apply':
-          import('../pages/page-apply.js').then(resolve.bind(this, page)).catch(reject);
+        case "apply":
+          import("../pages/page-apply.js")
+            .then(resolve.bind(this, page))
+            .catch(reject);
           break;
-        case 'forge':
-          import('../pages/page-forge.js').then(resolve.bind(this, page)).catch(reject);
+        case "forge":
+          import("../pages/page-forge.js")
+            .then(resolve.bind(this, page))
+            .catch(reject);
           break;
-        case 'tutoring':
-          import('../pages/page-tutoring.js').then(resolve.bind(this, page)).catch(reject);
+        case "tech":
+          import("../pages/page-tech.js")
+            .then(resolve.bind(this, page))
+            .catch(reject);
           break;
-        case 'hkn':
-          import('../pages/page-hkn.js').then(resolve.bind(this, page)).catch(reject);
+        case "tutoring":
+          import("../pages/page-tutoring.js")
+            .then(resolve.bind(this, page))
+            .catch(reject);
           break;
-        case 'contact':
-          import('../pages/page-contact.js').then(resolve.bind(this, page)).catch(reject);
+        case "hkn":
+          import("../pages/page-hkn.js")
+            .then(resolve.bind(this, page))
+            .catch(reject);
           break;
-        case 'announcement':
-          import('../pages/page-announcement.js').then(resolve.bind(this, page)).catch(reject);
+        case "contact":
+          import("../pages/page-contact.js")
+            .then(resolve.bind(this, page))
+            .catch(reject);
           break;
-        case 'event':
-          import('../pages/page-event.js').then(resolve.bind(this, page)).catch(reject);
+        case "announcement":
+          import("../pages/page-announcement.js")
+            .then(resolve.bind(this, page))
+            .catch(reject);
           break;
-        case 'events':
-          import('../pages/page-events.js').then(resolve.bind(this, page)).catch(reject);
+        case "event":
+          import("../pages/page-event.js")
+            .then(resolve.bind(this, page))
+            .catch(reject);
+          break;
+        case "events":
+          import("../pages/page-events.js")
+            .then(resolve.bind(this, page))
+            .catch(reject);
           break;
         default:
-          import('../pages/page-ohnoes.js').then(resolve.bind(this, page)).catch(reject);
+          import("../pages/page-ohnoes.js")
+            .then(resolve.bind(this, page))
+            .catch(reject);
           break;
       }
-    })
+    });
   }
 }
 
-window.customElements.define('layout-main', LayoutMain);
+window.customElements.define("layout-main", LayoutMain);

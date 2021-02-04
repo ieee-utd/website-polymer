@@ -2,7 +2,7 @@ import { html } from "@polymer/polymer/polymer-element.js";
 import { BaseElement } from "../base-element";
 import "../shared-styles.js";
 
-class PageForge extends BaseElement {
+class PageTech extends BaseElement {
   static get template() {
     return html`
       <style include="shared-styles">
@@ -102,44 +102,32 @@ class PageForge extends BaseElement {
       <div class="hero-image">
         <div class="bg-overlay">
           <app-container>
-            <h1 style="color:white;">The Forge</h1>
+            <h1 style="color:white;">Tech Committee</h1>
           </app-container>
         </div>
-        <iron-image class="bg" sizing="cover" src="/img/forge-background.jpg" preload fade></iron-image>
+        <iron-image
+          class="bg"
+          sizing="cover"
+          src="/img/about.jpg"
+          preload
+          fade
+        ></iron-image>
       </div>
 
       <app-container class="content" style="padding-top:0">
         <p style="margin-top:0">
-          The Forge is a multidisciplinary project-focused innovation hub focusing on developing the
-          next generation of creative and technical leaders while solving engineering challenges in
-          the community. All our projects are made by UTD students for UTD students.
-          <br><br>
-          Students are placed in interdisciplinary teams of 4-6 and challenged to complete 10-week projects.
-          Past projects integrated web development with prototyping and electrical engineering skills to build devices for the UTDallas Makerspace.
-        </p>
-        <h2>The Selection Process</h2>
-        <p>
-          Many projects require no/little initial experience so students are encouraged to apply regardless of experience and skillset.
-          majors and experience. If you don't have any experience this is a great opportunity to get some!
-          <br><br>
-          There is an inital screening process students where students upload resumes and select projects they would like to work on.
-          Afterwards, there will be interviews to best determine project fit based on majors, skills and interests.
-        </p>
-        <h2>FAQ</h2>
-        <p>
-          <h4>I'm a beginner, can I still join?</h4>
-          Of course! We have several beginner friendly projects and each team is assigned a mentor who can help in the learning process.
-          <br><br>
-          <h4>What is the time commitment?</h4>
-          It varies from project to project but most are within a 4-6 hour range. Teams are also expected to attend weekly meetings with
-          project mentors and/or sponsors. You only have 10-weeks so the projects do have to move relatively fast.
-          <h4>I have a project idea! Can Forge do it?</h4>
-          If your idea solves an engineering challenge within a community, we would love to hear about it. 
-          Please reach out to us with a 2-4 sentence elevator speech.
-        </p>
-        <h2>Contact Us</h2>
-        <p>
-          Have questions, ideas, or just want to learn more? You can contact us at <a href="mailto:forge@ieeeutd.org">forge@ieeeutd.org</a>
+          The IEEE Tech committee is a culmination of students who come together
+          and provide ways for students to enhance their engineering skills
+          throughout their academic and professional careers. We have, and will
+          be hosting workshops in Soldering, microcontrollers, AWS
+          certification, HAM radio, as well as PCB Licensing. The committee
+          strives for excellence in whatever we do and creates opportunities for
+          our fellow students to grow and be desired in the job market. The tech
+          committee is composed of Workshop Developers who come up with projects
+          that refine engineering skills for students, a Website Manager who is
+          in charge of running and updating the IEEE website, and a Technical
+          Liaison who works to keep mutually beneficial relations with other
+          clubs within UTD.
         </p>
         <div class="main-card" hidden$="[[!_have(eventDates)]]">
           <h2>Events</h2>
@@ -183,7 +171,7 @@ class PageForge extends BaseElement {
   onload(subroute) {
     return new Promise((resolve, reject) => {
       Promise.all([
-        this._get("/events?t=forge", { silent: true }),
+        this._get("/events?t=tech", { silent: true }),
         // this._get("/announcements?t=tutoring", { silent: true })
       ])
         .then((data) => {
@@ -201,4 +189,4 @@ class PageForge extends BaseElement {
   }
 }
 
-window.customElements.define("page-forge", PageForge);
+window.customElements.define("page-tech", PageTech);
