@@ -1,6 +1,6 @@
-import { html } from '@polymer/polymer/polymer-element.js';
-import { BaseElement } from '../base-element';
-import '../shared-styles.js';
+import { html } from "@polymer/polymer/polymer-element.js";
+import { BaseElement } from "../base-element";
+import "../shared-styles.js";
 
 class PageTutoring extends BaseElement {
   static get template() {
@@ -105,12 +105,30 @@ class PageTutoring extends BaseElement {
             <h1 style="color:white;">Tutoring</h1>
           </app-container>
         </div>
-        <iron-image class="bg" sizing="cover" src="/img/tutoring.png" preload fade></iron-image>
+        <iron-image
+          class="bg"
+          sizing="cover"
+          src="/img/tutoring.png"
+          preload
+          fade
+        ></iron-image>
       </div>
 
       <app-container class="content" style="padding-top:0">
         <p style="margin-top:0">
-          We offer tutoring at <b>ECSN 2.318 (new location!)</b>. We offer tutoring for Electrical Network Analysis, Signals and Systems, and more! Below, you can find up to date tutoring announcements, events, and schedules.
+        <h2>Due to the COVID-19 outbreak, all tutoring services have moved online until further notice.</h2>
+        Join us on our official <a href="https://discord.gg/MwHPKd5e">Discord server</a> where we offer dedicated tutoring channels where you can connect with our experienced tutors as well as other students.
+        <br>
+        Let us help you make the grade!
+        <br><br>
+        We offer student led tutoring for:
+        <ul>
+        <li>Introduction to Electrical Engineering      (CE/EE 1202)</li>
+        <li>Introduction to Digital Systems             (CE/EE 2310)</li>
+        <li>Electrical Network Analysis                 (CE/EE 3301)</li>
+        <li>Digital Circuits                            (CE/EE 3320)</li>
+        <li>Signals and Systems                         (CE/EE 3302)</li>
+        </ul>
         </p>
         <!-- <p><b>Tutor schedules</b> and <b>tutoring events</b> are below!</p> -->
 
@@ -127,8 +145,12 @@ class PageTutoring extends BaseElement {
                   <app-grid>
                     <dom-repeat items="[[day.events]]" as="event">
                       <template>
-                        <app-grid-item width=6>
-                          <event-card announcement="[[event]]" is-event from="t"></event-card>
+                        <app-grid-item width="6">
+                          <event-card
+                            announcement="[[event]]"
+                            is-event
+                            from="t"
+                          ></event-card>
                         </app-grid-item>
                       </template>
                     </dom-repeat>
@@ -140,10 +162,15 @@ class PageTutoring extends BaseElement {
         </div>
 
         <h2>Tutor Schedules</h2>
-        <p>Typical tutoring schedules are listed below.</p>
-        <iframe width="100%" height="800" src="https://outlook.office365.com/owa/calendar/16c7ed4463b14cb88df73535b02c7e4f@UTDallas.edu/0e865a87e7bb471ba2877a3e0ea8f69717838207453034454286/calendar.html" frameborder="0" allowfullscreen>
+        <p>Check out our calendar below to find tutors for your courses!</p>
+        <iframe
+          width="100%"
+          height="800"
+          src="https://outlook.office365.com/owa/calendar/16c7ed4463b14cb88df73535b02c7e4f@UTDallas.edu/0e865a87e7bb471ba2877a3e0ea8f69717838207453034454286/calendar.html"
+          frameborder="0"
+          allowfullscreen
+        >
         </iframe>
-        
 
         <!-- <h2>Tutor Schedules</h2>
         <paper-tabs selected="{{selected}}">
@@ -203,8 +230,8 @@ class PageTutoring extends BaseElement {
   static get properties() {
     return {
       selected: { type: Number, value: 0 },
-      eventDates: { type: Array, value: [ ] }
-    }
+      eventDates: { type: Array, value: [] },
+    };
   }
 
   onload(subroute) {
@@ -213,19 +240,19 @@ class PageTutoring extends BaseElement {
         this._get("/events?t=tutoring", { silent: true }),
         // this._get("/announcements?t=tutoring", { silent: true })
       ])
-      .then((data) => {
-        this.set("eventDates", data[0].dates);
-        // this.set("announcements", data[1]);
-        resolve();
-      })
-      .catch(reject)
-    })
+        .then((data) => {
+          this.set("eventDates", data[0].dates);
+          // this.set("announcements", data[1]);
+          resolve();
+        })
+        .catch(reject);
+    });
   }
 
   _navigate(e) {
-    let url = this._getAttributeFromEvent(e, 'url', "");
-    this._fire('change-page', url);
+    let url = this._getAttributeFromEvent(e, "url", "");
+    this._fire("change-page", url);
   }
 }
 
-window.customElements.define('page-tutoring', PageTutoring);
+window.customElements.define("page-tutoring", PageTutoring);
