@@ -25,6 +25,7 @@ class AppSponsors extends BaseElement {
       <div>
         <h2>Thank you to the IEEE UTD sponsors</h2>
         <img style="max-width: 80%;" src="../../img/sponsors/ti_stk_2c_pos_rgb_jpg.jpg" draggable=false gone$="[[_active(_page,'home')]]"/>
+        <img style="max-width: 80%;" src="../../img/sponsors/murata.png" draggable=false gone$="[[_active(_page,'home')]]"/>
       </div>
     `;
   }
