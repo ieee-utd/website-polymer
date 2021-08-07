@@ -86,7 +86,7 @@ class PageAbout extends PolymerElement {
         <div class="officers-container">
           <div class="officer-item">
             <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/bhuiyan%2Cfiaz.jpg"></iron-image>
-            <h2>MD Fiaz Islam Bhuiyan</h2>
+            <h2>MD Fiaz Bhuiyan</h2>
             <p class="officer-position">President</p>
           </div>
           <div class="officer-item">
