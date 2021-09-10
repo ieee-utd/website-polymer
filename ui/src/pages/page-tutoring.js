@@ -117,7 +117,7 @@ class PageTutoring extends BaseElement {
       <app-container class="content" style="padding-top:0">
         <p style="margin-top:0">
         <h2>Due to the COVID-19 outbreak, all tutoring services have moved online until further notice.</h2>
-        Join us on our official <a href="https://discord.gg/MwHPKd5e">Discord server</a> where we offer dedicated tutoring channels where you can connect with our experienced tutors as well as other students.
+        Join us on our official <a href="https://discord.gg/7CVaNcNUWy">Discord server</a> where we offer dedicated tutoring channels where you can connect with our experienced tutors as well as other students.
         <br>
         Let us help you make the grade!
         <br><br>
@@ -166,7 +166,7 @@ class PageTutoring extends BaseElement {
         <iframe
           width="100%"
           height="800"
-          src="https://outlook.office365.com/owa/calendar/16c7ed4463b14cb88df73535b02c7e4f@UTDallas.edu/0e865a87e7bb471ba2877a3e0ea8f69717838207453034454286/calendar.html"
+          src="https://outlook.office365.com/owa/calendar/16c7ed4463b14cb88df73535b02c7e4f@UTDallas.edu/8c8940e36ded4a92b26dc9e8ffb87bb38296666944095938992/calendar.html"
           frameborder="0"
           allowfullscreen
         >
