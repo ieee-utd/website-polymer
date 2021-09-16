@@ -120,10 +120,16 @@ class PageForge extends BaseElement {
         <h2>The Selection Process</h2>
         <p>
           Many projects require no/little initial experience so students are encouraged to apply regardless of experience and skillset.
-          majors and experience. If you don't have any experience this is a great opportunity to get some!
+          majors and experience. If you don't have any experience this is a great opportunity to get some! <a href="https://docs.google.com/document/d/1P-qKRrrfsz917qN-l8fizpL_6CTe5SavLaJrqtDJz08/edit"> List</a> 
+          of all the projects Forge will be working on this semester.
           <br><br>
           There is an inital screening process students where students upload resumes and select projects they would like to work on.
           Afterwards, there will be interviews to best determine project fit based on majors, skills and interests.
+        </p>
+        <p>
+          Are you interested in being part of The Forge? Apply <a href ="https://docs.google.com/forms/d/e/1FAIpQLSc6rSdz9kyUMV6o4HB3WWbm0FJL_WDLPvAT9O8Dge6vRzTG7w/viewform"> here</a>
+          <br>
+          Applications will close Thursday, Septepmber 23rd at 11:59 P.M. CST. 
         </p>
         <h2>FAQ</h2>
         <p>
