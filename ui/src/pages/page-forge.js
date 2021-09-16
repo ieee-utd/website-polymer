@@ -127,9 +127,9 @@ class PageForge extends BaseElement {
           Afterwards, there will be interviews to best determine project fit based on majors, skills and interests.
         </p>
         <p>
-          Are you interested in being part of The Forge? Apply <a href ="https://docs.google.com/forms/d/e/1FAIpQLSc6rSdz9kyUMV6o4HB3WWbm0FJL_WDLPvAT9O8Dge6vRzTG7w/viewform"> here</a>
+          Are you interested in being part of The Forge? <a href ="https://docs.google.com/forms/d/e/1FAIpQLSc6rSdz9kyUMV6o4HB3WWbm0FJL_WDLPvAT9O8Dge6vRzTG7w/viewform"> Apply here</a>
           <br>
-          Applications will close Thursday, Septepmber 23rd at 11:59 P.M. CST. 
+          Applications will close Thursday, September 23rd at 11:59 P.M. CST. 
         </p>
         <h2>FAQ</h2>
         <p>

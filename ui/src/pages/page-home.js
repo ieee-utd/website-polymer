@@ -224,8 +224,9 @@ class PageHome extends BaseElement {
           <br>
           <div class="blurb">
             <p>We are the student chapter of the Institute of Electrical and Electronics Engineers (IEEE) at The University of Texas at Dallas (UTD).</p>
+            <br>
+            Join us on our <a href="https://discord.gg/7CVaNcNUWy">Discord server</a>
             <div>
-            <p> Join us on our official <a href="https://discord.gg/7CVaNcNUWy">Discord server</a></p>
             <br>
               <a class="button-link" href="http://groups.google.com/group/ieee-utdallas/boxsubscribe" target="_blank"><paper-button class="large">Join our mailing list</paper-button></a>
               <paper-button class="large" on-tap="_navigate" url="/about">Learn more</paper-button>
