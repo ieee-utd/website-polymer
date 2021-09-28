@@ -116,19 +116,28 @@ class PageTutoring extends BaseElement {
 
       <app-container class="content" style="padding-top:0">
         <p style="margin-top:0">
-        <h2>Due to the COVID-19 outbreak, all tutoring services have moved online until further notice.</h2>
-        Join us on our official <a href="https://discord.gg/7CVaNcNUWy">Discord server</a> where we offer dedicated tutoring channels where you can connect with our experienced tutors as well as other students.
-        <br>
-        Let us help you make the grade!
+        <h2>To better serve our community, we now offer options for in-person and online tutoring.</h2>
         <br><br>
-        We offer student led tutoring for:
+        We offer student-led tutoring for the following courses:
         <ul>
         <li>Introduction to Electrical Engineering      (CE/EE 1202)</li>
         <li>Introduction to Digital Systems             (CE/EE 2310)</li>
         <li>Electrical Network Analysis                 (CE/EE 3301)</li>
-        <li>Digital Circuits                            (CE/EE 3320)</li>
         <li>Signals and Systems                         (CE/EE 3302)</li>
+        <li>Digital Circuits                            (CE/EE 3320)</li>
         </ul>
+        <br>
+        Join us on our official <a href="https://discord.gg/7CVaNcNUWy">Discord server</a> 
+        <br><br>
+        We offer dedicated tutoring channels so that you can connect with our experienced tutors as well as other students.
+        <br>
+        Join us in person in the IEEE UTD tutoring rooms: 
+        <br>
+        ECSN 2.318
+        <br>
+        Let us help you make the grade!
+        <br><br>
+
         </p>
         <!-- <p><b>Tutor schedules</b> and <b>tutoring events</b> are below!</p> -->
 
