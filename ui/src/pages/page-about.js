@@ -92,12 +92,12 @@ class PageAbout extends PolymerElement {
           <div class="officer-item">
             <iron-image class="officer-image" sizing="cover" preload fade src="https://ieee-utd-officers.s3.us-east-2.amazonaws.com/IMG_Saravan_master.jpg"></iron-image>
             <h2>Saravan Narayanan</h2>
-            <p class="officer-position">Co-Vice President</p>
+            <p class="officer-position">Vice President</p>
           </div>
           <div class="officer-item">
             <iron-image class="officer-image" sizing="cover" preload fade src="https://ieee-utd-officers.s3.us-east-2.amazonaws.com/IMG_Julie_master.jpg"></iron-image>
             <h2>Julie Smith</h2>
-            <p class="officer-position">Co-Vice President</p>
+            <p class="officer-position">Vice President</p>
           </div>
           <div class="officer-item">
             <iron-image class="officer-image" sizing="cover" preload fade src="https://ieee-utd-officers.s3.us-east-2.amazonaws.com/Aarifa+-+Edited.jpg"></iron-image>
@@ -120,23 +120,28 @@ class PageAbout extends PolymerElement {
             <p class="officer-position">Director of Tutoring</p>
           </div>
           <div class="officer-item">
-            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/thomas%2Calisa.jpg"></iron-image>
-            <h2>Alisa Thomas</h2>
-            <p class="officer-position">Director of Operations</p>
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://ieee-utd-officers.s3.us-east-2.amazonaws.com/IMG_Rooshi.jpg"></iron-image>
+            <h2>Rooshi Nagar</h2>
+            <p class="officer-position">Industry/Organization Liaison</p>
           </div>
           <div class="officer-item">
             <iron-image class="officer-image" sizing="cover" preload fade src="https://ieee-utd-officers.s3.us-east-2.amazonaws.com/IMG_Omar_master.jpg"></iron-image>
             <h2>Omar Faris</h2>
-            <p class="officer-position">Co-Director of Public Relations</p>
+            <p class="officer-position">Director of Public Relations</p>
           </div>
           <div class="officer-item">
             <iron-image class="officer-image" sizing="cover" preload fade src="https://ieee-utd-officers.s3.us-east-2.amazonaws.com/IMG_Jenna_master.jpg"></iron-image>
             <h2>Jenna Evans</h2>
-            <p class="officer-position">Co-Director of Public Relations</p>
+            <p class="officer-position">Director of Public Relations</p>
           </div>
           <div class="officer-item">
-            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/liao%2Calan.jpg"></iron-image>
-            <h2>Alan Liao</h2>
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://ieee-utd-officers.s3.us-east-2.amazonaws.com/IMG_Victor_master.jpg"></iron-image>
+            <h2>Victor Lopez</h2>
+            <p class="officer-position">Director of Technology</p>
+          </div>
+          <div class="officer-item">
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://ieee-utd-officers.s3.us-east-2.amazonaws.com/IMG_Neil_master.jpg"></iron-image>
+            <h2>Neil Rathod</h2>
             <p class="officer-position">Director of Technology</p>
           </div>
           <div class="officer-item">
