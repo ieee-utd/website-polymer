@@ -110,13 +110,13 @@ class PageAbout extends PolymerElement {
             <p class="officer-position">Head of The Forge</p>
           </div>
           <div class="officer-item">
-            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/yogananthan%2Ckeerthana.jpg"></iron-image>
-            <h2>Keerthana Yogananthan</h2>
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://ieee-utd-officers.s3.us-east-2.amazonaws.com/IMG_Hansvi_master.jpg"></iron-image>
+            <h2>Hansvi Patel</h2>
             <p class="officer-position">Director of Tutoring</p>
           </div>
           <div class="officer-item">
-            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/chopada%2Cpranav.jpg"></iron-image>
-            <h2>Pranav Chopada</h2>
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://ieee-utd-officers.s3.us-east-2.amazonaws.com/IMG_Marie_master.jpg"></iron-image>
+            <h2>Marie Sofijczuk</h2>
             <p class="officer-position">Director of Tutoring</p>
           </div>
           <div class="officer-item">
@@ -125,13 +125,13 @@ class PageAbout extends PolymerElement {
             <p class="officer-position">Director of Operations</p>
           </div>
           <div class="officer-item">
-            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/nair%2Crishab.jpg"></iron-image>
-            <h2>Rishab Nair</h2>
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://ieee-utd-officers.s3.us-east-2.amazonaws.com/IMG_Omar_master.jpg"></iron-image>
+            <h2>Omar Faris</h2>
             <p class="officer-position">Co-Director of Public Relations</p>
           </div>
           <div class="officer-item">
-            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/khaleque%2Cmuntasir.jpg"></iron-image>
-            <h2>Muntasir Khaleque</h2>
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://ieee-utd-officers.s3.us-east-2.amazonaws.com/IMG_Jenna_master.jpg"></iron-image>
+            <h2>Jenna Evans</h2>
             <p class="officer-position">Co-Director of Public Relations</p>
           </div>
           <div class="officer-item">
