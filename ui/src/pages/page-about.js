@@ -85,28 +85,28 @@ class PageAbout extends PolymerElement {
         <p>Our officers are dedicated to helping the engineering community grow through our diverse backgrounds and interests!</p>
         <div class="officers-container">
           <div class="officer-item">
-            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/bhuiyan%2Cfiaz.jpg"></iron-image>
-            <h2>MD Fiaz Bhuiyan</h2>
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://ieee-utd-officers.s3.us-east-2.amazonaws.com/IMG_Dylan_master.jpg"></iron-image>
+            <h2>Dylan Hiu</h2>
             <p class="officer-position">President</p>
           </div>
           <div class="officer-item">
-            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/jambusaria%2Cmira.jpg"></iron-image>
-            <h2>Mira Jambusaria</h2>
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://ieee-utd-officers.s3.us-east-2.amazonaws.com/IMG_Saravan_master.jpg"></iron-image>
+            <h2>Saravan Narayanan</h2>
             <p class="officer-position">Co-Vice President</p>
           </div>
           <div class="officer-item">
-            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/klavon%2Cjarod.jpg"></iron-image>
-            <h2>Jarod Klavon</h2>
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://ieee-utd-officers.s3.us-east-2.amazonaws.com/IMG_Julie_master.jpg"></iron-image>
+            <h2>Julie Smith</h2>
             <p class="officer-position">Co-Vice President</p>
           </div>
           <div class="officer-item">
             <iron-image class="officer-image" sizing="cover" preload fade src="https://ieee-utd-officers.s3.us-east-2.amazonaws.com/Aarifa+-+Edited.jpg"></iron-image>
-            <h2>Arthur Pachachura</h2>
+            <h2>Aarifa Gowani</h2>
             <p class="officer-position">Head of The Forge</p>
           </div>
           <div class="officer-item">
-            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/patel%2Cvedansh.jpg"></iron-image>
-            <h2>Vedansh Patel</h2>
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://ieee-utd-officers.s3.us-east-2.amazonaws.com/IMG_Leon_master.jpg"></iron-image>
+            <h2>Leon Khalyavin</h2>
             <p class="officer-position">Head of The Forge</p>
           </div>
           <div class="officer-item">
@@ -140,8 +140,8 @@ class PageAbout extends PolymerElement {
             <p class="officer-position">Director of Technology</p>
           </div>
           <div class="officer-item">
-            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/soni%2Cashima.jpg"></iron-image>
-            <h2>Ashima Soni</h2>
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://ieee-utd-officers.s3.us-east-2.amazonaws.com/IMG_Nuha_master.jpg"></iron-image>
+            <h2>Nuha Siddiqui</h2>
             <p class="officer-position">Secretary</p>
           </div>
           <div class="officer-item">
