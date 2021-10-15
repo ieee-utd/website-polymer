@@ -100,7 +100,7 @@ class PageAbout extends PolymerElement {
             <p class="officer-position">Co-Vice President</p>
           </div>
           <div class="officer-item">
-            <iron-image class="officer-image" sizing="cover" preload fade src="https://s3.amazonaws.com/ieee-utd/officer-avatars/pachachura%2Carthur.jpg"></iron-image>
+            <iron-image class="officer-image" sizing="cover" preload fade src="https://ieee-utd-officers.s3.us-east-2.amazonaws.com/Aarifa+-+Edited.jpg"></iron-image>
             <h2>Arthur Pachachura</h2>
             <p class="officer-position">Head of The Forge</p>
           </div>
