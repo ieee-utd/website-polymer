@@ -50,7 +50,7 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "randomize": "0.0.4",
-    "redis": "^2.8.0",
+    "redis": "^3.1.1",
     "rrule": "^2.5.5",
     "unhandled-rejection": "^1.0.0"
   },
