@@ -1,45 +1,46 @@
-cache:
-  container_name: ieeeutd_cache
-  image: redis
-api:
-  container_name: ieeeutd_api
-  build: ./images/api/
-  volumes:
-    - ./api/:/ieeeutd-api/
-    - ./.git/:/ieeeutd-api/.git/
-  working_dir: /ieeeutd-api/
-  command: npm run dev
-  environment:
-    - SESSION_SECRET=aASKF4AFjas52wFSAF
-    - CACHE_HOST=cache
-    - MAIL_HOSTNAME=http://dev.ieeeutd.org
-  ports:
-    - "8000:3000"
-  links:
-    - database
-    - cache
-ui:
-  container_name: ieeeutd_ui
-  volumes:
-    - ./ui/:/ui/
-  build: ./images/ui/
-  command: /ui-runtime/node_modules/polymer-cli/bin/polymer.js serve --port 5000 --hostname 0.0.0.0 --npm  --component-dir node_modules
-  working_dir: /ui/
-  ports:
-    - "5000:5000"
-nginx:
-  container_name: ieeeutd_nginx
-  image: nginx
-  volumes:
-    - ./images/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
-    - ./certs/:/etc/nginx/certs
-  ports:
-    - "80:80"
-  links:
-    - api
-    - ui
-database:
-  container_name: ieeeutd_db
-  image: mongo:4.0
-  ports:
-    - "27000:27017"
+services:
+  cache:
+    container_name: ieeeutd_cache
+    image: redis
+  api:
+    container_name: ieeeutd_api
+    build: ./images/api/
+    volumes:
+      - ./api/:/ieeeutd-api/
+      - ./.git/:/ieeeutd-api/.git/
+    working_dir: /ieeeutd-api/
+    command: npm run dev
+    environment:
+      - SESSION_SECRET=aASKF4AFjas52wFSAF
+      - CACHE_HOST=cache
+      - MAIL_HOSTNAME=http://dev.ieeeutd.org
+    ports:
+      - "8000:3000"
+    links:
+      - database
+      - cache
+  ui:
+    container_name: ieeeutd_ui
+    volumes:
+      - ./ui/:/ui/
+    build: ./images/ui/
+    command: /ui-runtime/node_modules/polymer-cli/bin/polymer.js serve --port 5000 --hostname 0.0.0.0 --npm  --component-dir node_modules
+    working_dir: /ui/
+    ports:
+      - "5000:5000"
+  nginx:
+    container_name: ieeeutd_nginx
+    image: nginx
+    volumes:
+      - ./images/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+      - ./certs/:/etc/nginx/certs
+    ports:
+      - "80:80"
+    links:
+      - api
+      - ui
+  database:
+    container_name: ieeeutd_db
+    image: mongo:4.0
+    ports:
+      - "27000:27017"
